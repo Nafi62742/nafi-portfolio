@@ -1,5 +1,6 @@
 {
   "cleanUrls": true,
+  "outputDirectory": "dist/portfolio/browser",
   "rewrites": [
     {
       "source": "/((?!assets/|.*\\..*$).*)",
