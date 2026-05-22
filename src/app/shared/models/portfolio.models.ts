@@ -34,6 +34,9 @@ export interface Project {
   type:        string;
   link?:       string;
   github?:     string;
+  youtube?:    string;
+  playstore?:  string;
+  appstore?:   string;
 }
 
 export interface Publication {

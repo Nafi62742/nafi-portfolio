@@ -80,7 +80,20 @@ export class PortfolioService {
         icon:        'fa-paw',
         color:       '#6366f1',
         category:    'office',
-        type:        'Web & Mobile App'
+        type:        'Web & Mobile App',
+        link:        'https://www.dogcatbirth-records.com/'
+      },
+      {
+        name:        'Gram Stain Atlas',
+        description: 'A medical atlas app for Gram staining, showing photos, explanations, and pronunciations for 50+ bacteria.',
+        highlights:  'Developed cross-platform mobile apps for iOS and Android with offline-first design and audio support.',
+        tech:        ['Flutter', 'Dart', 'SQLite'],
+        icon:        'fa-microscope',
+        color:       '#06b6d4',
+        category:    'office',
+        type:        'Mobile App',
+        playstore:   'https://play.google.com/store/apps/details?id=jp.or.ohtahp.gramstain&hl=ja&pli=1',
+        appstore:    'https://apps.apple.com/jp/app/%E3%82%B0%E3%83%A9%E3%83%A0%E6%9F%93%E8%89%B2%E3%82%A2%E3%83%88%E3%83%A9%E3%82%B9/id1454593922'
       },
       {
         name:        'Izumi',
@@ -102,16 +115,16 @@ export class PortfolioService {
         category:    'office',
         type:        'Web Project'
       },
-      {
-        name:        'Account Book',
-        description: 'A cross-platform financial tracking application to keep records of daily expenses and generate dynamic summaries.',
-        highlights:  'Developed expense logging utilities and summary views for personal financial tracking.',
-        tech:        ['Flutter', 'Dart'],
-        icon:        'fa-book',
-        color:       '#06b6d4',
-        category:    'office',
-        type:        'Flutter App'
-      },
+      // {
+      //   name:        'Account Book',
+      //   description: 'A cross-platform financial tracking application to keep records of daily expenses and generate dynamic summaries.',
+      //   highlights:  'Developed expense logging utilities and summary views for personal financial tracking.',
+      //   tech:        ['Flutter', 'Dart'],
+      //   icon:        'fa-book',
+      //   color:       '#06b6d4',
+      //   category:    'office',
+      //   type:        'Flutter App'
+      // },
       {
         name:        'Voice Record & Play',
         description: 'An offline native Android mobile application designed to record, store, and play back high-quality voice recordings.',
@@ -162,26 +175,26 @@ export class PortfolioService {
         category:    'personal',
         type:        'Web Project'
       },
-      {
-        name:        'Racer App',
-        description: 'A multipurpose utility application featuring project development shortcuts and feature dashboards.',
-        highlights:  'Built integration helpers and dashboard components connected to REST APIs.',
-        tech:        ['Flutter', 'Dart', 'REST API'],
-        icon:        'fa-gauge-high',
-        color:       '#14b8a6',
-        category:    'personal',
-        type:        'Flutter App'
-      },
-      {
-        name:        'TechyGo',
-        description: 'An e-commerce gadget shopping portal designed to showcase and promote curated Amazon products.',
-        highlights:  'Built responsive product catalog pages and navigation structure utilizing modern rendering tech.',
-        tech:        ['Node.js', 'Next.js'],
-        icon:        'fa-laptop',
-        color:       '#3b82f6',
-        category:    'personal',
-        type:        'Web Project'
-      },
+      // {
+      //   name:        'Racer App',
+      //   description: 'A multipurpose utility application featuring project development shortcuts and feature dashboards.',
+      //   highlights:  'Built integration helpers and dashboard components connected to REST APIs.',
+      //   tech:        ['Flutter', 'Dart', 'REST API'],
+      //   icon:        'fa-gauge-high',
+      //   color:       '#14b8a6',
+      //   category:    'personal',
+      //   type:        'Flutter App'
+      // },
+      // {
+      //   name:        'TechyGo',
+      //   description: 'An e-commerce gadget shopping portal designed to showcase and promote curated Amazon products.',
+      //   highlights:  'Built responsive product catalog pages and navigation structure utilizing modern rendering tech.',
+      //   tech:        ['Node.js', 'Next.js'],
+      //   icon:        'fa-laptop',
+      //   color:       '#3b82f6',
+      //   category:    'personal',
+      //   type:        'Web Project'
+      // },
       {
         name:        'Reckless Seas',
         description: 'A boat game implementing a simulated pseudo-3D visual perspective utilizing 2D visual models.',
@@ -190,7 +203,8 @@ export class PortfolioService {
         icon:        'fa-ship',
         color:       '#ef4444',
         category:    'personal',
-        type:        'Game Project'
+        type:        'Game Project',
+        youtube:     'https://www.youtube.com/watch?v=BuX1QRPwhjU'
       },
       {
         name:        'School Management System',
