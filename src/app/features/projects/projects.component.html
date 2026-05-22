@@ -39,6 +39,19 @@
           </div>
         </div>
 
+        <!-- Project Badges (Category & Type) -->
+        <div class="flex items-center gap-1.5 -mt-1">
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider"
+                [style.background]="project.category === 'office' ? 'rgba(99, 102, 241, 0.12)' : 'rgba(16, 185, 129, 0.12)'"
+                [style.color]="project.category === 'office' ? '#818cf8' : '#34d399'">
+            {{ project.category === 'office' ? 'Office' : 'Personal' }}
+          </span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-medium tracking-wide"
+                style="background: rgba(255, 255, 255, 0.05); color: #94a3b8">
+            {{ project.type }}
+          </span>
+        </div>
+
         <h3 class="text-lg font-bold text-text-primary">{{ project.name }}</h3>
         <p class="text-sm text-text-secondary leading-[1.7] flex-1">{{ project.description }}</p>
 

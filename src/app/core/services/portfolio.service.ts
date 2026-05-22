@@ -73,60 +73,134 @@ export class PortfolioService {
   getProjects(): Project[] {
     return [
       {
-        name:        'Pet Auction App',
-        description: 'Cross-platform pet auction platform with real-time bidding, user listings, and live bid management.',
-        highlights:  'Designed optimized database architecture for real-time bids. Built web UI in Angular and mobile app in Flutter.',
-        tech:        ['Angular', 'Flutter', 'AWS', 'DynamoDB', 'Firebase'],
+        name:        'Pet App',
+        description: 'An auction application for pets featuring real-time bidding, user listings, and live bid management.',
+        highlights:  'Built the web user interface in Angular and the mobile application in Flutter with AWS DynamoDB backend.',
+        tech:        ['Angular', 'Flutter', 'Python', 'AWS DynamoDB', 'Dart'],
         icon:        'fa-paw',
-        color:       '#6366f1'
+        color:       '#6366f1',
+        category:    'office',
+        type:        'Web & Mobile App'
       },
       {
-        name:        'KEIAI Order App',
-        description: 'Client-facing mobile app for ordering prosthetic products with streamlined catalog and order management.',
-        highlights:  'Managed complex order data flows with REST API integration and SQL-backed product catalogs.',
-        tech:        ['Flutter', 'Laravel', 'AWS', 'MySQL'],
-        icon:        'fa-cart-shopping',
-        color:       '#06b6d4'
-      },
-      {
-        name:        'Izumi (Car Repair & Delivery)',
-        description: 'Operational management platform for car repair tracking, delivery status, and service workflows.',
-        highlights:  'Created workflow dashboards to aggregate operational data and improve visibility.',
-        tech:        ['Angular', 'AWS', 'SQL'],
+        name:        'Izumi',
+        description: 'An operational management platform for car repair tracking, delivery status, and service workflows.',
+        highlights:  'Designed workflow dashboards, aggregating operational data and improving visibility. Built on Angular and AWS.',
+        tech:        ['Angular', 'Python', 'AWS DynamoDB'],
         icon:        'fa-car',
-        color:       '#10b981'
+        color:       '#10b981',
+        category:    'office',
+        type:        'Web Project'
       },
       {
-        name:        'Ginsen Form Management',
-        description: 'Dynamic, scalable form management system with flexible user-defined data inputs and pipelines.',
-        highlights:  'Built AWS-backed data ingestion system for dynamic form processing and storage.',
-        tech:        ['HTML5', 'Angular', 'AWS', 'JSON'],
-        icon:        'fa-file-alt',
-        color:       '#f59e0b'
+        name:        'Ginsen',
+        description: 'Form management project featuring dynamic HTML layouts and an AWS-backed data collection framework.',
+        highlights:  'Built flexible user-defined data inputs and ingestion pipelines processing dynamic form submissions.',
+        tech:        ['HTML5', 'Python', 'AWS DynamoDB'],
+        icon:        'fa-file-invoice',
+        color:       '#f59e0b',
+        category:    'office',
+        type:        'Web Project'
       },
       {
-        name:        'Pabo Kothay Android App',
-        description: 'Mobile app helping local small businesses advertise their services to nearby tourists.',
-        highlights:  'Built local discovery features with Firebase real-time database.',
-        tech:        ['Flutter', 'Dart', 'Firebase'],
+        name:        'Account Book',
+        description: 'A cross-platform financial tracking application to keep records of daily expenses and generate dynamic summaries.',
+        highlights:  'Developed expense logging utilities and summary views for personal financial tracking.',
+        tech:        ['Flutter', 'Dart'],
+        icon:        'fa-book',
+        color:       '#06b6d4',
+        category:    'office',
+        type:        'Flutter App'
+      },
+      {
+        name:        'Voice Record & Play',
+        description: 'An offline native Android mobile application designed to record, store, and play back high-quality voice recordings.',
+        highlights:  'Implemented local filesystem storage operations and audio recording/playback APIs.',
+        tech:        ['Java', 'Android SDK'],
+        icon:        'fa-microphone',
+        color:       '#3b82f6',
+        category:    'office',
+        type:        'Android App'
+      },
+      {
+        name:        'Nearest Area Finder',
+        description: 'A proximity-sorting application designed to calculate and display the closest areas from any given location.',
+        highlights:  'Implemented location coordinates sorting algorithms to fetch and rank nearby locations.',
+        tech:        ['Flutter', 'Dart'],
+        icon:        'fa-location-crosshairs',
+        color:       '#8b5cf6',
+        category:    'office',
+        type:        'Flutter Project'
+      },
+      {
+        name:        'Pabo Kothay',
+        description: 'A discovery and advertising platform helper for small businesses to showcase services to nearby tourists.',
+        highlights:  'Implemented local business advertising channels and location discovery utilizing Firebase Realtime Database.',
+        tech:        ['Java', 'Firebase', 'Android SDK'],
         icon:        'fa-map-location-dot',
-        color:       '#ec4899'
-      },
-      {
-        name:        'Get Fund Web Project',
-        description: 'Crowdfunding platform for entrepreneurs to showcase business plans and attract investors.',
-        highlights:  'Designed dashboard elements for pitch presentations and funding target tracking.',
-        tech:        ['Angular', 'AWS'],
-        icon:        'fa-sack-dollar',
-        color:       '#8b5cf6'
+        color:       '#ec4899',
+        category:    'personal',
+        type:        'Android App'
       },
       {
         name:        'Flour to Pastry',
-        description: 'Online store and web application built for a real-life bakery shop with product showcase.',
-        highlights:  'Developed responsive storefront pages and basic cart functionality.',
-        tech:        ['HTML', 'CSS', 'PHP', 'MySQL'],
+        description: 'A responsive web storefront and ordering application modeled on a real-life online cake shop.',
+        highlights:  'Developed responsive e-commerce storefront views, database schema, and product catalogs.',
+        tech:        ['PHP', 'HTML', 'CSS', 'MySQL'],
         icon:        'fa-cake-candles',
-        color:       '#f97316'
+        color:       '#f97316',
+        category:    'personal',
+        type:        'Web Project'
+      },
+      {
+        name:        'Get Fund',
+        description: 'A business pitch and crowdfunding platform for entrepreneurs to showcase plans and secure investment.',
+        highlights:  'Designed interactive pitch presentation pages and dashboard features for funding goal tracking.',
+        tech:        ['C#', '.NET MVC', 'Microsoft SQL Server'],
+        icon:        'fa-sack-dollar',
+        color:       '#6366f1',
+        category:    'personal',
+        type:        'Web Project'
+      },
+      {
+        name:        'Racer App',
+        description: 'A multipurpose utility application featuring project development shortcuts and feature dashboards.',
+        highlights:  'Built integration helpers and dashboard components connected to REST APIs.',
+        tech:        ['Flutter', 'Dart', 'REST API'],
+        icon:        'fa-gauge-high',
+        color:       '#14b8a6',
+        category:    'personal',
+        type:        'Flutter App'
+      },
+      {
+        name:        'TechyGo',
+        description: 'An e-commerce gadget shopping portal designed to showcase and promote curated Amazon products.',
+        highlights:  'Built responsive product catalog pages and navigation structure utilizing modern rendering tech.',
+        tech:        ['Node.js', 'Next.js'],
+        icon:        'fa-laptop',
+        color:       '#3b82f6',
+        category:    'personal',
+        type:        'Web Project'
+      },
+      {
+        name:        'Reckless Seas',
+        description: 'A boat game implementing a simulated pseudo-3D visual perspective utilizing 2D visual models.',
+        highlights:  'Developed game physics, rendering structures, and entity-handling engines.',
+        tech:        ['C++'],
+        icon:        'fa-ship',
+        color:       '#ef4444',
+        category:    'personal',
+        type:        'Game Project'
+      },
+      {
+        name:        'School Management System',
+        description: 'An upgraded administrative platform for teachers and students to manage academic schedules and progress.',
+        highlights:  'Designed data tables and relationship structures for courses, grades, and enrollments.',
+        tech:        ['Java', 'Microsoft SQL Server'],
+        icon:        'fa-graduation-cap',
+        color:       '#8b5cf6',
+        category:    'personal',
+        type:        'Software Project'
       }
     ];
   }
