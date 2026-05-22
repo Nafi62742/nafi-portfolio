@@ -22,9 +22,12 @@ export class ScrollService {
 
       // If we navigate back to home from project page (supports browser back/forward and in-app clicks)
       if ((this.currentUrl === '/' || this.currentUrl === '') && this.previousUrl?.startsWith('/project/')) {
+        // Use requestAnimationFrame + timeout to ensure the MainPortfolio DOM is fully rendered before scrolling
         setTimeout(() => {
-          this.scrollTo('projects', 'auto');
-        }, 100);
+          requestAnimationFrame(() => {
+            this.scrollTo('projects', 'auto');
+          });
+        }, 300);
       }
     });
   }
