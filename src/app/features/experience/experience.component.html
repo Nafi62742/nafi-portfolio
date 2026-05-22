@@ -1,0 +1,76 @@
+<section class="py-24 relative" style="background: var(--bg-surface)">
+  <div class="w-full max-w-[1200px] mx-auto px-6 lg:px-8">
+
+    <div class="text-center mb-12 reveal">
+      <span class="label-tag-accent">{{ t.t('experience.section_label') }}</span>
+      <h2 class="gradient-text font-extrabold mt-4 mb-3" style="font-size: clamp(1.875rem, 4vw, 2.25rem)">
+        {{ t.t('experience.title') }}
+      </h2>
+      <p class="text-text-secondary">{{ t.t('experience.subtitle') }}</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="max-w-[860px] mx-auto flex flex-col">
+      <div *ngFor="let exp of experiences; let i = index; let last = last"
+           class="grid gap-6 reveal"
+           [class]="'delay-' + (i + 1)"
+           [class.pb-8]="!last"
+           style="grid-template-columns: 56px 1fr">
+
+        <!-- Marker -->
+        <div class="flex flex-col items-center flex-shrink-0">
+          <div class="flex items-center justify-center w-12 h-12 rounded-full border-2 text-primary-light text-sm flex-shrink-0 relative z-[1] transition-all duration-250 group-hover:bg-primary/30"
+               style="background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.4)">
+            <i class="fa-solid" [ngClass]="exp.icon"></i>
+          </div>
+          <div *ngIf="!last" class="flex-1 w-0.5 mt-2" style="background: linear-gradient(to bottom, rgba(99,102,241,0.3), transparent)"></div>
+        </div>
+
+        <!-- Card -->
+        <div class="glass-card bg-bg-card p-6 group">
+          <!-- Header -->
+          <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+            <div>
+              <h3 class="text-xl font-bold text-text-primary mb-2">{{ exp.role }}</h3>
+              <div class="flex flex-wrap gap-4 text-text-muted text-sm">
+                <span class="flex items-center gap-2">
+                  <i class="fa-solid fa-building"></i>{{ exp.company }}
+                </span>
+                <span class="flex items-center gap-2">
+                  <i class="fa-solid fa-location-dot"></i>{{ exp.location }}
+                </span>
+              </div>
+            </div>
+            <div class="flex flex-col items-end gap-2 flex-shrink-0">
+              <span class="text-sm text-text-secondary font-mono whitespace-nowrap">
+                {{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}
+              </span>
+              <span class="px-3 py-0.5 rounded-full text-xs font-semibold capitalize"
+                    [style.background]="exp.type === 'fulltime' ? 'rgba(16,185,129,0.12)' : 'rgba(6,182,212,0.12)'"
+                    [style.color]="exp.type === 'fulltime' ? '#10b981' : '#22d3ee'"
+                    style="border-width: 1px"
+                    [style.borderColor]="exp.type === 'fulltime' ? 'rgba(16,185,129,0.25)' : 'rgba(6,182,212,0.25)'">
+                {{ t.t('experience.' + exp.type) }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Bullets -->
+          <ul class="flex flex-col gap-2 mb-5 list-none">
+            <li *ngFor="let bullet of exp.bullets" class="flex items-start gap-2 text-text-secondary text-sm leading-[1.7]">
+              <i class="fa-solid fa-chevron-right text-accent flex-shrink-0 mt-[0.45em]" style="font-size: 0.6rem"></i>
+              {{ bullet }}
+            </li>
+          </ul>
+
+          <!-- Tech -->
+          <div class="flex flex-wrap gap-2">
+            <span *ngFor="let tech of exp.tech" class="tech-badge">{{ tech }}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>

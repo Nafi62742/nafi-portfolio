@@ -1,0 +1,32 @@
+<section class="py-24 relative" style="background: var(--bg-base)">
+  <div class="w-full max-w-[1200px] mx-auto px-6 lg:px-8">
+
+    <div class="text-center mb-12 reveal">
+      <span class="label-tag-primary">{{ t.t('skills.section_label') }}</span>
+      <h2 class="gradient-text font-extrabold mt-4 mb-3" style="font-size: clamp(1.875rem, 4vw, 2.25rem)">
+        {{ t.t('skills.title') }}
+      </h2>
+      <p class="text-text-secondary max-w-[540px] mx-auto">{{ t.t('skills.subtitle') }}</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+      <div *ngFor="let cat of categories; let i = index"
+           class="glass-card bg-bg-card p-6 reveal"
+           [class]="'delay-' + (i + 1)">
+
+        <div class="flex items-center gap-3 mb-5">
+          <div class="flex items-center justify-center w-11 h-11 rounded-xl flex-shrink-0 text-lg text-primary-light"
+               style="background: rgba(99,102,241,0.12)">
+            <i class="fa-solid" [ngClass]="cat.icon"></i>
+          </div>
+          <h3 class="text-base font-semibold text-text-primary">{{ t.t('skills.' + cat.key) }}</h3>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+          <span *ngFor="let skill of cat.skills" class="tech-badge">{{ skill }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

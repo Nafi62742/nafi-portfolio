@@ -1,0 +1,178 @@
+@use 'variables' as v;
+
+// ─── Responsive Breakpoints ───────────────────────────────────────────────────
+@mixin sm  { @media (min-width: v.$bp-sm)  { @content; } }
+@mixin md  { @media (min-width: v.$bp-md)  { @content; } }
+@mixin lg  { @media (min-width: v.$bp-lg)  { @content; } }
+@mixin xl  { @media (min-width: v.$bp-xl)  { @content; } }
+@mixin max-sm  { @media (max-width: #{v.$bp-sm - 1px})  { @content; } }
+@mixin max-md  { @media (max-width: #{v.$bp-md - 1px})  { @content; } }
+@mixin max-lg  { @media (max-width: #{v.$bp-lg - 1px})  { @content; } }
+
+// ─── Glassmorphism ────────────────────────────────────────────────────────────
+@mixin glass($bg: v.$glass-bg, $blur: 20px) {
+  background: $bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid v.$border;
+}
+
+@mixin glass-card {
+  @include glass;
+  border-radius: v.$radius-lg;
+  box-shadow: v.$shadow-md;
+  transition: all v.$transition-slow;
+
+  &:hover {
+    border-color: v.$border-hover;
+    box-shadow: v.$shadow-card-hover;
+    transform: translateY(-4px);
+  }
+}
+
+// ─── Flex & Grid Helpers ─────────────────────────────────────────────────────
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+// ─── Typography ───────────────────────────────────────────────────────────────
+@mixin heading-gradient {
+  background: v.$gradient-primary;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@mixin section-title {
+  font-size: v.$text-4xl;
+  font-weight: v.$font-extrabold;
+  @include heading-gradient;
+  line-height: 1.15;
+
+  @include max-md {
+    font-size: v.$text-3xl;
+  }
+}
+
+// ─── Container ────────────────────────────────────────────────────────────────
+@mixin container {
+  width: 100%;
+  max-width: v.$container-max;
+  margin-inline: auto;
+  padding-inline: v.$space-6;
+
+  @include lg {
+    padding-inline: v.$space-8;
+  }
+}
+
+// ─── Section Layout ───────────────────────────────────────────────────────────
+@mixin section {
+  padding-block: v.$section-py;
+  position: relative;
+}
+
+// ─── Button Styles ────────────────────────────────────────────────────────────
+@mixin btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  padding: v.$space-3 v.$space-6;
+  background: v.$gradient-primary;
+  color: #fff;
+  border: none;
+  border-radius: v.$radius-full;
+  font-family: v.$font-sans;
+  font-size: v.$text-sm;
+  font-weight: v.$font-semibold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all v.$transition-base;
+  box-shadow: 0 4px 20px rgba(v.$primary, 0.35);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(v.$primary, 0.5);
+  }
+
+  &:active { transform: translateY(0); }
+}
+
+@mixin btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-2;
+  padding: v.$space-3 v.$space-6;
+  background: transparent;
+  color: v.$text-primary;
+  border: 1px solid v.$border-hover;
+  border-radius: v.$radius-full;
+  font-family: v.$font-sans;
+  font-size: v.$text-sm;
+  font-weight: v.$font-semibold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all v.$transition-base;
+
+  &:hover {
+    background: rgba(v.$primary, 0.1);
+    border-color: v.$primary;
+    transform: translateY(-2px);
+  }
+}
+
+// ─── Tech Badge ───────────────────────────────────────────────────────────────
+@mixin tech-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: v.$space-1;
+  padding: v.$space-1 v.$space-3;
+  background: rgba(v.$primary, 0.12);
+  color: v.$primary-light;
+  border: 1px solid rgba(v.$primary, 0.25);
+  border-radius: v.$radius-full;
+  font-size: v.$text-xs;
+  font-weight: v.$font-medium;
+  font-family: v.$font-mono;
+  transition: all v.$transition-fast;
+
+  &:hover {
+    background: rgba(v.$primary, 0.2);
+    border-color: rgba(v.$primary, 0.5);
+  }
+}
+
+// ─── Scrollbar ────────────────────────────────────────────────────────────────
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: v.$bg-surface; }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(v.$primary, 0.4);
+    border-radius: v.$radius-full;
+    &:hover { background: v.$primary; }
+  }
+}
+
+// ─── Glow Effect ──────────────────────────────────────────────────────────────
+@mixin glow-orb($color: v.$primary, $size: 300px) {
+  position: absolute;
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba($color, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(40px);
+}
