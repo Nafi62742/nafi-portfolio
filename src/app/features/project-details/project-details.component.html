@@ -52,6 +52,12 @@
           <i class="fa-brands fa-apple"></i>
           <span>App Store</span>
         </a>
+        <ng-container *ngIf="p.additionalLinks">
+          <a *ngFor="let al of p.additionalLinks" [href]="al.url" target="_blank" class="btn-action">
+            <i class="fa-solid" [ngClass]="al.icon"></i>
+            <span>{{ al.label }}</span>
+          </a>
+        </ng-container>
       </div>
     </div>
 
@@ -144,7 +150,7 @@
             <span class="meta-val">{{ p.type }}</span>
           </div>
 
-          <div class="meta-item" *ngIf="p.github || p.link || p.playstore || p.appstore">
+          <div class="meta-item" *ngIf="p.github || p.link || p.playstore || p.appstore || p.additionalLinks?.length">
             <span class="meta-label">Links</span>
             <div class="flex flex-col gap-2 mt-2 w-full">
               <a *ngIf="p.github" [href]="p.github" target="_blank" class="meta-link">
@@ -163,6 +169,12 @@
                 <i class="fa-brands fa-apple"></i>
                 <span>Apple App Store</span>
               </a>
+              <ng-container *ngIf="p.additionalLinks">
+                <a *ngFor="let al of p.additionalLinks" [href]="al.url" target="_blank" class="meta-link">
+                  <i class="fa-solid" [ngClass]="al.icon"></i>
+                  <span>{{ al.label }}</span>
+                </a>
+              </ng-container>
             </div>
           </div>
         </div>

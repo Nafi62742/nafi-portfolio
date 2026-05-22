@@ -2,9 +2,7 @@
   "cleanUrls": true,
   "outputDirectory": "dist/portfolio/browser",
   "rewrites": [
-    {
-      "source": "/((?!assets/|.*\\..*$).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/project/:path*", "destination": "/index.html" },
+    { "source": "/((?!assets/|favicon).*)",  "destination": "/index.html" }
   ]
 }

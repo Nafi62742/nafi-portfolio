@@ -64,8 +64,10 @@ export class ProjectDetailsComponent implements OnInit {
   goBack(): void {
     this.router.navigate(['/']).then(() => {
       setTimeout(() => {
-        this.scrollService.scrollTo('projects', 'auto');
-      }, 50);
+        requestAnimationFrame(() => {
+          this.scrollService.scrollTo('projects', 'auto');
+        });
+      }, 300);
     });
   }
 

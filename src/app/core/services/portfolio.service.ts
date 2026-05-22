@@ -82,7 +82,11 @@ export class PortfolioService {
         color:           '#6366f1',
         category:        'office',
         type:            'Web & Mobile App',
-        link:            'https://www.dogcatbirth-records.com/'
+        link:            'https://www.dogcatbirth-records.com/',
+        additionalLinks: [
+          { label: 'Web App',     url: 'https://www.dogcatbirth-records.com/app/index.html', icon: 'fa-mobile-screen' },
+          { label: 'Admin Panel', url: 'https://www.dogcatbirth-records.com/admin/login',    icon: 'fa-lock' }
+        ]
       },
       {
         name:            'Gram Stain Atlas',
@@ -201,6 +205,18 @@ export class PortfolioService {
         category:        'personal',
         type:            'Software Project',
         github:          'https://github.com/Nafi62742/School-Management-System'
+      },
+      {
+        name:            'KEIAI Order App',
+        description:     'A cross-platform ordering management application built for KEIAI, enabling streamlined order placement and tracking.',
+        longDescription: 'KEIAI Order App is a Flutter-based cross-platform application developed for KEIAI, a Japanese organization. The app provides a clean and efficient interface for placing, managing, and tracking orders within the organization. It supports both web and mobile platforms from a single Flutter codebase, ensuring a consistent experience across devices. The application integrates with the organization\'s backend systems to handle real-time order status updates, user authentication, and order history management. The web version is deployed and accessible online, while mobile builds target both Android and iOS.',
+        highlights:      'Built a cross-platform Flutter application deployed as a web app with order management and real-time tracking features.',
+        tech:            ['Flutter', 'Dart'],
+        icon:            'fa-boxes-stacked',
+        color:           '#14b8a6',
+        category:        'office',
+        type:            'Web & Mobile App',
+        link:            'https://keiai-app.com/app/'
       }
     ];
   }
