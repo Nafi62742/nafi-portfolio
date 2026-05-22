@@ -11,7 +11,7 @@ npm start          # → http://localhost:4200
 npm run build      # production build → dist/portfolio/
 ```
 
-> **Assets:** PDF resumes are located in `src/assets/Nafi_Ahmed_Resume.pdf` and `src/assets/Nafi_Ahmed_Resume_DA.pdf`.
+> **Assets:** PDF resumes are located in `src/assets/docs/Nafi_Ahmed_Resume.pdf` and `src/assets/docs/Nafi_Ahmed_Resume_DA.pdf`.
 
 ---
 
@@ -50,8 +50,12 @@ i:\Job\my portfolio\
     │   └── _animations.scss      ← keyframes + .reveal / .revealed scroll-trigger classes
     │
     ├── assets/
-    │   ├── Nafi_Ahmed_Resume.pdf
-    │   └── Nafi_Ahmed_Resume_DA.pdf
+    │   ├── docs/
+    │   │   ├── Nafi_Ahmed_Resume.pdf
+    │   │   └── Nafi_Ahmed_Resume_DA.pdf
+    │   └── images/
+    │       ├── portfolio_logo.png
+    │       └── game_logo.png
     │
     └── app/
         ├── app.config.ts         ← provideRouter, provideAnimations, provideHttpClient
@@ -181,7 +185,7 @@ hero → about → skills → experience → projects → publications → educa
 ## Known Limitations / TODOs
 
 - **Contact form** — submit is simulated (1.5s timeout). Wire to a real API (e.g. EmailJS, Formspree, or a backend endpoint) in `ContactComponent.onSubmit()`.
-- **Resume download** — PDF files are located at `src/assets/Nafi_Ahmed_Resume.pdf` and `src/assets/Nafi_Ahmed_Resume_DA.pdf` for the download buttons.
+- **Resume download** — PDF files are located at `src/assets/docs/Nafi_Ahmed_Resume.pdf` and `src/assets/docs/Nafi_Ahmed_Resume_DA.pdf` for the download buttons.
 - **Projects `hexToRgb()`** — used in template for dynamic `rgba()` backgrounds per project card. Lives in `projects.component.ts`.
 - **`_hexToRgb.tmp`** — stray temp file in `src/app/features/projects/`, can be deleted.
 - **Avatar orbit ring** in hero uses text "Fl" as Flutter placeholder — replace with a proper SVG icon if desired.
