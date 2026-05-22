@@ -1,6 +1,7 @@
 import { Injectable, signal } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { fromEvent } from 'rxjs';
-import { throttleTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { throttleTime, filter } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ScrollService {
@@ -8,6 +9,25 @@ export class ScrollService {
   isScrolled     = signal<boolean>(false);
 
   readonly sections = ['hero', 'about', 'skills', 'experience', 'projects', 'publications', 'education', 'contact'];
+
+  private previousUrl: string | null = null;
+  private currentUrl: string | null = null;
+
+  constructor(private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.previousUrl = this.currentUrl;
+      this.currentUrl = event.urlAfterRedirects || event.url;
+
+      // If we navigate back to home from project page (supports browser back/forward and in-app clicks)
+      if ((this.currentUrl === '/' || this.currentUrl === '') && this.previousUrl?.startsWith('/project/')) {
+        setTimeout(() => {
+          this.scrollTo('projects', 'auto');
+        }, 100);
+      }
+    });
+  }
 
   init(): void {
     fromEvent(window, 'scroll')
@@ -18,9 +38,9 @@ export class ScrollService {
       });
   }
 
-  scrollTo(id: string): void {
+  scrollTo(id: string, behavior: ScrollBehavior = 'smooth'): void {
     const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (el) el.scrollIntoView({ behavior, block: 'start' });
   }
 
   private _updateActive(): void {

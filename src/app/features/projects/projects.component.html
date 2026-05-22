@@ -79,6 +79,16 @@
         <div class="flex flex-wrap gap-2 mt-auto">
           <span *ngFor="let tech of project.tech" class="tech-badge">{{ tech }}</span>
         </div>
+
+        <!-- See Details link -->
+        <div class="flex justify-end pt-3 border-t border-[rgba(255,255,255,0.06)] mt-2">
+          <a [routerLink]="['/project', getSlug(project.name)]"
+             class="text-xs font-semibold flex items-center gap-1.5 transition-all duration-200 hover:gap-2.5"
+             [style.color]="project.color">
+            <span>See Details</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
       </div>
     </div>
 

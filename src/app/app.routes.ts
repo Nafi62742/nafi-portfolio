@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
+import { MainPortfolioComponent } from './features/main-portfolio/main-portfolio.component';
+import { ProjectDetailsComponent } from './features/project-details/project-details.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full' },
-  { path: '**', redirectTo: '/' }
+  { path: '', component: MainPortfolioComponent },
+  { path: 'project/:id', component: ProjectDetailsComponent },
+  { path: '**', redirectTo: '' }
 ];
