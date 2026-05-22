@@ -1,6 +1,9 @@
 # SYSTEM_ARCHITECTURE.md — Nafi Ahmed Portfolio
 > Angular 17 standalone single-page portfolio. Read this before touching anything.
 
+> [!IMPORTANT]
+> **Git Rule:** DO NOT run any Git commands (such as git add, git commit, git push). All staging, committing, and pushing must be managed manually by the user.
+
 ---
 
 ## Quick Start
