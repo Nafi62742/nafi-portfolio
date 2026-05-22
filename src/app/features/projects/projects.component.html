@@ -25,18 +25,46 @@
                [style.background]="'rgba(' + hexToRgb(project.color) + ', 0.12)'">
             <i class="fa-solid" [ngClass]="project.icon" [style.color]="project.color"></i>
           </div>
-          <div class="flex gap-2" *ngIf="project.github || project.link">
+          <div class="flex gap-2" *ngIf="project.github || project.link || project.playstore || project.appstore || project.youtube">
             <a *ngIf="project.github" [href]="project.github" target="_blank" aria-label="GitHub"
                class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
               <i class="fa-brands fa-github"></i>
             </a>
-            <a *ngIf="project.link" [href]="project.link" target="_blank" aria-label="Live"
+            <a *ngIf="project.playstore" [href]="project.playstore" target="_blank" aria-label="Play Store"
+               class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
+               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
+              <i class="fa-brands fa-google-play"></i>
+            </a>
+            <a *ngIf="project.appstore" [href]="project.appstore" target="_blank" aria-label="App Store"
+               class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
+               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
+              <i class="fa-brands fa-apple"></i>
+            </a>
+            <a *ngIf="project.youtube" [href]="project.youtube" target="_blank" aria-label="YouTube"
+               class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
+               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+            <a *ngIf="project.link" [href]="project.link" target="_blank" aria-label="Live Demo"
                class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
           </div>
+        </div>
+
+        <!-- Project Badges (Category & Type) -->
+        <div class="flex items-center gap-1.5 -mt-1">
+          <span class="px-2 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider"
+                [style.background]="project.category === 'office' ? 'rgba(99, 102, 241, 0.12)' : 'rgba(16, 185, 129, 0.12)'"
+                [style.color]="project.category === 'office' ? '#818cf8' : '#34d399'">
+            {{ project.category === 'office' ? 'Office' : 'Personal' }}
+          </span>
+          <span class="px-2 py-0.5 rounded text-[10px] font-medium tracking-wide"
+                style="background: rgba(255, 255, 255, 0.05); color: #94a3b8">
+            {{ project.type }}
+          </span>
         </div>
 
         <h3 class="text-lg font-bold text-text-primary">{{ project.name }}</h3>

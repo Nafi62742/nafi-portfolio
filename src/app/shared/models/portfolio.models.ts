@@ -30,8 +30,13 @@ export interface Project {
   tech:        string[];
   icon:        string;
   color:       string;
+  category:    'office' | 'personal';
+  type:        string;
   link?:       string;
   github?:     string;
+  youtube?:    string;
+  playstore?:  string;
+  appstore?:   string;
 }
 
 export interface Publication {
