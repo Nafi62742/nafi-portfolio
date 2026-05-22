@@ -133,7 +133,8 @@ export class PortfolioService {
         icon:        'fa-microphone',
         color:       '#3b82f6',
         category:    'office',
-        type:        'Android App'
+        type:        'Android App',
+        github:      'https://github.com/Nafi62742/Voice-record-and-player'
       },
       {
         name:        'Nearest Area Finder',
@@ -143,7 +144,8 @@ export class PortfolioService {
         icon:        'fa-location-crosshairs',
         color:       '#8b5cf6',
         category:    'office',
-        type:        'Flutter Project'
+        type:        'Flutter Project',
+        github:      'https://github.com/Nafi62742/Nearest-Location'
       },
       {
         name:        'Pabo Kothay',
@@ -163,7 +165,8 @@ export class PortfolioService {
         icon:        'fa-cake-candles',
         color:       '#f97316',
         category:    'personal',
-        type:        'Web Project'
+        type:        'Web Project',
+        github:      'https://github.com/Nafi62742/Flour_To_Pastry'
       },
       {
         name:        'Get Fund',
@@ -173,7 +176,8 @@ export class PortfolioService {
         icon:        'fa-sack-dollar',
         color:       '#6366f1',
         category:    'personal',
-        type:        'Web Project'
+        type:        'Web Project',
+        github:      'https://github.com/Nafi62742/Getfund'
       },
       // {
       //   name:        'Racer App',
@@ -193,7 +197,8 @@ export class PortfolioService {
       //   icon:        'fa-laptop',
       //   color:       '#3b82f6',
       //   category:    'personal',
-      //   type:        'Web Project'
+      //   type:        'Web Project',
+      //   github:      'https://github.com/Nafi62742/TechyGo'
       // },
       {
         name:        'Reckless Seas',
@@ -214,7 +219,8 @@ export class PortfolioService {
         icon:        'fa-graduation-cap',
         color:       '#8b5cf6',
         category:    'personal',
-        type:        'Software Project'
+        type:        'Software Project',
+        github:      'https://github.com/Nafi62742/School-Management-System'
       }
     ];
   }
