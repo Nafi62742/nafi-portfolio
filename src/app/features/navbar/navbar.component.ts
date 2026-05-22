@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { ScrollService } from '../../core/services/scroll.service';
 import { ThemeService } from '../../core/services/theme.service';
 import { TranslateService } from '../../core/services/translate.service';
@@ -27,11 +28,20 @@ export class NavbarComponent {
   constructor(
     public scroll: ScrollService,
     public theme: ThemeService,
-    public t: TranslateService
+    public t: TranslateService,
+    private router: Router
   ) {}
 
   navigate(id: string): void {
-    this.scroll.scrollTo(id);
+    if (this.router.url !== '/' && this.router.url !== '') {
+      this.router.navigate(['/']).then(() => {
+        setTimeout(() => {
+          this.scroll.scrollTo(id);
+        }, 150);
+      });
+    } else {
+      this.scroll.scrollTo(id);
+    }
     this.menuOpen.set(false);
   }
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { TranslateService } from '../../core/services/translate.service';
 import { PortfolioService } from '../../core/services/portfolio.service';
 import { Project } from '../../shared/models/portfolio.models';
@@ -7,7 +8,7 @@ import { Project } from '../../shared/models/portfolio.models';
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })
@@ -23,5 +24,9 @@ export class ProjectsComponent {
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
     return `${r}, ${g}, ${b}`;
+  }
+
+  getSlug(name: string): string {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   }
 }

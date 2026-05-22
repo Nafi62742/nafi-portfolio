@@ -24,19 +24,21 @@ export interface Experience {
 }
 
 export interface Project {
-  name:        string;
-  description: string;
-  highlights:  string;
-  tech:        string[];
-  icon:        string;
-  color:       string;
-  category:    'office' | 'personal';
-  type:        string;
-  link?:       string;
-  github?:     string;
-  youtube?:    string;
-  playstore?:  string;
-  appstore?:   string;
+  name:            string;
+  description:     string;
+  longDescription?: string;   // Extended description shown only on the details page
+  highlights:      string;
+  tech:            string[];
+  icon:            string;
+  color:           string;
+  category:        'office' | 'personal';
+  type:            string;
+  link?:           string;
+  github?:         string;
+  youtube?:        string;
+  playstore?:      string;
+  appstore?:       string;
+  screenshots?:    string[];
 }
 
 export interface Publication {
