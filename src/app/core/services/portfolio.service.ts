@@ -234,7 +234,8 @@ export class PortfolioService {
         authors:  'Swapneel Biswas, Nafi Ahmed & Shykul Islam Siam',
         icon:     'fa-brain',
         color:    '#6366f1',
-        abstract: 'Leverages machine learning to classify traditional Bengali dishes and automatically estimate calorie values from visual inputs.'
+        abstract: 'Leverages machine learning to classify traditional Bengali dishes and automatically estimate calorie values from visual inputs.',
+        link:     'https://doi.org/10.59738/jstr.v6i1.24(103-113).xatj1460'
       },
       {
         title:    'A Deep Learning Approach to Analyze the Relationship Between Gender, Height, Weight, and BMR from Face Images',
@@ -243,7 +244,8 @@ export class PortfolioService {
         authors:  'Shykul Islam Siam, S. A. H. Chowdhury, Nafi Ahmed & Swapneel Biswas',
         icon:     'fa-microchip',
         color:    '#06b6d4',
-        abstract: 'Uses CNNs and deep learning models to predict metabolic attributes (BMR, weight, height, gender) directly from facial features.'
+        abstract: 'Uses CNNs and deep learning models to predict metabolic attributes (BMR, weight, height, gender) directly from facial features.',
+        link:     'https://doi.org/10.30564/re.v7i5.10103'
       }
     ];
   }
