@@ -68,10 +68,21 @@ export class PortfolioService {
         tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL']
       }
     ];
-  }
-
-  getProjects(): Project[] {
+  }  getProjects(): Project[] {
     return [
+      {
+        name:            'KEIAI Order App',
+        description:     'A cross-platform ordering management application built for KEIAI, enabling streamlined order placement and tracking.',
+        longDescription: 'KEIAI Order App is a Flutter-based cross-platform application developed for KEIAI, a Japanese organization. The app provides a clean and efficient interface for placing, managing, and tracking orders within the organization. It supports both web and mobile platforms from a single Flutter codebase, ensuring a consistent experience across devices. The application integrates with the organization\'s backend systems to handle real-time order status updates, user authentication, and order history management. The web version is deployed and accessible online, while mobile builds target both Android and iOS.',
+        highlights:      'Built a cross-platform Flutter application deployed as a web app with order management and real-time tracking features.',
+        tech:            ['Flutter', 'Dart'],
+        icon:            'fa-boxes-stacked',
+        color:           '#14b8a6',
+        category:        'office',
+        type:            'Web & Mobile App',
+        link:            'https://keiai-app.com/app/',
+        shortRole:       'Prosthetics & Product Ordering'
+      },
       {
         name:            'Pet App',
         description:     'An auction application for pets featuring real-time bidding, user listings, and live bid management.',
@@ -86,7 +97,8 @@ export class PortfolioService {
         additionalLinks: [
           { label: 'Web App',     url: 'https://www.dogcatbirth-records.com/app/index.html', icon: 'fa-mobile-screen' },
           { label: 'Admin Panel', url: 'https://www.dogcatbirth-records.com/admin/login',    icon: 'fa-lock' }
-        ]
+        ],
+        shortRole:       'Buy, Sell & Track Pets'
       },
       {
         name:            'Gram Stain Atlas',
@@ -99,41 +111,8 @@ export class PortfolioService {
         category:        'office',
         type:            'Mobile App',
         playstore:       'https://play.google.com/store/apps/details?id=jp.or.ohtahp.gramstain&hl=ja&pli=1',
-        appstore:        'https://apps.apple.com/jp/app/%E3%82%B0%E3%83%A9%E3%83%A0%E6%9F%93%E8%89%B2%E3%82%A2%E3%83%88%E3%83%A9%E3%82%B9/id1454593922'
-      },
-      {
-        name:            'Izumi',
-        description:     'An operational management platform for car repair tracking, delivery status, and service workflows.',
-        longDescription: 'Izumi is an internal operations management platform developed for a Japanese automotive service company. It centralizes the entire lifecycle of vehicle repair jobs — from initial intake and diagnosis to parts ordering, technician assignment, and customer delivery. The platform features real-time workflow dashboards that aggregate operational data across multiple service bays, giving managers instant visibility into bottlenecks and job completion rates. Built on Angular for the frontend with a Python-based backend and AWS DynamoDB as the data store, the system was designed for high reliability and scalability. Key features include status tracking timelines, delivery scheduling, service history logs, and exportable reporting.',
-        highlights:      'Designed workflow dashboards, aggregating operational data and improving visibility. Built on Angular and AWS.',
-        tech:            ['Angular', 'Python', 'AWS DynamoDB'],
-        icon:            'fa-car',
-        color:           '#10b981',
-        category:        'office',
-        type:            'Web Project'
-      },
-      {
-        name:            'Ginsen',
-        description:     'Form management project featuring dynamic HTML layouts and an AWS-backed data collection framework.',
-        longDescription: 'Ginsen is a flexible enterprise form management system developed for a Japanese organization that required a scalable way to collect, store, and process structured data submissions. The platform enables administrators to define custom form layouts using dynamic HTML templates, which users then fill in and submit. All submissions are ingested through Python-based processing pipelines and stored in AWS DynamoDB, enabling fast retrieval and analysis. The system supports conditional field logic, multi-step forms, and rich text inputs, making it adaptable to a wide variety of internal workflows such as incident reporting, procurement requests, and compliance checklists.',
-        highlights:      'Built flexible user-defined data inputs and ingestion pipelines processing dynamic form submissions.',
-        tech:            ['HTML5', 'Python', 'AWS DynamoDB'],
-        icon:            'fa-file-invoice',
-        color:           '#f59e0b',
-        category:        'office',
-        type:            'Web Project'
-      },
-      {
-        name:            'Voice Record & Play',
-        description:     'An offline native Android mobile application designed to record, store, and play back high-quality voice recordings.',
-        longDescription: "Voice Record & Play is a native Android application built in Java that provides a clean, minimal interface for capturing audio recordings and replaying them on demand. The app integrates with Android's MediaRecorder and MediaPlayer APIs to deliver high-quality audio capture with configurable encoding formats. All recordings are saved directly to the device's local filesystem, ensuring the app works entirely offline without relying on any cloud service. Users can manage their recordings through a simple list view, rename entries, delete unwanted recordings, and share clips via standard Android intents. This project served as a practical exploration of Android's media and storage APIs.",
-        highlights:      'Implemented local filesystem storage operations and audio recording/playback APIs.',
-        tech:            ['Java', 'Android SDK'],
-        icon:            'fa-microphone',
-        color:           '#3b82f6',
-        category:        'office',
-        type:            'Android App',
-        github:          'https://github.com/Nafi62742/Voice-record-and-player'
+        appstore:        'https://apps.apple.com/jp/app/%E3%82%B0%E3%83%A9%E3%83%A0%E6%9F%93%E8%89%B2%E3%82%A2%E3%83%88%E3%83%A9%E3%82%B9/id1454593922',
+        shortRole:       'Bacteria Microscopic Atlas'
       },
       {
         name:            'Nearest Area Finder',
@@ -145,7 +124,45 @@ export class PortfolioService {
         color:           '#8b5cf6',
         category:        'office',
         type:            'Flutter Project',
-        github:          'https://github.com/Nafi62742/Nearest-Location'
+        github:          'https://github.com/Nafi62742/Nearest-Location',
+        shortRole:       'Location Proximity Finder'
+      },
+      {
+        name:            'Izumi',
+        description:     'An operational management platform for car repair tracking, delivery status, and service workflows.',
+        longDescription: 'Izumi is an internal operations management platform developed for a Japanese automotive service company. It centralizes the entire lifecycle of vehicle repair jobs — from initial intake and diagnosis to parts ordering, technician assignment, and customer delivery. The platform features real-time workflow dashboards that aggregate operational data across multiple service bays, giving managers instant visibility into bottlenecks and job completion rates. Built on Angular for the frontend with a Python-based backend and AWS DynamoDB as the data store, the system was designed for high reliability and scalability. Key features include status tracking timelines, delivery scheduling, service history logs, and exportable reporting.',
+        highlights:      'Designed workflow dashboards, aggregating operational data and improving visibility. Built on Angular and AWS.',
+        tech:            ['Angular', 'Python', 'AWS DynamoDB'],
+        icon:            'fa-car',
+        color:           '#10b981',
+        category:        'office',
+        type:            'Web Project',
+        shortRole:       'Car Repair & Workflow Tracker'
+      },
+      {
+        name:            'Ginsen',
+        description:     'Form management project featuring dynamic HTML layouts and an AWS-backed data collection framework.',
+        longDescription: 'Ginsen is a flexible enterprise form management system developed for a Japanese organization that required a scalable way to collect, store, and process structured data submissions. The platform enables administrators to define custom form layouts using dynamic HTML templates, which users then fill in and submit. All submissions are ingested through Python-based processing pipelines and stored in AWS DynamoDB, enabling fast retrieval and analysis. The system supports conditional field logic, multi-step forms, and rich text inputs, making it adaptable to a wide variety of internal workflows such as incident reporting, procurement requests, and compliance checklists.',
+        highlights:      'Built flexible user-defined data inputs and ingestion pipelines processing dynamic form submissions.',
+        tech:            ['HTML5', 'Python', 'AWS DynamoDB'],
+        icon:            'fa-file-invoice',
+        color:           '#f59e0b',
+        category:        'office',
+        type:            'Web Project',
+        shortRole:       'Dynamic Form Management'
+      },
+      {
+        name:            'Voice Record & Play',
+        description:     'An offline native Android mobile application designed to record, store, and play back high-quality voice recordings.',
+        longDescription: "Voice Record & Play is a native Android application built in Java that provides a clean, minimal interface for capturing audio recordings and replaying them on demand. The app integrates with Android's MediaRecorder and MediaPlayer APIs to deliver high-quality audio capture with configurable encoding formats. All recordings are saved directly to the device's local filesystem, ensuring the app works entirely offline without relying on any cloud service. Users can manage their recordings through a simple list view, rename entries, delete unwanted recordings, and share clips via standard Android intents. This project served as a practical exploration of Android's media and storage APIs.",
+        highlights:      'Implemented local filesystem storage operations and audio recording/playback APIs.',
+        tech:            ['Java', 'Android SDK'],
+        icon:            'fa-microphone',
+        color:           '#3b82f6',
+        category:        'office',
+        type:            'Android App',
+        github:          'https://github.com/Nafi62742/Voice-record-and-player',
+        shortRole:       'Offline Voice Recorder'
       },
       {
         name:            'Pabo Kothay',
@@ -156,7 +173,8 @@ export class PortfolioService {
         icon:            'fa-map-location-dot',
         color:           '#ec4899',
         category:        'personal',
-        type:            'Android App'
+        type:            'Android App',
+        shortRole:       'Local Business Directory'
       },
       {
         name:            'Flour to Pastry',
@@ -168,19 +186,21 @@ export class PortfolioService {
         color:           '#f97316',
         category:        'personal',
         type:            'Web Project',
-        github:          'https://github.com/Nafi62742/Flour_To_Pastry'
+        github:          'https://github.com/Nafi62742/Flour_To_Pastry',
+        shortRole:       'Online Bakery Storefront'
       },
       {
         name:            'Get Fund',
         description:     'A business pitch and crowdfunding platform for entrepreneurs to showcase plans and secure investment.',
-        longDescription: 'Get Fund is a crowdfunding and business pitch platform built to connect early-stage entrepreneurs with potential investors. Founders can create detailed campaign pages with business plans, funding goals, milestones, and pitch videos. Investors browse campaigns, filter by industry or funding stage, and pledge amounts toward projects they believe in. The platform tracks funding progress in real time with visual goal indicators and sends notifications when milestones are reached. Built with C# and the ASP.NET MVC framework following clean MVC design patterns. Data is managed through Microsoft SQL Server with a normalized schema covering users, campaigns, pledges, and transactions.',
+        longDescription: 'Get Fund is a crowdfunding and business pitch platform built to connect early-stage entrepreneurs with potential investors. Founders can create detailed campaign pages with business goals, milestones, and pitch videos. Investors browse campaigns, filter by industry or funding stage, and pledge amounts toward projects they believe in. The platform tracks funding progress in real time with visual goal indicators and sends notifications when milestones are reached. Built with C# and the ASP.NET MVC framework following clean MVC design patterns. Data is managed through Microsoft SQL Server with a normalized schema covering users, campaigns, pledges, and transactions.',
         highlights:      'Designed interactive pitch presentation pages and dashboard features for funding goal tracking.',
         tech:            ['C#', '.NET MVC', 'Microsoft SQL Server'],
         icon:            'fa-sack-dollar',
         color:           '#6366f1',
         category:        'personal',
         type:            'Web Project',
-        github:          'https://github.com/Nafi62742/Getfund'
+        github:          'https://github.com/Nafi62742/Getfund',
+        shortRole:       'Crowdfunding Platform'
       },
       {
         name:            'Reckless Seas',
@@ -192,7 +212,8 @@ export class PortfolioService {
         color:           '#ef4444',
         category:        'personal',
         type:            'Game Project',
-        youtube:         'https://www.youtube.com/watch?v=BuX1QRPwhjU'
+        youtube:         'https://www.youtube.com/watch?v=BuX1QRPwhjU',
+        shortRole:       'Pseudo-3D Boat Game'
       },
       {
         name:            'School Management System',
@@ -204,19 +225,8 @@ export class PortfolioService {
         color:           '#8b5cf6',
         category:        'personal',
         type:            'Software Project',
-        github:          'https://github.com/Nafi62742/School-Management-System'
-      },
-      {
-        name:            'KEIAI Order App',
-        description:     'A cross-platform ordering management application built for KEIAI, enabling streamlined order placement and tracking.',
-        longDescription: 'KEIAI Order App is a Flutter-based cross-platform application developed for KEIAI, a Japanese organization. The app provides a clean and efficient interface for placing, managing, and tracking orders within the organization. It supports both web and mobile platforms from a single Flutter codebase, ensuring a consistent experience across devices. The application integrates with the organization\'s backend systems to handle real-time order status updates, user authentication, and order history management. The web version is deployed and accessible online, while mobile builds target both Android and iOS.',
-        highlights:      'Built a cross-platform Flutter application deployed as a web app with order management and real-time tracking features.',
-        tech:            ['Flutter', 'Dart'],
-        icon:            'fa-boxes-stacked',
-        color:           '#14b8a6',
-        category:        'office',
-        type:            'Web & Mobile App',
-        link:            'https://keiai-app.com/app/'
+        github:          'https://github.com/Nafi62742/School-Management-System',
+        shortRole:       'School Admin & Grading'
       }
     ];
   }

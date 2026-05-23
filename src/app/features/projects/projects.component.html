@@ -67,7 +67,12 @@
           </span>
         </div>
 
-        <h3 class="text-lg font-bold text-text-primary">{{ project.name }}</h3>
+        <h3 class="text-lg font-bold text-text-primary">
+          {{ project.name }}
+          <span *ngIf="project.shortRole" class="text-xs font-normal text-text-muted ml-1.5">
+            ({{ project.shortRole }})
+          </span>
+        </h3>
         <p class="text-sm text-text-secondary leading-[1.7] flex-1">{{ project.description }}</p>
 
         <p class="text-xs text-text-muted flex items-start gap-2 leading-[1.6] p-3 rounded-xl"
