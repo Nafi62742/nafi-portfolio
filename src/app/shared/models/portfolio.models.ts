@@ -43,15 +43,17 @@ export interface Project {
 }
 
 export interface Publication {
-  title:    string;
-  venue:    string;
-  year:     string;
-  authors:  string;
-  icon:     string;
-  color:    string;
-  abstract: string;
-  doi?:     string;
-  link?:    string;
+  title:           string;
+  venue:           string;
+  year:            string;
+  authors:         string;
+  icon:            string;
+  color:           string;
+  abstract:        string;
+  longDescription?: string;
+  keywords?:       string[];
+  doi?:            string;
+  link?:           string;
 }
 
 export interface Education {
