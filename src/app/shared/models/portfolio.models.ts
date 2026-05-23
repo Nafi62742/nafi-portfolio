@@ -40,6 +40,7 @@ export interface Project {
   appstore?:        string;
   screenshots?:     string[];
   additionalLinks?: { label: string; url: string; icon: string }[];
+  shortRole?:       string;
 }
 
 export interface Publication {
