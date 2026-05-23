@@ -228,28 +228,49 @@ export class PortfolioService {
   getPublications(): Publication[] {
     return [
       {
-        title:    'Traditional Bengali Food Classification and Calorie Measurement Using Machine Learning',
-        venue:    'Journal of Scientific and Technological Research (JSTR), Bangladesh Open University (BOU)',
-        year:     '2025',
-        authors:  'Swapneel Biswas, Nafi Ahmed & Shykul Islam Siam',
-        icon:     'fa-brain',
-        color:    '#6366f1',
-        abstract: 'Leverages machine learning to classify traditional Bengali dishes and automatically estimate calorie values from visual inputs.',
-        link:     'https://doi.org/10.59738/jstr.v6i1.24(103-113).xatj1460'
+        title:           'Traditional Bengali Food Classification and Calorie Measurement Using Machine Learning',
+        venue:           'Journal of Scientific and Technological Research (JSTR), Bangladesh Open University (BOU) — Vol. 6, No. 1 (2024), pp. 103–113',
+        year:            '2024',
+        authors:         'Swapneel Biswas, Nafi Ahmed & Shykul Islam Siam',
+        icon:            'fa-brain',
+        color:           '#6366f1',
+        abstract:        'Applies machine learning techniques including image segmentation and object detection to classify traditional Bengali dishes and automatically estimate calorie values from visual food inputs.',
+        longDescription: 'This research addresses the challenge of automated nutritional analysis for traditional Bengali cuisine — a domain largely overlooked by existing food recognition datasets. The study applies machine learning techniques including object detection and image segmentation to classify traditional Bengali dishes from image inputs. Once classified, the system estimates caloric content using dietary reference data. The work evaluates multiple classification architectures and compares their performance on a custom Bengali food dataset. The resulting pipeline demonstrates strong potential for integration into mobile dietary tracking applications, supporting health-conscious users in culturally specific food environments. This contributes a reproducible, scalable framework for food classification in under-represented culinary traditions.',
+        keywords:        ['Machine Learning', 'Bengali Cuisine Classification', 'Content Measurement', 'Object Detection', 'Image Segmentation', 'Dietary Assessment', 'Traditional Bengali Dishes'],
+        link:            'https://doi.org/10.59738/jstr.v6i1.24(103-113).xatj1460'
       },
       {
-        title:    'A Deep Learning Approach to Analyze the Relationship Between Gender, Height, Weight, and BMR from Face Images',
-        venue:    'IEEE',
-        year:     '2025',
-        authors:  'Shykul Islam Siam, S. A. H. Chowdhury, Nafi Ahmed & Swapneel Biswas',
-        icon:     'fa-microchip',
-        color:    '#06b6d4',
-        abstract: 'Uses CNNs and deep learning models to predict metabolic attributes (BMR, weight, height, gender) directly from facial features.',
-        link:     'https://doi.org/10.30564/re.v7i5.10103'
+        title:           'A Deep Learning Approach to Analyze the Relationship Between Gender, Height, Weight, and Basal Metabolic Rate from Face Images',
+        venue:           '2024 IEEE International Conference on Power, Electrical, Electronics and Industrial Applications (PEEIACON) — Rajshahi, Bangladesh, 12–13 September 2024',
+        year:            '2024',
+        authors:         'Shykul Islam Siam, S. A. H. Chowdhury, Nafi Ahmed & Swapneel Biswas',
+        icon:            'fa-microchip',
+        color:           '#06b6d4',
+        abstract:        'Introduces a novel CNN model for facial attribute estimation that predicts gender, height, weight, and Basal Metabolic Rate (BMR) from face images, achieving 98.50% accuracy on the Face-ete dataset.',
+        longDescription: 'In response to existing limitations, a novel convolutional neural network (CNN) model tailored for facial attribute estimation is introduced in this study. The methodology encompasses meticulous data preprocessing techniques, including dataset splitting, resizing, cleaning, augmentation, and cropping, to ensure the integrity of the dataset. Through rigorous real-world testing, remarkable accuracy in predicting gender, height, weight, and basal metabolic rate (BMR) from facial photos is demonstrated by our CNN architecture. Notably, unlike conventional approaches where BMR is directly estimated from facial images, three output neurons are employed by our model to simultaneously predict gender, height, and weight, which are subsequently utilized for BMR calculation. A primary contribution is made through the development of a comprehensive methodology that advances the reliability of facial attribute estimation by achieving an outstanding accuracy of 98.50% on our dataset named Face-ete and a commendable accuracy of 88.29% on another dataset. Our model outperforms the second-best model by percentage relative improvement factors of 2.19 and 4.28 in terms of BMR prediction accuracy.',
+        keywords:        ['Deep Learning', 'CNN', 'Basal Metabolic Rate', 'BMR', 'Facial Attribute Estimation', 'Gender Prediction', 'Biometrics', 'Computer Vision', 'PEEIACON'],
+        link:            'https://ieeexplore.ieee.org/document/10800058'
+      },
+      {
+        title:           'Drought Forecast Using Traditional and Custom Models for Dhaka, Bangladesh',
+        venue:           'Research in Ecology — Bilingual Publishing Group, Vol. 7, Iss. 5 (December 2025)',
+        year:            '2025',
+        authors:         'Aunik Hasan Mridul, Tanumoy Bose, Swapneel Biswas, Nafi Ahmed, S. M. Hasan Kabir, Nebadeta Nath Tonney & Pooja Saha',
+        icon:            'fa-cloud-rain',
+        color:           '#10b981',
+        abstract:        'Presents a hybrid drought forecasting model combining ARMA, Holt-Winters, ARIMA, and Random Forest for Dhaka Division, Bangladesh, using SPI-based daily precipitation data spanning January 1981 to March 2025.',
+        longDescription: 'Water scarcity and climate change are two of the biggest worldwide concerns. Drought is a complicated and often underappreciated phenomenon affecting many facets of human existence. Early drought forecasts are therefore essential for water resource management and strategic planning. This work presents a unique hybrid model combining the Autoregressive Moving Average (ARMA), Holt-Winters Exponential Smoothing, Autoregressive Integrated Moving Average (ARIMA), and Random Forest Regressor. A thorough analysis is performed on daily precipitation data from the Dhaka Division, Bangladesh, spanning January 1981 to March 2025. In contrast to other research that examines only standalone machine learning or conventional statistical models, this study combines both approaches and provides a comparative performance analysis of hybrid models for drought prediction using the Standardized Precipitation Index (SPI). The hybrid Holt-Winters with LSTM model outperforms all other hybrid approaches, with significant improvements in Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE) for SPI daily predictions — underscoring the model\'s superior accuracy for forecasting drought in Bangladesh\'s Dhaka Division.',
+        keywords:        ['Drought Forecasting', 'ARIMA', 'Holt-Winters', 'Random Forest', 'LSTM', 'SPI', 'Climate Change', 'Bangladesh', 'Hydrology', 'Precipitation'],
+        link:            'https://doi.org/10.30564/re.v7i5.10103'
       }
     ];
   }
 
+
+
+  getPublicationBySlug(slug: string): Publication | undefined {
+    return this.getPublications().find(p => p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === slug);
+  }
   getEducation(): Education[] {
     return [
       {

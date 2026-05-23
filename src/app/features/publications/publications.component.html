@@ -44,12 +44,20 @@
             </span>
           </div>
 
-          <a *ngIf="pub.link" [href]="pub.link" target="_blank"
-             class="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-250 hover:gap-3"
-             [style.color]="pub.color">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            View Publication
-          </a>
+          <div class="flex items-center gap-4 flex-wrap">
+            <a [routerLink]="['/publication', toSlug(pub.title)]"
+               class="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-250 hover:gap-3"
+               style="color: var(--text-secondary)">
+              <i class="fa-solid fa-arrow-right"></i>
+              View Details
+            </a>
+            <a *ngIf="pub.link" [href]="pub.link" target="_blank"
+               class="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-250 hover:gap-3"
+               [style.color]="pub.color">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              View Publication
+            </a>
+          </div>
         </div>
       </div>
     </div>
