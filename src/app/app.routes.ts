@@ -5,8 +5,8 @@ import { ProjectDetailsComponent } from '@features/project-details/project-detai
 import { PublicationDetailsComponent } from '@features/publication-details/publication-details.component';
 
 export const routes: Routes = [
-  { path: String(), component: MainPortfolioComponent },
+  { path: '', component: MainPortfolioComponent },
   { path: 'project/:id', component: ProjectDetailsComponent },
   { path: 'publication/:id', component: PublicationDetailsComponent },
-  { path: '**', redirectTo: String() }
+  { path: '**', redirectTo: '' }
 ];
