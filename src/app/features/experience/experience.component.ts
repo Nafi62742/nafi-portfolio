@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateService } from '../../core/services/translate.service';
-import { PortfolioService } from '../../core/services/portfolio.service';
-import { Experience } from '../../shared/models/portfolio.models';
+import { Component, Inject } from '@angular/core';
 
+import { PortfolioService } from '@services/portfolio.service';
+import { TranslateService } from '@services/translate.service';
+import { Experience } from '@shared/models/portfolio.models';
+
+/**
+ * Experience section component displaying professional work history.
+ */
 @Component({
   selector: 'app-experience',
   standalone: true,
@@ -12,9 +16,17 @@ import { Experience } from '../../shared/models/portfolio.models';
   styleUrl: './experience.component.scss'
 })
 export class ExperienceComponent {
-  experiences: Experience[];
+  /** All experience entries loaded from the portfolio service. */
+  public readonly experiences: Array<Experience>;
 
-  constructor(public t: TranslateService, portfolio: PortfolioService) {
-    this.experiences = portfolio.getExperiences();
+  /**
+   * @param t - Translation service for i18n labels
+   * @param portfolio - Portfolio data service providing experience entries
+   */
+  constructor(
+    @Inject(TranslateService) public readonly t: TranslateService,
+    @Inject(PortfolioService) private readonly portfolio: PortfolioService
+  ) {
+    this.experiences = this.portfolio.getExperiences();
   }
 }

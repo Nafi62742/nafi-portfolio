@@ -1,8 +1,12 @@
-import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateService } from '../../core/services/translate.service';
-import { ScrollService } from '../../core/services/scroll.service';
+import { Component, Inject, signal } from '@angular/core';
 
+import { ScrollService } from '@services/scroll.service';
+import { TranslateService } from '@services/translate.service';
+
+/**
+ * Hero section component displaying name, animated roles, tagline and CTAs.
+ */
 @Component({
   selector: 'app-hero',
   standalone: true,
@@ -11,14 +15,25 @@ import { ScrollService } from '../../core/services/scroll.service';
   styleUrl: './hero.component.scss'
 })
 export class HeroComponent {
-  copied = signal(false);
+  /** Signal tracking whether the email address was recently copied to clipboard. */
+  public readonly copied = signal<boolean>(false);
 
+  /**
+   * @param t - Translation service for i18n labels
+   * @param scroll - Scroll service for CTA button navigation
+   */
   constructor(
-    public t: TranslateService,
-    public scroll: ScrollService
+    @Inject(TranslateService) public readonly t: TranslateService,
+    @Inject(ScrollService) public readonly scroll: ScrollService
   ) {}
 
-  copyEmail(email: string, event: Event): void {
+  /**
+   * Copies the given email to the clipboard and opens the mail client.
+   *
+   * @param email - The email address to copy and open
+   * @param event - The originating DOM event (used to prevent default link behaviour)
+   */
+  public copyEmail(email: string, event: Event): void {
     event.preventDefault();
     navigator.clipboard.writeText(email).then(() => {
       this.copied.set(true);
@@ -27,11 +42,17 @@ export class HeroComponent {
     window.location.href = 'mailto:' + email;
   }
 
-  scrollToProjects(): void {
+  /**
+   * Scrolls the page to the projects section.
+   */
+  public scrollToProjects(): void {
     this.scroll.scrollTo('projects');
   }
 
-  scrollToContact(): void {
+  /**
+   * Scrolls the page to the contact section.
+   */
+  public scrollToContact(): void {
     this.scroll.scrollTo('contact');
   }
 }

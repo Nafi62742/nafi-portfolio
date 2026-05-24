@@ -63,12 +63,12 @@ A versatile and results-driven Software Developer and Data Specialist with over 
 *   **Role & Implementation:** Managed complex order data flows and integrated structured backend SQL databases to handle extensive, configurable product catalogs. Streamlined order processing and client-server communication using REST APIs.
 *   **Technologies:** Flutter, Dart, Laravel, PHP, AWS, MySQL.
 
-### 3. **Izumi Web Project (Car Repair & Delivery Management)**
+### 3. **Izumi Web Application (Car Repair & Delivery Management)**
 *   **Description:** A comprehensive service tracking and operational management platform for car repairs and vehicle deliveries.
 *   **Role & Implementation:** Created operational workflow management systems. Designed and implemented dashboards to aggregate data and improve operational visibility for repairs and status tracking.
 *   **Technologies:** Angular, AWS, SQL.
 
-### 4. **Ginsen Web Project (Form Management)**
+### 4. **Ginsen Web Application (Form Management)**
 *   **Description:** A dynamic, scalable form management system allowing flexible user-defined data inputs and formatting.
 *   **Role & Implementation:** Built a data ingestion system designed to handle dynamic forms, facilitating flexible collections, formatting, and processing pipelines utilizing AWS backend services.
 *   **Technologies:** HTML5, AWS, JSON.
@@ -78,12 +78,12 @@ A versatile and results-driven Software Developer and Data Specialist with over 
 *   **Role & Implementation:** Built local discovery features and simple business advertising profiles using a mobile frontend.
 *   **Technologies:** Flutter, Dart, Firebase.
 
-### 6. **Flour to Pastry Web Project**
+### 6. **Flour to Pastry Web Application**
 *   **Description:** A web application and online store built for a real-life bakery shop.
 *   **Role & Implementation:** Developed responsive storefront pages and basic shopping cart capabilities.
 *   **Technologies:** HTML, CSS, PHP, MySQL.
 
-### 7. **Get Fund Web Project**
+### 7. **Get Fund Web Application**
 *   **Description:** A crowdfunding and presentation platform for entrepreneurs to pitch business plans and attract investment.
 *   **Role & Implementation:** Designed and integrated dashboard elements to showcase pitches and funding targets.
 *   **Technologies:** Angular, AWS.

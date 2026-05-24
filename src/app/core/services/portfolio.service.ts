@@ -1,10 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Skill, SkillCategory, Experience, Project, Publication, Education, Leadership } from '../../shared/models/portfolio.models';
 
+import { SkillCategory, Experience, Project, Publication, Education, Leadership } from '@shared/models/portfolio.models';
+
+/**
+ * Service that provides mock data for all portfolio sections,
+ * including skill categories, projects, experience, publications, and education.
+ */
 @Injectable({ providedIn: 'root' })
 export class PortfolioService {
 
-  getSkillCategories(): SkillCategory[] {
+  /**
+   * Retrieves the list of technical skill categories.
+   *
+   * @returns Array of SkillCategory objects
+   */
+  public getSkillCategories(): Array<SkillCategory> {
     return [
       {
         key: 'cat_mobile', icon: 'fa-mobile-screen',
@@ -33,7 +43,12 @@ export class PortfolioService {
     ];
   }
 
-  getExperiences(): Experience[] {
+  /**
+   * Retrieves the professional experience timeline history.
+   *
+   * @returns Array of Experience objects
+   */
+  public getExperiences(): Array<Experience> {
     return [
       {
         company:    'XORGeek',
@@ -68,7 +83,14 @@ export class PortfolioService {
         tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL']
       }
     ];
-  }  getProjects(): Project[] {
+  }
+
+  /**
+   * Retrieves the collection of personal and professional projects.
+   *
+   * @returns Array of Project objects
+   */
+  public getProjects(): Array<Project> {
     return [
       {
         name:            'KEIAI Order App',
@@ -136,7 +158,7 @@ export class PortfolioService {
         icon:            'fa-car',
         color:           '#10b981',
         category:        'office',
-        type:            'Web Project',
+        type:            'Web Application',
         shortRole:       'Car Repair & Workflow Tracker'
       },
       {
@@ -148,7 +170,7 @@ export class PortfolioService {
         icon:            'fa-file-invoice',
         color:           '#f59e0b',
         category:        'office',
-        type:            'Web Project',
+        type:            'Web Application',
         shortRole:       'Dynamic Form Management'
       },
       {
@@ -160,7 +182,7 @@ export class PortfolioService {
         icon:            'fa-microphone',
         color:           '#3b82f6',
         category:        'office',
-        type:            'Android App',
+        type:            'Mobile App',
         github:          'https://github.com/Nafi62742/Voice-record-and-player',
         shortRole:       'Offline Voice Recorder'
       },
@@ -173,7 +195,7 @@ export class PortfolioService {
         icon:            'fa-map-location-dot',
         color:           '#ec4899',
         category:        'personal',
-        type:            'Android App',
+        type:            'Mobile App',
         shortRole:       'Local Business Directory'
       },
       {
@@ -185,7 +207,7 @@ export class PortfolioService {
         icon:            'fa-cake-candles',
         color:           '#f97316',
         category:        'personal',
-        type:            'Web Project',
+        type:            'Web Application',
         github:          'https://github.com/Nafi62742/Flour_To_Pastry',
         shortRole:       'Online Bakery Storefront'
       },
@@ -198,7 +220,7 @@ export class PortfolioService {
         icon:            'fa-sack-dollar',
         color:           '#6366f1',
         category:        'personal',
-        type:            'Web Project',
+        type:            'Web Application',
         github:          'https://github.com/Nafi62742/Getfund',
         shortRole:       'Crowdfunding Platform'
       },
@@ -231,11 +253,22 @@ export class PortfolioService {
     ];
   }
 
-  getProjectBySlug(slug: string): Project | undefined {
+  /**
+   * Looks up a single project by its URL-safe slug.
+   *
+   * @param slug - The URL-safe slug of the project (e.g. 'pet-app')
+   * @returns The matching Project object, or undefined if not found
+   */
+  public getProjectBySlug(slug: string): Project | undefined {
     return this.getProjects().find(p => p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') === slug);
   }
 
-  getPublications(): Publication[] {
+  /**
+   * Retrieves the collection of academic and scientific publications.
+   *
+   * @returns Array of Publication objects
+   */
+  public getPublications(): Array<Publication> {
     return [
       {
         title:           'Traditional Bengali Food Classification and Calorie Measurement Using Machine Learning',
@@ -276,12 +309,22 @@ export class PortfolioService {
     ];
   }
 
-
-
-  getPublicationBySlug(slug: string): Publication | undefined {
+  /**
+   * Looks up a single publication by its URL-safe slug.
+   *
+   * @param slug - The URL-safe slug of the publication
+   * @returns The matching Publication object, or undefined if not found
+   */
+  public getPublicationBySlug(slug: string): Publication | undefined {
     return this.getPublications().find(p => p.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') === slug);
   }
-  getEducation(): Education[] {
+
+  /**
+   * Retrieves the academic background timeline history.
+   *
+   * @returns Array of Education objects
+   */
+  public getEducation(): Array<Education> {
     return [
       {
         institution: 'Ahsanullah University of Science and Technology (AUST)',
@@ -313,7 +356,12 @@ export class PortfolioService {
     ];
   }
 
-  getLeadership(): Leadership[] {
+  /**
+   * Retrieves the leadership and extracurricular roles history.
+   *
+   * @returns Array of Leadership objects
+   */
+  public getLeadership(): Array<Leadership> {
     return [
       {
         role:         'Program Organizer',

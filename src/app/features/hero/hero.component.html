@@ -1,5 +1,5 @@
 <section
-  class="relative min-h-screen flex flex-col justify-center overflow-hidden pt-[72px] transition-colors duration-500"
+  class="hero-section relative min-h-screen flex flex-col justify-center overflow-hidden pt-[72px] transition-colors duration-500"
   [style.background]="'var(--hero-bg)'"
   [style.color]="'var(--hero-text)'"
 >
@@ -54,20 +54,14 @@
     <div class="flex flex-col gap-6 lg:col-span-7">
       <!-- Available Badge -->
       <div
-        class="animate-fade-up delay-1 inline-flex items-center gap-2.5 px-6 py-2 rounded-full w-fit text-sm font-semibold tracking-wide text-success backdrop-blur-md"
-        style="
-          background: rgba(16, 185, 129, 0.08);
-          border: 1px solid rgba(16, 185, 129, 0.25);
-          box-shadow: 0 4px 12px rgba(16, 185, 129, 0.05);
-        "
+        class="animate-fade-up delay-1 inline-flex items-center gap-2.5 px-6 py-2 rounded-full w-fit text-sm font-semibold tracking-wide backdrop-blur-md status-badge"
       >
         <span class="relative flex h-2.5 w-2.5">
           <span
-            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75"
+            class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 status-badge-dot-ping"
           ></span>
           <span
-            class="relative inline-flex rounded-full h-2.5 w-2.5 bg-success"
-            style="box-shadow: 0 0 8px #10b981"
+            class="relative inline-flex rounded-full h-2.5 w-2.5 status-badge-dot"
           ></span>
         </span>
         Available for new opportunities
@@ -98,7 +92,7 @@
       >
         <span class="text-text-muted font-light">I am a</span>
         <span
-          class="text-accent-light font-mono bg-gradient-to-r from-accent-light to-primary-light bg-clip-text text-transparent"
+          class="hero-role-text font-mono bg-clip-text text-transparent"
           style="text-shadow: 0 0 20px rgba(6, 182, 212, 0.15)"
           >{{ t.t("hero.role") }}</span
         >
