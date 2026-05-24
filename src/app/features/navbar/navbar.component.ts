@@ -21,6 +21,11 @@ export class NavbarComponent {
   /** Signal tracking whether the mobile menu is open. */
   public readonly menuOpen = signal<boolean>(false);
 
+  /** Getter to check if the navbar should be in scrolled state (solid background). */
+  public get isNavbarScrolled(): boolean {
+    return this.scroll.isScrolled() || this.router.url !== '/';
+  }
+
   /** Navigation link definitions with i18n key and section ID. */
   public readonly navLinks: Array<{ key: string; id: string }> = [
     { key: 'nav.about',        id: 'about' },

@@ -3,7 +3,7 @@ import { ApplicationConfig } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, withRouterConfig } from '@angular/router';
 
-import { routes } from '@app/app.routes';
+import { routes } from '@app/router/app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [

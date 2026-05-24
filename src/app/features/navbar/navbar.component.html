@@ -1,9 +1,9 @@
 <nav class="navbar-root fixed top-0 left-0 right-0 z-[1000] h-[72px] transition-all duration-[400ms]"
-     [class.scrolled]="scroll.isScrolled()"
-     [style.background]="scroll.isScrolled() ? 'var(--navbar-bg)' : 'transparent'"
-     [style.backdropFilter]="scroll.isScrolled() ? 'blur(24px)' : 'none'"
-     [style.borderBottom]="scroll.isScrolled() ? '1px solid var(--border-color)' : 'none'"
-     [style.boxShadow]="scroll.isScrolled() ? 'var(--navbar-shadow)' : 'none'">
+     [class.scrolled]="isNavbarScrolled"
+     [style.background]="isNavbarScrolled ? 'var(--navbar-bg)' : 'transparent'"
+     [style.backdropFilter]="isNavbarScrolled ? 'blur(24px)' : 'none'"
+     [style.borderBottom]="isNavbarScrolled ? '1px solid var(--border-color)' : 'none'"
+     [style.boxShadow]="isNavbarScrolled ? 'var(--navbar-shadow)' : 'none'">
 
   <div class="w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex items-center justify-between h-full gap-6">
 
