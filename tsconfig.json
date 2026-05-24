@@ -3,6 +3,15 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@services/*":  ["src/app/core/services/*"],
+      "@utils/*":     ["src/app/core/utils/*"],
+      "@shared/*":    ["src/app/shared/*"],
+      "@i18n/*":      ["src/app/i18n/*"],
+      "@features/*":  ["src/app/features/*"],
+      "@app/*":       ["src/app/*"]
+    },
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
@@ -12,6 +21,7 @@
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",

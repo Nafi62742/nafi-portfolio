@@ -11,7 +11,8 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
       <div *ngFor="let project of projects; let i = index"
-           class="glass-card bg-bg-card p-6 flex flex-col gap-4 relative overflow-hidden reveal group"
+           (click)="navigateToProject(project)"
+           class="glass-card bg-bg-card p-6 flex flex-col gap-4 relative overflow-hidden reveal group cursor-pointer"
            [class]="'delay-' + ((i % 4) + 1)"
            [style.--accent-color]="project.color">
 
@@ -27,26 +28,31 @@
           </div>
           <div class="flex gap-2" *ngIf="project.github || project.link || project.playstore || project.appstore || project.youtube">
             <a *ngIf="project.github" [href]="project.github" target="_blank" aria-label="GitHub"
+               (click)="$event.stopPropagation()"
                class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
               <i class="fa-brands fa-github"></i>
             </a>
             <a *ngIf="project.playstore" [href]="project.playstore" target="_blank" aria-label="Play Store"
+               (click)="$event.stopPropagation()"
                class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
               <i class="fa-brands fa-google-play"></i>
             </a>
             <a *ngIf="project.appstore" [href]="project.appstore" target="_blank" aria-label="App Store"
+               (click)="$event.stopPropagation()"
                class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
               <i class="fa-brands fa-apple"></i>
             </a>
             <a *ngIf="project.youtube" [href]="project.youtube" target="_blank" aria-label="YouTube"
+               (click)="$event.stopPropagation()"
                class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
               <i class="fa-brands fa-youtube"></i>
             </a>
             <a *ngIf="project.link" [href]="project.link" target="_blank" aria-label="Live Demo"
+               (click)="$event.stopPropagation()"
                class="flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-250 hover:text-text-primary hover:border-primary/40 hover:bg-primary/10"
                style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)">
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
@@ -69,7 +75,7 @@
 
         <h3 class="text-lg font-bold text-text-primary">
           {{ project.name }}
-          <span *ngIf="project.shortRole" class="text-xs font-normal text-text-muted ml-1.5">
+          <span *ngIf="project.shortRole" class="block text-xs font-normal text-text-muted mt-1">
             ({{ project.shortRole }})
           </span>
         </h3>
@@ -88,6 +94,7 @@
         <!-- See Details link -->
         <div class="flex justify-end pt-3 border-t border-[rgba(255,255,255,0.06)] mt-2">
           <a [routerLink]="['/project', getSlug(project.name)]"
+             (click)="$event.stopPropagation()"
              class="text-xs font-semibold flex items-center gap-1.5 transition-all duration-200 hover:gap-2.5"
              [style.color]="project.color">
             <span>See Details</span>

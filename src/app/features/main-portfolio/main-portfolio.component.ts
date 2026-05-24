@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { initRevealObserver } from '../../core/utils/viewport.util';
-import { HeroComponent } from '../hero/hero.component';
-import { AboutComponent } from '../about/about.component';
-import { SkillsComponent } from '../skills/skills.component';
-import { ExperienceComponent } from '../experience/experience.component';
-import { ProjectsComponent } from '../projects/projects.component';
-import { PublicationsComponent } from '../publications/publications.component';
-import { EducationComponent } from '../education/education.component';
-import { ContactComponent } from '../contact/contact.component';
+import { Component, OnInit } from '@angular/core';
 
+import { AboutComponent } from '@features/about/about.component';
+import { ContactComponent } from '@features/contact/contact.component';
+import { EducationComponent } from '@features/education/education.component';
+import { ExperienceComponent } from '@features/experience/experience.component';
+import { HeroComponent } from '@features/hero/hero.component';
+import { ProjectsComponent } from '@features/projects/projects.component';
+import { PublicationsComponent } from '@features/publications/publications.component';
+import { SkillsComponent } from '@features/skills/skills.component';
+import { initRevealObserver } from '@utils/viewport.util';
+
+/**
+ * Root shell component that hosts all portfolio sections on the main page.
+ */
 @Component({
   selector: 'app-main-portfolio',
   standalone: true,
@@ -27,8 +31,10 @@ import { ContactComponent } from '../contact/contact.component';
   templateUrl: './main-portfolio.component.html'
 })
 export class MainPortfolioComponent implements OnInit {
-  ngOnInit(): void {
-    // Initialize scroll reveal animations for main page components
+  /**
+   * Angular lifecycle hook — initialises scroll-reveal animations after the DOM settles.
+   */
+  public ngOnInit(): void {
     setTimeout(() => initRevealObserver(), 200);
   }
 }

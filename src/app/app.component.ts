@@ -1,11 +1,16 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ThemeService } from './core/services/theme.service';
-import { ScrollService } from './core/services/scroll.service';
-import { NavbarComponent } from './features/navbar/navbar.component';
-import { FooterComponent } from './features/footer/footer.component';
 
+import { FooterComponent } from '@features/footer/footer.component';
+import { NavbarComponent } from '@features/navbar/navbar.component';
+import { ScrollService } from '@services/scroll.service';
+import { ThemeService } from '@services/theme.service';
+
+/**
+ * Root component of the portfolio application.
+ * Initialises global services like theme and scroll tracking.
+ */
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,12 +24,19 @@ import { FooterComponent } from './features/footer/footer.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+  /**
+   * @param themeService - Service for managing theme settings
+   * @param scrollService - Service for managing scroll interactions
+   */
   constructor(
-    private themeService: ThemeService,
-    private scrollService: ScrollService
+    @Inject(ThemeService) private readonly themeService: ThemeService,
+    @Inject(ScrollService) private readonly scrollService: ScrollService
   ) {}
 
-  ngOnInit(): void {
+  /**
+   * Initialises theme and scroll services on component init.
+   */
+  public ngOnInit(): void {
     this.themeService.init();
     this.scrollService.init();
   }

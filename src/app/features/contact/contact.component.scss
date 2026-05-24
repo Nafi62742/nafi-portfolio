@@ -1,1 +1,38 @@
-/* All styles moved to global styles.scss via Tailwind */
+.contact-section {
+  background: var(--bg-surface);
+}
+
+.contact-title {
+  font-size: clamp(1.875rem, 4vw, 2.25rem);
+}
+
+.info-icon-container {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.social-link {
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+}
+
+.copied-indicator {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.form-input, .form-textarea {
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  transition: all 0.25s ease;
+
+  &:focus {
+    border-color: rgba(99, 102, 241, 0.5);
+    background: rgba(99, 102, 241, 0.05);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  }
+}
+
+.success-message {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}

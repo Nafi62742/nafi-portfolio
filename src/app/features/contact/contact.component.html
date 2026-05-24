@@ -1,9 +1,9 @@
-<section class="py-24 relative" style="background: var(--bg-surface)">
+<section class="contact-section py-24 relative">
   <div class="w-full max-w-[1200px] mx-auto px-6 lg:px-8">
 
     <div class="text-center mb-12 reveal">
       <span class="label-tag-primary">{{ t.t('contact.section_label') }}</span>
-      <h2 class="gradient-text font-extrabold mt-4 mb-3" style="font-size: clamp(1.875rem, 4vw, 2.25rem)">
+      <h2 class="contact-title gradient-text font-extrabold mt-4 mb-3">
         {{ t.t('contact.title') }}
       </h2>
       <p class="text-text-secondary max-w-[540px] mx-auto">{{ t.t('contact.subtitle') }}</p>
@@ -15,8 +15,7 @@
       <div class="reveal delay-1">
         <div class="glass-card bg-bg-card p-6 mb-5 flex flex-col gap-5">
           <div *ngFor="let info of contactInfo" class="flex items-center gap-4">
-            <div class="flex items-center justify-center w-11 h-11 rounded-xl flex-shrink-0 text-sm text-primary-light"
-                 style="background: rgba(99,102,241,0.12)">
+            <div class="info-icon-container flex items-center justify-center w-11 h-11 rounded-xl flex-shrink-0 text-sm text-primary-light">
               <i class="fa-solid" [ngClass]="info.icon"></i>
             </div>
             <div class="flex flex-col gap-0.5">
@@ -40,15 +39,13 @@
                [target]="s.label === 'Email' ? '_self' : '_blank'"
                (click)="s.label === 'Email' ? copyEmail('nafiahmed318@gmail.com', $event) : null"
                [id]="'contact-' + s.label.toLowerCase()"
-               class="flex items-center justify-center w-11 h-11 rounded-full text-text-secondary text-base transition-all duration-250 hover:-translate-y-0.5 hover:text-primary-light"
-               style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07)"
+               class="social-link flex items-center justify-center w-11 h-11 rounded-full text-text-secondary text-base transition-all duration-250 hover:-translate-y-0.5 hover:text-primary-light"
                [attr.aria-label]="s.label">
               <i [class]="s.icon"></i>
             </a>
 
             <!-- Copied Indicator -->
-            <span *ngIf="copied()" class="text-xs text-success font-semibold animate-fade-in flex items-center gap-1.5 px-3 py-1.5 rounded-lg"
-                  style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2)">
+            <span *ngIf="copied()" class="copied-indicator text-xs text-success font-semibold animate-fade-in flex items-center gap-1.5 px-3 py-1.5 rounded-lg">
               <i class="fa-solid fa-circle-check"></i>
               Copied!
             </span>
@@ -64,30 +61,21 @@
             <label for="contact-name" class="text-sm font-medium text-text-secondary">{{ t.t('contact.name_label') }}</label>
             <input id="contact-name" type="text" [(ngModel)]="name" name="name"
                    [placeholder]="'e.g. John Doe'" required
-                   class="w-full px-4 py-3 rounded-xl text-sm text-text-primary font-sans transition-all duration-250 resize-y placeholder:text-text-muted focus:outline-none"
-                   style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.07)"
-                   onfocus="this.style.borderColor='rgba(99,102,241,0.5)'; this.style.background='rgba(99,102,241,0.05)'; this.style.boxShadow='0 0 0 3px rgba(99,102,241,0.1)'"
-                   onblur="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(0,0,0,0.2)'; this.style.boxShadow='none'" />
+                   class="form-input w-full px-4 py-3 rounded-xl text-sm text-text-primary font-sans transition-all duration-250 resize-y placeholder:text-text-muted focus:outline-none" />
           </div>
 
           <div class="flex flex-col gap-2">
             <label for="contact-email" class="text-sm font-medium text-text-secondary">{{ t.t('contact.email_label') }}</label>
             <input id="contact-email" type="email" [(ngModel)]="email" name="email"
                    [placeholder]="'e.g. john@example.com'" required
-                   class="w-full px-4 py-3 rounded-xl text-sm text-text-primary font-sans transition-all duration-250 placeholder:text-text-muted focus:outline-none"
-                   style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.07)"
-                   onfocus="this.style.borderColor='rgba(99,102,241,0.5)'; this.style.background='rgba(99,102,241,0.05)'; this.style.boxShadow='0 0 0 3px rgba(99,102,241,0.1)'"
-                   onblur="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(0,0,0,0.2)'; this.style.boxShadow='none'" />
+                   class="form-input w-full px-4 py-3 rounded-xl text-sm text-text-primary font-sans transition-all duration-250 placeholder:text-text-muted focus:outline-none" />
           </div>
 
           <div class="flex flex-col gap-2">
             <label for="contact-message" class="text-sm font-medium text-text-secondary">{{ t.t('contact.message_label') }}</label>
             <textarea id="contact-message" [(ngModel)]="message" name="message" rows="5"
                       [placeholder]="'Your message...'" required
-                      class="w-full px-4 py-3 rounded-xl text-sm text-text-primary font-sans transition-all duration-250 resize-y placeholder:text-text-muted focus:outline-none"
-                      style="background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.07)"
-                      onfocus="this.style.borderColor='rgba(99,102,241,0.5)'; this.style.background='rgba(99,102,241,0.05)'; this.style.boxShadow='0 0 0 3px rgba(99,102,241,0.1)'"
-                      onblur="this.style.borderColor='rgba(255,255,255,0.07)'; this.style.background='rgba(0,0,0,0.2)'; this.style.boxShadow='none'"></textarea>
+                      class="form-textarea w-full px-4 py-3 rounded-xl text-sm text-text-primary font-sans transition-all duration-250 resize-y placeholder:text-text-muted focus:outline-none"></textarea>
           </div>
 
           <button type="submit" id="btn-contact-submit"
@@ -107,8 +95,7 @@
           </button>
 
           <div *ngIf="success()"
-               class="flex items-center gap-3 p-4 rounded-xl text-success text-sm font-medium animate-fade-up"
-               style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25)">
+               class="success-message flex items-center gap-3 p-4 rounded-xl text-success text-sm font-medium animate-fade-up">
             <i class="fa-solid fa-circle-check"></i>
             {{ t.t('contact.success_msg') }}
           </div>

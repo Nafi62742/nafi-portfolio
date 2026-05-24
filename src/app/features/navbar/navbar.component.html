@@ -1,4 +1,5 @@
 <nav class="navbar-root fixed top-0 left-0 right-0 z-[1000] h-[72px] transition-all duration-[400ms]"
+     [class.scrolled]="scroll.isScrolled()"
      [style.background]="scroll.isScrolled() ? 'var(--navbar-bg)' : 'transparent'"
      [style.backdropFilter]="scroll.isScrolled() ? 'blur(24px)' : 'none'"
      [style.borderBottom]="scroll.isScrolled() ? '1px solid var(--border-color)' : 'none'"
@@ -6,15 +7,27 @@
 
   <div class="w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex items-center justify-between h-full gap-6">
 
-    <!-- Logo -->
-    <button class="bg-transparent border-none font-mono text-lg font-bold cursor-pointer flex items-center gap-0.5 transition-all duration-250 whitespace-nowrap hover:scale-[1.03]"
-            (click)="navigate('hero')" id="nav-logo">
-      <span class="text-text-muted">&lt;</span>
-      <span class="text-text-primary">Nafi</span>
-      <span class="text-[#06b6d4]">.</span>
-      <span class="gradient-text">dev</span>
-      <span class="text-text-muted">/&gt;</span>
-    </button>
+    <!-- Logo & Status -->
+    <div class="flex items-center gap-3.5">
+      <button class="bg-transparent border-none font-mono text-lg font-bold cursor-pointer flex items-center gap-0.5 transition-all duration-250 whitespace-nowrap hover:scale-[1.03]"
+              (click)="navigate('hero')" id="nav-logo">
+        <span class="text-text-muted">&lt;</span>
+        <span class="text-text-primary">Nafi</span>
+        <span class="text-[#06b6d4]">.</span>
+        <span class="gradient-text">dev</span>
+        <span class="text-text-muted">/&gt;</span>
+      </button>
+
+      <!-- Status Badge -->
+      <div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase status-badge">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 status-badge-dot-ping"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 status-badge-dot"></span>
+        </span>
+        <span class="hidden lg:inline">Available for new opportunities</span>
+        <span class="inline lg:hidden">Available</span>
+      </div>
+    </div>
 
     <!-- Desktop Nav Links -->
     <ul class="hidden lg:flex list-none items-center gap-1" role="navigation">

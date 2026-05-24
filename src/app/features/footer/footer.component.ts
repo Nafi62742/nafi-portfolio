@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateService } from '../../core/services/translate.service';
-import { ScrollService } from '../../core/services/scroll.service';
+import { Component, Inject } from '@angular/core';
 
+import { ScrollService } from '@services/scroll.service';
+import { TranslateService } from '@services/translate.service';
+
+/**
+ * Footer component displaying copyright, year, and back-to-top navigation.
+ */
 @Component({
   selector: 'app-footer',
   standalone: true,
@@ -11,6 +15,15 @@ import { ScrollService } from '../../core/services/scroll.service';
   styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
-  year = new Date().getFullYear();
-  constructor(public t: TranslateService, public scroll: ScrollService) {}
+  /** Current calendar year, used in the copyright notice. */
+  public readonly year: number = new Date().getFullYear();
+
+  /**
+   * @param t - Translation service for i18n labels
+   * @param scroll - Scroll service for back-to-top navigation
+   */
+  constructor(
+    @Inject(TranslateService) public readonly t: TranslateService,
+    @Inject(ScrollService) public readonly scroll: ScrollService
+  ) {}
 }

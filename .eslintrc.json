@@ -1,0 +1,168 @@
+{
+  "root": true,
+  "ignorePatterns": ["projects/**/*", "*.html"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.js"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "project": ["tsconfig.app.json", "tsconfig.json", "tsconfig.node.json"],
+        "createDefaultProgram": true
+      },
+      "plugins": ["@typescript-eslint", "jsdoc"],
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:jsdoc/recommended",
+        "plugin:import/recommended",
+        "plugin:import/typescript"
+      ],
+      "rules": {
+        /**
+         * Disables the requirement for using Angular's `inject` function for dependency injection.
+         * Constructor-based dependency injection is allowed.
+         */
+        "@angular-eslint/prefer-inject": "off",
+        /**
+         * Disables the requirement for implementing lifecycle interfaces.
+         * Implementing lifecycle interfaces is optional.
+         * Lifecycle methods can be defined without explicitly implementing the corresponding interfaces.
+         */
+        "@angular-eslint/use-lifecycle-interface": "off",
+        /**
+         * If lifecycle methods are empty, it will be reported as an error.
+         * Implementing lifecycle interfaces without defining the corresponding methods is discouraged.
+         */
+        "@angular-eslint/no-empty-lifecycle-method": "error",
+        /**
+         * Disables prevention of using wrapper object types like `String`, `Number`, and `Boolean`.
+         * primitive types like `string`, `number`, and `boolean` are preferable.
+         */
+        "@typescript-eslint/no-wrapper-object-types": "off",
+        /**
+         * If there is unused variables, it will be reported as an error.
+         */
+        "@typescript-eslint/no-unused-vars": "error",
+        /**
+         * Using `any` type is not allowed.
+         */
+        "@typescript-eslint/no-explicit-any": "error",
+        /**
+         * Enforces the use of `const` for variables that are never reassigned after declaration.
+         * Using `let` for variables that are not reassigned is discouraged.
+         */
+        "prefer-const": "error",
+        /**
+         * Disallows `console.log` and `console.debug`.
+         * Only `console.error` and `console.warn` are allowed (in error handlers only).
+         */
+        // "no-console": [
+        //     "error",
+        //     {
+        //         "allow": [
+        //             "error",
+        //             "warn"
+        //         ]
+        //     }
+        // ],
+        /**
+         * Disallows using empty string literals (`''`) anywhere in the code.
+         * Any assignment like `const name = ''` will be reported as an error.
+         */
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "Literal[value='']",
+            "message": "Empty string '' is not allowed."
+          }
+        ],
+        /**
+         * Enforces explicit type annotations for all variables.
+         * Variables declared with `let` or `const` must have a type.
+         * Variables initialized with functions are also required to have type annotations.
+         */
+        "@typescript-eslint/typedef": [
+          "error",
+          {
+            /**
+             * Requires explicit types for all variables declared with let or const.
+             */
+            "variableDeclaration": true,
+            /**
+             * Ensures variables initialized with function calls also have type annotations.
+             * Setting this to false enforces strict typing everywhere.
+             */
+            "variableDeclarationIgnoreFunction": false
+          }
+        ],
+        /**
+         * Disallows relative imports (./ or ../) and enforces the use of path aliases.
+         * For example, use `@pages/page` instead of `../../pages/page`.
+         */
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["./*", "../*", "../../*"],
+                "message": "Relative imports are forbidden. Use path aliases like @pages/page instead."
+              }
+            ]
+          }
+        ],
+        /** Enforce JSDoc comments for functions and methods */
+        "jsdoc/require-jsdoc": [
+          "error",
+          {
+            "require": {
+              "FunctionDeclaration": true,
+              "MethodDefinition": true,
+              "ClassDeclaration": true,
+              "ArrowFunctionExpression": false,
+              "FunctionExpression": false
+            },
+            "checkConstructors": false,
+            "contexts": [
+              "MethodDefinition[accessibility='private']" // explicitly enforce private methods
+            ]
+          }
+        ],
+        /** Require descriptions for @param and @returns */
+        "jsdoc/require-param": "error",
+        "jsdoc/require-param-type": "off",
+        "jsdoc/require-returns": "error",
+        "jsdoc/require-returns-type": "off",
+        "jsdoc/check-tag-names": "error",
+        "jsdoc/check-param-names": "error",
+        "jsdoc/check-types": "error",
+        // "jsdoc/newline-after-description": "error",
+        "jsdoc/tag-lines": "off",
+        "import/order": [
+          "error",
+          {
+            "alphabetize": {
+              "order": "asc",
+              "caseInsensitive": true
+            },
+            "groups": [
+              "builtin",
+              "external",
+              "internal",
+              ["parent", "sibling", "index"]
+            ]
+          }
+        ]
+      },
+      "settings": {
+        "jsdoc": {
+          "mode": "typescript"
+        },
+        "import/resolver": {
+          "typescript": {
+            "project": ["tsconfig.app.json", "tsconfig.json"]
+          }
+        }
+      }
+    }
+  ]
+}

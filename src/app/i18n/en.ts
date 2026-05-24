@@ -1,4 +1,106 @@
-export const EN = {
+/**
+ * Schema defining the structure of translation dictionary files.
+ */
+export interface TranslationSchema {
+  nav: {
+    home:         string;
+    about:        string;
+    skills:       string;
+    experience:   string;
+    projects:     string;
+    publications: string;
+    education:    string;
+    contact:      string;
+    resume:       string;
+  };
+  hero: {
+    greeting:     string;
+    name:         string;
+    role:         string;
+    roles:        Array<string>;
+    tagline:      string;
+    cta_projects: string;
+    cta_contact:  string;
+    cta_resume:   string;
+    scroll_hint:  string;
+  };
+  about: {
+    section_label:  string;
+    title:          string;
+    bio_1:          string;
+    bio_2:          string;
+    bio_3:          string;
+    stat_exp:       string;
+    stat_projects:  string;
+    stat_databases: string;
+    stat_devops:    string;
+  };
+  skills: {
+    section_label: string;
+    title:         string;
+    subtitle:      string;
+    cat_mobile:    string;
+    cat_frontend:  string;
+    cat_backend:   string;
+    cat_database:  string;
+    cat_cloud:     string;
+    cat_tools:     string;
+  };
+  experience: {
+    section_label: string;
+    title:         string;
+    subtitle:      string;
+    present:       string;
+    internship:    string;
+    fulltime:      string;
+  };
+  projects: {
+    section_label: string;
+    title:         string;
+    subtitle:      string;
+    view_all:      string;
+    tech_used:     string;
+    role:          string;
+  };
+  publications: {
+    section_label: string;
+    title:         string;
+    subtitle:      string;
+    published_in:  string;
+    year:          string;
+    authors:       string;
+  };
+  education: {
+    section_label: string;
+    title:         string;
+    subtitle:      string;
+    gpa:           string;
+    cgpa:          string;
+    coursework:    string;
+  };
+  contact: {
+    section_label: string;
+    title:         string;
+    subtitle:      string;
+    name_label:    string;
+    email_label:   string;
+    message_label: string;
+    send_btn:      string;
+    sending:       string;
+    success_msg:   string;
+    or_reach:      string;
+    location:      string;
+  };
+  footer: {
+    built_with:    string;
+    rights:        string;
+  };
+}
+
+/**
+ * English translation dictionary.
+ */
+export const EN: TranslationSchema = {
   nav: {
     home:         'Home',
     about:        'About',
