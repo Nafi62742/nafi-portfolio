@@ -1,0 +1,79 @@
+<section class="experience-section">
+  <div class="experience-container">
+
+    <div class="experience-header reveal">
+      <span class="label-tag-accent">{{ t.t('experience.section_label') }}</span>
+      <h2 class="experience-title">
+        {{ t.t('experience.title') }}
+      </h2>
+      <p class="experience-subtitle">{{ t.t('experience.subtitle') }}</p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="experience-timeline">
+      @for (exp of experiences; track exp; let i = $index; let last = $last) {
+        <div
+          class="timeline-row reveal"
+          [class.pb-8]="!last"
+          [class.delay-1]="i === 0"
+          [class.delay-2]="i === 1"
+          [class.delay-3]="i === 2"
+          [class.delay-4]="i === 3"
+          [class.delay-5]="i === 4">
+          <!-- Marker -->
+          <div class="timeline-marker-col">
+            <div class="timeline-marker-dot">
+              <i class="fa-solid" [ngClass]="exp.icon"></i>
+            </div>
+            @if (!last) {
+              <div class="timeline-line"></div>
+            }
+          </div>
+          <!-- Card -->
+          <div class="experience-card glass-card">
+            <!-- Header -->
+            <div class="card-header">
+              <div>
+                <h3 class="experience-role">{{ exp.role }}</h3>
+                <div class="experience-details">
+                  <span class="detail-item">
+                    <i class="fa-solid fa-building"></i>{{ exp.company }}
+                  </span>
+                  <span class="detail-item">
+                    <i class="fa-solid fa-location-dot"></i>{{ exp.location }}
+                  </span>
+                </div>
+              </div>
+              <div class="meta-col">
+                <span class="experience-period">
+                  {{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}
+                </span>
+                <span class="experience-badge"
+                  [class.badge-fulltime]="exp.type === 'fulltime'"
+                  [class.badge-contract]="exp.type !== 'fulltime'">
+                  {{ t.t('experience.' + exp.type) }}
+                </span>
+              </div>
+            </div>
+            <!-- Bullets -->
+            <ul class="bullets-list">
+              @for (bullet of exp.bullets; track bullet) {
+                <li class="bullet-item">
+                  <i class="fa-solid fa-chevron-right bullet-chevron"></i>
+                  {{ bullet }}
+                </li>
+              }
+            </ul>
+            <!-- Tech -->
+            <div class="tech-wrapper">
+              @for (tech of exp.tech; track tech) {
+                <span class="tech-badge">{{ tech }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

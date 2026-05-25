@@ -1,0 +1,37 @@
+<section class="about-section">
+  <div class="about-container">
+    <div class="about-header reveal">
+      <span class="label-tag-accent">{{ t.t('about.section_label') }}</span>
+    </div>
+
+    <div class="about-content">
+      <!-- Text side -->
+      <div class="about-text-col">
+        <h2 class="about-title reveal delay-1">{{ t.t('about.title') }}</h2>
+
+        <p class="about-bio reveal delay-2">{{ t.t('about.bio_1') }}</p>
+        <p class="about-bio reveal delay-3">{{ t.t('about.bio_2') }}</p>
+        <p class="about-bio reveal delay-4">{{ t.t('about.bio_3') }}</p>
+      </div>
+
+      <!-- Stats side -->
+      <div class="about-stats-grid">
+        @for (stat of stats; track stat; let i = $index) {
+        <div
+          class="about-stat-card glass-card reveal group"
+          [class.delay-2]="i === 0"
+          [class.delay-3]="i === 1"
+          [class.delay-4]="i === 2"
+          [class.delay-5]="i === 3"
+        >
+          <div class="about-stat-icon-wrapper">
+            <i class="fa-solid" [ngClass]="stat.icon"></i>
+          </div>
+          <div class="about-stat-value">{{ stat.value }}</div>
+          <div class="about-stat-label">{{ t.t(stat.key) }}</div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

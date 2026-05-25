@@ -1,0 +1,66 @@
+<section class="publications-section">
+  <div class="publications-container">
+
+    <div class="publications-header reveal">
+      <span class="label-tag-accent">{{ t.t('publications.section_label') }}</span>
+      <h2 class="publications-title">
+        {{ t.t('publications.title') }}
+      </h2>
+      <p class="publications-subtitle">{{ t.t('publications.subtitle') }}</p>
+    </div>
+
+    <div class="publications-grid">
+      @for (pub of publications; track pub; let i = $index) {
+        <div
+          class="pub-card glass-card reveal"
+          [class.delay-1]="i === 0"
+          [class.delay-2]="i === 1"
+          [class.delay-3]="i === 2"
+          [class.delay-4]="i === 3"
+          [style.--pub-color]="pub.color"
+          [style.borderLeft]="'3px solid ' + pub.color">
+          <!-- Icon -->
+          <div class="pub-icon-container" [style.color]="pub.color">
+            <i class="fa-solid" [ngClass]="pub.icon"></i>
+          </div>
+          <!-- Content -->
+          <div class="pub-content">
+            <h3 class="pub-title">{{ pub.title }}</h3>
+            <p class="pub-abstract">{{ pub.abstract }}</p>
+            <div class="pub-meta-box">
+              <span class="pub-meta-item meta-venue">
+                <i class="fa-solid fa-bookmark text-accent flex-shrink-0 mt-0.5"></i>
+                {{ pub.venue }}
+              </span>
+              <span class="pub-meta-item meta-detail">
+                <i class="fa-regular fa-calendar text-accent flex-shrink-0 mt-0.5"></i>
+                {{ pub.year }}
+              </span>
+              <span class="pub-meta-item meta-detail">
+                <i class="fa-solid fa-users text-accent flex-shrink-0 mt-0.5"></i>
+                {{ pub.authors }}
+              </span>
+            </div>
+            <div class="pub-links-row">
+              <a [routerLink]="['/publication', toSlug(pub.title)]"
+                class="pub-link-btn"
+                style="color: var(--text-secondary)">
+                <i class="fa-solid fa-arrow-right"></i>
+                View Details
+              </a>
+              @if (pub.link) {
+                <a [href]="pub.link" target="_blank"
+                  class="pub-link-btn"
+                  [style.color]="pub.color">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  View Publication
+                </a>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,108 @@
+.navbar-root {
+  @apply fixed top-0 left-0 right-0 z-[1000] h-[72px] transition-all duration-[400ms];
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
+  box-shadow: none;
+
+  &.scrolled {
+    background: var(--navbar-bg) !important;
+    backdrop-filter: blur(24px) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    box-shadow: var(--navbar-shadow) !important;
+  }
+}
+
+.navbar-container {
+  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex items-center justify-between h-full gap-6;
+}
+
+.navbar-logo-group {
+  @apply flex items-center gap-3.5;
+}
+
+.nav-logo-btn {
+  @apply bg-transparent border-none font-mono text-lg font-bold cursor-pointer flex items-center gap-0.5 whitespace-nowrap;
+  transition: all 0.25s ease;
+
+  &:hover {
+    @apply scale-[1.03];
+  }
+}
+
+.nav-links-list {
+  @apply hidden lg:flex list-none items-center gap-1;
+}
+
+.nav-link-btn {
+  @apply relative bg-transparent border-none px-3 py-2 text-sm font-medium cursor-pointer rounded-xl;
+  color: var(--text-secondary);
+  transition: all 0.25s ease;
+
+  &.active {
+    color: var(--text-primary);
+  }
+}
+
+.actions-group {
+  @apply flex items-center gap-3;
+}
+
+.theme-toggle-btn {
+  @apply flex items-center justify-center w-9 h-9 rounded-full text-text-secondary text-sm cursor-pointer;
+  background: var(--social-icon-bg);
+  border: 1px solid var(--social-icon-border);
+  transition: all 0.25s ease;
+
+  &:hover {
+    @apply text-text-primary;
+  }
+}
+
+.hamburger-btn {
+  @apply flex lg:hidden flex-col justify-center gap-[5px] w-8 h-8 bg-transparent border-none cursor-pointer p-1;
+}
+
+.hamburger-line {
+  @apply block h-0.5 rounded-sm transition-all duration-[250ms] origin-center;
+  background: var(--text-secondary);
+}
+
+.mobile-menu {
+  @apply lg:hidden absolute left-0 right-0 px-6 pb-8 pt-4 transition-all duration-[400ms] border-t;
+  top: 72px;
+  background: var(--mobile-menu-bg);
+  backdrop-filter: blur(30px);
+  border-color: var(--border-color);
+
+  &.mobile-menu-closed {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+  }
+
+  &.mobile-menu-open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
+.mobile-links-list {
+  @apply list-none flex flex-col gap-1;
+}
+
+.mobile-link-btn {
+  @apply block w-full bg-transparent border-none px-4 py-3 text-base font-medium cursor-pointer text-left rounded-xl;
+  color: var(--text-secondary);
+  transition: all 0.25s ease;
+
+  &.active {
+    color: var(--text-primary);
+    background: var(--highlight-bg);
+  }
+}
+
+.mobile-resume-container {
+  @apply mt-4 px-4;
+}

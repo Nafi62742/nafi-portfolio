@@ -1,0 +1,198 @@
+@if (project(); as p) {
+  <div class="project-details-container">
+    <div class="project-details-inner">
+      <!-- Navigation Back Link -->
+      <button (click)="goBack()" class="btn-back group">
+        <i class="fa-solid fa-arrow-left transition-transform duration-200 group-hover:-translate-x-1"></i>
+        <span>Back to Projects</span>
+      </button>
+
+      <!-- Project Header -->
+      <div class="project-header-card glass-card" [style.--accent-color]="p.color">
+        <!-- Colored Background Accent Glow -->
+        <div class="header-glow" [style.background]="p.color"></div>
+        <div class="header-identity">
+          <div class="icon-wrapper" [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'">
+            <i class="fa-solid" [ngClass]="p.icon" [style.color]="p.color"></i>
+          </div>
+          <div>
+            <div class="badge-row">
+              <span class="badge"
+                [style.background]="p.category === 'office' ? 'rgba(99, 102, 241, 0.12)' : 'rgba(16, 185, 129, 0.12)'"
+                [style.color]="p.category === 'office' ? '#818cf8' : '#34d399'">
+                {{ p.category === 'office' ? 'Office Project' : 'Personal Project' }}
+              </span>
+              <span class="type-tag">{{ p.type }}</span>
+            </div>
+            <h1 class="project-title-text">{{ p.name }}</h1>
+          </div>
+        </div>
+        <!-- Quick Action Buttons -->
+        <div class="quick-actions-row">
+          @if (p.github) {
+            <a [href]="p.github" target="_blank" class="btn-action">
+              <i class="fa-brands fa-github"></i>
+              <span>Repository</span>
+            </a>
+          }
+          @if (p.link) {
+            <a [href]="p.link" target="_blank" class="btn-action btn-highlight" [style.background]="p.color">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span>Live Demo</span>
+            </a>
+          }
+          @if (p.playstore) {
+            <a [href]="p.playstore" target="_blank" class="btn-action">
+              <i class="fa-brands fa-google-play"></i>
+              <span>Play Store</span>
+            </a>
+          }
+          @if (p.appstore) {
+            <a [href]="p.appstore" target="_blank" class="btn-action">
+              <i class="fa-brands fa-apple"></i>
+              <span>App Store</span>
+            </a>
+          }
+          @if (p.additionalLinks) {
+            @for (al of p.additionalLinks; track al) {
+              <a [href]="al.url" target="_blank" class="btn-action">
+                <i class="fa-solid" [ngClass]="al.icon"></i>
+                <span>{{ al.label }}</span>
+              </a>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="details-grid">
+        <!-- Left Column: Details & Media -->
+        <div class="left-column">
+          <!-- About Section -->
+          <div class="overview-card glass-card">
+            <h2 class="section-title">
+              <i class="fa-solid fa-circle-info text-primary"></i>
+              <span>Project Overview</span>
+            </h2>
+            <p class="overview-desc">{{ p.longDescription || p.description }}</p>
+            <!-- Key Highlights Block -->
+            <div class="highlight-block" [style.borderLeftColor]="p.color">
+              <h3 class="highlight-title">
+                <i class="fa-solid fa-circle-check" [style.color]="p.color"></i>
+                <span>Key Technical Highlights</span>
+              </h3>
+              <p class="highlight-desc">{{ p.highlights }}</p>
+            </div>
+          </div>
+
+          <!-- Screenshots Showcase -->
+          @if (p.screenshots && p.screenshots.length > 0) {
+            <div class="overview-card glass-card">
+              <h2 class="section-title">
+                <i class="fa-solid fa-image text-accent"></i>
+                <span>Interface Screenshots</span>
+              </h2>
+              <div class="screenshot-showcase">
+                @for (screenshot of p.screenshots; track screenshot) {
+                  <img
+                    [src]="screenshot"
+                    [alt]="p.name + ' Screenshot'"
+                    class="screenshot-img">
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Video Demo Section -->
+          @if (safeYoutubeUrl(); as yUrl) {
+            <div class="overview-card glass-card">
+              <h2 class="section-title">
+                <i class="fa-brands fa-youtube text-[#ef4444]"></i>
+                <span>Video Demonstration</span>
+              </h2>
+              <div class="video-container">
+                <iframe [src]="yUrl"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowfullscreen
+                  class="video-iframe"></iframe>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Right Column: Metadata Sidebar -->
+        <div class="right-column">
+          <!-- Tech Stack Sidebar -->
+          <div class="sidebar-card glass-card">
+            <h2 class="sidebar-title">
+              <i class="fa-solid fa-code text-primary"></i>
+              <span>Technologies Used</span>
+            </h2>
+            <div class="tech-badge-container">
+              @for (tech of p.tech; track tech) {
+                <span class="tech-badge-large">{{ tech }}</span>
+              }
+            </div>
+          </div>
+
+          <!-- Project Meta Sidebar -->
+          <div class="details-sidebar-card glass-card">
+            <h2 class="details-sidebar-title">
+              <i class="fa-solid fa-list-check text-accent"></i>
+              <span>Project Details</span>
+            </h2>
+            <div class="meta-item">
+              <span class="meta-label">Category</span>
+              <span class="meta-val">{{ p.category === 'office' ? 'Office Development' : 'Personal Sandbox' }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Platform Type</span>
+              <span class="meta-val">{{ p.type }}</span>
+            </div>
+            @if (p.github || p.link || p.playstore || p.appstore || p.additionalLinks?.length) {
+              <div class="meta-item">
+                <span class="meta-label">Links</span>
+                <div class="sidebar-links-col">
+                  @if (p.github) {
+                    <a [href]="p.github" target="_blank" class="meta-link">
+                      <i class="fa-brands fa-github"></i>
+                      <span>GitHub Source</span>
+                    </a>
+                  }
+                  @if (p.link) {
+                    <a [href]="p.link" target="_blank" class="meta-link">
+                      <i class="fa-solid fa-globe"></i>
+                      <span>Live Website</span>
+                    </a>
+                  }
+                  @if (p.playstore) {
+                    <a [href]="p.playstore" target="_blank" class="meta-link">
+                      <i class="fa-brands fa-google-play"></i>
+                      <span>Google Play Store</span>
+                    </a>
+                  }
+                  @if (p.appstore) {
+                    <a [href]="p.appstore" target="_blank" class="meta-link">
+                      <i class="fa-brands fa-apple"></i>
+                      <span>Apple App Store</span>
+                    </a>
+                  }
+                  @if (p.additionalLinks) {
+                    @for (al of p.additionalLinks; track al) {
+                      <a [href]="al.url" target="_blank" class="meta-link">
+                        <i class="fa-solid" [ngClass]="al.icon"></i>
+                        <span>{{ al.label }}</span>
+                      </a>
+                    }
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

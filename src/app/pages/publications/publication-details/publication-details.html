@@ -1,0 +1,123 @@
+@if (publication(); as p) {
+  <div class="pub-details-container">
+    <div class="pub-details-inner">
+      <!-- Back Button -->
+      <button (click)="goBack()" class="btn-back group">
+        <i class="fa-solid fa-arrow-left transition-transform duration-200 group-hover:-translate-x-1"></i>
+        <span>Back to Publications</span>
+      </button>
+
+      <!-- Publication Header Card -->
+      <div class="pub-header-card" [style.--accent-color]="p.color">
+        <!-- Glow Accent -->
+        <div class="header-glow" [style.background]="p.color"></div>
+        <div class="header-layout">
+          <div class="header-identity">
+            <!-- Icon -->
+            <div class="icon-wrapper"
+              [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'">
+              <i class="fa-solid" [ngClass]="p.icon" [style.color]="p.color"></i>
+            </div>
+            <div>
+              <div class="badge-row">
+                <span class="pub-tag" [style.color]="p.color"
+                  [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.1)'">
+                  <i class="fa-solid fa-flask-vial"></i> Research Paper
+                </span>
+                <span class="year-tag">{{ p.year }}</span>
+              </div>
+              <h1 class="pub-title-text">{{ p.title }}</h1>
+              <p class="pub-authors">
+                <i class="fa-solid fa-users mr-1"></i>{{ p.authors }}
+              </p>
+            </div>
+          </div>
+          <!-- Action Button -->
+          <div class="action-col">
+            @if (p.link) {
+              <a [href]="p.link" target="_blank"
+                class="btn-action btn-highlight"
+                [style.background]="p.color">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                <span>View Publication</span>
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="details-grid">
+        <!-- Left: Overview -->
+        <div class="left-column">
+          <!-- Abstract -->
+          <div class="overview-card">
+            <h2 class="section-title">
+              <i class="fa-solid fa-quote-left text-primary"></i>
+              <span>Abstract</span>
+            </h2>
+            <p class="abstract-text" [style.borderLeftColor]="p.color">
+              {{ p.abstract }}
+            </p>
+          </div>
+          <!-- Full Description -->
+          @if (p.longDescription) {
+            <div class="overview-card">
+              <h2 class="section-title">
+                <i class="fa-solid fa-circle-info text-primary"></i>
+                <span>Research Overview</span>
+              </h2>
+              <p class="overview-desc">{{ p.longDescription }}</p>
+            </div>
+          }
+        </div>
+
+        <!-- Right: Metadata Sidebar -->
+        <div class="right-column">
+          <!-- Publication Details -->
+          <div class="details-sidebar-card">
+            <h2 class="details-sidebar-title">
+              <i class="fa-solid fa-list-check text-accent"></i>
+              <span>Publication Details</span>
+            </h2>
+            <div class="meta-item">
+              <span class="meta-label">Venue / Journal</span>
+              <span class="meta-val">{{ p.venue }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Year</span>
+              <span class="meta-val">{{ p.year }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Authors</span>
+              <span class="meta-val">{{ p.authors }}</span>
+            </div>
+            @if (p.link) {
+              <div class="meta-item">
+                <span class="meta-label">DOI / Link</span>
+                <a [href]="p.link" target="_blank" class="meta-link mt-2">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  <span>Open Paper</span>
+                </a>
+              </div>
+            }
+          </div>
+          <!-- Keywords -->
+          @if (p.keywords && p.keywords.length) {
+            <div class="keywords-sidebar-card">
+              <h2 class="keywords-sidebar-title">
+                <i class="fa-solid fa-tags text-primary"></i>
+                <span>Keywords</span>
+              </h2>
+              <div class="keywords-badge-container">
+                @for (kw of p.keywords; track kw) {
+                  <span class="keyword-badge">{{ kw }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+}

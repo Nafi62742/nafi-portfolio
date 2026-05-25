@@ -1,0 +1,117 @@
+<section class="contact-section">
+  <div class="contact-container">
+
+    <div class="contact-header reveal">
+      <span class="label-tag-primary">{{ t.t('contact.section_label') }}</span>
+      <h2 class="contact-title gradient-text">
+        {{ t.t('contact.title') }}
+      </h2>
+      <p class="contact-subtitle">{{ t.t('contact.subtitle') }}</p>
+    </div>
+
+    <div class="contact-grid">
+
+      <!-- Info Panel -->
+      <div class="info-panel reveal delay-1">
+        <div class="info-card glass-card">
+          @for (info of contactInfo; track info) {
+            <div class="info-item">
+              <div class="info-icon-container">
+                <i class="fa-solid" [ngClass]="info.icon"></i>
+              </div>
+              <div class="info-text">
+                <span class="info-label">{{ info.label }}</span>
+                @if (info.href) {
+                  <a [href]="info.href"
+                    (click)="info.label === 'Email' ? copyEmail(info.value, $event) : null"
+                    class="info-link">
+                    {{ info.value }}
+                  </a>
+                } @else {
+                  <span class="info-value-static">{{ info.value }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <div>
+          <p class="social-prompt">{{ t.t('contact.or_reach') }}</p>
+          <div class="social-container">
+            @for (s of socials; track s) {
+              <a [href]="s.href"
+                [target]="s.label === 'Email' ? '_self' : '_blank'"
+                (click)="s.label === 'Email' ? copyEmail('nafiahmed318@gmail.com', $event) : null"
+                [id]="'contact-' + s.label.toLowerCase()"
+                class="social-link"
+                [attr.aria-label]="s.label">
+                <i [class]="s.icon"></i>
+              </a>
+            }
+
+            <!-- Copied Indicator -->
+            @if (copied()) {
+              <span class="copied-indicator">
+                <i class="fa-solid fa-circle-check"></i>
+                Copied!
+              </span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="form-panel glass-card reveal delay-2">
+        <form class="form-wrapper" (ngSubmit)="onSubmit()" #contactForm="ngForm" id="contact-form">
+
+          <div class="form-group">
+            <label for="contact-name" class="form-label">{{ t.t('contact.name_label') }}</label>
+            <input id="contact-name" type="text" [(ngModel)]="name" name="name"
+              [placeholder]="'e.g. John Doe'" required
+              class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-email" class="form-label">{{ t.t('contact.email_label') }}</label>
+            <input id="contact-email" type="email" [(ngModel)]="email" name="email"
+              [placeholder]="'e.g. john@example.com'" required
+              class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label for="contact-message" class="form-label">{{ t.t('contact.message_label') }}</label>
+            <textarea id="contact-message" [(ngModel)]="message" name="message" rows="5"
+              [placeholder]="'Your message...'" required
+              class="form-textarea"></textarea>
+          </div>
+
+          <button type="submit" id="btn-contact-submit"
+            class="form-submit-btn btn-primary"
+            [disabled]="sending() || !contactForm.valid">
+            @if (!sending()) {
+              <span>
+                <i class="fa-solid fa-paper-plane"></i>
+                {{ t.t('contact.send_btn') }}
+              </span>
+            }
+            @if (sending()) {
+              <span class="flex items-center gap-2">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                {{ t.t('contact.sending') }}
+              </span>
+            }
+          </button>
+
+          @if (success()) {
+            <div class="success-message">
+              <i class="fa-solid fa-circle-check"></i>
+              {{ t.t('contact.success_msg') }}
+            </div>
+          }
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>

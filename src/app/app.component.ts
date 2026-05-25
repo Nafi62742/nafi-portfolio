@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+
+import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
-import { FooterComponent } from '@features/footer/footer.component';
-import { NavbarComponent } from '@features/navbar/navbar.component';
 import { ScrollService } from '@services/scroll.service';
 import { ThemeService } from '@services/theme.service';
+import { FooterComponent } from '@shared-components/footer/footer';
+import { NavbarComponent } from '@shared-components/navbar/navbar';
 
 /**
  * Root component of the portfolio application.
@@ -15,23 +15,16 @@ import { ThemeService } from '@services/theme.service';
   selector: 'app-root',
   standalone: true,
   imports: [
-    CommonModule,
     RouterOutlet,
     NavbarComponent,
     FooterComponent
-  ],
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  /**
-   * @param themeService - Service for managing theme settings
-   * @param scrollService - Service for managing scroll interactions
-   */
-  constructor(
-    @Inject(ThemeService) private readonly themeService: ThemeService,
-    @Inject(ScrollService) private readonly scrollService: ScrollService
-  ) {}
+  private readonly themeService = inject(ThemeService);
+  private readonly scrollService = inject(ScrollService);
 
   /**
    * Initialises theme and scroll services on component init.

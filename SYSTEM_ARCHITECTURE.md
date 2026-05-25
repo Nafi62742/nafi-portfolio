@@ -2,7 +2,11 @@
 > Angular 17 standalone single-page portfolio. Read this before touching anything.
 
 > [!IMPORTANT]
-> **Git Rule:** DO NOT run any Git commands (such as git add, git commit, git push). All staging, committing, and pushing must be managed manually by the user.
+> **Developer Work Rules:**
+> 1. **No Git Actions:** DO NOT run any Git commands (such as `git add`, `git commit`, `git push`, `git pull`). Staging, committing, and pushing/pulling must be managed manually by the user. Do not push, commit, or pull on GitHub.
+> 2. **Do Not Build:** DO NOT run build commands (`npm run build` or `ng build`) during development unless explicitly requested or needed to check production bundle outputs.
+> 3. **Run Lint After Every Change:** ALWAYS run the linter (`npm run lint` or `ng lint`) after making any code or styling changes to ensure zero warnings or errors are introduced.
+> 4. **No Unnecessary Testing:** DO NOT test the project (e.g. running browser tests or launch tests) unless it is explicitly needed to debug a specific issue.
 
 ---
 
@@ -62,39 +66,46 @@ i:\Job\my portfolio\
     │
     └── app/
         ├── app.config.ts         ← provideRouter, provideAnimations, provideHttpClient
-        ├── app.routes.ts         ← single-page (no routes, just wildcard redirect)
-        ├── app.component.ts      ← root; inits ThemeService + ScrollService + IntersectionObserver
-        ├── app.component.html    ← assembles all section components in scroll order
+        ├── app.component.ts      ← root router-outlet container
+        ├── app.component.html    ← displays <router-outlet>
+        │
+        ├── routing/
+        │   └── app.routes.ts     ← handles main single-page path plus nested details routes
         │
         ├── i18n/
         │   └── en.ts             ← ALL UI strings as typed TS constant EN { nav, hero, about, ... }
         │
-        ├── core/
-        │   ├── services/
-        │   │   ├── translate.service.ts  ← t(key), tArray(key), section(key) — dot-notation
-        │   │   ├── theme.service.ts      ← signal-based dark/light, localStorage persist
-        │   │   ├── scroll.service.ts     ← activeSection signal, isScrolled signal, scrollTo()
-        │   │   └── portfolio.service.ts  ← ALL profile data (skills, experience, projects, etc.)
-        │   └── utils/
-        │       ├── viewport.util.ts      ← initRevealObserver() — IntersectionObserver for .reveal
-        │       └── animations.util.ts    ← startTypingAnimation(), clamp(), debounce()
+        ├── services/
+        │   ├── translate.service.ts  ← t(key), tArray(key), section(key) — dot-notation
+        │   ├── theme.service.ts      ← signal-based dark/light, localStorage persist
+        │   ├── scroll.service.ts     ← activeSection signal, isScrolled signal, scrollTo()
+        │   └── portfolio.service.ts  ← ALL profile data (skills, experience, projects, etc.)
+        ├── utils/
+        │   ├── viewport.util.ts      ← initRevealObserver() — IntersectionObserver for .reveal
+        │   └── animations.util.ts    ← startTypingAnimation(), clamp(), debounce()
         │
-        ├── shared/
-        │   └── models/
-        │       └── portfolio.models.ts   ← interfaces: SkillCategory, Experience, Project,
-        │                                    Publication, Education, Leadership, ContactForm
+        ├── models/
+        │   └── portfolio.models.ts   ← interfaces: SkillCategory, Experience, Project,
+        │                                Publication, Education, Leadership, ContactForm
         │
-        └── features/                     ← one folder per page section
-            ├── navbar/                   ← fixed top; glass on scroll; hamburger; active-link
-            ├── hero/                     ← full-screen; typing animation; avatar orbit ring
-            ├── about/                    ← bio paragraphs + 4 stat cards
-            ├── skills/                   ← 6 category cards with tech badges
-            ├── experience/               ← vertical timeline (2 entries: full-time + intern)
-            ├── projects/                 ← 7 project cards; colored CSS var accent per card
-            ├── publications/             ← 2 research cards (IEEE + JSTR 2025)
-            ├── education/                ← 3 edu cards + leadership sidebar
-            ├── contact/                  ← info panel + contact form (simulated submit)
-            └── footer/                   ← logo, copyright, built-with
+        ├── shared-components/        ← global shared components
+        │   ├── navbar/               ← fixed top; glass on scroll; hamburger; active-link
+        │   ├── footer/               ← logo, copyright, built-with
+        │   └── theme-toggle/         ← dark/light theme switch button
+        │
+        └── pages/                    ← route page components
+            ├── main-portfolio/       ← shell assembling all section components on a single scroll page
+            │
+            ├── hero/                 ← full-screen; tagline with sub-bullets; avatar orbit ring
+            ├── about/                ← bio paragraphs + 4 stat cards
+            ├── skills/               ← 6 category cards with tech badges
+            ├── experience/           ← vertical timeline (2 entries: full-time + intern)
+            ├── projects/             ← 7 project cards; colored CSS var accent per card
+            │   └── project-details/  ← details page nested inside projects
+            ├── publications/         ← 2 research cards (IEEE + JSTR 2025)
+            │   └── publication-details/ ← details page nested inside publications
+            ├── education/            ← 3 edu cards + leadership sidebar
+            └── contact/              ← info panel + contact form (simulated submit)
 ```
 
 ---

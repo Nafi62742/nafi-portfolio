@@ -1,0 +1,50 @@
+.skills-section {
+  @apply py-24 relative;
+  background: var(--bg-base);
+}
+
+.skills-container {
+  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8;
+}
+
+.skills-header {
+  @apply text-center mb-12;
+}
+
+.skills-title {
+  @apply font-extrabold mt-4 mb-3;
+  font-size: clamp(1.875rem, 4vw, 2.25rem);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.skills-subtitle {
+  @apply text-text-secondary max-w-[540px] mx-auto;
+}
+
+.skills-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5;
+}
+
+.skill-card {
+  @apply bg-bg-card p-6;
+}
+
+.card-header {
+  @apply flex items-center gap-3 mb-5;
+}
+
+.icon-wrapper {
+  @apply flex items-center justify-center w-11 h-11 rounded-xl flex-shrink-0 text-lg text-primary-light;
+  background: rgba(99, 102, 241, 0.12);
+}
+
+.skill-category-title {
+  @apply text-lg font-semibold text-text-primary;
+}
+
+.badge-container {
+  @apply flex flex-wrap gap-2;
+}

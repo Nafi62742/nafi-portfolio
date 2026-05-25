@@ -1,0 +1,105 @@
+<nav class="navbar-root" [class.scrolled]="isNavbarScrolled">
+  <div class="navbar-container">
+    <!-- Logo & Status -->
+    <div class="navbar-logo-group">
+      <button class="nav-logo-btn" (click)="navigate('hero')" id="nav-logo">
+        <span class="text-text-muted">&lt;</span>
+        <span class="text-text-primary">Nafi</span>
+        <span class="text-[#06b6d4]">.</span>
+        <span class="gradient-text">dev</span>
+        <span class="text-text-muted">/&gt;</span>
+      </button>
+    </div>
+
+    <!-- Desktop Nav Links -->
+    <ul class="nav-links-list" role="navigation">
+      @for (link of navLinks; track link) {
+        <li>
+          <button
+            [id]="'nav-' + link.id"
+            class="nav-link-btn"
+            [class.active]="isLinkActive(link.id)"
+            (click)="navigate(link.id)">
+            {{ t.t(link.key) }}
+          </button>
+        </li>
+      }
+    </ul>
+
+    <!-- Actions -->
+    <div class="actions-group">
+      <button
+        class="theme-toggle-btn"
+        (click)="theme.toggle()"
+        id="btn-theme-toggle"
+        aria-label="Toggle theme">
+        <i class="fa-solid" [class.fa-sun]="theme.isDark" [class.fa-moon]="!theme.isDark"></i>
+      </button>
+
+      <a
+        href="assets/docs/Nafi_Ahmed_Resume.pdf"
+        target="_blank"
+        class="hidden lg:inline-flex btn-primary !py-2 !px-4 !text-xs"
+        id="btn-nav-resume"
+        download>
+        <i class="fa-solid fa-download"></i>
+        {{ t.t("nav.resume") }}
+      </a>
+      <div class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase status-badge">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 status-badge-dot-ping"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 status-badge-dot"></span>
+        </span>
+        <span class="hidden lg:inline">Available for new opportunities</span>
+        <span class="inline lg:hidden">Available</span>
+      </div>
+
+      <!-- Hamburger -->
+      <button
+        class="hamburger-btn"
+        id="btn-hamburger"
+        (click)="toggleMenu()"
+        aria-label="Toggle menu">
+        <span class="hamburger-line"
+          [style.transform]="menuOpen() ? 'translateY(7px) rotate(45deg)' : 'none'">
+        </span>
+        <span class="hamburger-line"
+          [style.opacity]="menuOpen() ? '0' : '1'"
+          [style.transform]="menuOpen() ? 'scaleX(0)' : 'none'">
+        </span>
+        <span class="hamburger-line"
+          [style.transform]="menuOpen() ? 'translateY(-7px) rotate(-45deg)' : 'none'">
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu"
+    [class.mobile-menu-closed]="!menuOpen()"
+    [class.mobile-menu-open]="menuOpen()">
+    <ul class="mobile-links-list">
+      @for (link of navLinks; track link; let i = $index) {
+        <li>
+          <button
+            class="mobile-link-btn"
+            [class.active]="isLinkActive(link.id)"
+            [style.animation-delay]="i * 60 + 'ms'"
+            (click)="navigate(link.id)">
+            {{ t.t(link.key) }}
+          </button>
+        </li>
+      }
+      <li class="mobile-resume-container">
+        <a
+          href="assets/docs/Nafi_Ahmed_Resume.pdf"
+          target="_blank"
+          class="btn-primary w-full justify-center !py-3 !text-sm flex items-center gap-2"
+          download>
+          <i class="fa-solid fa-download"></i>
+          {{ t.t("nav.resume") }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
