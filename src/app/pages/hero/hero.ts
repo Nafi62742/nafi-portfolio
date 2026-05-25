@@ -1,5 +1,5 @@
 
-import { Component, Inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
 import { ScrollService } from '@services/scroll.service';
 import { TranslateService } from '@services/translate.service';
@@ -22,10 +22,8 @@ export class HeroComponent {
    * @param t - Translation service for i18n labels
    * @param scroll - Scroll service for CTA button navigation
    */
-  constructor(
-    @Inject(TranslateService) public readonly t: TranslateService,
-    @Inject(ScrollService) public readonly scroll: ScrollService
-  ) {}
+  public readonly t = inject(TranslateService);
+  public readonly scroll = inject(ScrollService);
 
   /**
    * Copies the given email to the clipboard and opens the mail client.

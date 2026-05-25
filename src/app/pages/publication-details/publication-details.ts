@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Publication } from '@models/portfolio.models';
@@ -26,11 +26,9 @@ export class PublicationDetailsComponent implements OnInit {
    * @param router - Angular router for navigation and redirects
    * @param portfolioService - Portfolio data service for looking up publications
    */
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    @Inject(PortfolioService) private readonly portfolioService: PortfolioService
-  ) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly portfolioService = inject(PortfolioService);
 
   /**
    * Angular lifecycle hook — loads the publication matching the route slug.

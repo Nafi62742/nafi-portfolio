@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { Project } from '@models/portfolio.models';
@@ -25,11 +25,11 @@ export class ProjectsComponent {
    * @param portfolio - Portfolio data service providing project entries
    * @param router - Angular router for navigating to project detail pages
    */
-  constructor(
-    @Inject(TranslateService) public readonly t: TranslateService,
-    @Inject(PortfolioService) private readonly portfolio: PortfolioService,
-    private readonly router: Router
-  ) {
+  private readonly portfolio = inject(PortfolioService);
+  public readonly t = inject(TranslateService);
+  private readonly router = inject(Router);
+
+  constructor() {
     this.projects = this.portfolio.getProjects();
   }
 

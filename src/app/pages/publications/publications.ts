@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { Publication } from '@models/portfolio.models';
@@ -24,10 +24,10 @@ export class PublicationsComponent {
    * @param t - Translation service for i18n labels
    * @param portfolio - Portfolio data service providing publication entries
    */
-  constructor(
-    @Inject(TranslateService) public readonly t: TranslateService,
-    @Inject(PortfolioService) private readonly portfolio: PortfolioService
-  ) {
+  private readonly portfolio = inject(PortfolioService);
+  public readonly t = inject(TranslateService);
+
+  constructor() {
     this.publications = this.portfolio.getPublications();
   }
 

@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { filter, throttleTime } from 'rxjs/operators';
@@ -27,7 +27,9 @@ export class ScrollService {
   /**
    * @param router - The Angular router used to listen for navigation events
    */
-  constructor(private readonly router: Router) {
+  private readonly router = inject(Router);
+
+  constructor() {
     this.router.events.pipe(
       filter((event): event is NavigationEnd => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {

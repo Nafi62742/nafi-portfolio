@@ -13,6 +13,9 @@
       @for (project of projects; track project; let i = $index) {
         <div
           (click)="navigateToProject(project)"
+          (keydown.enter)="navigateToProject(project)"
+          tabindex="0"
+          role="button"
           class="glass-card bg-bg-card p-6 flex flex-col gap-4 relative overflow-hidden reveal group cursor-pointer"
           [class]="'delay-' + ((i % 4) + 1)"
           [style.--accent-color]="project.color">

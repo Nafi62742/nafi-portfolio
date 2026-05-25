@@ -1,5 +1,5 @@
 
-import { Component, Inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ScrollService } from '@services/scroll.service';
@@ -47,12 +47,10 @@ export class NavbarComponent {
    * @param t - Translation service for i18n labels
    * @param router - Angular router for page-level navigation
    */
-  constructor(
-    @Inject(ScrollService) public readonly scroll: ScrollService,
-    @Inject(ThemeService) public readonly theme: ThemeService,
-    @Inject(TranslateService) public readonly t: TranslateService,
-    private readonly router: Router
-  ) {}
+  public readonly scroll = inject(ScrollService);
+  public readonly theme = inject(ThemeService);
+  public readonly t = inject(TranslateService);
+  private readonly router = inject(Router);
 
   /**
    * Checks if a given nav link is currently active based on the router URL.

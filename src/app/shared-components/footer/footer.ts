@@ -1,5 +1,5 @@
 
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { ScrollService } from '@services/scroll.service';
 import { TranslateService } from '@services/translate.service';
@@ -22,8 +22,6 @@ export class FooterComponent {
    * @param t - Translation service for i18n labels
    * @param scroll - Scroll service for back-to-top navigation
    */
-  constructor(
-    @Inject(TranslateService) public readonly t: TranslateService,
-    @Inject(ScrollService) public readonly scroll: ScrollService
-  ) {}
+  public readonly t = inject(TranslateService);
+  public readonly scroll = inject(ScrollService);
 }

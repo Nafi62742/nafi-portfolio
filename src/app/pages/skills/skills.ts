@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 import { SkillCategory } from '@models/portfolio.models';
 import { PortfolioService } from '@services/portfolio.service';
@@ -26,10 +26,10 @@ export class SkillsComponent {
    * @param t - Translation service for i18n labels
    * @param portfolio - Portfolio data service providing skill categories
    */
-  constructor(
-    @Inject(TranslateService) public readonly t: TranslateService,
-    @Inject(PortfolioService) private readonly portfolio: PortfolioService
-  ) {
+  private readonly portfolio = inject(PortfolioService);
+  public readonly t = inject(TranslateService);
+
+  constructor() {
     this.categories = this.portfolio.getSkillCategories();
   }
 }

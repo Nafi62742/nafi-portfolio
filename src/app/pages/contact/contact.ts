@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { TranslateService } from '@services/translate.service';
@@ -67,10 +67,7 @@ export class ContactComponent {
     { icon: 'fa-solid fa-envelope',  label: 'Email',    href: 'mailto:nafiahmed318@gmail.com'     }
   ];
 
-  /**
-   * @param t - Translation service for i18n labels
-   */
-  constructor(@Inject(TranslateService) public readonly t: TranslateService) {}
+  public readonly t = inject(TranslateService);
 
   /**
    * Copies the provided email address to the clipboard and opens the default mail client.

@@ -23,14 +23,8 @@ import { NavbarComponent } from '@shared-components/navbar/navbar';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  /**
-   * @param themeService - Service for managing theme settings
-   * @param scrollService - Service for managing scroll interactions
-   */
-  constructor(
-    @Inject(ThemeService) private readonly themeService: ThemeService,
-    @Inject(ScrollService) private readonly scrollService: ScrollService
-  ) {}
+  private readonly themeService = inject(ThemeService);
+  private readonly scrollService = inject(ScrollService);
 
   /**
    * Initialises theme and scroll services on component init.

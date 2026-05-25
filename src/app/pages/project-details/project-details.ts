@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -31,12 +31,10 @@ export class ProjectDetailsComponent implements OnInit {
    * @param portfolioService - Portfolio data service for looking up projects
    * @param sanitizer - DOM sanitizer for creating safe YouTube embed URLs
    */
-  constructor(
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    @Inject(PortfolioService) private readonly portfolioService: PortfolioService,
-    private readonly sanitizer: DomSanitizer
-  ) {}
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly portfolioService = inject(PortfolioService);
+  private readonly sanitizer = inject(DomSanitizer);
 
   /**
    * Angular lifecycle hook — loads the project matching the route slug.
