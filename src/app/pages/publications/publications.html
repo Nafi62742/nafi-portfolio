@@ -1,0 +1,66 @@
+<section class="py-24 relative" style="background: var(--bg-surface)">
+  <div class="w-full max-w-[1200px] mx-auto px-6 lg:px-8">
+
+    <div class="text-center mb-12 reveal">
+      <span class="label-tag-accent">{{ t.t('publications.section_label') }}</span>
+      <h2 class="gradient-text font-extrabold mt-4 mb-3" style="font-size: clamp(1.875rem, 4vw, 2.25rem)">
+        {{ t.t('publications.title') }}
+      </h2>
+      <p class="text-text-secondary">{{ t.t('publications.subtitle') }}</p>
+    </div>
+
+    <div class="max-w-[900px] mx-auto grid gap-6">
+      @for (pub of publications; track pub; let i = $index) {
+        <div
+          class="glass-card bg-bg-card reveal flex flex-col sm:grid sm:gap-6 sm:items-start"
+          [class]="'delay-' + (i + 1)"
+          [style.--pub-color]="pub.color"
+          [style.borderLeft]="'3px solid ' + pub.color"
+          style="padding: 1.5rem 2rem; grid-template-columns: 64px 1fr">
+          <!-- Icon -->
+          <div class="flex items-center justify-center w-16 h-16 rounded-xl text-2xl flex-shrink-0 mb-4 sm:mb-0"
+            style="border: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.2)"
+            [style.color]="pub.color">
+            <i class="fa-solid" [ngClass]="pub.icon"></i>
+          </div>
+          <!-- Content -->
+          <div class="flex flex-col gap-3">
+            <h3 class="text-lg font-bold text-text-primary leading-[1.4]">{{ pub.title }}</h3>
+            <p class="text-sm text-text-secondary leading-[1.7]">{{ pub.abstract }}</p>
+            <div class="flex flex-col gap-2 p-3 rounded-xl" style="background: rgba(0,0,0,0.15)">
+              <span class="flex items-start gap-2 text-xs leading-[1.5] text-text-secondary">
+                <i class="fa-solid fa-bookmark text-accent flex-shrink-0 mt-0.5"></i>
+                {{ pub.venue }}
+              </span>
+              <span class="flex items-start gap-2 text-xs leading-[1.5] text-text-muted">
+                <i class="fa-regular fa-calendar text-accent flex-shrink-0 mt-0.5"></i>
+                {{ pub.year }}
+              </span>
+              <span class="flex items-start gap-2 text-xs leading-[1.5] text-text-muted">
+                <i class="fa-solid fa-users text-accent flex-shrink-0 mt-0.5"></i>
+                {{ pub.authors }}
+              </span>
+            </div>
+            <div class="flex items-center gap-4 flex-wrap">
+              <a [routerLink]="['/publication', toSlug(pub.title)]"
+                class="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-250 hover:gap-3"
+                style="color: var(--text-secondary)">
+                <i class="fa-solid fa-arrow-right"></i>
+                View Details
+              </a>
+              @if (pub.link) {
+                <a [href]="pub.link" target="_blank"
+                  class="inline-flex items-center gap-2 text-sm font-semibold transition-all duration-250 hover:gap-3"
+                  [style.color]="pub.color">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  View Publication
+                </a>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</section>

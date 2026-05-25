@@ -1,0 +1,169 @@
+<nav
+  class="navbar-root fixed top-0 left-0 right-0 z-[1000] h-[72px] transition-all duration-[400ms]"
+  [class.scrolled]="isNavbarScrolled"
+  [style.background]="isNavbarScrolled ? 'var(--navbar-bg)' : 'transparent'"
+  [style.backdropFilter]="isNavbarScrolled ? 'blur(24px)' : 'none'"
+  [style.borderBottom]="
+    isNavbarScrolled ? '1px solid var(--border-color)' : 'none'
+  "
+  [style.boxShadow]="isNavbarScrolled ? 'var(--navbar-shadow)' : 'none'"
+  >
+  <div
+    class="w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex items-center justify-between h-full gap-6"
+    >
+    <!-- Logo & Status -->
+    <div class="flex items-center gap-3.5">
+      <button
+        class="bg-transparent border-none font-mono text-lg font-bold cursor-pointer flex items-center gap-0.5 transition-all duration-250 whitespace-nowrap hover:scale-[1.03]"
+        (click)="navigate('hero')"
+        id="nav-logo"
+        >
+        <span class="text-text-muted">&lt;</span>
+        <span class="text-text-primary">Nafi</span>
+        <span class="text-[#06b6d4]">.</span>
+        <span class="gradient-text">dev</span>
+        <span class="text-text-muted">/&gt;</span>
+      </button>
+
+      <!-- Status Badge -->
+    </div>
+
+    <!-- Desktop Nav Links -->
+    <ul class="hidden lg:flex list-none items-center gap-1" role="navigation">
+      @for (link of navLinks; track link) {
+        <li>
+          <button
+            [id]="'nav-' + link.id"
+            class="relative bg-transparent border-none px-3 py-2 text-sm font-medium cursor-pointer rounded-xl transition-all duration-250"
+          [style.color]="
+            isLinkActive(link.id)
+              ? 'var(--text-primary)'
+              : 'var(--text-secondary)'
+          "
+            (click)="navigate(link.id)"
+            >
+            {{ t.t(link.key) }}
+          </button>
+        </li>
+      }
+    </ul>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-3">
+      <button
+        class="flex items-center justify-center w-9 h-9 rounded-full text-text-secondary text-sm cursor-pointer transition-all duration-250 hover:text-text-primary"
+        style="
+          background: var(--social-icon-bg);
+          border: 1px solid var(--social-icon-border);
+        "
+        (click)="theme.toggle()"
+        id="btn-theme-toggle"
+        aria-label="Toggle theme"
+        >
+        <i
+          class="fa-solid"
+          [class.fa-sun]="theme.isDark"
+          [class.fa-moon]="!theme.isDark"
+        ></i>
+      </button>
+
+      <a
+        href="assets/docs/Nafi_Ahmed_Resume.pdf"
+        target="_blank"
+        class="hidden lg:inline-flex btn-primary !py-2 !px-4 !text-xs"
+        id="btn-nav-resume"
+        download
+        >
+        <i class="fa-solid fa-download"></i>
+        {{ t.t("nav.resume") }}
+      </a>
+      <div
+        class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase status-badge"
+        >
+        <span class="relative flex h-1.5 w-1.5">
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 status-badge-dot-ping"
+          ></span>
+          <span
+            class="relative inline-flex rounded-full h-1.5 w-1.5 status-badge-dot"
+          ></span>
+        </span>
+        <span class="hidden lg:inline">Available for new opportunities</span>
+        <span class="inline lg:hidden">Available</span>
+      </div>
+
+      <!-- Hamburger -->
+      <button
+        class="flex lg:hidden flex-col justify-center gap-[5px] w-8 h-8 bg-transparent border-none cursor-pointer p-1"
+        id="btn-hamburger"
+        (click)="toggleMenu()"
+        aria-label="Toggle menu"
+        >
+        <span
+          class="block h-0.5 rounded-sm transition-all duration-250 origin-center"
+          [style.background]="'var(--text-secondary)'"
+          [style.transform]="
+            menuOpen() ? 'translateY(7px) rotate(45deg)' : 'none'
+          "
+        ></span>
+        <span
+          class="block h-0.5 rounded-sm transition-all duration-250 origin-center"
+          [style.background]="'var(--text-secondary)'"
+          [style.opacity]="menuOpen() ? '0' : '1'"
+          [style.transform]="menuOpen() ? 'scaleX(0)' : 'none'"
+        ></span>
+        <span
+          class="block h-0.5 rounded-sm transition-all duration-250 origin-center"
+          [style.background]="'var(--text-secondary)'"
+          [style.transform]="
+            menuOpen() ? 'translateY(-7px) rotate(-45deg)' : 'none'
+          "
+        ></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    class="lg:hidden absolute left-0 right-0 px-6 pb-8 pt-4 transition-all duration-[400ms] border-t"
+    [style.top]="'72px'"
+    [style.background]="'var(--mobile-menu-bg)'"
+    [style.backdropFilter]="'blur(30px)'"
+    [style.borderColor]="'var(--border-color)'"
+    [class.mobile-menu-closed]="!menuOpen()"
+    [class.mobile-menu-open]="menuOpen()"
+    >
+    <ul class="list-none flex flex-col gap-1">
+      @for (link of navLinks; track link; let i = $index) {
+        <li>
+          <button
+            class="block w-full bg-transparent border-none px-4 py-3 text-base font-medium cursor-pointer text-left rounded-xl transition-all duration-250"
+          [style.color]="
+            isLinkActive(link.id)
+              ? 'var(--text-primary)'
+              : 'var(--text-secondary)'
+          "
+          [style.background]="
+            isLinkActive(link.id) ? 'var(--highlight-bg)' : ''
+          "
+            [style.animation-delay]="i * 60 + 'ms'"
+            (click)="navigate(link.id)"
+            >
+            {{ t.t(link.key) }}
+          </button>
+        </li>
+      }
+      <li class="mt-4 px-4">
+        <a
+          href="assets/docs/Nafi_Ahmed_Resume.pdf"
+          target="_blank"
+          class="btn-primary w-full justify-center !py-3 !text-sm flex items-center gap-2"
+          download
+          >
+          <i class="fa-solid fa-download"></i>
+          {{ t.t("nav.resume") }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

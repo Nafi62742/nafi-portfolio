@@ -1,8 +1,21 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "rootDir": "./src",
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": [],
+    "paths": {
+      "@env/*": ["./src/environments/*"],
+      "@interceptors/*": ["./src/app/interceptors/*"],
+      "@models/*": ["./src/app/models/*"],
+      "@pages/*": ["./src/app/pages/*"],
+      "@routing/*": ["./src/app/routing/*"],
+      "@services/*": ["./src/app/services/*"],
+      "@shared-components/*": ["./src/app/shared-components/*"],
+      "@utils/*": ["./src/app/utils/*"],
+      "@i18n/*": ["./src/app/i18n/*"],
+      "@app/*": ["./src/app/*"]
+    }
   },
   "files": [
     "src/main.ts"
