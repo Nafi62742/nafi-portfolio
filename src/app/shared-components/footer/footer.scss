@@ -1,1 +1,22 @@
-/* All styles moved to global styles.scss via Tailwind */
+.footer-root {
+  @apply py-8 border-t;
+  background: var(--bg-base);
+  border-color: var(--border-color);
+}
+
+.footer-container {
+  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4;
+}
+
+.footer-logo-btn {
+  @apply bg-transparent border-none font-mono text-base font-bold cursor-pointer flex items-center gap-0.5;
+  transition: all 0.25s ease;
+
+  &:hover {
+    @apply scale-[1.03];
+  }
+}
+
+.footer-text {
+  @apply text-sm text-text-muted;
+}

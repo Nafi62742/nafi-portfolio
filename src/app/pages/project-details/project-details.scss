@@ -1,7 +1,6 @@
 .project-details-container {
-  position: relative;
+  @apply pt-28 pb-20 min-h-screen relative z-[1];
   background-color: var(--bg-base);
-  z-index: 1;
 
   &::before {
     content: '';
@@ -18,10 +17,12 @@
   }
 }
 
+.project-details-inner {
+  @apply w-full max-w-[1000px] mx-auto px-6;
+}
+
 .btn-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  @apply mb-8 inline-flex items-center gap-2;
   background: var(--social-icon-bg);
   border: 1px solid var(--social-icon-border);
   color: var(--text-secondary);
@@ -39,19 +40,42 @@
   }
 }
 
+.project-header-card {
+  @apply p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 relative overflow-hidden;
+}
+
+.header-glow {
+  @apply absolute top-0 right-0 w-[300px] h-[300px] rounded-full blur-[120px] opacity-10 pointer-events-none;
+}
+
+.header-identity {
+  @apply flex items-center gap-5;
+}
+
+.icon-wrapper {
+  @apply flex items-center justify-center w-[72px] h-[72px] rounded-2xl text-3xl flex-shrink-0;
+}
+
+.badge-row {
+  @apply flex flex-wrap items-center gap-2 mb-2;
+}
+
+.project-title-text {
+  @apply text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight;
+}
+
+.quick-actions-row {
+  @apply flex flex-wrap gap-2 flex-shrink-0;
+}
+
 .btn-action {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  @apply inline-flex items-center gap-2 text-xs font-semibold whitespace-nowrap;
   padding: 0.6rem 1.2rem;
   background: var(--social-icon-bg);
   border: 1px solid var(--social-icon-border);
   color: var(--text-secondary);
   border-radius: 12px;
-  font-size: 0.8125rem;
-  font-weight: 600;
   transition: all 0.25s ease;
-  white-space: nowrap;
 
   i {
     font-size: 1rem;
@@ -77,15 +101,16 @@
 }
 
 .badge {
+  @apply uppercase tracking-wider;
   padding: 0.125rem 0.6rem;
   border-radius: 6px;
   font-size: 0.6875rem;
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 
 .type-tag {
+  @apply text-xs font-semibold capitalize;
   padding: 0.125rem 0.6rem;
   background: var(--input-bg);
   border: 1px solid var(--border-color);
@@ -95,18 +120,78 @@
   font-weight: 600;
 }
 
+.details-grid {
+  @apply grid grid-cols-1 lg:grid-cols-3 gap-8;
+}
+
+.left-column {
+  @apply lg:col-span-2 flex flex-col gap-8;
+}
+
+.overview-card {
+  @apply p-6 md:p-8;
+}
+
+.section-title {
+  @apply text-lg font-bold text-text-primary mb-4 flex items-center gap-2;
+}
+
+.overview-desc {
+  @apply text-text-secondary leading-[1.8] text-base mb-6;
+}
+
+.highlight-block {
+  @apply p-4 rounded-xl border-l-4;
+  background: var(--input-bg);
+}
+
+.highlight-title {
+  @apply text-sm font-bold text-text-primary mb-2 flex items-center gap-2;
+}
+
+.highlight-desc {
+  @apply text-sm text-text-secondary leading-[1.6];
+}
+
 .screenshot-showcase {
+  @apply rounded-xl overflow-hidden border relative bg-[#090d16];
+  border-color: rgba(255, 255, 255, 0.06);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-  img {
-    transition: transform 0.4s ease;
-    &:hover {
-      transform: scale(1.02);
-    }
+}
+
+.screenshot-img {
+  @apply w-full h-auto block object-cover max-h-[500px];
+  transition: transform 0.4s ease;
+
+  &:hover {
+    transform: scale(1.02);
   }
 }
 
 .video-container {
+  @apply rounded-xl overflow-hidden border bg-[#090d16];
+  border-color: rgba(255, 255, 255, 0.06);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.video-iframe {
+  @apply w-full aspect-video block;
+}
+
+.right-column {
+  @apply flex flex-col gap-6;
+}
+
+.sidebar-card {
+  @apply p-6;
+}
+
+.sidebar-title {
+  @apply text-sm font-bold text-text-primary uppercase tracking-wider mb-4 flex items-center gap-2;
+}
+
+.tech-badge-container {
+  @apply flex flex-wrap gap-2;
 }
 
 .tech-badge-large {
@@ -127,6 +212,14 @@
     border-color: rgba(99, 102, 241, 0.3);
     background: var(--highlight-bg);
   }
+}
+
+.details-sidebar-card {
+  @apply p-6 flex flex-col gap-4;
+}
+
+.details-sidebar-title {
+  @apply text-sm font-bold text-text-primary uppercase tracking-wider mb-2 flex items-center gap-2;
 }
 
 .meta-item {
@@ -154,6 +247,10 @@
   font-size: 0.875rem;
   color: var(--text-primary);
   font-weight: 500;
+}
+
+.sidebar-links-col {
+  @apply flex flex-col gap-2 mt-2 w-full;
 }
 
 .meta-link {

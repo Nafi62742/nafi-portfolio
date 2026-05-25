@@ -1,27 +1,29 @@
-<section class="py-24 relative" style="background: var(--bg-base)">
-  <div class="w-full max-w-[1200px] mx-auto px-6 lg:px-8">
+<section class="skills-section">
+  <div class="skills-container">
 
-    <div class="text-center mb-12 reveal">
+    <div class="skills-header reveal">
       <span class="label-tag-primary">{{ t.t('skills.section_label') }}</span>
-      <h2 class="gradient-text font-extrabold mt-4 mb-3" style="font-size: clamp(1.875rem, 4vw, 2.25rem)">
+      <h2 class="skills-title">
         {{ t.t('skills.title') }}
       </h2>
-      <p class="text-text-secondary max-w-[540px] mx-auto">{{ t.t('skills.subtitle') }}</p>
+      <p class="skills-subtitle">{{ t.t('skills.subtitle') }}</p>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+    <div class="skills-grid">
       @for (cat of categories; track cat; let i = $index) {
         <div
-          class="glass-card bg-bg-card p-6 reveal"
-          [class]="'delay-' + (i + 1)">
-          <div class="flex items-center gap-3 mb-5">
-            <div class="flex items-center justify-center w-11 h-11 rounded-xl flex-shrink-0 text-lg text-primary-light"
-              style="background: rgba(99,102,241,0.12)">
+          class="skill-card glass-card reveal"
+          [class.delay-1]="(i % 4) === 0"
+          [class.delay-2]="(i % 4) === 1"
+          [class.delay-3]="(i % 4) === 2"
+          [class.delay-4]="(i % 4) === 3">
+          <div class="card-header">
+            <div class="icon-wrapper">
               <i class="fa-solid" [ngClass]="cat.icon"></i>
             </div>
-            <h3 class="text-base font-semibold text-text-primary">{{ t.t('skills.' + cat.key) }}</h3>
+            <h3 class="skill-category-title">{{ t.t('skills.' + cat.key) }}</h3>
           </div>
-          <div class="flex flex-wrap gap-2">
+          <div class="badge-container">
             @for (skill of cat.skills; track skill) {
               <span class="tech-badge">{{ skill }}</span>
             }

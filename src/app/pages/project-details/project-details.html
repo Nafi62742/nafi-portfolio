@@ -1,24 +1,22 @@
 @if (project(); as p) {
-  <div class="project-details-container pt-28 pb-20 min-h-screen">
-    <div class="w-full max-w-[1000px] mx-auto px-6">
+  <div class="project-details-container">
+    <div class="project-details-inner">
       <!-- Navigation Back Link -->
-      <button (click)="goBack()" class="btn-back group mb-8">
+      <button (click)="goBack()" class="btn-back group">
         <i class="fa-solid fa-arrow-left transition-transform duration-200 group-hover:-translate-x-1"></i>
         <span>Back to Projects</span>
       </button>
+
       <!-- Project Header -->
-      <div class="glass-card p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 relative overflow-hidden"
-        [style.--accent-color]="p.color">
+      <div class="project-header-card glass-card" [style.--accent-color]="p.color">
         <!-- Colored Background Accent Glow -->
-        <div class="absolute top-0 right-0 w-[300px] h-[300px] rounded-full blur-[120px] opacity-10 pointer-events-none"
-        [style.background]="p.color"></div>
-        <div class="flex items-center gap-5">
-          <div class="icon-wrapper flex items-center justify-center w-[72px] h-[72px] rounded-2xl text-3xl flex-shrink-0"
-            [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'">
+        <div class="header-glow" [style.background]="p.color"></div>
+        <div class="header-identity">
+          <div class="icon-wrapper" [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'">
             <i class="fa-solid" [ngClass]="p.icon" [style.color]="p.color"></i>
           </div>
           <div>
-            <div class="flex flex-wrap items-center gap-2 mb-2">
+            <div class="badge-row">
               <span class="badge"
                 [style.background]="p.category === 'office' ? 'rgba(99, 102, 241, 0.12)' : 'rgba(16, 185, 129, 0.12)'"
                 [style.color]="p.category === 'office' ? '#818cf8' : '#34d399'">
@@ -26,11 +24,11 @@
               </span>
               <span class="type-tag">{{ p.type }}</span>
             </div>
-            <h1 class="text-2xl md:text-3xl font-extrabold text-text-primary tracking-tight">{{ p.name }}</h1>
+            <h1 class="project-title-text">{{ p.name }}</h1>
           </div>
         </div>
         <!-- Quick Action Buttons -->
-        <div class="flex flex-wrap gap-2 flex-shrink-0">
+        <div class="quick-actions-row">
           @if (p.github) {
             <a [href]="p.github" target="_blank" class="btn-action">
               <i class="fa-brands fa-github"></i>
@@ -65,80 +63,83 @@
           }
         </div>
       </div>
+
       <!-- Main Content Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="details-grid">
         <!-- Left Column: Details & Media -->
-        <div class="lg:col-span-2 flex flex-col gap-8">
+        <div class="left-column">
           <!-- About Section -->
-          <div class="glass-card p-6 md:p-8">
-            <h2 class="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
+          <div class="overview-card glass-card">
+            <h2 class="section-title">
               <i class="fa-solid fa-circle-info text-primary"></i>
               <span>Project Overview</span>
             </h2>
-            <p class="text-text-secondary leading-[1.8] text-base mb-6">{{ p.longDescription || p.description }}</p>
+            <p class="overview-desc">{{ p.longDescription || p.description }}</p>
             <!-- Key Highlights Block -->
-            <div class="highlight-block p-4 rounded-xl border-l-4"
-              [style.borderLeftColor]="p.color"
-              style="background: var(--input-bg)">
-              <h3 class="text-sm font-bold text-text-primary mb-2 flex items-center gap-2">
+            <div class="highlight-block" [style.borderLeftColor]="p.color">
+              <h3 class="highlight-title">
                 <i class="fa-solid fa-circle-check" [style.color]="p.color"></i>
                 <span>Key Technical Highlights</span>
               </h3>
-              <p class="text-sm text-text-secondary leading-[1.6]">{{ p.highlights }}</p>
+              <p class="highlight-desc">{{ p.highlights }}</p>
             </div>
           </div>
+
           <!-- Screenshots Showcase -->
           @if (p.screenshots && p.screenshots.length > 0) {
-            <div class="glass-card p-6 md:p-8">
-              <h2 class="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
+            <div class="overview-card glass-card">
+              <h2 class="section-title">
                 <i class="fa-solid fa-image text-accent"></i>
                 <span>Interface Screenshots</span>
               </h2>
-              <div class="screenshot-showcase rounded-xl overflow-hidden border border-[rgba(255,255,255,0.06)] relative bg-[#090d16]">
+              <div class="screenshot-showcase">
                 @for (screenshot of p.screenshots; track screenshot) {
                   <img
                     [src]="screenshot"
                     [alt]="p.name + ' Screenshot'"
-                    class="w-full h-auto block object-cover max-h-[500px]">
+                    class="screenshot-img">
                 }
               </div>
             </div>
           }
+
           <!-- Video Demo Section -->
           @if (safeYoutubeUrl(); as yUrl) {
-            <div class="glass-card p-6 md:p-8">
-              <h2 class="text-lg font-bold text-text-primary mb-4 flex items-center gap-2">
+            <div class="overview-card glass-card">
+              <h2 class="section-title">
                 <i class="fa-brands fa-youtube text-[#ef4444]"></i>
                 <span>Video Demonstration</span>
               </h2>
-              <div class="video-container rounded-xl overflow-hidden border border-[rgba(255,255,255,0.06)] bg-[#090d16]">
+              <div class="video-container">
                 <iframe [src]="yUrl"
                   title="YouTube video player"
                   frameborder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowfullscreen
-                class="w-full aspect-video block"></iframe>
+                  class="video-iframe"></iframe>
               </div>
             </div>
           }
         </div>
+
         <!-- Right Column: Metadata Sidebar -->
-        <div class="flex flex-col gap-6">
+        <div class="right-column">
           <!-- Tech Stack Sidebar -->
-          <div class="glass-card p-6">
-            <h2 class="text-sm font-bold text-text-primary uppercase tracking-wider mb-4 flex items-center gap-2">
+          <div class="sidebar-card glass-card">
+            <h2 class="sidebar-title">
               <i class="fa-solid fa-code text-primary"></i>
               <span>Technologies Used</span>
             </h2>
-            <div class="flex flex-wrap gap-2">
+            <div class="tech-badge-container">
               @for (tech of p.tech; track tech) {
                 <span class="tech-badge-large">{{ tech }}</span>
               }
             </div>
           </div>
+
           <!-- Project Meta Sidebar -->
-          <div class="glass-card p-6 flex flex-col gap-4">
-            <h2 class="text-sm font-bold text-text-primary uppercase tracking-wider mb-2 flex items-center gap-2">
+          <div class="details-sidebar-card glass-card">
+            <h2 class="details-sidebar-title">
               <i class="fa-solid fa-list-check text-accent"></i>
               <span>Project Details</span>
             </h2>
@@ -153,7 +154,7 @@
             @if (p.github || p.link || p.playstore || p.appstore || p.additionalLinks?.length) {
               <div class="meta-item">
                 <span class="meta-label">Links</span>
-                <div class="flex flex-col gap-2 mt-2 w-full">
+                <div class="sidebar-links-col">
                   @if (p.github) {
                     <a [href]="p.github" target="_blank" class="meta-link">
                       <i class="fa-brands fa-github"></i>

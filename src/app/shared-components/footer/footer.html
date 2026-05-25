@@ -1,8 +1,7 @@
-<footer class="py-8 border-t" style="background: var(--bg-base); border-color: var(--border-color)">
-  <div class="w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4">
+<footer class="footer-root">
+  <div class="footer-container">
 
-    <button class="bg-transparent border-none font-mono text-base font-bold cursor-pointer flex items-center gap-0.5 transition-all duration-250 hover:scale-[1.03]"
-            (click)="scroll.scrollTo('hero')">
+    <button class="footer-logo-btn" (click)="scroll.scrollTo('hero')">
       <span class="text-text-muted">&lt;</span>
       <span class="text-text-primary">Nafi</span>
       <span class="text-accent">.</span>
@@ -10,11 +9,11 @@
       <span class="text-text-muted">/&gt;</span>
     </button>
 
-    <p class="text-sm text-text-muted">
+    <p class="footer-text">
       © {{ year }} Nafi Ahmed. {{ t.t('footer.rights') }}
     </p>
 
-    <p class="text-sm text-text-muted">
+    <p class="footer-text">
       {{ t.t('footer.built_with') }}
     </p>
 
