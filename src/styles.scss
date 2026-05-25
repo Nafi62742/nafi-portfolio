@@ -394,28 +394,32 @@
 
   /* ── Label tag ──────────────────────────────────────────────────── */
   .label-tag-primary {
-    display: inline-block;
-    padding: 0.125rem 0.75rem;
+    display: table;
+    margin: 0 auto;
+    padding: 0.3rem 1rem;
     background: var(--tag-primary-bg);
     border: 1px solid var(--tag-primary-border);
-    border-radius: 9999px;
+    border-radius: 8px;
     color: var(--tag-primary-text);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    text-align: center;
   }
   .label-tag-accent {
-    display: inline-block;
-    padding: 0.125rem 0.75rem;
+    display: table;
+    margin: 0 auto;
+    padding: 0.3rem 1rem;
     background: var(--tag-accent-bg);
     border: 1px solid var(--tag-accent-border);
-    border-radius: 9999px;
+    border-radius: 8px;
     color: var(--tag-accent-text);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
+    text-align: center;
   }
 
   /* ── Buttons ────────────────────────────────────────────────────── */

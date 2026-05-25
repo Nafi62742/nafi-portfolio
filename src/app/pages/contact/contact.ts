@@ -55,7 +55,7 @@ export class ContactComponent {
 
   /** Contact detail rows displayed alongside the form. */
   public readonly contactInfo: Array<ContactInfoItem> = [
-    { icon: 'fa-envelope',     label: 'Email',    value: 'nafiahmed318@gmail.com', href: 'mailto:nafiahmed318@gmail.com' },
+    { icon: 'fa-envelope',     label: 'Email',    value: 'nafiahmed318@gmail.com', href: 'https://mail.google.com/mail/?view=cm&fs=1&to=nafiahmed318@gmail.com' },
     { icon: 'fa-phone',        label: 'Phone',    value: '+8801760887297',          href: 'tel:+8801760887297'            },
     { icon: 'fa-location-dot', label: 'Location', value: 'Dhaka, Bangladesh',       href: null                            }
   ];
@@ -64,7 +64,7 @@ export class ContactComponent {
   public readonly socials: Array<SocialItem> = [
     { icon: 'fa-brands fa-github',   label: 'GitHub',   href: 'https://github.com/Nafi62742'     },
     { icon: 'fa-brands fa-linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/racer007' },
-    { icon: 'fa-solid fa-envelope',  label: 'Email',    href: 'mailto:nafiahmed318@gmail.com'     }
+    { icon: 'fa-solid fa-envelope',  label: 'Email',    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=nafiahmed318@gmail.com'     }
   ];
 
   public readonly t = inject(TranslateService);
@@ -83,7 +83,7 @@ export class ContactComponent {
     }).catch((err: Error) => {
       console.error('Failed to copy text: ', err);
     });
-    window.location.href = 'mailto:' + email;
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + email, '_blank');
   }
 
   /**

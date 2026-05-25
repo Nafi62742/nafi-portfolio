@@ -11,13 +11,9 @@
     <!-- Content -->
     <div class="hero-content">
       <div class="hero-header-group">
-        <h2 class="hero-greeting">
-          {{ t.t("hero.greeting") }}
-        </h2>
+        <h2 class="hero-greeting">{{ t.t("hero.greeting") }}</h2>
 
-        <h1 class="hero-name">
-          {{ t.t("hero.name") }}
-        </h1>
+        <h1 class="hero-name">{{ t.t("hero.name") }}</h1>
       </div>
 
       <!-- Static role display replacing the typewriter -->
@@ -26,9 +22,28 @@
         <span class="hero-role-text">{{ t.t("hero.role") }}</span>
       </div>
 
-      <p class="hero-tagline">
-        {{ t.t("hero.tagline") }}
-      </p>
+      <!-- Tagline with sub-bullet points -->
+      <div class="hero-tagline-container">
+        <p class="hero-tagline-title">{{ t.t("hero.tagline_prefix") }}</p>
+        <ul class="hero-tagline-bullets">
+          <li>
+            <span class="bullet-dot bullet-dot-1"></span>
+            <span class="bullet-text">{{ t.t("hero.tagline_web") }}</span>
+          </li>
+          <li>
+            <span class="bullet-dot bullet-dot-2"></span>
+            <span class="bullet-text">{{ t.t("hero.tagline_mobile") }}</span>
+          </li>
+          <li>
+            <span class="bullet-dot bullet-dot-3"></span>
+            <span class="bullet-text">{{ t.t("hero.tagline_cloud") }}</span>
+          </li>
+        </ul>
+        <p class="hero-location-text">
+          <i class="fa-solid fa-location-dot location-icon"></i>
+          <span>{{ t.t("hero.location") }}</span>
+        </p>
+      </div>
     </div>
 
     <!-- Hero Graphic (hidden on mobile) -->

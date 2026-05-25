@@ -19,6 +19,11 @@ export interface TranslationSchema {
     role:         string;
     roles:        Array<string>;
     tagline:      string;
+    tagline_prefix: string;
+    tagline_web:    string;
+    tagline_mobile: string;
+    tagline_cloud:  string;
+    location:       string;
     cta_projects: string;
     cta_contact:  string;
     cta_resume:   string;
@@ -118,6 +123,11 @@ export const EN: TranslationSchema = {
     role:          'Software Developer & Data Specialist',
     roles:         ['Software Developer', 'Data Specialist', 'Mobile Developer', 'Cloud Engineer'],
     tagline:       'Building scalable web, mobile & cloud-powered applications from Dhaka, Bangladesh.',
+    tagline_prefix: 'Building scalable:',
+    tagline_web:    'web',
+    tagline_mobile: 'mobile',
+    tagline_cloud:  'cloud-powered applications',
+    location:       'Dhaka, Bangladesh',
     cta_projects:  'View Projects',
     cta_contact:   'Get In Touch',
     cta_resume:    'Download CV',

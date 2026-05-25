@@ -37,7 +37,7 @@ export class HeroComponent {
       this.copied.set(true);
       setTimeout(() => this.copied.set(false), 2500);
     });
-    window.location.href = 'mailto:' + email;
+    window.open('https://mail.google.com/mail/?view=cm&fs=1&to=' + email, '_blank');
   }
 
   /**
