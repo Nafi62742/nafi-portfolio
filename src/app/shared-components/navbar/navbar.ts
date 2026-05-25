@@ -53,29 +53,35 @@ export class NavbarComponent {
   private readonly router = inject(Router);
 
   /**
-   * Checks if a given nav link is currently active based on the router URL.
+   * Checks if a given nav link is currently active based on scroll tracking.
    *
-   * @param id - The link identifier/route path.
-   * @returns True if the link is active, false otherwise.
+   * @param id - The section identifier.
+   * @returns True if the section is currently active, false otherwise.
    */
   public isLinkActive(id: string): boolean {
-    const currentUrl: string = this.router.url;
-    if (id === 'hero') {
-      return currentUrl === '/' || currentUrl.length === 0;
+    if (this.router.url !== '/' && this.router.url.length > 0) {
+      return false;
     }
-    return currentUrl === '/' + id;
+    if (id === 'hero') {
+      return this.scroll.activeSection() === 'hero';
+    }
+    return this.scroll.activeSection() === id;
   }
 
   /**
-   * Navigates to a section route.
+   * Navigates to a section. If not on the home page, navigates to home first then scrolls.
    *
-   * @param id - The route path to navigate to
+   * @param id - The element ID of the section to scroll to.
    */
   public navigate(id: string): void {
-    if (id === 'hero') {
-      this.router.navigate(['/']);
+    if (this.router.url !== '/' && this.router.url.length > 0) {
+      this.router.navigate(['/']).then(() => {
+        setTimeout(() => {
+          this.scroll.scrollTo(id);
+        }, 150);
+      });
     } else {
-      this.router.navigate([id]);
+      this.scroll.scrollTo(id);
     }
     this.menuOpen.set(false);
   }

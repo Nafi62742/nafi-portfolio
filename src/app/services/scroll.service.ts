@@ -3,6 +3,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { filter, throttleTime } from 'rxjs/operators';
 
+import { initRevealObserver } from '@utils/viewport.util';
+
 /**
  * Service that tracks the active scroll section and provides smooth scroll helpers.
  * Also detects navigation back to home from project/publication detail pages.
@@ -36,16 +38,26 @@ export class ScrollService {
       this.previousUrl = this.currentUrl;
       this.currentUrl = event.urlAfterRedirects || event.url;
 
-      if (
-        (this.currentUrl === '/' || !this.currentUrl) &&
-        this.previousUrl?.startsWith('/project/')
-      ) {
-        setTimeout(() => {
-          requestAnimationFrame(() => {
-            this.scrollTo('projects', 'auto');
-          });
-        }, 300);
+      if (this.currentUrl === '/' || !this.currentUrl) {
+        if (this.previousUrl?.startsWith('/project/')) {
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              this.scrollTo('projects', 'auto');
+            });
+          }, 300);
+        } else if (this.previousUrl?.startsWith('/publication/')) {
+          setTimeout(() => {
+            requestAnimationFrame(() => {
+              this.scrollTo('publications', 'auto');
+            });
+          }, 300);
+        }
       }
+
+      // Initialize scroll reveal observer for the newly active page view
+      setTimeout(() => {
+        initRevealObserver();
+      }, 150);
     });
   }
 

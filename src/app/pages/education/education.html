@@ -1,11 +1,10 @@
 <section class="education-section">
   <div class="education-container">
-
     <div class="education-header reveal">
-      <span class="label-tag-primary">{{ t.t('education.section_label') }}</span>
-      <h2 class="education-title">
-        {{ t.t('education.title') }}
-      </h2>
+      <span class="label-tag-primary"
+        >{{ t.t('education.section_label') }}</span
+      >
+      <h2 class="education-title">{{ t.t('education.title') }}</h2>
       <p class="education-subtitle">{{ t.t('education.subtitle') }}</p>
     </div>
 
@@ -13,38 +12,34 @@
       <!-- Education Cards -->
       <div class="education-list">
         @for (edu of educations; track edu; let i = $index) {
-          <div
-            class="education-card glass-card reveal"
-            [class.delay-1]="i === 0"
-            [class.delay-2]="i === 1"
-            [class.delay-3]="i === 2"
-            [class.delay-4]="i === 3">
-            <!-- Icon -->
-            <div class="education-icon-container">
-              <i class="fa-solid" [ngClass]="edu.icon"></i>
-            </div>
-            <div>
-              <h3 class="education-degree">{{ edu.degree }}</h3>
-              <div class="education-institution">{{ edu.institution }}</div>
-              <div class="education-meta">
-                <span class="education-meta-item"><i class="fa-regular fa-calendar"></i> {{ edu.period }}</span>
-                <span class="education-gpa"><i class="fa-solid fa-star"></i> {{ edu.gpa }}</span>
-                <span class="education-meta-item"><i class="fa-solid fa-location-dot"></i> {{ edu.location }}</span>
-              </div>
-              @if (edu.coursework.length) {
-                <div class="coursework-section">
-                  <span class="coursework-label">{{ t.t('education.coursework') }}:</span>
-                  <div class="coursework-container">
-                    @for (course of edu.coursework; track course) {
-                      <span class="coursework-badge">
-                        {{ course }}
-                      </span>
-                    }
-                  </div>
-                </div>
-              }
+        <div
+          class="education-card glass-card reveal"
+          [class.delay-1]="i === 0"
+          [class.delay-2]="i === 1"
+          [class.delay-3]="i === 2"
+          [class.delay-4]="i === 3"
+        >
+          <!-- Icon -->
+          <div class="education-icon-container">
+            <i class="fa-solid" [ngClass]="edu.icon"></i>
+          </div>
+          <div>
+            <h3 class="education-degree">{{ edu.degree }}</h3>
+            <div class="education-institution">{{ edu.institution }}</div>
+            <div class="education-meta">
+              <span class="education-meta-item"
+                ><i class="fa-regular fa-calendar"></i> {{ edu.period }}</span
+              >
+              <span class="education-gpa"
+                ><i class="fa-solid fa-star"></i> {{ edu.gpa }}</span
+              >
+              <span class="education-meta-item"
+                ><i class="fa-solid fa-location-dot"></i> {{ edu.location
+                }}</span
+              >
             </div>
           </div>
+        </div>
         }
       </div>
 
@@ -56,24 +51,24 @@
         </h3>
         <div class="leadership-list">
           @for (item of leadership; track item; let i = $index) {
-            <div
-              class="leadership-item reveal"
-              [class.delay-4]="i === 0"
-              [class.delay-5]="i === 1"
-              [class.delay-6]="i === 2"
-              [class.delay-7]="i === 3">
-              <div class="leadership-bullet"></div>
-              <div>
-                <div class="leadership-role">{{ item.role }}</div>
-                <div class="leadership-organization">{{ item.organization }}</div>
-                <div class="leadership-period">{{ item.period }}</div>
-                <p class="leadership-desc">{{ item.description }}</p>
-              </div>
+          <div
+            class="leadership-item reveal"
+            [class.delay-4]="i === 0"
+            [class.delay-5]="i === 1"
+            [class.delay-6]="i === 2"
+            [class.delay-7]="i === 3"
+          >
+            <div class="leadership-bullet"></div>
+            <div>
+              <div class="leadership-role">{{ item.role }}</div>
+              <div class="leadership-organization">{{ item.organization }}</div>
+              <div class="leadership-period">{{ item.period }}</div>
+              <p class="leadership-desc">{{ item.description }}</p>
             </div>
+          </div>
           }
         </div>
       </div>
     </div>
-
   </div>
 </section>
