@@ -27,7 +27,7 @@ export class NavbarComponent {
    * @returns True if the navbar should be in scrolled state, false otherwise.
    */
   public get isNavbarScrolled(): boolean {
-    return this.scroll.isScrolled() || this.router.url !== '/';
+    return this.scroll.isScrolled() || this.router.url !== '/' || this.menuOpen();
   }
 
   /** Navigation link definitions with i18n key and section ID. */
