@@ -140,8 +140,8 @@ export const EN: TranslationSchema = {
     bio_2:         'At XORGeek, I engineer high-performance Angular web apps, cross-platform Flutter mobile applications, and robust Node.js/Laravel backend services.',
     bio_3:         'I manage and maintain production databases (both SQL and NoSQL) and design efficient AWS cloud DevOps pipelines to streamline deployments and ensure high availability.',
     stat_exp:      'Years Experience',
-    stat_projects: 'Projects Shipped',
-    stat_databases: 'Databases Managed',
+    stat_projects: 'Projects Completed',
+    stat_databases: 'Databases Management',
     stat_devops:   'Cloud Services'
   },
   skills: {
