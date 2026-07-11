@@ -109,17 +109,17 @@
 \begin{minipage}[t]{\linewidth}
 \begin{itemize}[nosep,after=\strut, leftmargin=2em, itemsep=4pt]
 
-\item \textbf{Pet Auction App:} Developed a cross-platform pet auction application enabling users to list, bid, and manage pet listings. Built using Angular for web and Flutter for mobile with AWS-powered backend services. \\
-\textit{Technologies: Angular, Flutter, Dart, AWS}
+\item \textbf{Pet Auction App:} Designed the database architecture for real-time bidding, synchronized live auction data streams using AWS and NoSQL, and developed the Angular web and Flutter mobile client interfaces. \\
+\textit{Technologies: Angular, Flutter, Dart, AWS, NoSQL, Firebase}
 
-\item \textbf{KEIAI Order App:} Built a client-facing application for ordering prosthetic products with streamlined order management and backend integration. Developed using Flutter with a Laravel-based backend and AWS infrastructure. \\
-\textit{Technologies: Flutter, Laravel, AWS}
+\item \textbf{KEIAI Order App:} Streamlined order processing and client-server communication by designing REST APIs, managing complex order data flows, and integrating structured backend SQL databases. \\
+\textit{Technologies: Flutter, Laravel, AWS, MySQL}
 
-\item \textbf{Izumi Web Project:} Designed and developed a car repair and delivery management platform with service tracking and operational workflows. Implemented using Angular and AWS services. \\
-\textit{Technologies: Angular, AWS}
+\item \textbf{Izumi Web Project:} Created core operational workflow systems and implemented tracking dashboards using Angular to aggregate repair status data and enhance operational visibility. \\
+\textit{Technologies: Angular, AWS, SQL}
 
-\item \textbf{Ginsen Web Project:} Created a dynamic form management system allowing flexible data input and processing. Developed using HTML with AWS backend services. \\
-\textit{Technologies: HTML, AWS}
+\item \textbf{Ginsen Web Project:} Engineered a dynamic data ingestion pipeline using AWS backend services and JSON processing to support custom, user-defined form layouts and submissions. \\
+\textit{Technologies: HTML5, AWS, JSON}
 
 \end{itemize}
 \end{minipage}
