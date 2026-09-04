@@ -84,17 +84,20 @@ export interface TranslationSchema {
     coursework:    string;
   };
   contact: {
-    section_label: string;
-    title:         string;
-    subtitle:      string;
-    name_label:    string;
-    email_label:   string;
-    message_label: string;
-    send_btn:      string;
-    sending:       string;
-    success_msg:   string;
-    or_reach:      string;
-    location:      string;
+    section_label:       string;
+    title:               string;
+    subtitle:            string;
+    name_label:          string;
+    name_placeholder:    string;
+    email_label:         string;
+    email_placeholder:   string;
+    message_label:       string;
+    message_placeholder: string;
+    send_btn:            string;
+    sending:             string;
+    success_msg:         string;
+    or_reach:            string;
+    location:            string;
   };
   footer: {
     built_with:    string;
@@ -188,17 +191,20 @@ export const EN: TranslationSchema = {
     coursework:    'Key Coursework'
   },
   contact: {
-    section_label:   'Contact',
-    title:           'Let\'s Work Together',
-    subtitle:        'I\'m currently open to new opportunities. Whether you have a project, a question, or just want to say hello — my inbox is always open.',
-    name_label:      'Your Name',
-    email_label:     'Your Email',
-    message_label:   'Message',
-    send_btn:        'Send Message',
-    sending:         'Sending...',
-    success_msg:     'Message sent! I\'ll get back to you soon.',
-    or_reach:        'Or reach me directly',
-    location:        'Dhaka, Bangladesh'
+    section_label:       'Contact',
+    title:               'Let\'s Work Together',
+    subtitle:            'I\'m currently open to new opportunities. Whether you have a project, a question, or just want to say hello — my inbox is always open.',
+    name_label:          'Your Name',
+    name_placeholder:    'Enter your name',
+    email_label:         'Your Email',
+    email_placeholder:   'Enter your email address',
+    message_label:       'Message',
+    message_placeholder: 'How can I help you? Write your message here...',
+    send_btn:            'Send Message',
+    sending:             'Sending...',
+    success_msg:         'Message sent! I\'ll get back to you soon.',
+    or_reach:            'Or reach me directly',
+    location:            'Dhaka, Bangladesh'
   },
   footer: {
     built_with:  'Built by Nafi Ahmed',

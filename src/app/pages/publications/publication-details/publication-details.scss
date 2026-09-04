@@ -41,7 +41,7 @@
 }
 
 .pub-header-card {
-  @apply glass-card p-6 md:p-8 mb-8 relative overflow-hidden;
+  @apply p-6 md:p-8 mb-8 relative overflow-hidden;
 }
 
 .header-glow {
@@ -141,7 +141,7 @@
 }
 
 .overview-card {
-  @apply glass-card p-6 md:p-8;
+  @apply p-6 md:p-8;
 }
 
 .section-title {
@@ -161,7 +161,7 @@
 }
 
 .details-sidebar-card {
-  @apply glass-card p-6 flex flex-col gap-4;
+  @apply p-6 flex flex-col gap-4;
 }
 
 .details-sidebar-title {
@@ -217,7 +217,7 @@
 }
 
 .keywords-sidebar-card {
-  @apply glass-card p-6;
+  @apply p-6;
 }
 
 .keywords-sidebar-title {
