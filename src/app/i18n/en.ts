@@ -8,6 +8,7 @@ export interface TranslationSchema {
     skills:       string;
     experience:   string;
     projects:     string;
+    runmate:      string;
     publications: string;
     education:    string;
     contact:      string;
@@ -67,6 +68,23 @@ export interface TranslationSchema {
     tech_used:     string;
     role:          string;
   };
+  runmate: {
+    section_label:   string;
+    title:           string;
+    tagline:         string;
+    subtitle:        string;
+    playstore_btn:   string;
+    appstore_btn:    string;
+    website_btn:     string;
+    admin_btn:       string;
+    tab_runners:     string;
+    tab_organizers:  string;
+    tab_tech:        string;
+    slider_prev:     string;
+    slider_next:     string;
+    gallery_hint:    string;
+    tech_title:      string;
+  };
   publications: {
     section_label: string;
     title:         string;
@@ -115,6 +133,7 @@ export const EN: TranslationSchema = {
     skills:       'Skills',
     experience:   'Experience',
     projects:     'Projects',
+    runmate:      'RunMate',
     publications: 'Publications',
     education:    'Education',
     contact:      'Contact',
@@ -173,6 +192,23 @@ export const EN: TranslationSchema = {
     view_all:        'View All',
     tech_used:       'Technologies',
     role:            'Role & Highlights'
+  },
+  runmate: {
+    section_label:   'Featured Mobile Application',
+    title:           'RunMate Club — Track. Compete. Connect.',
+    tagline:         'Smart Marathon Tracking & Running Community Platform',
+    subtitle:        'Live GPS tracking with road-snap accuracy, real-time leaderboards, and community running — engineered for individual training, official marathons, and virtual challenges.',
+    playstore_btn:   'Google Play',
+    appstore_btn:    'App Store',
+    website_btn:     'Official Website',
+    admin_btn:       'Organizer Admin Hub',
+    tab_runners:     'For Runners',
+    tab_organizers:  'For Organizers & Admins',
+    tab_tech:        'Architecture & Reliability',
+    slider_prev:     'Previous slide',
+    slider_next:     'Next slide',
+    gallery_hint:    'Interactive Showcase • Auto-playing preview',
+    tech_title:      'Core Technology Stack & Architecture'
   },
   publications: {
     section_label: 'Publications',

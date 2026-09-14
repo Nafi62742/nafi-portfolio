@@ -8,6 +8,7 @@ import { ExperienceComponent } from '@pages/experience/experience';
 import { HeroComponent } from '@pages/hero/hero';
 import { ProjectsComponent } from '@pages/projects/projects';
 import { PublicationsComponent } from '@pages/publications/publications';
+import { RunmateComponent } from '@pages/runmate/runmate';
 import { SkillsComponent } from '@pages/skills/skills';
 import { initRevealObserver } from '@utils/viewport.util';
 
@@ -24,6 +25,7 @@ import { initRevealObserver } from '@utils/viewport.util';
     SkillsComponent,
     ExperienceComponent,
     ProjectsComponent,
+    RunmateComponent,
     PublicationsComponent,
     EducationComponent,
     ContactComponent

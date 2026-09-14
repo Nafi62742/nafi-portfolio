@@ -36,6 +36,7 @@ export class NavbarComponent {
     { key: 'nav.skills',       id: 'skills' },
     { key: 'nav.experience',   id: 'experience' },
     { key: 'nav.projects',     id: 'projects' },
+    { key: 'nav.runmate',      id: 'runmate' },
     { key: 'nav.publications', id: 'publications' },
     { key: 'nav.education',    id: 'education' },
     { key: 'nav.contact',      id: 'contact' }

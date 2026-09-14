@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { SkillCategory, Experience, Project, Publication, Education, Leadership } from '@models/portfolio.models';
+import {
+  SkillCategory,
+  Experience,
+  Project,
+  Publication,
+  Education,
+  Leadership,
+  RunMateData
+} from '@models/portfolio.models';
 
 /**
  * Service that provides mock data for all portfolio sections,
@@ -92,6 +100,37 @@ export class PortfolioService {
    */
   public getProjects(): Array<Project> {
     return [
+      {
+        name:            'RunMate Club',
+        description:     'Your ultimate marathon running companion — real-time GPS tracking, running groups, live race leaderboards, and organizer admin.',
+        longDescription: 'RunMate Club is a comprehensive marathon running and race management platform built in Flutter (iOS, Android, and Web admin). Developed at XORGeek in collaboration with Nymph Solution, with Nafi Ahmed serving as Core Developer under Team Lead Masum Reza and engineering teammates Razin Sufian, Kawsar Ahmed, and Mohammad Abir Hassan Sarker. It provides real-time route tracking with road-snap accuracy, automatic finish line detection, offline-first sync, group management with QR codes, personal stats & global leaderboards, KML-based route planning, and community features. The platform also includes a complete organizer admin portal for race creation, SSLCommerz multi-merchant payments, live race map broadcast, automated RFID completion certificates, and remote Virtual Run challenges.',
+        highlights:      'Core Developer for cross-platform Flutter mobile & web app with hardened background GPS tracking, anti-cheat engine, and race organizer backend.',
+        tech:            ['Flutter', 'Dart', 'Firebase RTDB', 'Cloud Functions', 'GetX', 'SSLCommerz'],
+        icon:            'fa-person-running',
+        color:           '#06b6d4',
+        category:        'office',
+        type:            'Mobile & Web App',
+        link:            'https://runmate.club/',
+        playstore:       'https://play.google.com/store/apps/details?id=com.xorgeek.runmate&hl=en',
+        appstore:        'https://apps.apple.com/us/app/runmate-club/id6781556409',
+        screenshots: [
+          'assets/images/runmate/slide_1_live_gps.jpg',
+          'assets/images/runmate/slide_2_leaderboard.jpg',
+          'assets/images/runmate/slide_3_race_events.jpg',
+          'assets/images/runmate/slide_4_certificates.jpg',
+          'assets/images/runmate/slide_5_social_groups.jpg',
+          'assets/images/runmate/slide_6_live_run.jpg'
+        ],
+        additionalLinks: [
+          { label: 'Website',     url: 'https://runmate.club/',       icon: 'fa-globe' },
+          { label: 'Admin Panel', url: 'https://runmate.club/admin/', icon: 'fa-lock' }
+        ],
+        collaboration:   'XORGeek in collaboration with Nymph Solution',
+        teamLead:        'Masum Reza',
+        coreDeveloper:   'Nafi Ahmed',
+        teamMembers:     ['Razin Sufian', 'Kawsar Ahmed', 'Mohammad Abir Hassan Sarker'],
+        shortRole:       'Core Developer'
+      },
       {
         name:            'KEIAI Order App',
         description:     'A cross-platform ordering management application built for KEIAI, enabling streamlined order placement and tracking.',
@@ -377,4 +416,250 @@ export class PortfolioService {
       }
     ];
   }
+
+  /**
+   * Retrieves the comprehensive feature dataset and slide configuration for the RunMate app.
+   *
+   * @returns Complete RunMateData object
+   */
+  public getRunMateData(): RunMateData {
+    return {
+      appName: 'RunMate Club',
+      tagline: 'Track. Compete. Connect.',
+      description:
+        'Smart Marathon Tracking & Running Community Platform. Live GPS tracking with road-snap accuracy, real-time leaderboards, and community running — all in one app.',
+      websiteUrl:   'https://runmate.club/',
+      playstoreUrl: 'https://play.google.com/store/apps/details?id=com.xorgeek.runmate&hl=en',
+      appstoreUrl:  'https://apps.apple.com/us/app/runmate-club/id6781556409',
+      webAdminUrl:  'https://runmate.club/admin/',
+      collaboration: 'XORGeek in collaboration with Nymph Solution',
+      teamLead:     'Masum Reza',
+      coreDeveloper: 'Nafi Ahmed',
+      teamMembers:  ['Razin Sufian', 'Kawsar Ahmed', 'Mohammad Abir Hassan Sarker'],
+      techStack: [
+        'Flutter',
+        'Dart',
+        'Firebase RTDB',
+        'Cloud Functions',
+        'GetX',
+        'SSLCommerz',
+        'Crashlytics',
+        'Garmin/Wear OS'
+      ],
+      metrics: [
+        { value: '100%', label: 'OEM Battery Resilient', icon: 'fa-battery-full' },
+        { value: '< 1s', label: 'Live Race Sync', icon: 'fa-bolt' },
+        { value: '3-Layer', label: 'Anti-Cheat Pipeline', icon: 'fa-shield-halved' },
+        { value: 'iOS/Android/Web', label: 'Multi-Platform', icon: 'fa-mobile-screen' }
+      ],
+      slides: [
+        {
+          id: 'live-gps',
+          title: 'Hardened Background GPS & Live Tracking',
+          subtitle:
+            'Continuous background tracking engineered to survive OEM battery-killers (Oppo, ColorOS) and OS process kills. Auto-resumes seamless run state with zero lost progress.',
+          badge: 'Daily Challenge',
+          accentColor: '#06b6d4',
+          icon: 'fa-location-arrow',
+          image: 'assets/images/runmate/slide_1_live_gps.jpg',
+          stats: [
+            { label: 'Tracking', value: 'Live Pace & Splits' },
+            { label: 'Resilience', value: 'Auto-Pause & Resume' },
+            { label: 'Audio', value: 'KM Voice Coach' }
+          ]
+        },
+        {
+          id: 'anti-cheat',
+          title: '3-Layer Anti-Cheat & Region-Scoped Leaderboards',
+          subtitle:
+            'Real-time GPS teleport filtering, dead-reckoning gap handling, and vehicle velocity detection. Region-scoped leaderboards automatically adapt based on your recent routes.',
+          badge: 'Fair Competition',
+          accentColor: '#6366f1',
+          icon: 'fa-trophy',
+          image: 'assets/images/runmate/slide_2_leaderboard.jpg',
+          stats: [
+            { label: 'Detection', value: 'Vehicle & Speed Filter' },
+            { label: 'Scope', value: 'Auto Region-Detect' },
+            { label: 'Safety', value: 'Windowed Day Penalty' }
+          ]
+        },
+        {
+          id: 'race-events',
+          title: 'Organized Races & Virtual Run Challenges',
+          subtitle:
+            'Register for official marathons with bib allocation, route KML maps, live broadcast, and SSLCommerz multi-merchant payment routing with automated refund handling.',
+          badge: 'Marathon Events',
+          accentColor: '#ec4899',
+          icon: 'fa-flag-checkered',
+          image: 'assets/images/runmate/slide_3_race_events.jpg',
+          stats: [
+            { label: 'Payments', value: 'SSLCommerz Multi-Merchant' },
+            { label: 'Virtual Run', value: 'Target Distance Tracker' },
+            { label: 'Broadcast', value: 'Real-Time Bib Position' }
+          ]
+        },
+        {
+          id: 'certificates',
+          title: 'Automated Race & Virtual Run Certificates',
+          subtitle:
+            'Instant high-resolution certificate generation with official RFID chip times, category artwork, and custom milestones for both physical races and remote virtual challenges.',
+          badge: 'Certificates & Social',
+          accentColor: '#10b981',
+          icon: 'fa-certificate',
+          image: 'assets/images/runmate/slide_4_certificates.jpg',
+          stats: [
+            { label: 'Physical Race', value: 'Chip Time & Rank' },
+            { label: 'Virtual Challenge', value: 'Attempts & Milestones' },
+            { label: 'Social', value: 'Groups & Route Sharing' }
+          ]
+        },
+        {
+          id: 'social-club',
+          title: 'Running Groups & Social Community',
+          subtitle:
+            'Join running clubs, connect with fellow marathoners, comment and cheer on activity feeds, and share custom route maps and stats cards.',
+          badge: 'Community',
+          accentColor: '#8b5cf6',
+          icon: 'fa-users',
+          image: 'assets/images/runmate/slide_5_social_groups.jpg',
+          stats: [
+            { label: 'Groups', value: 'Club Feed & QR Join' },
+            { label: 'Social', value: 'Comments & Likes' },
+            { label: 'Sharing', value: 'Stats & Route Cards' }
+          ]
+        },
+        {
+          id: 'live-route',
+          title: 'Real-Time GPS Route Map & Elevation',
+          subtitle:
+            'High-precision road-snap route visualization with live splits, elevation profile, and background audio milestones that persist across the entire run.',
+          badge: 'Route Analytics',
+          accentColor: '#f59e0b',
+          icon: 'fa-map-location-dot',
+          image: 'assets/images/runmate/slide_6_live_run.jpg',
+          stats: [
+            { label: 'Map', value: 'Road-Snap Accuracy' },
+            { label: 'Splits', value: 'Auto KM Milestones' },
+            { label: 'Export', value: 'GPX & Social Cards' }
+          ]
+        }
+      ],
+      features: [
+        // For Runners
+        {
+          icon: 'fa-person-running',
+          title: 'Resilient GPS Tracking',
+          description:
+            'Real-time distance, pace, and time tracking hardened against aggressive OS battery managers and process kills with auto-resume capability.',
+          category: 'runners',
+          badge: 'Core Tracker',
+          tags: ['Background Audio Coach', 'Auto-Pause', 'Wearables (Garmin/Wear OS/Apple Watch)']
+        },
+        {
+          icon: 'fa-shield-halved',
+          title: 'Anti-Cheat & Region Boards',
+          description:
+            'Multi-stage filtering detects GPS teleportation, dead-reckoning gaps, and vehicular motion. Leaderboards auto-detect and scope to your regional cluster.',
+          category: 'runners',
+          badge: 'Competitive',
+          tags: ['GPS Teleport Filter', 'Vehicle Detection', 'Region Scoping']
+        },
+        {
+          icon: 'fa-flag-checkered',
+          title: 'Official Races & Virtual Runs',
+          description:
+            'Browse and register for physical marathons with bib numbers & KML route maps, or complete multi-attempt remote Virtual Run challenges with deadline tracking.',
+          category: 'runners',
+          badge: 'Race Events',
+          tags: ['Bib Allocation', 'Live Race Broadcast', 'Virtual Challenges']
+        },
+        {
+          icon: 'fa-award',
+          title: 'Dynamic Completion Certificates',
+          description:
+            'Instant PDF/image certificates generated with official RFID chip times for physical races and distance milestones for remote challenge finishers.',
+          category: 'runners',
+          badge: 'Rewards',
+          tags: ['RFID Chip Integration', 'Category Artwork', 'Social Share']
+        },
+        {
+          icon: 'fa-users',
+          title: 'Social & Multilingual Support',
+          description:
+            'Friend discovery, event-based running groups, route sharing cards, and persisted tri-lingual support across English, Bengali, and Japanese.',
+          category: 'runners',
+          badge: 'Community',
+          tags: ['EN / BN / JA i18n', 'Event Groups', 'Stats Cards']
+        },
+
+        // For Organizers & Admins
+        {
+          icon: 'fa-route',
+          title: 'Race & Category Studio',
+          description:
+            'Design races with KML route uploads, category cutoff times, bib number toggle, kit collection details, and virtual run mode switches.',
+          category: 'organizers',
+          badge: 'Event Studio',
+          tags: ['KML Route Upload', 'Cutoff Times', 'Bib Customization']
+        },
+        {
+          icon: 'fa-credit-card',
+          title: 'Multi-Merchant SSLCommerz',
+          description:
+            'Direct routing of participant ticket fees to each organizer’s own merchant credentials with automated cancellation and refund flows.',
+          category: 'organizers',
+          badge: 'Monetization',
+          tags: ['SSLCommerz Gateway', 'Instant Free Confirm', 'Paid Review Queue']
+        },
+        {
+          icon: 'fa-satellite-dish',
+          title: 'Live Race & Virtual Dashboards',
+          description:
+            'Real-time runner position map during live marathons and dedicated attempt-approval console for Virtual Run participants.',
+          category: 'organizers',
+          badge: 'Operations',
+          tags: ['Live Fleet Map', 'Attempt Approvals', 'Disqualification Alerts']
+        },
+        {
+          icon: 'fa-user-gear',
+          title: 'Organizer Self-Signup Pipeline',
+          description:
+            'Public organizer application portal feeding a super-admin approval queue with automated onboarding emails and credential generation.',
+          category: 'organizers',
+          badge: 'Onboarding',
+          tags: ['Public Application', 'Super-Admin Review', 'Auto Credentialing']
+        },
+
+        // Under the Hood
+        {
+          icon: 'fa-layer-group',
+          title: 'Flutter & GetX Architecture',
+          description:
+            'Clean reactive state management and high-framerate rendering across iOS, Android, and Web admin from a unified codebase.',
+          category: 'tech',
+          badge: 'Frontend',
+          tags: ['Flutter 3.x', 'GetX Reactive', 'Cross-Platform Web/Mobile']
+        },
+        {
+          icon: 'fa-fire',
+          title: 'Firebase Realtime Backend',
+          description:
+            'Firebase Auth, Realtime Database for sub-second race broadcasts, Cloud Functions for certificate rendering, and Cloud Storage.',
+          category: 'tech',
+          badge: 'Cloud',
+          tags: ['Realtime Database', 'Cloud Functions', 'Staging & Prod Split']
+        },
+        {
+          icon: 'fa-arrows-rotate',
+          title: 'Offline-First Write Queue',
+          description:
+            'Local persistence layer queues runs and telemetry offline, syncing reliably when connectivity is restored without dropped packets.',
+          category: 'tech',
+          badge: 'Reliability',
+          tags: ['Offline Queue', 'Crashlytics Fatal/Transient Split', 'Data Integrity']
+        }
+      ]
+    };
+  }
 }
+
