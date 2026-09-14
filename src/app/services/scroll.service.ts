@@ -20,7 +20,7 @@ export class ScrollService {
   /** Ordered list of section IDs used for active-section tracking. */
   public readonly sections: Array<string> = [
     'hero', 'about', 'skills', 'experience',
-    'projects', 'publications', 'education', 'contact'
+    'projects', 'runmate', 'publications', 'education', 'contact'
   ];
 
   private previousUrl: string | null = null;

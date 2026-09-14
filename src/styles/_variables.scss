@@ -1,29 +1,29 @@
 // ─── Color Palette ───────────────────────────────────────────────────────────
-$bg-base:           #080d1a;
-$bg-surface:        #0f1629;
-$bg-card:           #141e33;
-$bg-card-hover:     #1a2744;
+$bg-base:           #090d16;
+$bg-surface:        #0e1424;
+$bg-card:           #131c2e;
+$bg-card-hover:     #19243b;
 
 $primary:           #6366f1;
 $primary-light:     #818cf8;
 $primary-dark:      #4f46e5;
 $accent:            #06b6d4;
-$accent-light:      #22d3ee;
+$accent-light:      #38bdf8;
 $accent-dark:       #0891b2;
 
-$gradient-primary:  linear-gradient(135deg, $primary, $accent);
-$gradient-hero:     linear-gradient(135deg, #1a1a4e 0%, #0a0e1a 50%, #0a1628 100%);
-$gradient-glow:     radial-gradient(ellipse at center, rgba($primary, 0.15) 0%, transparent 70%);
+$gradient-primary:  linear-gradient(135deg, $primary 0%, $accent 100%);
+$gradient-hero:     radial-gradient(ellipse 80% 50% at 50% -20%, rgba($primary, 0.25), transparent 70%), radial-gradient(ellipse 60% 40% at 80% 40%, rgba($accent, 0.18), transparent 60%), linear-gradient(180deg, #090d16 0%, #060911 100%);
+$gradient-glow:     radial-gradient(ellipse at center, rgba($primary, 0.2) 0%, transparent 70%);
 
-$text-primary:      #f1f5f9;
+$text-primary:      #f8fafc;
 $text-secondary:    #94a3b8;
 $text-muted:        #64748b;
 $text-accent:       $accent-light;
 
-$border:            rgba(255, 255, 255, 0.07);
-$border-hover:      rgba($primary, 0.4);
-$glass-bg:          rgba(15, 22, 41, 0.75);
-$glass-bg-light:    rgba(20, 30, 51, 0.6);
+$border:            rgba(255, 255, 255, 0.08);
+$border-hover:      rgba($primary, 0.45);
+$glass-bg:          rgba(15, 23, 42, 0.72);
+$glass-bg-light:    rgba(19, 28, 46, 0.65);
 
 $success:           #10b981;
 $warning:           #f59e0b;

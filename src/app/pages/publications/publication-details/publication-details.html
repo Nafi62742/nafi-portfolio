@@ -8,7 +8,7 @@
       </button>
 
       <!-- Publication Header Card -->
-      <div class="pub-header-card" [style.--accent-color]="p.color">
+      <div class="pub-header-card glass-card" [style.--accent-color]="p.color">
         <!-- Glow Accent -->
         <div class="header-glow" [style.background]="p.color"></div>
         <div class="header-layout">
@@ -51,7 +51,7 @@
         <!-- Left: Overview -->
         <div class="left-column">
           <!-- Abstract -->
-          <div class="overview-card">
+          <div class="overview-card glass-card">
             <h2 class="section-title">
               <i class="fa-solid fa-quote-left text-primary"></i>
               <span>Abstract</span>
@@ -62,7 +62,7 @@
           </div>
           <!-- Full Description -->
           @if (p.longDescription) {
-            <div class="overview-card">
+            <div class="overview-card glass-card">
               <h2 class="section-title">
                 <i class="fa-solid fa-circle-info text-primary"></i>
                 <span>Research Overview</span>
@@ -75,7 +75,7 @@
         <!-- Right: Metadata Sidebar -->
         <div class="right-column">
           <!-- Publication Details -->
-          <div class="details-sidebar-card">
+          <div class="details-sidebar-card glass-card">
             <h2 class="details-sidebar-title">
               <i class="fa-solid fa-list-check text-accent"></i>
               <span>Publication Details</span>
@@ -104,7 +104,7 @@
           </div>
           <!-- Keywords -->
           @if (p.keywords && p.keywords.length) {
-            <div class="keywords-sidebar-card">
+            <div class="keywords-sidebar-card glass-card">
               <h2 class="keywords-sidebar-title">
                 <i class="fa-solid fa-tags text-primary"></i>
                 <span>Keywords</span>

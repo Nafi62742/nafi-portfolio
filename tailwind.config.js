@@ -14,7 +14,7 @@ module.exports = {
         'primary-light':'#818cf8',
         'primary-dark': '#4f46e5',
         'accent':       '#06b6d4',
-        'accent-light': '#22d3ee',
+        'accent-light': '#38bdf8',
         'accent-dark':  '#0891b2',
         'text-primary': 'var(--text-primary)',
         'text-secondary':'var(--text-secondary)',
@@ -29,7 +29,7 @@ module.exports = {
       },
       backgroundImage: {
         'gradient-primary': 'linear-gradient(135deg, #6366f1, #06b6d4)',
-        'gradient-hero':    'linear-gradient(135deg, #1a1a4e 0%, #0a0e1a 50%, #0a1628 100%)',
+        'gradient-hero':    'var(--hero-bg)',
       },
       animation: {
         'fade-up':     'fadeInUp 0.6s ease forwards',

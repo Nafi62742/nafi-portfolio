@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,7 +9,8 @@ import { AppRoutes } from '@utils/constants';
 
 /**
  * Project detail page component. Loads a project by slug from route params
- * and displays its full details including screenshots and an embedded YouTube video.
+ * and displays its full details including an interactive screenshot lightbox,
+ * architecture breakdown, and an embedded YouTube video.
  */
 @Component({
   selector: 'app-project-details',
@@ -25,6 +26,9 @@ export class ProjectDetailsComponent implements OnInit {
   /** Signal holding the sanitized YouTube embed URL, or null if no video. */
   public readonly safeYoutubeUrl = signal<SafeResourceUrl | null>(null);
 
+  /** Signal holding the currently active image index in the lightbox modal, or null when closed. */
+  public readonly selectedImageIndex = signal<number | null>(null);
+
   /**
    * @param route - Activated route for reading URL params
    * @param router - Angular router for navigation and redirects
@@ -35,6 +39,24 @@ export class ProjectDetailsComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly portfolioService = inject(PortfolioService);
   private readonly sanitizer = inject(DomSanitizer);
+
+  /**
+   * Global keyboard listener to handle modal escape and arrow key navigation.
+   *
+   * @param event - Keyboard event
+   */
+  @HostListener('window:keydown', ['$event'])
+  public handleKeydown(event: KeyboardEvent): void {
+    if (this.selectedImageIndex() !== null) {
+      if (event.key === 'Escape') {
+        this.closeLightbox();
+      } else if (event.key === 'ArrowRight') {
+        this.nextLightboxImage();
+      } else if (event.key === 'ArrowLeft') {
+        this.prevLightboxImage();
+      }
+    }
+  }
 
   /**
    * Angular lifecycle hook — loads the project matching the route slug.
@@ -61,6 +83,57 @@ export class ProjectDetailsComponent implements OnInit {
         }
       }
     });
+  }
+
+  /**
+   * Opens the full-resolution screenshot lightbox at a given image index.
+   *
+   * @param index - Target screenshot index
+   */
+  public openLightbox(index: number): void {
+    this.selectedImageIndex.set(index);
+  }
+
+  /**
+   * Closes the active screenshot lightbox.
+   */
+  public closeLightbox(): void {
+    this.selectedImageIndex.set(null);
+  }
+
+  /**
+   * Closes the screenshot lightbox when clicking the backdrop overlay.
+   *
+   * @param event - Mouse event from the backdrop
+   */
+  public onBackdropClick(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.closeLightbox();
+    }
+  }
+
+  /**
+   * Navigates to the next screenshot inside the lightbox.
+   */
+  public nextLightboxImage(): void {
+    const p: Project | null = this.project();
+    const curr: number | null = this.selectedImageIndex();
+    if (p && p.screenshots && curr !== null) {
+      const nextIndex: number = (curr + 1) % p.screenshots.length;
+      this.selectedImageIndex.set(nextIndex);
+    }
+  }
+
+  /**
+   * Navigates to the previous screenshot inside the lightbox.
+   */
+  public prevLightboxImage(): void {
+    const p: Project | null = this.project();
+    const curr: number | null = this.selectedImageIndex();
+    if (p && p.screenshots && curr !== null) {
+      const prevIndex: number = (curr - 1 + p.screenshots.length) % p.screenshots.length;
+      this.selectedImageIndex.set(prevIndex);
+    }
   }
 
   /**
@@ -93,9 +166,11 @@ export class ProjectDetailsComponent implements OnInit {
    * @returns A comma-separated RGB string (e.g. '26, 43, 60')
    */
   public hexToRgb(hex: string): string {
-    const r: number = parseInt(hex.slice(1, 3), 16);
-    const g: number = parseInt(hex.slice(3, 5), 16);
-    const b: number = parseInt(hex.slice(5, 7), 16);
+    const cleanHex: string = hex.replace('#', '');
+    const r: number = parseInt(cleanHex.slice(0, 2), 16) || 6;
+    const g: number = parseInt(cleanHex.slice(2, 4), 16) || 182;
+    const b: number = parseInt(cleanHex.slice(4, 6), 16) || 212;
     return `${r}, ${g}, ${b}`;
   }
 }
+

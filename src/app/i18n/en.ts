@@ -8,6 +8,7 @@ export interface TranslationSchema {
     skills:       string;
     experience:   string;
     projects:     string;
+    runmate:      string;
     publications: string;
     education:    string;
     contact:      string;
@@ -67,6 +68,24 @@ export interface TranslationSchema {
     tech_used:     string;
     role:          string;
   };
+  runmate: {
+    section_label:   string;
+    title:           string;
+    tagline:         string;
+    subtitle:        string;
+    playstore_btn:   string;
+    appstore_btn:    string;
+    website_btn:     string;
+    admin_btn:       string;
+    tab_runners:     string;
+    tab_races:       string;
+    tab_organizers:  string;
+    tab_tech:        string;
+    slider_prev:     string;
+    slider_next:     string;
+    gallery_hint:    string;
+    tech_title:      string;
+  };
   publications: {
     section_label: string;
     title:         string;
@@ -84,17 +103,20 @@ export interface TranslationSchema {
     coursework:    string;
   };
   contact: {
-    section_label: string;
-    title:         string;
-    subtitle:      string;
-    name_label:    string;
-    email_label:   string;
-    message_label: string;
-    send_btn:      string;
-    sending:       string;
-    success_msg:   string;
-    or_reach:      string;
-    location:      string;
+    section_label:       string;
+    title:               string;
+    subtitle:            string;
+    name_label:          string;
+    name_placeholder:    string;
+    email_label:         string;
+    email_placeholder:   string;
+    message_label:       string;
+    message_placeholder: string;
+    send_btn:            string;
+    sending:             string;
+    success_msg:         string;
+    or_reach:            string;
+    location:            string;
   };
   footer: {
     built_with:    string;
@@ -112,6 +134,7 @@ export const EN: TranslationSchema = {
     skills:       'Skills',
     experience:   'Experience',
     projects:     'Projects',
+    runmate:      'RunMate',
     publications: 'Publications',
     education:    'Education',
     contact:      'Contact',
@@ -140,8 +163,8 @@ export const EN: TranslationSchema = {
     bio_2:         'At XORGeek, I engineer high-performance Angular web apps, cross-platform Flutter mobile applications, and robust Node.js/Laravel backend services.',
     bio_3:         'I manage and maintain production databases (both SQL and NoSQL) and design efficient AWS cloud DevOps pipelines to streamline deployments and ensure high availability.',
     stat_exp:      'Years Experience',
-    stat_projects: 'Projects Shipped',
-    stat_databases: 'Databases Managed',
+    stat_projects: 'Projects Completed',
+    stat_databases: 'Databases Management',
     stat_devops:   'Cloud Services'
   },
   skills: {
@@ -171,6 +194,24 @@ export const EN: TranslationSchema = {
     tech_used:       'Technologies',
     role:            'Role & Highlights'
   },
+  runmate: {
+    section_label:   'Featured Mobile Application',
+    title:           'RunMate Club — Track. Compete. Connect.',
+    tagline:         'Smart Marathon Tracking & Running Community Platform',
+    subtitle:        'Live GPS tracking with road-snap accuracy, real-time leaderboards, and community running — engineered for individual training, official marathons, and virtual challenges.',
+    playstore_btn:   'Google Play',
+    appstore_btn:    'App Store',
+    website_btn:     'Official Website',
+    admin_btn:       'Organizer Admin Hub',
+    tab_runners:     'For Runners',
+    tab_races:       'Official Races & Events',
+    tab_organizers:  'For Organizers & Admin',
+    tab_tech:        'Architecture & Security',
+    slider_prev:     'Previous slide',
+    slider_next:     'Next slide',
+    gallery_hint:    'Interactive Showcase • Auto-playing preview',
+    tech_title:      'Core Technology Stack & Architecture'
+  },
   publications: {
     section_label: 'Publications',
     title:         'Research & Publications',
@@ -188,17 +229,20 @@ export const EN: TranslationSchema = {
     coursework:    'Key Coursework'
   },
   contact: {
-    section_label:   'Contact',
-    title:           'Let\'s Work Together',
-    subtitle:        'I\'m currently open to new opportunities. Whether you have a project, a question, or just want to say hello — my inbox is always open.',
-    name_label:      'Your Name',
-    email_label:     'Your Email',
-    message_label:   'Message',
-    send_btn:        'Send Message',
-    sending:         'Sending...',
-    success_msg:     'Message sent! I\'ll get back to you soon.',
-    or_reach:        'Or reach me directly',
-    location:        'Dhaka, Bangladesh'
+    section_label:       'Contact',
+    title:               'Let\'s Work Together',
+    subtitle:            'I\'m currently open to new opportunities. Whether you have a project, a question, or just want to say hello — my inbox is always open.',
+    name_label:          'Your Name',
+    name_placeholder:    'Enter your name',
+    email_label:         'Your Email',
+    email_placeholder:   'Enter your email address',
+    message_label:       'Message',
+    message_placeholder: 'How can I help you? Write your message here...',
+    send_btn:            'Send Message',
+    sending:             'Sending...',
+    success_msg:         'Message sent! I\'ll get back to you soon.',
+    or_reach:            'Or reach me directly',
+    location:            'Dhaka, Bangladesh'
   },
   footer: {
     built_with:  'Built by Nafi Ahmed',

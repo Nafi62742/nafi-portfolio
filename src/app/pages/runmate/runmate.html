@@ -1,0 +1,448 @@
+<section class="runmate-section" id="runmate">
+  <!-- Ambient background glow effects -->
+  <div class="glow-orb glow-cyan"></div>
+  <div class="glow-orb glow-indigo"></div>
+
+  <div class="runmate-container">
+    <!-- Header -->
+    <div class="section-header reveal">
+      <div class="header-badges-row">
+        <div class="badge-pill">
+          <i class="fa-solid fa-person-running"></i>
+          <span>{{ t.t('runmate.section_label') }}</span>
+        </div>
+        @if (runmateData.collaboration) {
+        <div class="collab-pill">
+          <i class="fa-solid fa-handshake-angle"></i>
+          <span>{{ runmateData.collaboration }}</span>
+        </div>
+        }
+      </div>
+      <h2 class="section-title">
+        {{ t.t('runmate.title') }}
+      </h2>
+      <p class="section-subtitle">
+        {{ t.t('runmate.subtitle') }}
+      </p>
+    </div>
+
+    <!-- Quick Action Store & Web Links -->
+    <div class="cta-actions-bar reveal delay-1">
+      <div class="store-buttons-group">
+        <!-- Google Play -->
+        @if (runmateData.playstoreUrl) {
+        <a
+          [href]="runmateData.playstoreUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="store-badge-btn playstore-btn"
+          aria-label="Download RunMate on Google Play Store"
+        >
+          <i class="fa-brands fa-google-play store-icon"></i>
+          <div class="store-text">
+            <span class="store-subtext">GET IT ON</span>
+            <span class="store-title">Google Play</span>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square store-arrow"></i>
+        </a>
+        }
+
+        <!-- Apple App Store -->
+        @if (runmateData.appstoreUrl) {
+        <a
+          [href]="runmateData.appstoreUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="store-badge-btn appstore-btn"
+          aria-label="Download RunMate on Apple App Store"
+        >
+          <i class="fa-brands fa-apple store-icon"></i>
+          <div class="store-text">
+            <span class="store-subtext">Download on the</span>
+            <span class="store-title">App Store</span>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square store-arrow"></i>
+        </a>
+        }
+
+        <!-- Official Website -->
+        @if (runmateData.websiteUrl) {
+        <a
+          [href]="runmateData.websiteUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="store-badge-btn website-btn"
+          aria-label="Open RunMate Club Official Website"
+        >
+          <i class="fa-solid fa-globe store-icon"></i>
+          <div class="store-text">
+            <span class="store-subtext">Live Platform</span>
+            <span class="store-title">runmate.club</span>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square store-arrow"></i>
+        </a>
+        }
+
+        <!-- Web Admin Hub -->
+        @if (runmateData.webAdminUrl) {
+        <a
+          [href]="runmateData.webAdminUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="store-badge-btn webadmin-btn"
+          aria-label="Open RunMate Organizer Web Admin"
+        >
+          <i class="fa-solid fa-desktop store-icon"></i>
+          <div class="store-text">
+            <span class="store-subtext">Race Organizers</span>
+            <span class="store-title">Admin Hub</span>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square store-arrow"></i>
+        </a>
+        }
+      </div>
+    </div>
+
+    <!-- Key Metrics Grid -->
+    <div class="metrics-grid reveal delay-2">
+      @for (metric of runmateData.metrics; track metric.label) {
+      <div class="metric-card glass-card">
+        <div class="metric-icon-box">
+          <i class="fa-solid" [ngClass]="metric.icon"></i>
+        </div>
+        <div class="metric-content">
+          <span class="metric-val">{{ metric.value }}</span>
+          <span class="metric-lbl">{{ metric.label }}</span>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- Spotlight Interactive Showcase Slider -->
+    <div
+      class="showcase-slider-wrapper reveal delay-3"
+      (mouseenter)="stopAutoPlay()"
+      (mouseleave)="startAutoPlay()"
+      (touchstart)="onTouchStart($event)"
+      (touchend)="onTouchEnd($event)"
+    >
+      <div class="slider-main-display glass-card" [style.--active-color]="currentSlide.accentColor">
+        <!-- Smartphone Mockup Column -->
+        <div class="phone-mockup-column">
+          <div class="phone-device-frame">
+            <div class="dynamic-island">
+              <div class="island-camera"></div>
+              <div class="island-sensor"></div>
+            </div>
+            <div class="phone-glass-sheen"></div>
+
+            <div class="phone-screen-inner" [style.--slide-accent]="currentSlide.accentColor">
+              @if (currentSlide.image) {
+              <div
+                class="screenshot-display-container"
+                (click)="openFullscreen(currentSlide.image)"
+                (keydown.enter)="openFullscreen(currentSlide.image)"
+                role="button"
+                tabindex="0"
+                [attr.aria-label]="'Enlarge ' + currentSlide.title"
+              >
+                <img
+                  [src]="currentSlide.image"
+                  [alt]="currentSlide.title"
+                  class="screenshot-device-img"
+                />
+                <div class="screenshot-hover-badge">
+                  <i class="fa-solid fa-expand text-xs mr-1"></i>
+                  <span>Tap to Enlarge</span>
+                </div>
+              </div>
+              } @else {
+              <div class="mockup-ui-card">
+                <div class="mockup-badge-row">
+                  <span class="mockup-badge" [style.background]="currentSlide.accentColor + '22'" [style.color]="currentSlide.accentColor">
+                    <i class="fa-solid" [ngClass]="currentSlide.icon"></i>
+                    {{ currentSlide.badge }}
+                  </span>
+                  <span class="live-pulse-dot">
+                    <span class="pulse-ring"></span>
+                    <span class="pulse-core"></span>
+                    LIVE
+                  </span>
+                </div>
+                <div class="mockup-hero-visual">
+                  <div class="mockup-radar-circle" [style.borderColor]="currentSlide.accentColor + '55'">
+                    <i class="fa-solid" [ngClass]="currentSlide.icon" [style.color]="currentSlide.accentColor"></i>
+                  </div>
+                </div>
+                <div class="mockup-stats-strip">
+                  @for (stat of currentSlide.stats; track stat.label) {
+                  <div class="mockup-stat-cell">
+                    <span class="stat-label">{{ stat.label }}</span>
+                    <span class="stat-value" [style.color]="currentSlide.accentColor">{{ stat.value }}</span>
+                  </div>
+                  }
+                </div>
+              </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide Content Column -->
+        <div class="slider-details-column">
+          <div class="slide-meta-row">
+            <span class="slide-category-tag" [style.color]="currentSlide.accentColor" [style.borderColor]="currentSlide.accentColor + '44'">
+              <i class="fa-solid" [ngClass]="currentSlide.icon"></i>
+              {{ currentSlide.badge }}
+            </span>
+            <span class="slide-counter-tag">
+              0{{ activeSlideIndex() + 1 }} / 0{{ runmateData.slides.length }}
+            </span>
+          </div>
+
+          <h3 class="slide-title">{{ currentSlide.title }}</h3>
+          <p class="slide-subtitle">{{ currentSlide.subtitle }}</p>
+
+          <!-- Slide Live Stats -->
+          @if (currentSlide.stats && currentSlide.stats.length > 0) {
+          <div class="slide-stats-list">
+            @for (stat of currentSlide.stats; track stat.label) {
+            <div class="slide-stat-item">
+              <div class="stat-dot" [style.background]="currentSlide.accentColor"></div>
+              <span class="stat-item-label">{{ stat.label }}:</span>
+              <strong class="stat-item-value">{{ stat.value }}</strong>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- Slide Jump Pills -->
+          <div class="slide-pills-row">
+            @for (slide of runmateData.slides; track slide.id; let idx = $index) {
+            <button
+              type="button"
+              (click)="goToSlide(idx)"
+              class="slide-jump-pill"
+              [class.active-pill]="idx === activeSlideIndex()"
+              [style.--pill-color]="slide.accentColor"
+              [attr.aria-label]="'Go to ' + slide.title"
+            >
+              <i class="fa-solid" [ngClass]="slide.icon"></i>
+              <span>{{ slide.badge }}</span>
+            </button>
+            }
+          </div>
+
+          <!-- Slider Navigation & Hint Controls -->
+          <div class="slider-controls-bar">
+            <div class="nav-buttons">
+              <button
+                type="button"
+                (click)="prevSlide()"
+                class="slider-nav-btn"
+                [attr.aria-label]="t.t('runmate.slider_prev')"
+              >
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <button
+                type="button"
+                (click)="nextSlide()"
+                class="slider-nav-btn"
+                [attr.aria-label]="t.t('runmate.slider_next')"
+              >
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+
+            <div class="slider-dots-group">
+              @for (slide of runmateData.slides; track slide.id; let idx = $index) {
+              <button
+                type="button"
+                (click)="goToSlide(idx)"
+                class="slider-dot"
+                [class.active-dot]="idx === activeSlideIndex()"
+                [style.background]="idx === activeSlideIndex() ? slide.accentColor : 'rgba(148, 163, 184, 0.3)'"
+                [attr.aria-label]="'Go to slide ' + (idx + 1)"
+              ></button>
+              }
+            </div>
+
+            <span class="gallery-hint-text">
+              <i class="fa-solid fa-circle-play text-cyan-400 mr-1 text-xs"></i>
+              {{ t.t('runmate.gallery_hint') }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feature Category Tabs & Cards -->
+    <div class="features-exploration-section reveal delay-3">
+      <div class="tabs-header-bar">
+        <button
+          type="button"
+          (click)="setTab('runners')"
+          class="tab-toggle-btn"
+          [class.active-tab]="activeTab() === 'runners'"
+        >
+          <i class="fa-solid fa-person-running"></i>
+          <span>{{ t.t('runmate.tab_runners') }}</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="setTab('races')"
+          class="tab-toggle-btn"
+          [class.active-tab]="activeTab() === 'races'"
+        >
+          <i class="fa-solid fa-flag-checkered"></i>
+          <span>{{ t.t('runmate.tab_races') }}</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="setTab('organizers')"
+          class="tab-toggle-btn"
+          [class.active-tab]="activeTab() === 'organizers'"
+        >
+          <i class="fa-solid fa-desktop"></i>
+          <span>{{ t.t('runmate.tab_organizers') }}</span>
+        </button>
+
+        <button
+          type="button"
+          (click)="setTab('tech')"
+          class="tab-toggle-btn"
+          [class.active-tab]="activeTab() === 'tech'"
+        >
+          <i class="fa-solid fa-microchip"></i>
+          <span>{{ t.t('runmate.tab_tech') }}</span>
+        </button>
+      </div>
+
+      <!-- Feature Cards Grid -->
+      <div class="features-cards-grid">
+        @for (feature of filteredFeatures; track feature.title) {
+        <div class="feature-card glass-card">
+          <div class="feature-card-top">
+            <div class="feature-icon-box">
+              <i class="fa-solid" [ngClass]="feature.icon"></i>
+            </div>
+            @if (feature.badge) {
+            <span class="feature-badge">{{ feature.badge }}</span>
+            }
+          </div>
+
+          <h4 class="feature-card-title">{{ feature.title }}</h4>
+          <p class="feature-card-desc">{{ feature.description }}</p>
+
+          @if (feature.tags && feature.tags.length > 0) {
+          <div class="feature-tags-list">
+            @for (tag of feature.tags; track tag) {
+            <span class="feature-tag-chip">{{ tag }}</span>
+            }
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Unified Team Collaboration & Tech Ribbon -->
+    <div class="unified-footer-card glass-card reveal delay-4">
+      <div class="footer-top-row">
+        <!-- Tech Stack Pills -->
+        <div class="tech-pills-col">
+          <span class="footer-col-label">
+            <i class="fa-solid fa-layer-group text-primary"></i>
+            <span>{{ t.t('runmate.tech_title') }}</span>
+          </span>
+          <div class="tech-pills-wrap">
+            @for (tech of runmateData.techStack; track tech) {
+            <span class="tech-pill-badge">
+              <i class="fa-solid fa-check text-emerald-400"></i>
+              <span>{{ tech }}</span>
+            </span>
+            }
+          </div>
+        </div>
+
+        <!-- Collaboration Header -->
+        @if (runmateData.collaboration) {
+        <div class="collab-info-col">
+          <span class="footer-col-label">
+            <i class="fa-solid fa-handshake-angle text-indigo-400"></i>
+            <span>Engineering Collaboration</span>
+          </span>
+          <span class="collab-name">{{ runmateData.collaboration }}</span>
+        </div>
+        }
+      </div>
+
+      <!-- Team Members Grid -->
+      @if (runmateData.teamLead || runmateData.coreDevelopers || runmateData.teamMembers) {
+      <div class="team-credits-row">
+        @if (runmateData.teamLead) {
+        <div class="member-chip lead-chip">
+          <span class="chip-role">Team Lead</span>
+          <span class="chip-name">{{ runmateData.teamLead }}</span>
+        </div>
+        }
+        @if (runmateData.coreDevelopers && runmateData.coreDevelopers.length > 0) {
+        <div class="member-chip core-dev-chip">
+          <span class="chip-role">Core Developers</span>
+          <div class="chip-names-group">
+            @for (dev of runmateData.coreDevelopers; track dev) {
+            <span class="dev-tag">{{ dev }}</span>
+            }
+          </div>
+        </div>
+        }
+        @if (runmateData.teamMembers && runmateData.teamMembers.length > 0) {
+        <div class="member-chip team-chip">
+          <span class="chip-role">Engineering Teammates</span>
+          <div class="chip-names-group">
+            @for (member of runmateData.teamMembers; track member) {
+            <span class="member-tag">{{ member }}</span>
+            }
+          </div>
+        </div>
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Fullscreen Image Lightbox Modal -->
+  @if (activeFullscreenImage(); as fullImg) {
+  <div
+    class="runmate-lightbox-backdrop"
+    (click)="onBackdropClick($event)"
+    (keydown.escape)="closeFullscreen()"
+    tabindex="0"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Screenshot fullscreen preview"
+  >
+    <div class="runmate-lightbox-dialog" role="document">
+      <button
+        type="button"
+        class="runmate-lightbox-close"
+        (click)="closeFullscreen()"
+        aria-label="Close fullscreen view"
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="runmate-lightbox-img-wrap">
+        <img [src]="fullImg" [alt]="currentSlide.title" class="runmate-fullscreen-img" />
+      </div>
+
+      <div class="runmate-lightbox-caption">
+        <span class="caption-title">{{ currentSlide.title }}</span>
+        <span class="caption-badge">{{ currentSlide.badge }}</span>
+      </div>
+    </div>
+  </div>
+  }
+</section>
