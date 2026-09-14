@@ -103,7 +103,7 @@ export class PortfolioService {
       {
         name:            'RunMate Club',
         description:     'Your ultimate marathon running companion — real-time GPS tracking, running groups, live race leaderboards, and organizer admin.',
-        longDescription: 'RunMate Club is a comprehensive marathon running and race management platform built in Flutter (iOS, Android, and Web admin). Developed at XORGeek in collaboration with Nymph Solution, with Nafi Ahmed serving as Core Developer under Team Lead Masum Reza and engineering teammates Razin Sufian, Kawsar Ahmed, and Mohammad Abir Hassan Sarker. It provides real-time route tracking with road-snap accuracy, automatic finish line detection, offline-first sync, group management with QR codes, personal stats & global leaderboards, KML-based route planning, and community features. The platform also includes a complete organizer admin portal for race creation, SSLCommerz multi-merchant payments, live race map broadcast, automated RFID completion certificates, and remote Virtual Run challenges.',
+        longDescription: 'RunMate Club is a comprehensive marathon running and race management platform built in Flutter (iOS, Android, and Web admin). Developed at XORGeek in collaboration with Nymph Solution, with Masum Reza (Team Lead) and Nafi Ahmed serving as Core Developers alongside engineering teammates Razin Sufian, Kawsar Ahmed, and Mohammad Abir Hassan Sarker. It provides real-time route tracking with road-snap accuracy, automatic finish line detection, offline-first sync, group management with QR codes, personal stats & global leaderboards, KML-based route planning, and community features. The platform also includes a complete organizer admin portal for race creation, SSLCommerz multi-merchant payments, live race map broadcast, automated RFID completion certificates, and remote Virtual Run challenges.',
         highlights:      'Core Developer for cross-platform Flutter mobile & web app with hardened background GPS tracking, anti-cheat engine, and race organizer backend.',
         tech:            ['Flutter', 'Dart', 'Firebase RTDB', 'Cloud Functions', 'GetX', 'SSLCommerz'],
         icon:            'fa-person-running',
@@ -127,7 +127,8 @@ export class PortfolioService {
         ],
         collaboration:   'XORGeek in collaboration with Nymph Solution',
         teamLead:        'Masum Reza',
-        coreDeveloper:   'Nafi Ahmed',
+        coreDevelopers:  ['Masum Reza', 'Nafi Ahmed'],
+        coreDeveloper:   'Masum Reza & Nafi Ahmed',
         teamMembers:     ['Razin Sufian', 'Kawsar Ahmed', 'Mohammad Abir Hassan Sarker'],
         shortRole:       'Core Developer'
       },
@@ -434,7 +435,8 @@ export class PortfolioService {
       webAdminUrl:  'https://runmate.club/admin/',
       collaboration: 'XORGeek in collaboration with Nymph Solution',
       teamLead:     'Masum Reza',
-      coreDeveloper: 'Nafi Ahmed',
+      coreDevelopers: ['Masum Reza', 'Nafi Ahmed'],
+      coreDeveloper: 'Masum Reza & Nafi Ahmed',
       teamMembers:  ['Razin Sufian', 'Kawsar Ahmed', 'Mohammad Abir Hassan Sarker'],
       techStack: [
         'Flutter',
@@ -545,100 +547,129 @@ export class PortfolioService {
         }
       ],
       features: [
-        // For Runners
+        // ── For Runners ──────────────────────────────────────────
         {
           icon: 'fa-person-running',
           title: 'Resilient GPS Tracking',
           description:
-            'Real-time distance, pace, and time tracking hardened against aggressive OS battery managers and process kills with auto-resume capability.',
+            'Real-time distance, pace, and time tracking hardened against aggressive OS battery managers and process kills with seamless auto-resume.',
           category: 'runners',
           badge: 'Core Tracker',
-          tags: ['Background Audio Coach', 'Auto-Pause', 'Wearables (Garmin/Wear OS/Apple Watch)']
+          tags: ['Audio Coach', 'Auto-Pause', 'Wear OS / Garmin / Apple Watch']
+        },
+        {
+          icon: 'fa-trophy',
+          title: 'Region-Scoped Leaderboards',
+          description:
+            'Dynamic leaderboards that auto-detect and scope to your regional cluster based on recent routes, narrowing fairly as runner volume grows.',
+          category: 'runners',
+          badge: 'Competition',
+          tags: ['Auto-Region Detection', 'Daily / Weekly / Monthly', 'Pace Rankings']
         },
         {
           icon: 'fa-shield-halved',
-          title: 'Anti-Cheat & Region Boards',
+          title: 'Anti-Cheat Fair Play',
           description:
-            'Multi-stage filtering detects GPS teleportation, dead-reckoning gaps, and vehicular motion. Leaderboards auto-detect and scope to your regional cluster.',
+            'Multi-stage verification filtering GPS teleportation, dead-reckoning gaps, and vehicular motion with windowed penalties.',
           category: 'runners',
-          badge: 'Competitive',
-          tags: ['GPS Teleport Filter', 'Vehicle Detection', 'Region Scoping']
-        },
-        {
-          icon: 'fa-flag-checkered',
-          title: 'Official Races & Virtual Runs',
-          description:
-            'Browse and register for physical marathons with bib numbers & KML route maps, or complete multi-attempt remote Virtual Run challenges with deadline tracking.',
-          category: 'runners',
-          badge: 'Race Events',
-          tags: ['Bib Allocation', 'Live Race Broadcast', 'Virtual Challenges']
-        },
-        {
-          icon: 'fa-award',
-          title: 'Dynamic Completion Certificates',
-          description:
-            'Instant PDF/image certificates generated with official RFID chip times for physical races and distance milestones for remote challenge finishers.',
-          category: 'runners',
-          badge: 'Rewards',
-          tags: ['RFID Chip Integration', 'Category Artwork', 'Social Share']
+          badge: 'Fair Play',
+          tags: ['Teleport Filter', 'Vehicle Detection', 'Windowed Day Penalty']
         },
         {
           icon: 'fa-users',
-          title: 'Social & Multilingual Support',
+          title: 'Social & Running Clubs',
           description:
-            'Friend discovery, event-based running groups, route sharing cards, and persisted tri-lingual support across English, Bengali, and Japanese.',
+            'Create and join running clubs with QR codes, share route cards, comment on feeds, and connect with local marathon runners.',
           category: 'runners',
           badge: 'Community',
-          tags: ['EN / BN / JA i18n', 'Event Groups', 'Stats Cards']
+          tags: ['Club Feeds', 'QR Join', 'Route Share Cards', 'EN / BN / JA']
         },
 
-        // For Organizers & Admins
+        // ── Official Races & Marathons ─────────────────────────────
+        {
+          icon: 'fa-flag-checkered',
+          title: 'Official Marathon Registration',
+          description:
+            'Browse and register for physical marathons with automated bib number allocation, race categories, kit pickup info, and cutoff timers.',
+          category: 'races',
+          badge: 'Physical Races',
+          tags: ['Bib Allocation', 'KML Route Maps', 'Cutoff Timers', 'Emergency Contacts']
+        },
+        {
+          icon: 'fa-satellite-dish',
+          title: 'Live Race Map & Fleet Broadcast',
+          description:
+            'Real-time runner position visualization during live marathons with sub-second leaderboard updates for spectators and officials.',
+          category: 'races',
+          badge: 'Live Tracking',
+          tags: ['Sub-Second Sync', 'Live Fleet Map', 'Spectator Broadcast']
+        },
+        {
+          icon: 'fa-person-hiking',
+          title: 'Remote Virtual Run Challenges',
+          description:
+            'Participate in remote distance challenges with multi-attempt support, activity submission, GPS route verification, and deadline tracking.',
+          category: 'races',
+          badge: 'Virtual Runs',
+          tags: ['Multi-Attempt', 'GPS Route Proof', 'Deadline Engine', 'Global Finishers']
+        },
+        {
+          icon: 'fa-award',
+          title: 'Automated RFID & E-Certificates',
+          description:
+            'High-resolution completion certificates generated on-demand with official chip times, ranks, and custom event artwork.',
+          category: 'races',
+          badge: 'Finisher Awards',
+          tags: ['RFID Chip Times', 'PDF / PNG Generation', 'Verification QR', 'Social Sharing']
+        },
+
+        // ── For Organizers & Admins ────────────────────────────────
         {
           icon: 'fa-route',
           title: 'Race & Category Studio',
           description:
-            'Design races with KML route uploads, category cutoff times, bib number toggle, kit collection details, and virtual run mode switches.',
+            'Create complex multi-category events with KML route uploads, elevation profiles, kit collection details, and virtual run mode switches.',
           category: 'organizers',
           badge: 'Event Studio',
-          tags: ['KML Route Upload', 'Cutoff Times', 'Bib Customization']
+          tags: ['KML Upload', 'Cutoff Times', 'Bib Customization', 'Kit Logistics']
         },
         {
           icon: 'fa-credit-card',
-          title: 'Multi-Merchant SSLCommerz',
+          title: 'Multi-Merchant SSLCommerz Gateway',
           description:
-            'Direct routing of participant ticket fees to each organizer’s own merchant credentials with automated cancellation and refund flows.',
+            'Direct routing of participant registration fees to each organizer’s own merchant credentials with automated refund workflows.',
           category: 'organizers',
           badge: 'Monetization',
           tags: ['SSLCommerz Gateway', 'Instant Free Confirm', 'Paid Review Queue']
         },
         {
-          icon: 'fa-satellite-dish',
-          title: 'Live Race & Virtual Dashboards',
+          icon: 'fa-desktop',
+          title: 'Live Organizer Ops Hub',
           description:
-            'Real-time runner position map during live marathons and dedicated attempt-approval console for Virtual Run participants.',
+            'Dedicated console for real-time race fleet monitoring, virtual attempt approvals, manual timing overrides, and disqualification alerts.',
           category: 'organizers',
-          badge: 'Operations',
-          tags: ['Live Fleet Map', 'Attempt Approvals', 'Disqualification Alerts']
+          badge: 'Operations Hub',
+          tags: ['Attempt Approvals', 'Live Incident Alerts', 'Timing Override']
         },
         {
           icon: 'fa-user-gear',
           title: 'Organizer Self-Signup Pipeline',
           description:
-            'Public organizer application portal feeding a super-admin approval queue with automated onboarding emails and credential generation.',
+            'Public organizer application portal feeding a super-admin review queue with automated onboarding emails and credential generation.',
           category: 'organizers',
           badge: 'Onboarding',
-          tags: ['Public Application', 'Super-Admin Review', 'Auto Credentialing']
+          tags: ['Self-Signup Portal', 'Super-Admin Review', 'Automated Credentialing']
         },
 
-        // Under the Hood
+        // ── Architecture & Security ───────────────────────────────
         {
           icon: 'fa-layer-group',
           title: 'Flutter & GetX Architecture',
           description:
-            'Clean reactive state management and high-framerate rendering across iOS, Android, and Web admin from a unified codebase.',
+            'Clean reactive state management and high-framerate 60fps rendering across iOS, Android, and Web admin from a unified codebase.',
           category: 'tech',
           badge: 'Frontend',
-          tags: ['Flutter 3.x', 'GetX Reactive', 'Cross-Platform Web/Mobile']
+          tags: ['Flutter 3.x', 'GetX Reactive', 'Cross-Platform iOS/Android/Web']
         },
         {
           icon: 'fa-fire',
@@ -646,17 +677,17 @@ export class PortfolioService {
           description:
             'Firebase Auth, Realtime Database for sub-second race broadcasts, Cloud Functions for certificate rendering, and Cloud Storage.',
           category: 'tech',
-          badge: 'Cloud',
+          badge: 'Cloud Infrastructure',
           tags: ['Realtime Database', 'Cloud Functions', 'Staging & Prod Split']
         },
         {
           icon: 'fa-arrows-rotate',
           title: 'Offline-First Write Queue',
           description:
-            'Local persistence layer queues runs and telemetry offline, syncing reliably when connectivity is restored without dropped packets.',
+            'Local persistence layer queues telemetry and run milestones offline, syncing reliably upon reconnection with zero packet loss.',
           category: 'tech',
           badge: 'Reliability',
-          tags: ['Offline Queue', 'Crashlytics Fatal/Transient Split', 'Data Integrity']
+          tags: ['Offline Queue', 'Crashlytics Fatal/Transient Split', 'Zero-Loss Telemetry']
         }
       ]
     };

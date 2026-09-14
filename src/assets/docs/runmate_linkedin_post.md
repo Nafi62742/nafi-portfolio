@@ -53,8 +53,9 @@ Over the past months at **XORGeek** in collaboration with **Nymph Solution**, as
 
 ### 🤝 The Team Behind It:
 - **Organization**: XORGeek in collaboration with Nymph Solution
-- **Team Lead**: Masum Reza
-- **Core Developers & Engineers**: Nafi Ahmed, Razin Sufian, Kawsar Ahmed, Mohammad Abir Hassan Sarker
+- **Team Lead & Core Developer**: Masum Reza
+- **Core Developer**: Nafi Ahmed
+- **Engineering Teammates**: Mohammad Abir Hassan Sarker, Razin Sufian, Kawsar Ahmed
 
 Give it a spin on iOS, Android, or check out the web platform — would love to hear your thoughts and feedback! 👇
 

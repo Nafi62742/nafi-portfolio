@@ -286,7 +286,19 @@
                 </div>
               }
 
-              @if (p.coreDeveloper) {
+              @if (p.coreDevelopers && p.coreDevelopers.length > 0) {
+                <div class="meta-item core-dev-item">
+                  <span class="meta-label">
+                    <i class="fa-solid fa-code text-cyan-400"></i>
+                    Core Developers
+                  </span>
+                  <div class="meta-team-pills">
+                    @for (dev of p.coreDevelopers; track dev) {
+                      <span class="team-member-pill font-bold text-cyan-300 border-cyan-500/30 bg-cyan-500/10">{{ dev }}</span>
+                    }
+                  </div>
+                </div>
+              } @else if (p.coreDeveloper) {
                 <div class="meta-item core-dev-item">
                   <span class="meta-label">
                     <i class="fa-solid fa-code text-cyan-400"></i>

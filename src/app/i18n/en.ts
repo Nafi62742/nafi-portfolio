@@ -78,6 +78,7 @@ export interface TranslationSchema {
     website_btn:     string;
     admin_btn:       string;
     tab_runners:     string;
+    tab_races:       string;
     tab_organizers:  string;
     tab_tech:        string;
     slider_prev:     string;
@@ -203,8 +204,9 @@ export const EN: TranslationSchema = {
     website_btn:     'Official Website',
     admin_btn:       'Organizer Admin Hub',
     tab_runners:     'For Runners',
-    tab_organizers:  'For Organizers & Admins',
-    tab_tech:        'Architecture & Reliability',
+    tab_races:       'Official Races & Events',
+    tab_organizers:  'For Organizers & Admin',
+    tab_tech:        'Architecture & Security',
     slider_prev:     'Previous slide',
     slider_next:     'Next slide',
     gallery_hint:    'Interactive Showcase • Auto-playing preview',

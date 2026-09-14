@@ -44,6 +44,7 @@ export interface Project {
   collaboration?:   string;
   teamLead?:        string;
   coreDeveloper?:   string;
+  coreDevelopers?:  string[];
   teamMembers?:     string[];
 }
 
@@ -99,27 +100,28 @@ export interface RunMateFeature {
   icon:        string;
   title:       string;
   description: string;
-  category:    'runners' | 'organizers' | 'tech';
+  category:    'runners' | 'races' | 'organizers' | 'tech';
   badge?:      string;
   tags?:       string[];
 }
 
 export interface RunMateData {
-  appName:        string;
-  tagline:        string;
-  description:    string;
-  collaboration?:  string;
-  teamLead?:      string;
-  coreDeveloper?: string;
-  teamMembers?:   string[];
-  websiteUrl?:    string;
-  playstoreUrl:   string;
-  appstoreUrl:    string;
-  webAdminUrl?:   string;
-  techStack:      string[];
-  metrics:        Array<{ value: string; label: string; icon: string }>;
-  slides:         RunMateSlide[];
-  features:       RunMateFeature[];
+  appName:         string;
+  tagline:         string;
+  description:     string;
+  collaboration?:   string;
+  teamLead?:       string;
+  coreDeveloper?:  string;
+  coreDevelopers?: string[];
+  teamMembers?:    string[];
+  websiteUrl?:     string;
+  playstoreUrl:    string;
+  appstoreUrl:     string;
+  webAdminUrl?:    string;
+  techStack:       string[];
+  metrics:         Array<{ value: string; label: string; icon: string }>;
+  slides:          RunMateSlide[];
+  features:        RunMateFeature[];
 }
 
 

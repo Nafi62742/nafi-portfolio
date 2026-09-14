@@ -31,7 +31,7 @@ export class RunmateComponent implements OnInit, OnDestroy {
   public readonly activeSlideIndex = signal<number>(0);
 
   /** Signal tracking currently selected feature tab. */
-  public readonly activeTab = signal<'runners' | 'organizers' | 'tech'>('runners');
+  public readonly activeTab = signal<'runners' | 'races' | 'organizers' | 'tech'>('runners');
 
   /** Signal holding fullscreen image url when lightbox is open. */
   public readonly activeFullscreenImage = signal<string | null>(null);
@@ -100,7 +100,7 @@ export class RunmateComponent implements OnInit, OnDestroy {
    *
    * @param tab - Target tab identifier
    */
-  public setTab(tab: 'runners' | 'organizers' | 'tech'): void {
+  public setTab(tab: 'runners' | 'races' | 'organizers' | 'tech'): void {
     this.activeTab.set(tab);
   }
 

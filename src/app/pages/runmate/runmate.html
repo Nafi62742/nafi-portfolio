@@ -319,6 +319,16 @@
 
         <button
           type="button"
+          (click)="setTab('races')"
+          class="tab-toggle-btn"
+          [class.active-tab]="activeTab() === 'races'"
+        >
+          <i class="fa-solid fa-flag-checkered"></i>
+          <span>{{ t.t('runmate.tab_races') }}</span>
+        </button>
+
+        <button
+          type="button"
           (click)="setTab('organizers')"
           class="tab-toggle-btn"
           [class.active-tab]="activeTab() === 'organizers'"
@@ -341,12 +351,7 @@
       <!-- Feature Cards Grid -->
       <div class="features-cards-grid">
         @for (feature of filteredFeatures; track feature.title; let i = $index) {
-        <div
-          class="feature-card glass-card reveal"
-          [class.delay-1]="(i % 3) === 0"
-          [class.delay-2]="(i % 3) === 1"
-          [class.delay-3]="(i % 3) === 2"
-        >
+        <div class="feature-card glass-card">
           <div class="feature-card-top">
             <div class="feature-icon-box">
               <i class="fa-solid" [ngClass]="feature.icon"></i>
@@ -407,7 +412,16 @@
           <span class="member-name">{{ runmateData.teamLead }}</span>
         </div>
         }
-        @if (runmateData.coreDeveloper) {
+        @if (runmateData.coreDevelopers && runmateData.coreDevelopers.length > 0) {
+        <div class="member-cell core-dev-cell">
+          <span class="member-role">Core Developers</span>
+          <div class="teammates-names">
+            @for (dev of runmateData.coreDevelopers; track dev) {
+            <span class="teammate-tag text-cyan-300 font-bold bg-cyan-500/10 border border-cyan-500/30">{{ dev }}</span>
+            }
+          </div>
+        </div>
+        } @else if (runmateData.coreDeveloper) {
         <div class="member-cell core-dev-cell">
           <span class="member-role">Core Developer</span>
           <span class="member-name text-cyan-300 font-bold">{{ runmateData.coreDeveloper }}</span>
