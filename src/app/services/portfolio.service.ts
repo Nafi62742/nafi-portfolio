@@ -133,6 +133,19 @@ export class PortfolioService {
         shortRole:       'Core Developer'
       },
       {
+        name:            'Koyama Shokai',
+        description:     'A hospital linen & patient-item delivery request management system built with Angular 21, AWS Serverless architecture, and role-based access control.',
+        longDescription: 'Koyama Shokai is an enterprise hospital linen and patient-item delivery request management platform developed for Japanese healthcare facilities. The single-page application manages recurring hospital service plans (such as daily linen-exchange sets) and one-off add-on options, scheduling deliveries directly for patients across rooms and wards. Built on Angular 21 with standalone components, strict TypeScript, and OnPush change detection throughout, the system features a 4-tier role-based access control (RBAC) model supporting Admin, Leader, Staff, and Hospital Staff roles with custom route guards and action-level permissions. The frontend communicates with an AWS Serverless REST API powered by API Gateway and Lambda, featuring session-based authentication via HttpOnly cookies, dynamic job polling, automated PDF generation via jsPDF, and Japanese localization.',
+        highlights:      'Engineered standalone Angular 21 frontend with RxJS state management, 4-tier role-based access control (RBAC), and AWS Serverless REST API integration with CI/CD deployment.',
+        tech:            ['Angular', 'TypeScript', 'Tailwind CSS', 'RxJS', 'AWS Lambda', 'AWS S3', 'CloudFront', 'REST APIs'],
+        icon:            'fa-truck-medical',
+        color:           '#0284c7',
+        category:        'office',
+        type:            'Enterprise Web App',
+        link:            'https://koyama-stage.efweb.jp/stage',
+        shortRole:       'Hospital Logistics & Delivery Management'
+      },
+      {
         name:            'KEIAI Order App',
         description:     'A cross-platform ordering management application built for KEIAI, enabling streamlined order placement and tracking.',
         longDescription: 'KEIAI Order App is a Flutter-based cross-platform application developed for KEIAI, a Japanese organization. The app provides a clean and efficient interface for placing, managing, and tracking orders within the organization. It supports both web and mobile platforms from a single Flutter codebase, ensuring a consistent experience across devices. The application integrates with the organization\'s backend systems to handle real-time order status updates, user authentication, and order history management. The web version is deployed and accessible online, while mobile builds target both Android and iOS.',
