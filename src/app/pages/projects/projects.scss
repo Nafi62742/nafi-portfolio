@@ -4,118 +4,333 @@
 }
 
 .projects-container {
-  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8;
+  @apply w-full max-w-[1240px] mx-auto px-5 sm:px-6 lg:px-8;
 }
 
 .projects-header {
-  @apply text-center mb-12;
+  @apply text-center mb-14;
 }
 
 .projects-title {
   @apply font-extrabold mt-4 mb-3;
-  font-size: clamp(1.875rem, 4vw, 2.25rem);
+  font-family: 'Host Grotesk', system-ui, sans-serif;
+  font-size: clamp(1.875rem, 4vw, 2.35rem);
   background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: -0.02em;
 }
 
 .projects-subtitle {
-  @apply text-text-secondary max-w-[540px] mx-auto;
+  @apply text-text-secondary max-w-[560px] mx-auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .projects-grid {
-  @apply grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5;
+  @apply grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6;
 }
 
+/* ── Keyvo-Inspired Project Card ─────────────────────────────────── */
 .project-card {
-  @apply bg-bg-card p-6 flex flex-col gap-4 relative overflow-hidden cursor-pointer;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  border-radius: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+
+  &:hover,
+  &.revealed:hover {
+    transform: translateY(-5px);
+    border-color: var(--glass-card-hover-border);
+    box-shadow: var(--glass-card-hover-shadow);
+  }
 }
 
 .top-accent-line {
-  @apply absolute top-0 left-0 right-0 h-0.5 opacity-0 transition-opacity duration-200;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  opacity: 0;
+  transition: opacity 250ms ease;
 
   .project-card:hover & {
-    @apply opacity-100;
+    opacity: 1;
   }
 }
 
-.card-top-row {
-  @apply flex items-start justify-between;
-}
+/* 1. Inset Display Canvas */
+.card-display-canvas {
+  position: relative;
+  width: 100%;
+  height: 110px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
 
-.project-icon-container {
-  @apply flex items-center justify-center w-[52px] h-[52px] rounded-xl text-2xl transition-transform duration-200;
-
-  .project-card:hover & {
-    @apply scale-110 -rotate-[5deg];
+  [data-theme="light"] & {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.05);
   }
 }
 
-.links-container {
-  @apply flex gap-2;
+.canvas-icon-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  .project-card:hover & {
+    transform: scale(1.1) rotate(-4deg);
+  }
 }
 
-.link-icon-btn {
-  @apply flex items-center justify-center w-8 h-8 rounded-full text-text-muted text-sm transition-all duration-200;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+.canvas-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  gap: 5px;
+  z-index: 2;
+}
+
+.canvas-action-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: all 200ms ease;
 
   &:hover {
-    @apply text-text-primary hover:bg-primary/10;
-    border-color: rgba(99, 102, 241, 0.4);
+    color: var(--text-primary);
+    border-color: var(--focus-outline);
+    transform: scale(1.1);
   }
 }
 
-.badge-row {
-  @apply flex items-center gap-1.5 -mt-1;
+/* 2. Identity Row with Status Capsule Pill */
+.card-identity-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.65rem;
+  margin-bottom: 0.4rem;
 }
 
-.category-badge {
-  @apply rounded text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5;
-}
-
-.type-badge {
-  @apply rounded text-[10px] font-medium tracking-wide px-2 py-0.5;
-  background: rgba(255, 255, 255, 0.05);
-  color: #94a3b8;
+.identity-info {
+  min-width: 0;
+  flex: 1;
 }
 
 .project-name-text {
-  @apply text-lg font-bold text-text-primary;
+  font-family: 'Host Grotesk', system-ui, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin: 0;
 }
 
 .project-role-text {
-  @apply block text-xs font-normal text-text-muted mt-1;
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+/* Capsule Pill Badge with Dot Indicator */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 9999px;
+  font-family: 'Azeret Mono', monospace, sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  &.status-office {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid rgba(99, 102, 241, 0.28);
+    color: #a5b4fc;
+
+    .status-dot {
+      background: #818cf8;
+      box-shadow: 0 0 6px rgba(129, 140, 248, 0.7);
+    }
+  }
+
+  &.status-personal {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.28);
+    color: #34d399;
+
+    .status-dot {
+      background: #10b981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.7);
+    }
+  }
+}
+
+/* 3. Summary Description */
 .project-desc-text {
-  @apply text-sm text-text-secondary leading-[1.7] flex-1;
+  font-size: 0.815rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 0.85rem;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.highlight-tip {
-  @apply text-xs text-text-muted flex items-start gap-2 leading-[1.6] p-3 rounded-xl;
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 2px solid rgba(6, 182, 212, 0.4);
+/* 4. Segmented Metric Strip (Keyvo Signature) */
+.segmented-metric-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.85rem;
+  margin-top: auto;
+
+  [data-theme="light"] & {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .metric-cell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .metric-value {
+    font-family: 'Azeret Mono', monospace, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  .metric-status-val {
+    font-weight: 700;
+  }
+
+  .metric-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+  }
+
+  .metric-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--border-color);
+    flex-shrink: 0;
+  }
 }
 
-.highlight-icon {
-  @apply text-accent flex-shrink-0 mt-0.5;
+/* 5. Card Footer */
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-color);
 }
 
 .tech-container {
-  @apply flex flex-wrap gap-2 mt-auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  min-width: 0;
 }
 
-.card-footer {
-  @apply flex justify-end pt-3 mt-2;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+.tech-badge {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--highlight-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.tech-badge-more {
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
 .details-link {
-  @apply text-xs font-semibold flex items-center gap-1.5 transition-all duration-200;
+  font-size: 0.72rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 200ms ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 
-  &:hover {
-    @apply gap-2.5;
+  .link-arrow {
+    font-size: 0.65rem;
+    transition: transform 200ms ease;
+  }
+
+  .project-card:hover & .link-arrow {
+    transform: translateX(3px);
   }
 }
