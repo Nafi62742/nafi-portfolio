@@ -1,0 +1,168 @@
+\documentclass[a4paper,8pt]{article}
+
+\usepackage{parskip}
+\usepackage{hologo}
+\usepackage{fontspec}
+
+%other packages for formatting
+\RequirePackage{color}
+\RequirePackage{graphicx}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[scale=0.92, top=.32in, bottom=.32in, left=.4in, right=.4in]{geometry}
+
+%tabularx environment
+\usepackage{tabularx}
+
+%for lists within experience section
+\usepackage{enumitem}
+
+% centered version of 'X' col. type
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+%to prevent spillover of tabular into next pages
+\usepackage{supertabular}
+\usepackage{tabularx}
+\newlength{\fullcollw}
+\setlength{\fullcollw}{0.42\textwidth}
+
+%custom \section
+\usepackage{titlesec}
+\usepackage{multicol}
+\usepackage{multirow}
+
+%CV Sections inspired by:
+%http://stefano.italians.nl/archives/26
+\titleformat{\section}{\large\scshape\raggedright}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{4pt}{2.5pt}
+
+%for publications
+\usepackage[style=authoryear,sorting=ynt, maxbibnames=2]{biblatex}
+
+%Setup hyperref package, and colours for links
+\usepackage[unicode, draft=false]{hyperref}
+\color[HTML]{110223}%{1C033C}
+\addbibresource{citations.bib}
+\setlength\bibitemsep{0.4em}
+
+%for social icons
+\usepackage{fontawesome5}
+
+% For underline
+\usepackage[normalem]{ulem}
+
+\setmainfont{Arial} % Set it to whatever you like
+
+\begin{document}
+
+% non-numbered pages
+\pagestyle{empty}
+
+\begin{tabularx}{\linewidth}{@{} C @{}}
+\color[HTML]{1C033C} \Huge{Nafi Ahmed} \\[4pt]
+\textcolor[HTML]{371e77}{{{{\faEnvelope} nafiahmed318@gmail.com}} $|$}
+\textcolor[HTML]{371e77}{{{\faMobile} +8801760887297}}
+
+\textcolor[HTML]{371e77}{\underline{{\raisebox{-0.05\height}{\faGithub} \href{https://github.com/Nafi62742}{github.com/Nafi62742}}} $|$}
+\textcolor[HTML]{371e77}{\underline{{\raisebox{-0.05\height}{\faLinkedin} \href{https://linkedin.com/in/racer007}{linkedin.com/in/racer007}}} $|$}
+\textcolor[HTML]{371e77}{\underline{{\raisebox{-0.05\height}{\faGlobe} \href{https://nafi-ahmed.vercel.app}{nafi-ahmed.vercel.app}}}}
+\end{tabularx}
+
+\vspace{1pt}
+\section{Skills}
+\color[HTML]{1C033C}\textbf{Languages:} C/C++, Java, Python, JavaScript, TypeScript, Dart, SQL, NoSQL\\[1.5pt]
+\color[HTML]{1C033C}\textbf{Frameworks \& Cloud:} AWS (EC2, S3, DynamoDB, Lambda, SQS, SNS, Route53), Docker, Flutter, Angular, Laravel, Firebase, MySQL, REST APIs, Git\\[1.5pt]
+\color[HTML]{1C033C}\textbf{AI Tools \& Acceleration:} \textbf{Claude} (Claude Code, Anthropic API, Advanced Prompting), ChatGPT, GitHub Copilot, Cursor, Prompt Engineering\\[1.5pt]
+
+\vspace{2pt}
+\section{Work Experience}
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\color[HTML]{371e77}\textbf{\textit{Software Developer}} \hfill \color[HTML]{371e77} Aug 2023 - Present \\[2pt]
+\textbf{{XORGeek, Bangladesh}} \hfill \\[2.5pt]
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=1.5pt]
+\item Developed scalable web and mobile applications using Angular, Flutter, and AWS cloud infrastructure.
+\item Accelerated feature implementation, schema design, and refactoring by leveraging \textbf{Claude} and AI workflows.
+\item Designed and optimized high-performance REST APIs and scalable SQL/NoSQL databases.
+\item Delivered key production products including Pet Auction App, KEIAI Order App, RunMate Club, Koyama Shokai, Izumi, and Ginsen.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{2.5pt}
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\color[HTML]{371e77}\textbf{\textit{Software Development Intern}} \hfill \color[HTML]{371e77} Jun 2023 - Jul 2023 \\[2pt]
+\textbf{{XORGeek, Bangladesh}} \hfill \\[2.5pt]
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=1.5pt]
+\item Assisted in building UI components and integrating backend REST APIs using Flutter, Laravel, and MySQL.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{2.5pt}
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\color[HTML]{371e77}\textbf{\textit{Software Engineer}} \hfill \color[HTML]{371e77} Jan 2021 - May 2023 \\[2pt]
+\textbf{{Software \& Application Development, Bangladesh}} \hfill \\[2.5pt]
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=1.5pt]
+\item Built cross-platform mobile apps with Flutter and responsive web interfaces using JavaScript and TypeScript.
+\item Designed RESTful APIs, relational schemas (MySQL, PostgreSQL), and server-side business logic.
+\item Optimized database queries, streamlined client-server data flows, and delivered reusable UI components.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{2pt}
+% Projects
+\section{Featured Projects}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=2.5pt]
+
+\item \textbf{Pet Auction App:} Designed real-time bidding architecture, synchronized live auction data streams using AWS and NoSQL, and developed Angular web and Flutter mobile interfaces utilizing \textbf{Claude} for accelerated state management scaffolding. \\
+\textit{Technologies: Angular, Flutter, Dart, AWS, NoSQL, Firebase, Claude}
+
+\item \textbf{KEIAI Order App:} Streamlined order processing and client-server communication by designing REST APIs, managing complex order data flows, and integrating structured backend SQL databases. \\
+\textit{Technologies: Flutter, Laravel, AWS, MySQL}
+
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{2pt}
+% Thesis & Publications
+\section{Thesis \& Publications}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep, after=\strut, leftmargin=1.5em, itemsep=1.5pt]
+\item \textbf{Traditional Bengali Food Classification and Calorie Measurement Using Machine Learning} — Published in \textit{JSTR, BOU}, \textbf{2025}.
+\item \textbf{A Deep Learning Approach to Analyze the Relationship Between Gender, Height, Weight, and Basal Metabolic Rate from Face Images} — S. Islam Siam, S. A. H. Chowdhury, Nafi Ahmed \& Swapneel Biswas. Published by \textit{IEEE}, \textbf{2025}.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{2pt}
+% Education
+\section{Education}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\color[HTML]{1C033C} \textbf{Ahsanullah University of Science and Technology, Dhaka} & \hfill \color[HTML]{371e77} 2018 - 2023 \\
+\color[HTML]{371e77} B.Sc. in Computer Science and Engineering & \hfill \color[HTML]{4B28A4} \textit{\textbf{CGPA: 3.208/4.00}} \\
+\multicolumn{2}{@{}X@{}}{Relevant Coursework: Data Structures \& Algorithms, OOP, Database Systems, OS, Software Engineering, API Development}
+\end{tabularx}
+
+\vspace{2pt}
+% Leadership and Involvement
+\section{Leadership \& Involvement}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=1.5pt]
+\item \textbf{Program Organizer, AUST CSE Society (Jan 2022 – Jul 2022):} Organized departmental programs, workshops, and technical events.
+\item \textbf{General Member, AUST Innovation and Design Club (Jan 2019 – May 2022):} Contributed to innovation challenges and club hackathons.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\end{document}
