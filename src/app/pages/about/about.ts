@@ -40,7 +40,7 @@ export interface Pillar {
 export class AboutComponent {
   /** Stat cards shown beneath the bio text. */
   public readonly stats: Array<StatCard> = [
-    { value: "2+", key: "about.stat_exp", subKey: "about.stat_exp_sub", icon: "fa-briefcase", color: "#6366f1" },
+    { value: "4+", key: "about.stat_exp", subKey: "about.stat_exp_sub", icon: "fa-briefcase", color: "#6366f1" },
     { value: "7+", key: "about.stat_projects", subKey: "about.stat_projects_sub", icon: "fa-diagram-project", color: "#06b6d4" },
     { value: "4+", key: "about.stat_databases", subKey: "about.stat_databases_sub", icon: "fa-database", color: "#8b5cf6" },
     { value: "5+", key: "about.stat_devops", subKey: "about.stat_devops_sub", icon: "fa-cloud", color: "#10b981" },

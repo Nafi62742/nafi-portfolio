@@ -181,7 +181,7 @@ export const EN: TranslationSchema = {
   about: {
     section_label:      'About Me',
     title:              'Full-Stack Developer & Cloud Practitioner',
-    bio_1:              'I\'m a versatile Software Developer and Data Specialist with 2+ years of professional experience building scalable applications and data-driven systems.',
+    bio_1:              'I\'m a versatile Software Developer and Data Specialist with 4+ years of professional experience building scalable applications and data-driven systems.',
     bio_2:              'At XORGeek, I engineer high-performance Angular web apps, cross-platform Flutter mobile applications, and robust Node.js/Laravel backend services.',
     bio_3:              'I manage and maintain production databases (both SQL and NoSQL) and design efficient AWS cloud DevOps pipelines to streamline deployments and ensure high availability.',
     stat_exp:           'Years Experience',
