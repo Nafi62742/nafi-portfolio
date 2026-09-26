@@ -9,6 +9,7 @@ import {
   Leadership,
   RunMateData
 } from '@models/portfolio.models';
+import { getProjectScreenshots } from '@utils/project-assets.generated';
 
 /**
  * Service that provides mock data for all portfolio sections,
@@ -113,14 +114,7 @@ export class PortfolioService {
         link:            'https://runmate.club/',
         playstore:       'https://play.google.com/store/apps/details?id=com.xorgeek.runmate&hl=en',
         appstore:        'https://apps.apple.com/us/app/runmate-club/id6781556409',
-        screenshots: [
-          'assets/images/runmate/slide_1_live_gps.jpg',
-          'assets/images/runmate/slide_2_leaderboard.jpg',
-          'assets/images/runmate/slide_3_race_events.jpg',
-          'assets/images/runmate/slide_4_certificates.jpg',
-          'assets/images/runmate/slide_5_social_groups.jpg',
-          'assets/images/runmate/slide_6_live_run.jpg'
-        ],
+        screenshots:     getProjectScreenshots('runmate'),
         additionalLinks: [
           { label: 'Website',     url: 'https://runmate.club/',       icon: 'fa-globe' },
           { label: 'Admin Panel', url: 'https://runmate.club/admin/', icon: 'fa-lock' }
@@ -143,6 +137,7 @@ export class PortfolioService {
         category:        'office',
         type:            'Enterprise Web App',
         link:            'https://koyama-stage.efweb.jp/stage',
+        screenshots:     getProjectScreenshots('koyama'),
         shortRole:       'Hospital Logistics & Delivery Management'
       },
       {
@@ -156,6 +151,7 @@ export class PortfolioService {
         category:        'office',
         type:            'Web & Mobile App',
         link:            'https://keiai-app.com/app/',
+        screenshots:     getProjectScreenshots('keiai'),
         shortRole:       'Prosthetics & Product Ordering'
       },
       {
@@ -169,6 +165,7 @@ export class PortfolioService {
         category:        'office',
         type:            'Web & Mobile App',
         link:            'https://www.dogcatbirth-records.com/',
+        screenshots:     getProjectScreenshots('petapp'),
         additionalLinks: [
           { label: 'Web App',     url: 'https://www.dogcatbirth-records.com/app/index.html', icon: 'fa-mobile-screen' },
           { label: 'Admin Panel', url: 'https://www.dogcatbirth-records.com/admin/login',    icon: 'fa-lock' }
@@ -187,6 +184,7 @@ export class PortfolioService {
         type:            'Mobile App',
         playstore:       'https://play.google.com/store/apps/details?id=jp.or.ohtahp.gramstain&hl=ja&pli=1',
         appstore:        'https://apps.apple.com/jp/app/%E3%82%B0%E3%83%A9%E3%83%A0%E6%9F%93%E8%89%B2%E3%82%A2%E3%83%88%E3%83%A9%E3%82%B9/id1454593922',
+        screenshots:     getProjectScreenshots('gramstain'),
         shortRole:       'Bacteria Microscopic Atlas'
       },
       {
@@ -200,6 +198,7 @@ export class PortfolioService {
         category:        'office',
         type:            'Flutter Project',
         github:          'https://github.com/Nafi62742/Nearest-Location',
+        screenshots:     getProjectScreenshots('nearestlocation'),
         shortRole:       'Location Proximity Finder'
       },
       {
@@ -212,6 +211,7 @@ export class PortfolioService {
         color:           '#10b981',
         category:        'office',
         type:            'Web Application',
+        screenshots:     getProjectScreenshots('izumi'),
         shortRole:       'Car Repair & Workflow Tracker'
       },
       {
@@ -224,6 +224,7 @@ export class PortfolioService {
         color:           '#f59e0b',
         category:        'office',
         type:            'Web Application',
+        screenshots:     getProjectScreenshots('ginsen'),
         shortRole:       'Dynamic Form Management'
       },
       {
@@ -237,6 +238,7 @@ export class PortfolioService {
         category:        'office',
         type:            'Mobile App',
         github:          'https://github.com/Nafi62742/Voice-record-and-player',
+        screenshots:     getProjectScreenshots('voicerecord'),
         shortRole:       'Offline Voice Recorder'
       },
       {
@@ -249,6 +251,7 @@ export class PortfolioService {
         color:           '#ec4899',
         category:        'personal',
         type:            'Mobile App',
+        screenshots:     getProjectScreenshots('pabokothay'),
         shortRole:       'Local Business Directory'
       },
       {
@@ -262,6 +265,7 @@ export class PortfolioService {
         category:        'personal',
         type:            'Web Application',
         github:          'https://github.com/Nafi62742/Flour_To_Pastry',
+        screenshots:     getProjectScreenshots('flourtopastry'),
         shortRole:       'Online Bakery Storefront'
       },
       {
@@ -275,6 +279,7 @@ export class PortfolioService {
         category:        'personal',
         type:            'Web Application',
         github:          'https://github.com/Nafi62742/Getfund',
+        screenshots:     getProjectScreenshots('getfund'),
         shortRole:       'Crowdfunding Platform'
       },
       {
@@ -288,6 +293,7 @@ export class PortfolioService {
         category:        'personal',
         type:            'Game Project',
         youtube:         'https://www.youtube.com/watch?v=BuX1QRPwhjU',
+        screenshots:     getProjectScreenshots('recklessseas'),
         shortRole:       'Pseudo-3D Boat Game'
       },
       {
@@ -301,6 +307,7 @@ export class PortfolioService {
         category:        'personal',
         type:            'Software Project',
         github:          'https://github.com/Nafi62742/School-Management-System',
+        screenshots:     getProjectScreenshots('schoolmanagementsystem'),
         shortRole:       'School Admin & Grading'
       }
     ];
