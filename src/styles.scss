@@ -270,6 +270,143 @@
   to { transform: rotate(360deg); }
 }
 
+/* ── Cosmic Starfield Background ────────────────────────────────── */
+.starfield-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  opacity: 0.85;
+
+  [data-theme="dark"] & {
+    opacity: 1;
+  }
+}
+
+.stars-cluster {
+  position: absolute;
+  inset: -50px;
+  background-repeat: repeat;
+  border-radius: 50%;
+}
+
+/* Layer 1: Small Stardust (1px) */
+.stars-sm {
+  background-image: 
+    radial-gradient(1px 1px at 25px 35px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 85px 120px, rgba(212, 175, 55, 0.85), transparent),
+    radial-gradient(1px 1px at 150px 70px, rgba(6, 182, 212, 0.9), transparent),
+    radial-gradient(1px 1px at 220px 180px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(1px 1px at 310px 45px, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1px 1px at 390px 140px, rgba(212, 175, 55, 0.8), transparent),
+    radial-gradient(1px 1px at 460px 220px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1px 1px at 540px 90px, rgba(99, 102, 241, 0.85), transparent),
+    radial-gradient(1px 1px at 620px 260px, rgba(255, 255, 255, 0.75), transparent),
+    radial-gradient(1px 1px at 710px 110px, rgba(6, 182, 212, 0.8), transparent),
+    radial-gradient(1px 1px at 800px 190px, rgba(212, 175, 55, 0.9), transparent),
+    radial-gradient(1px 1px at 920px 60px, rgba(255, 255, 255, 0.85), transparent),
+    radial-gradient(1px 1px at 1030px 230px, rgba(255, 255, 255, 0.7), transparent),
+    radial-gradient(1px 1px at 1150px 140px, rgba(212, 175, 55, 0.8), transparent);
+  background-size: 550px 350px;
+  animation: starDriftSlow 90s linear infinite, starTwinkleSm 4s ease-in-out infinite alternate;
+}
+
+/* Layer 2: Medium Sparkling Stars (2px) */
+.stars-md {
+  background-image: 
+    radial-gradient(1.5px 1.5px at 60px 80px, rgba(255, 255, 255, 0.95), transparent),
+    radial-gradient(2px 2px at 180px 210px, rgba(212, 175, 55, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 320px 120px, rgba(6, 182, 212, 0.95), transparent),
+    radial-gradient(2px 2px at 480px 290px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 640px 160px, rgba(212, 175, 55, 0.85), transparent),
+    radial-gradient(2px 2px at 810px 70px, rgba(6, 182, 212, 0.9), transparent),
+    radial-gradient(1.5px 1.5px at 960px 240px, rgba(255, 255, 255, 0.95), transparent),
+    radial-gradient(2px 2px at 1100px 110px, rgba(212, 175, 55, 0.9), transparent);
+  background-size: 700px 450px;
+  animation: starDriftMed 65s linear infinite reverse, starTwinkleMd 3s ease-in-out infinite alternate 1.5s;
+}
+
+/* Layer 3: Large Glowing Stars with Aureole (3px) */
+.stars-lg {
+  background-image: 
+    radial-gradient(2.5px 2.5px at 120px 160px, #ffffff, rgba(212, 175, 55, 0.4) 3px, transparent 6px),
+    radial-gradient(2.5px 2.5px at 420px 90px, #ffffff, rgba(6, 182, 212, 0.4) 3px, transparent 6px),
+    radial-gradient(3px 3px at 760px 220px, #ffffff, rgba(212, 175, 55, 0.5) 4px, transparent 7px),
+    radial-gradient(2.5px 2.5px at 1040px 130px, #ffffff, rgba(99, 102, 241, 0.4) 3px, transparent 6px);
+  background-size: 900px 600px;
+  animation: starTwinkleLg 5s ease-in-out infinite alternate 0.8s;
+}
+
+/* Cosmic Shooting Stars */
+.shooting-star-track {
+  position: absolute;
+  top: 15%;
+  left: 30%;
+  width: 140px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(212, 175, 55, 0.6), transparent);
+  transform: rotate(-35deg);
+  opacity: 0;
+  filter: drop-shadow(0 0 6px #d4af37);
+}
+
+.shooting-star-1 {
+  animation: shootStar 9s ease-in-out infinite 3s;
+}
+
+.shooting-star-2 {
+  top: 35%;
+  left: 65%;
+  width: 110px;
+  animation: shootStar 14s ease-in-out infinite 8s;
+}
+
+@keyframes starDriftSlow {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(60px, -40px); }
+}
+
+@keyframes starDriftMed {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(-50px, 30px); }
+}
+
+@keyframes starTwinkleSm {
+  0%   { opacity: 0.4; }
+  100% { opacity: 0.95; }
+}
+
+@keyframes starTwinkleMd {
+  0%   { opacity: 0.5; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes starTwinkleLg {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.7; }
+}
+
+@keyframes shootStar {
+  0% {
+    opacity: 0;
+    transform: translate(-100px, -100px) rotate(-35deg) scale(0.6);
+  }
+  4% {
+    opacity: 1;
+    transform: translate(0, 0) rotate(-35deg) scale(1);
+  }
+  8% {
+    opacity: 0;
+    transform: translate(250px, 250px) rotate(-35deg) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(250px, 250px) rotate(-35deg);
+  }
+}
+
 /* ── Animation utility classes ──────────────────────────────────── */
 .animate-fade-up    { animation: fadeInUp 0.6s ease forwards; }
 .animate-float      { animation: float 4s ease-in-out infinite; }

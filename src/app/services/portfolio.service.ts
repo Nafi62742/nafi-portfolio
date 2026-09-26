@@ -67,13 +67,13 @@ export class PortfolioService {
         endDate:    null,
         icon:       'fa-briefcase',
         bullets: [
-          'Engineered scalable data-driven applications using Angular frontend and AWS cloud infrastructure.',
-          'Optimized SQL & NoSQL queries within AWS — improved data retrieval times and API efficiency.',
-          'Designed and integrated performance-oriented REST APIs across multiple production systems.',
-          'Developed cross-platform mobile apps using Flutter & Firebase (Android focus).',
-          'Maintained robust data collection pipelines processing real-time structured & unstructured data.',
+          'Core engineer behind 6 live production systems (RunMate Club, Koyama Shokai, Pet Auction App, KEIAI Order App, Izumi, Ginsen), architecting responsive Angular SPAs and cross-platform Flutter mobile apps.',
+          'Engineered and deployed serverless cloud architectures on AWS (Lambda, API Gateway, S3, CloudFront, DynamoDB, EC2, SQS, SNS, Route53) with secure CI/CD and HttpOnly session authentication.',
+          'Structured and optimized relational SQL (MySQL, PostgreSQL) schemas and NoSQL (DynamoDB, Firebase RTDB) models, significantly reducing data retrieval latency and improving API throughput.',
+          'Designed high-throughput REST APIs and real-time data ingestion pipelines handling live race GPS telemetry, interactive auction bidding streams, and dynamic order workflows.',
+          'Implemented strict 4-tier Role-Based Access Control (RBAC) with custom Angular route guards, action-level permission matrices, and automated PDF export pipelines.'
         ],
-        tech: ['Angular', 'TypeScript', 'AWS', 'DynamoDB', 'Flutter', 'Firebase', 'Laravel', 'MySQL']
+        tech: ['Angular', 'TypeScript', 'Flutter', 'Dart', 'AWS (Lambda, S3, DynamoDB)', 'Firebase', 'Laravel', 'MySQL', 'RxJS', 'REST APIs']
       },
       {
         company:    'XORGeek',
@@ -84,11 +84,11 @@ export class PortfolioService {
         endDate:    'Jul 2023',
         icon:       'fa-graduation-cap',
         bullets: [
-          'Worked with Flutter (mobile) and Laravel (backend) stacks under senior developer guidance.',
-          'Assisted in designing MySQL database schemas and structuring REST API integrations.',
-          'Gained hands-on experience with mobile-backend application architecture.',
+          'Developed modular mobile UI components and state-managed screens using Flutter and Dart under senior engineering mentorship.',
+          'Assisted in designing normalized MySQL database schemas, indexing strategies, and structuring RESTful API integration points.',
+          'Participated in agile sprints, code reviews, and hands-on mobile-to-backend application architecture workflows.'
         ],
-        tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL']
+        tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL', 'REST APIs']
       }
     ];
   }

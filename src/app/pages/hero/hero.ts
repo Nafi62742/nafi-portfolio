@@ -3,6 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 
 import { ScrollService } from '@services/scroll.service';
 import { TranslateService } from '@services/translate.service';
+import { HeroSphereComponent } from '@shared-components/hero-sphere/hero-sphere.component';
 
 /**
  * Hero section component displaying name, animated roles, tagline and CTAs.
@@ -10,7 +11,7 @@ import { TranslateService } from '@services/translate.service';
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [],
+  imports: [HeroSphereComponent],
   templateUrl: './hero.html',
   styleUrl: './hero.scss'
 })

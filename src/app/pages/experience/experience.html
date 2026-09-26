@@ -9,68 +9,107 @@
       <p class="experience-subtitle">{{ t.t('experience.subtitle') }}</p>
     </div>
 
-    <!-- Timeline -->
+    <!-- Timeline Container -->
     <div class="experience-timeline">
       @for (exp of experiences; track exp; let i = $index; let last = $last) {
         <div
           class="timeline-row reveal"
-          [class.pb-8]="!last"
+          [class.is-current]="!exp.endDate"
+          [class.pb-10]="!last"
           [class.delay-1]="i === 0"
           [class.delay-2]="i === 1"
           [class.delay-3]="i === 2"
-          [class.delay-4]="i === 3"
-          [class.delay-5]="i === 4">
-          <!-- Marker -->
+          [class.delay-4]="i === 3">
+          
+          <!-- Timeline Marker & Spine Line -->
           <div class="timeline-marker-col">
-            <div class="timeline-marker-dot">
-              <i class="fa-solid" [ngClass]="exp.icon"></i>
+            <div class="timeline-marker-dot" [class.dot-active]="!exp.endDate">
+              @if (!exp.endDate) {
+                <span class="marker-pulse-ring"></span>
+              }
+              <i class="fa-solid marker-icon" [ngClass]="exp.icon"></i>
             </div>
             @if (!last) {
               <div class="timeline-line"></div>
             }
           </div>
-          <!-- Card -->
+
+          <!-- Experience Card -->
           <div class="experience-card glass-card">
-            <!-- Header -->
+            <!-- Top Accent Gradient Line -->
+            <div class="card-accent-line"></div>
+
+            <!-- Card Header: Role, Company, Period & Type Badge -->
             <div class="card-header">
-              <div>
-                <h3 class="experience-role">{{ exp.role }}</h3>
-                <div class="experience-details">
-                  <span class="detail-item">
-                    <i class="fa-solid fa-building"></i>{{ exp.company }}
+              <div class="role-company-info">
+                <div class="role-row">
+                  <h3 class="experience-role">{{ exp.role }}</h3>
+                  @if (!exp.endDate) {
+                    <span class="status-live-pill">
+                      <span class="live-dot"></span>
+                      {{ t.t('experience.present') }}
+                    </span>
+                  }
+                </div>
+
+                <div class="experience-meta-row">
+                  <span class="meta-item company-name">
+                    <i class="fa-solid fa-building meta-icon text-accent"></i>
+                    <span>{{ exp.company }}</span>
                   </span>
-                  <span class="detail-item">
-                    <i class="fa-solid fa-location-dot"></i>{{ exp.location }}
+                  <span class="meta-divider">•</span>
+                  <span class="meta-item location-name">
+                    <i class="fa-solid fa-location-dot meta-icon text-primary-light"></i>
+                    <span>{{ exp.location }}</span>
                   </span>
                 </div>
               </div>
-              <div class="meta-col">
-                <span class="experience-period">
-                  {{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}
-                </span>
+
+              <!-- Date Range & Employment Type Capsule -->
+              <div class="date-type-col">
+                <div class="period-capsule">
+                  <i class="fa-regular fa-calendar-days period-icon"></i>
+                  <span class="experience-period">
+                    {{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}
+                  </span>
+                </div>
                 <span class="experience-badge"
                   [class.badge-fulltime]="exp.type === 'fulltime'"
-                  [class.badge-contract]="exp.type !== 'fulltime'">
+                  [class.badge-internship]="exp.type === 'internship'"
+                  [class.badge-contract]="exp.type === 'contract'">
+                  <i class="fa-solid badge-icon"
+                    [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-handshake')"></i>
                   {{ t.t('experience.' + exp.type) }}
                 </span>
               </div>
             </div>
-            <!-- Bullets -->
+
+            <!-- Impact & Responsibilities Bullets -->
             <ul class="bullets-list">
               @for (bullet of exp.bullets; track bullet) {
                 <li class="bullet-item">
-                  <i class="fa-solid fa-chevron-right bullet-chevron"></i>
-                  {{ bullet }}
+                  <div class="bullet-indicator">
+                    <i class="fa-solid fa-angle-right bullet-chevron"></i>
+                  </div>
+                  <span class="bullet-text">{{ bullet }}</span>
                 </li>
               }
             </ul>
-            <!-- Tech -->
-            <div class="tech-wrapper">
-              @for (tech of exp.tech; track tech) {
-                <span class="tech-badge">{{ tech }}</span>
-              }
+
+            <!-- Tech Stack Footer -->
+            <div class="card-tech-footer">
+              <span class="tech-label">
+                <i class="fa-solid fa-layer-group tech-label-icon"></i>
+                Technologies:
+              </span>
+              <div class="tech-wrapper">
+                @for (tech of exp.tech; track tech) {
+                  <span class="tech-badge">{{ tech }}</span>
+                }
+              </div>
             </div>
           </div>
+
         </div>
       }
     </div>

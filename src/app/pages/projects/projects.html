@@ -1,4 +1,12 @@
 <section class="projects-section">
+  <!-- Dynamic Cosmic Starfield Layers -->
+  <div class="starfield-bg" aria-hidden="true">
+    <div class="stars-cluster stars-sm"></div>
+    <div class="stars-cluster stars-md"></div>
+    <div class="stars-cluster stars-lg"></div>
+    <div class="shooting-star-track shooting-star-2"></div>
+  </div>
+
   <div class="projects-container">
     <div class="projects-header reveal">
       <span class="label-tag-primary">{{ t.t('projects.section_label') }}</span>
@@ -127,27 +135,7 @@
         <!-- 3. Project Summary -->
         <p class="project-desc-text">{{ project.description }}</p>
 
-        <!-- 4. Keyvo Signature Segmented Metric Strip (3-Column Grid) -->
-        <div class="segmented-metric-strip">
-          <div class="metric-cell">
-            <span class="metric-value">{{ project.type }}</span>
-            <span class="metric-label">{{ t.t('projects.metric_domain') }}</span>
-          </div>
-          <div class="metric-divider"></div>
-          <div class="metric-cell">
-            <span class="metric-value">{{ project.tech[0] || 'Core' }}</span>
-            <span class="metric-label">{{ t.t('projects.metric_stack') }}</span>
-          </div>
-          <div class="metric-divider"></div>
-          <div class="metric-cell">
-            <span class="metric-value metric-status-val" [style.color]="project.color">
-              {{ project.metric || (project.category === 'office' ? t.t('projects.status_production') : t.t('projects.status_active')) }}
-            </span>
-            <span class="metric-label">{{ project.metricLabel || t.t('projects.metric_status') }}</span>
-          </div>
-        </div>
-
-        <!-- 5. Card Footer: Tech Cloud + Details Link -->
+        <!-- 4. Card Footer: Clean Tech Tags + Details Link -->
         <div class="card-footer">
           <div class="tech-container">
             @for (tech of project.tech.slice(0, 3); track tech) {
