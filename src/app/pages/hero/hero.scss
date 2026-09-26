@@ -11,6 +11,8 @@
   color: var(--hero-text);
 }
 
+
+
 .tech-grid-bg {
   position: absolute;
   inset: 0;
@@ -18,6 +20,7 @@
   opacity: 0.05;
   background-image: radial-gradient(var(--text-muted) 1px, transparent 1px);
   background-size: 24px 24px;
+  z-index: 2;
 
   :host-context(.dark) & {
     opacity: 0.08;
@@ -60,7 +63,7 @@
 
 .hero-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1360px;
   margin-left: auto;
   margin-right: auto;
   padding-left: 1.5rem;
@@ -78,7 +81,7 @@
     padding-left: 2rem;
     padding-right: 2rem;
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: 4rem;
+    gap: 2.5rem;
   }
 }
 
@@ -88,7 +91,7 @@
   gap: 1.5rem;
 
   @media (min-width: 1024px) {
-    grid-column: span 7 / span 7;
+    grid-column: span 6 / span 6;
   }
 }
 
@@ -304,168 +307,21 @@
 }
 
 .hero-graphic {
-  display: none;
-  animation: fadeInUp 0.6s ease forwards;
-  animation-delay: 320ms;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
+  animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 240ms;
+  width: 100%;
 
   @media (min-width: 1024px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    grid-column: span 5 / span 5;
-  }
-}
-
-.orbit-glow-backing {
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  border-radius: 9999px;
-  filter: blur(50px);
-  opacity: 0.25;
-  pointer-events: none;
-  background: radial-gradient(circle, var(--avatar-text-bg) 0%, transparent 70%);
-}
-
-.orbit-wrapper {
-  position: relative;
-  width: 380px;
-  height: 380px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.avatar-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 190px;
-  height: 190px;
-  border-radius: 9999px;
-  border-width: 2px;
-  animation: pulseGlow 2.5s ease-in-out infinite;
-  z-index: 10;
-  position: relative;
-  overflow: hidden;
-
-  background: var(--avatar-bg);
-  border-color: var(--avatar-border) !important;
-  box-shadow: var(--avatar-glow) !important;
-}
-
-.avatar-gradient-overlay {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(to top right, rgba(99, 102, 241, 0.2), rgba(6, 182, 212, 0.2));
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  
-  .avatar-container:hover & {
-    opacity: 100;
-  }
-}
-
-.avatar-initials {
-  font-size: 3.75rem;
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.02eM;
-  transition: transform 0.5s ease;
-  
-  background: var(--avatar-text-bg);
-  -webkit-background-clip: var(--avatar-text-clip) !important;
-  -webkit-text-fill-color: var(--avatar-text-fill) !important;
-  background-clip: var(--avatar-text-clip) !important;
-  color: var(--avatar-text-color) !important;
-
-  .avatar-container:hover & {
-    transform: scale(1.05);
-  }
-}
-
-.avatar-neon-ring {
-  position: absolute;
-  inset: 6px;
-  border-radius: 9999px;
-  border: 1px dashed rgba(6, 182, 212, 0.3);
-  animation: spin 20s linear infinite;
-}
-
-.orbit-ring {
-  position: absolute;
-  border-radius: 9999px;
-  border: 1px dashed var(--orbit-border);
-
-  &-1 {
-    inset: 0;
-    animation: spinOrbit 10s linear infinite;
+    grid-column: span 6 / span 6;
   }
 
-  &-2 {
-    inset: 35px;
-    width: 310px;
-    height: 310px;
-    animation: spinOrbit 16s linear infinite reverse;
-  }
-
-  &-3 {
-    inset: 10px;
-    width: 360px;
-    height: 360px;
-    animation: spinOrbit 22s linear infinite;
-  }
-
-  &-4 {
-    inset: 60px;
-    width: 260px;
-    height: 260px;
-    animation: spinOrbit 25s linear infinite;
-  }
-}
-
-.orbit-dot {
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 9999px;
-  transition: all 0.3s ease;
-  background: var(--orbit-dot-bg);
-  border: 1px solid var(--orbit-border);
-
-  i {
-    font-size: 1rem;
-  }
-
-  &:hover {
-    transform: translateX(-50%) scale(1.25);
-  }
-
-  &-angular {
-    box-shadow: 0 0 10px rgba(226, 50, 55, 0.4);
-    color: #e23237;
-  }
-
-  &-aws {
-    box-shadow: 0 0 10px rgba(255, 153, 0, 0.4);
-    color: #ff9900;
-  }
-
-  &-flutter {
-    box-shadow: 0 0 10px rgba(2, 86, 155, 0.4);
-    color: #02569b;
-  }
-
-  &-node {
-    box-shadow: 0 0 10px rgba(104, 160, 99, 0.4);
-    color: #68a063;
+  app-hero-sphere {
+    display: block;
+    width: 100%;
   }
 }
 

@@ -40,4 +40,32 @@ export class PublicationsComponent {
   public toSlug(title: string): string {
     return title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   }
+
+  /**
+   * Converts a 6-digit hex color string to comma-separated RGB values.
+   *
+   * @param hex - Hex color string (e.g. '#6366f1')
+   * @returns Comma-separated RGB channels (e.g. '99, 102, 241')
+   */
+  public hexToRgb(hex: string): string {
+    const clean = hex.replace('#', '');
+    const num = parseInt(clean, 16);
+    const r = (num >> 16) & 255;
+    const g = (num >> 8) & 255;
+    const b = num & 255;
+    return `${r}, ${g}, ${b}`;
+  }
+
+  /**
+   * Identifies the publication type category based on venue description.
+   *
+   * @param venue - Venue string from publication metadata
+   * @returns Clean category badge label
+   */
+  public getPublicationType(venue: string): string {
+    if (venue.toLowerCase().includes('ieee') || venue.toLowerCase().includes('conference')) {
+      return 'IEEE Conference Paper';
+    }
+    return 'Journal Article';
+  }
 }

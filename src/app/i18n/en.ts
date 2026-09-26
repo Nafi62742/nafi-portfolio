@@ -31,15 +31,29 @@ export interface TranslationSchema {
     scroll_hint:  string;
   };
   about: {
-    section_label:  string;
-    title:          string;
-    bio_1:          string;
-    bio_2:          string;
-    bio_3:          string;
-    stat_exp:       string;
-    stat_projects:  string;
-    stat_databases: string;
-    stat_devops:    string;
+    section_label:      string;
+    title:              string;
+    bio_1:              string;
+    bio_2:              string;
+    bio_3:              string;
+    stat_exp:           string;
+    stat_projects:      string;
+    stat_databases:     string;
+    stat_devops:        string;
+    stat_exp_sub:       string;
+    stat_projects_sub:  string;
+    stat_databases_sub: string;
+    stat_devops_sub:    string;
+    quick_facts_title:  string;
+    role_label:         string;
+    role_val:           string;
+    location_label:     string;
+    location_val:       string;
+    education_label:    string;
+    education_val:      string;
+    focus_label:        string;
+    focus_val:          string;
+    status_active:      string;
   };
   skills: {
     section_label: string;
@@ -61,12 +75,20 @@ export interface TranslationSchema {
     fulltime:      string;
   };
   projects: {
-    section_label: string;
-    title:         string;
-    subtitle:      string;
-    view_all:      string;
-    tech_used:     string;
-    role:          string;
+    section_label:     string;
+    title:             string;
+    subtitle:          string;
+    view_all:          string;
+    tech_used:         string;
+    role:              string;
+    see_details:       string;
+    badge_office:      string;
+    badge_personal:    string;
+    metric_domain:     string;
+    metric_stack:      string;
+    metric_status:     string;
+    status_production: string;
+    status_active:     string;
   };
   runmate: {
     section_label:   string;
@@ -157,15 +179,29 @@ export const EN: TranslationSchema = {
     scroll_hint:   'Scroll to explore'
   },
   about: {
-    section_label: 'About Me',
-    title:         'Full-Stack Developer & Cloud Practitioner',
-    bio_1:         'I\'m a versatile Software Developer and Data Specialist with 2+ years of professional experience building scalable applications and data-driven systems.',
-    bio_2:         'At XORGeek, I engineer high-performance Angular web apps, cross-platform Flutter mobile applications, and robust Node.js/Laravel backend services.',
-    bio_3:         'I manage and maintain production databases (both SQL and NoSQL) and design efficient AWS cloud DevOps pipelines to streamline deployments and ensure high availability.',
-    stat_exp:      'Years Experience',
-    stat_projects: 'Projects Completed',
-    stat_databases: 'Databases Management',
-    stat_devops:   'Cloud Services'
+    section_label:      'About Me',
+    title:              'Full-Stack Engineer · Mobile · Cloud · AI-Assisted Development',
+    bio_1:              'I build production-ready systems across the full stack — Angular web apps, Flutter mobile apps, AWS cloud backends, and real-time data pipelines.',
+    bio_2:              'At XORGeek, I was the core engineer behind six live client products — from a real-time auction platform and a hospital logistics SPA with four-tier RBAC, to a GPS marathon tracking app with live leaderboards. I owned each one from architecture to deployment, and the systems and patterns I put in place made the team faster and the products more reliable.',
+    bio_3:              'My stack spans Angular, Flutter, TypeScript, Dart, Python, and AWS (Lambda, S3, DynamoDB, SQS, SNS, EC2, Route53). I design REST APIs, manage SQL and NoSQL databases at production scale, and integrate AI tools like Claude and GitHub Copilot to ship with more precision — not as a shortcut, but as a workflow upgrade.',
+    stat_exp:           'Years Experience',
+    stat_projects:      'Projects Completed',
+    stat_databases:     'Databases Managed',
+    stat_devops:        'Cloud Services',
+    stat_exp_sub:       'Production Delivery',
+    stat_projects_sub:  'Web & Mobile Apps',
+    stat_databases_sub: 'SQL & NoSQL Engines',
+    stat_devops_sub:    'AWS & Serverless',
+    quick_facts_title:  'Quick Overview',
+    role_label:         'Current Role',
+    role_val:           'Software Developer @ XORGeek',
+    location_label:     'Location',
+    location_val:       'Dhaka, Bangladesh',
+    education_label:    'Education',
+    education_val:      'B.Sc. in CSE • AUST',
+    focus_label:        'Core Focus',
+    focus_val:          'Full-Stack & Cloud Architecture',
+    status_active:      'Available for Opportunities'
   },
   skills: {
     section_label: 'Skills',
@@ -187,12 +223,20 @@ export const EN: TranslationSchema = {
     fulltime:      'Full-time'
   },
   projects: {
-    section_label:   'Projects',
-    title:           'Things I\'ve Built',
-    subtitle:        'A selection of projects spanning web, mobile, and cloud platforms.',
-    view_all:        'View All',
-    tech_used:       'Technologies',
-    role:            'Role & Highlights'
+    section_label:     'Projects',
+    title:             'Things I\'ve Built',
+    subtitle:          'A selection of projects spanning web, mobile, and cloud platforms.',
+    view_all:          'View All',
+    tech_used:         'Technologies',
+    role:              'Role & Highlights',
+    see_details:       'See Details',
+    badge_office:      'Office',
+    badge_personal:    'Personal',
+    metric_domain:     'Domain',
+    metric_stack:      'Core Stack',
+    metric_status:     'Status',
+    status_production: 'Production',
+    status_active:     'Active'
   },
   runmate: {
     section_label:   'Featured Mobile Application',

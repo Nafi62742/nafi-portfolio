@@ -41,6 +41,8 @@ export interface Project {
   screenshots?:     string[];
   additionalLinks?: { label: string; url: string; icon: string }[];
   shortRole?:       string;
+  metric?:          string;
+  metricLabel?:     string;
   collaboration?:   string;
   teamLead?:        string;
   coreDeveloper?:   string;

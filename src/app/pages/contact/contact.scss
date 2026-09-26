@@ -1,10 +1,10 @@
 .contact-section {
-  @apply py-24 relative;
+  @apply py-24 relative overflow-hidden;
   background: var(--bg-surface);
 }
 
 .contact-container {
-  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8;
+  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8 relative z-10;
 }
 
 .contact-header {
