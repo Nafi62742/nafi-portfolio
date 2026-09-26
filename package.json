@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
+    "prestart": "node ./scripts/sync-project-assets.js",
     "start": "ng lint && ng serve",
+    "predev": "node ./scripts/sync-project-assets.js",
+    "dev": "ng serve --open",
+    "prebuild": "node ./scripts/sync-project-assets.js",
+    "build": "ng build",
+    "sync:assets": "node ./scripts/sync-project-assets.js",
     "g:page": "node ./scripts/generate-page.js",
     "g:shared-component": "node ./scripts/generate-shared-component.js",
     "g:service": "node ./scripts/generate-service.js",
@@ -11,8 +17,6 @@
     "md:pdf": "node ./scripts/md-to-pdf.js",
     "md:doc": "node ./scripts/generate-biodata-docx.js",
     "test": "ng test",
-    "dev": "ng serve --open",
-    "build": "ng build",
     "lint": "eslint \"src/**/*.ts\" --max-warnings=0"
   },
   "dependencies": {
