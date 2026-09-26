@@ -1,10 +1,18 @@
 <section class="hero-section">
+  <!-- Dynamic Cosmic Starfield Layers for Hero Page -->
+  <div class="starfield-bg" aria-hidden="true">
+    <div class="stars-cluster stars-sm"></div>
+    <div class="stars-cluster stars-md"></div>
+    <div class="stars-cluster stars-lg"></div>
+    <div class="shooting-star-track shooting-star-1"></div>
+    <div class="shooting-star-track shooting-star-2"></div>
+  </div>
+
   <!-- Tech Grid Background Pattern -->
   <div class="tech-grid-bg"></div>
 
-  <!-- Ambient glowing orbs -->
+  <!-- Ambient glowing orbs (subtle corner lighting) -->
   <div class="glow-orb glow-orb-1"></div>
-  <div class="glow-orb glow-orb-2"></div>
   <div class="glow-orb glow-orb-3"></div>
 
   <div class="hero-container">
@@ -46,49 +54,9 @@
       </div>
     </div>
 
-    <!-- Hero Graphic (hidden on mobile) -->
+    <!-- Hero Graphic (3D WebGL Interactive Technology Sphere) -->
     <div class="hero-graphic">
-      <!-- Glow backing for orbit -->
-      <div class="orbit-glow-backing"></div>
-
-      <!-- Concentric Orbits Graphic -->
-      <div class="orbit-wrapper">
-        <!-- Inner avatar container with premium details -->
-        <div class="avatar-container group">
-          <div class="avatar-gradient-overlay"></div>
-          <span class="avatar-initials">NA</span>
-          <!-- Dynamic neon orbit aura ring -->
-          <div class="avatar-neon-ring"></div>
-        </div>
-
-        <!-- Orbit 1 (Angular) -->
-        <div class="orbit-ring orbit-ring-1">
-          <div class="orbit-dot orbit-dot-angular">
-            <i class="fa-brands fa-angular" title="Angular"></i>
-          </div>
-        </div>
-
-        <!-- Orbit 2 (AWS) -->
-        <div class="orbit-ring orbit-ring-2">
-          <div class="orbit-dot orbit-dot-aws">
-            <i class="fa-brands fa-aws" title="AWS"></i>
-          </div>
-        </div>
-
-        <!-- Orbit 3 (Flutter) -->
-        <div class="orbit-ring orbit-ring-3">
-          <div class="orbit-dot orbit-dot-flutter">
-            <i class="fa-brands fa-flutter" title="Flutter"></i>
-          </div>
-        </div>
-
-        <!-- Orbit 4 (Node.js) -->
-        <div class="orbit-ring orbit-ring-4">
-          <div class="orbit-dot orbit-dot-node">
-            <i class="fa-brands fa-node-js" title="Node.js"></i>
-          </div>
-        </div>
-      </div>
+      <app-hero-sphere></app-hero-sphere>
     </div>
   </div>
 </section>

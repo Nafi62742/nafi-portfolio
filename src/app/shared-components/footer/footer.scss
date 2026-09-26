@@ -1,11 +1,11 @@
 .footer-root {
-  @apply py-8 border-t;
+  @apply py-8 border-t relative overflow-hidden;
   background: var(--bg-base);
   border-color: var(--border-color);
 }
 
 .footer-container {
-  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4;
+  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4 relative z-10;
 }
 
 .footer-logo-btn {

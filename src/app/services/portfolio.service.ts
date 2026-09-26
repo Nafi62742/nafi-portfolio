@@ -67,13 +67,13 @@ export class PortfolioService {
         endDate:    null,
         icon:       'fa-briefcase',
         bullets: [
-          'Engineered scalable data-driven applications using Angular frontend and AWS cloud infrastructure.',
-          'Optimized SQL & NoSQL queries within AWS — improved data retrieval times and API efficiency.',
-          'Designed and integrated performance-oriented REST APIs across multiple production systems.',
-          'Developed cross-platform mobile apps using Flutter & Firebase (Android focus).',
-          'Maintained robust data collection pipelines processing real-time structured & unstructured data.',
+          'Core engineer behind 6 live production systems (RunMate Club, Koyama Shokai, Pet Auction App, KEIAI Order App, Izumi, Ginsen), architecting responsive Angular SPAs and cross-platform Flutter mobile apps.',
+          'Engineered and deployed serverless cloud architectures on AWS (Lambda, API Gateway, S3, CloudFront, DynamoDB, EC2, SQS, SNS, Route53) with secure CI/CD and HttpOnly session authentication.',
+          'Structured and optimized relational SQL (MySQL, PostgreSQL) schemas and NoSQL (DynamoDB, Firebase RTDB) models, significantly reducing data retrieval latency and improving API throughput.',
+          'Designed high-throughput REST APIs and real-time data ingestion pipelines handling live race GPS telemetry, interactive auction bidding streams, and dynamic order workflows.',
+          'Implemented strict 4-tier Role-Based Access Control (RBAC) with custom Angular route guards, action-level permission matrices, and automated PDF export pipelines.'
         ],
-        tech: ['Angular', 'TypeScript', 'AWS', 'DynamoDB', 'Flutter', 'Firebase', 'Laravel', 'MySQL']
+        tech: ['Angular', 'TypeScript', 'Flutter', 'Dart', 'AWS (Lambda, S3, DynamoDB)', 'Firebase', 'Laravel', 'MySQL', 'RxJS', 'REST APIs']
       },
       {
         company:    'XORGeek',
@@ -84,11 +84,11 @@ export class PortfolioService {
         endDate:    'Jul 2023',
         icon:       'fa-graduation-cap',
         bullets: [
-          'Worked with Flutter (mobile) and Laravel (backend) stacks under senior developer guidance.',
-          'Assisted in designing MySQL database schemas and structuring REST API integrations.',
-          'Gained hands-on experience with mobile-backend application architecture.',
+          'Developed modular mobile UI components and state-managed screens using Flutter and Dart under senior engineering mentorship.',
+          'Assisted in designing normalized MySQL database schemas, indexing strategies, and structuring RESTful API integration points.',
+          'Participated in agile sprints, code reviews, and hands-on mobile-to-backend application architecture workflows.'
         ],
-        tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL']
+        tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL', 'REST APIs']
       }
     ];
   }
@@ -131,6 +131,19 @@ export class PortfolioService {
         coreDeveloper:   'Masum Reza & Nafi Ahmed',
         teamMembers:     ['Razin Sufian', 'Kawsar Ahmed', 'Mohammad Abir Hassan Sarker'],
         shortRole:       'Core Developer'
+      },
+      {
+        name:            'Koyama Shokai',
+        description:     'A hospital linen & patient-item delivery request management system built with Angular 21, AWS Serverless architecture, and role-based access control.',
+        longDescription: 'Koyama Shokai is an enterprise hospital linen and patient-item delivery request management platform developed for Japanese healthcare facilities. The single-page application manages recurring hospital service plans (such as daily linen-exchange sets) and one-off add-on options, scheduling deliveries directly for patients across rooms and wards. Built on Angular 21 with standalone components, strict TypeScript, and OnPush change detection throughout, the system features a 4-tier role-based access control (RBAC) model supporting Admin, Leader, Staff, and Hospital Staff roles with custom route guards and action-level permissions. The frontend communicates with an AWS Serverless REST API powered by API Gateway and Lambda, featuring session-based authentication via HttpOnly cookies, dynamic job polling, automated PDF generation via jsPDF, and Japanese localization.',
+        highlights:      'Engineered standalone Angular 21 frontend with RxJS state management, 4-tier role-based access control (RBAC), and AWS Serverless REST API integration with CI/CD deployment.',
+        tech:            ['Angular', 'TypeScript', 'Tailwind CSS', 'RxJS', 'AWS Lambda', 'AWS S3', 'CloudFront', 'REST APIs'],
+        icon:            'fa-truck-medical',
+        color:           '#0284c7',
+        category:        'office',
+        type:            'Enterprise Web App',
+        link:            'https://koyama-stage.efweb.jp/stage',
+        shortRole:       'Hospital Logistics & Delivery Management'
       },
       {
         name:            'KEIAI Order App',

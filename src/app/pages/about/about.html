@@ -1,37 +1,143 @@
 <section class="about-section">
   <div class="about-container">
+
+    <!-- Section Header -->
     <div class="about-header reveal">
-      <span class="label-tag-accent">{{ t.t('about.section_label') }}</span>
+      <span class="label-tag-accent">
+        <i class="fa-solid fa-id-badge mr-1.5"></i>{{ t.t('about.section_label') }}
+      </span>
+      <h2 class="about-title">{{ t.t('about.title') }}</h2>
     </div>
 
-    <div class="about-content">
-      <!-- Text side -->
-      <div class="about-text-col">
-        <h2 class="about-title reveal delay-1">{{ t.t('about.title') }}</h2>
+    <!-- Main Bento Grid (Story + Quick Facts) -->
+    <div class="about-bento-grid">
 
-        <p class="about-bio reveal delay-2">{{ t.t('about.bio_1') }}</p>
-        <p class="about-bio reveal delay-3">{{ t.t('about.bio_2') }}</p>
-        <p class="about-bio reveal delay-4">{{ t.t('about.bio_3') }}</p>
-      </div>
-
-      <!-- Stats side -->
-      <div class="about-stats-grid">
-        @for (stat of stats; track stat; let i = $index) {
-        <div
-          class="about-stat-card glass-card reveal group"
-          [class.delay-2]="i === 0"
-          [class.delay-3]="i === 1"
-          [class.delay-4]="i === 2"
-          [class.delay-5]="i === 3"
-        >
-          <div class="about-stat-icon-wrapper">
-            <i class="fa-solid" [ngClass]="stat.icon"></i>
+      <!-- 1. Main Story Card (Large Bento Tile) -->
+      <div class="about-story-card glass-card reveal delay-1">
+        <div class="story-inset-header">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-amber"></span>
+            <span class="dot dot-green"></span>
           </div>
-          <div class="about-stat-value">{{ stat.value }}</div>
-          <div class="about-stat-label">{{ t.t(stat.key) }}</div>
+          <span class="story-code-tag">nafi.developer.profile.ts</span>
         </div>
-        }
+
+        <div class="story-body">
+          <p class="about-bio bio-lead">
+            {{ t.t('about.bio_1') }}
+          </p>
+          <p class="about-bio">
+            {{ t.t('about.bio_2') }}
+          </p>
+          <p class="about-bio">
+            {{ t.t('about.bio_3') }}
+          </p>
+        </div>
+
+        <!-- Technical Specialization Pillars -->
+        <div class="pillars-container">
+          <div class="pillars-label">Core Architectural Pillars</div>
+          <div class="pillars-grid">
+            @for (pillar of pillars; track pillar.title) {
+              <div class="pillar-chip">
+                <i class="fa-solid" [ngClass]="pillar.icon"></i>
+                <div class="pillar-info">
+                  <span class="pillar-title">{{ pillar.title }}</span>
+                  <span class="pillar-badge">{{ pillar.badge }}</span>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Action Row -->
+        <div class="story-action-row">
+          <button (click)="scrollToProjects()" class="story-btn-primary" type="button">
+            <span>Explore Projects</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <button (click)="scrollToContact()" class="story-btn-secondary" type="button">
+            <span>Get in Touch</span>
+            <i class="fa-solid fa-envelope"></i>
+          </button>
+        </div>
       </div>
+
+      <!-- 2. Developer Identity / Quick Facts Tile (Side Bento) -->
+      <div class="about-facts-card glass-card reveal delay-2">
+        <!-- Live Status Pill -->
+        <div class="facts-status-row">
+          <span class="facts-status-pill">
+            <span class="status-pulse-dot"></span>
+            <span class="status-pulse-text">{{ t.t('about.status_active') }}</span>
+          </span>
+          <span class="facts-timezone">GMT+6 • Dhaka</span>
+        </div>
+
+        <!-- Quick Facts List -->
+        <div class="facts-list">
+          @for (fact of quickFacts; track fact.labelKey) {
+            <div class="fact-item">
+              <div class="fact-icon-wrapper">
+                <i class="fa-solid" [ngClass]="fact.icon"></i>
+              </div>
+              <div class="fact-content">
+                <span class="fact-label">{{ t.t(fact.labelKey) }}</span>
+                <span class="fact-val">{{ t.t(fact.valueKey) }}</span>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Mini Developer Ethos Quote -->
+        <div class="ethos-box">
+          <i class="fa-solid fa-quote-left ethos-icon"></i>
+          <p class="ethos-text">
+            "What doesn't kill you makes you stronger."
+          </p>
+        </div>
+      </div>
+
     </div>
+
+    <!-- 3. Keyvo-Inspired 4-Column Stat Cards -->
+    <div class="about-stats-strip">
+      @for (stat of stats; track stat.key; let i = $index) {
+        <div
+          class="about-stat-card glass-card reveal"
+          [class.delay-1]="i === 0"
+          [class.delay-2]="i === 1"
+          [class.delay-3]="i === 2"
+          [class.delay-4]="i === 3"
+          [style.--stat-color]="stat.color"
+        >
+          <!-- Top Accent Line -->
+          <div
+            class="stat-accent-bar"
+            [style.background]="'linear-gradient(90deg, transparent, ' + stat.color + ', transparent)'"
+          ></div>
+
+          <div class="stat-top-row">
+            <div
+              class="stat-icon-tile"
+              [style.background]="'rgba(' + stat.color + ', 0.12)'"
+              [style.color]="stat.color"
+            >
+              <i class="fa-solid" [ngClass]="stat.icon"></i>
+            </div>
+            <span class="stat-counter" [style.color]="stat.color">
+              {{ stat.value }}
+            </span>
+          </div>
+
+          <div class="stat-content">
+            <h4 class="stat-label">{{ t.t(stat.key) }}</h4>
+            <span class="stat-subtext">{{ t.t(stat.subKey) }}</span>
+          </div>
+        </div>
+      }
+    </div>
+
   </div>
 </section>

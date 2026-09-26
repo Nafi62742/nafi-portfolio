@@ -1,4 +1,12 @@
 <section class="projects-section">
+  <!-- Dynamic Cosmic Starfield Layers -->
+  <div class="starfield-bg" aria-hidden="true">
+    <div class="stars-cluster stars-sm"></div>
+    <div class="stars-cluster stars-md"></div>
+    <div class="stars-cluster stars-lg"></div>
+    <div class="shooting-star-track shooting-star-2"></div>
+  </div>
+
   <div class="projects-container">
     <div class="projects-header reveal">
       <span class="label-tag-primary">{{ t.t('projects.section_label') }}</span>
@@ -25,11 +33,13 @@
           class="top-accent-line"
           [style.background]="'linear-gradient(90deg, transparent, ' + project.color + ', transparent)'"
         ></div>
-        <!-- Top row: icon + links -->
-        <div class="card-top-row">
+
+        <!-- 1. Keyvo Inset Display Canvas -->
+        <div class="card-display-canvas">
           <div
-            class="project-icon-container"
-            [style.background]="'rgba(' + hexToRgb(project.color) + ', 0.12)'"
+            class="canvas-icon-wrapper"
+            [style.background]="'rgba(' + hexToRgb(project.color) + ', 0.14)'"
+            [style.border]="'1px solid rgba(' + hexToRgb(project.color) + ', 0.25)'"
           >
             <i
               class="fa-solid"
@@ -37,56 +47,61 @@
               [style.color]="project.color"
             ></i>
           </div>
-          @if (project.github || project.link || project.playstore ||
-          project.appstore || project.youtube) {
-          <div class="links-container">
+
+          <!-- Quick Action Buttons Floating on Canvas -->
+          @if (project.github || project.link || project.playstore || project.appstore || project.youtube) {
+          <div class="canvas-actions">
             @if (project.github) {
             <a
               [href]="project.github"
               target="_blank"
               aria-label="GitHub"
               (click)="$event.stopPropagation()"
-              class="link-icon-btn"
+              class="canvas-action-btn"
             >
               <i class="fa-brands fa-github"></i>
             </a>
-            } @if (project.playstore) {
+            }
+            @if (project.playstore) {
             <a
               [href]="project.playstore"
               target="_blank"
               aria-label="Play Store"
               (click)="$event.stopPropagation()"
-              class="link-icon-btn"
+              class="canvas-action-btn"
             >
               <i class="fa-brands fa-google-play"></i>
             </a>
-            } @if (project.appstore) {
+            }
+            @if (project.appstore) {
             <a
               [href]="project.appstore"
               target="_blank"
               aria-label="App Store"
               (click)="$event.stopPropagation()"
-              class="link-icon-btn"
+              class="canvas-action-btn"
             >
               <i class="fa-brands fa-apple"></i>
             </a>
-            } @if (project.youtube) {
+            }
+            @if (project.youtube) {
             <a
               [href]="project.youtube"
               target="_blank"
               aria-label="YouTube"
               (click)="$event.stopPropagation()"
-              class="link-icon-btn"
+              class="canvas-action-btn"
             >
               <i class="fa-brands fa-youtube"></i>
             </a>
-            } @if (project.link) {
+            }
+            @if (project.link) {
             <a
               [href]="project.link"
               target="_blank"
               aria-label="Live Demo"
               (click)="$event.stopPropagation()"
-              class="link-icon-btn"
+              class="canvas-action-btn"
             >
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
@@ -94,39 +109,51 @@
           </div>
           }
         </div>
-        <!-- Project Badges (Category & Type) -->
-        <div class="badge-row">
-          <span
-            class="category-badge"
-            [style.background]="project.category === 'office' ? 'rgba(99, 102, 241, 0.12)' : 'rgba(16, 185, 129, 0.12)'"
-            [style.color]="project.category === 'office' ? '#818cf8' : '#34d399'"
+
+        <!-- 2. Identity Row with Status Capsule Pill -->
+        <div class="card-identity-row">
+          <div class="identity-info">
+            <h3 class="project-name-text">
+              {{ project.name }}
+            </h3>
+            @if (project.shortRole) {
+            <span class="project-role-text">{{ project.shortRole }}</span>
+            }
+          </div>
+          <div
+            class="status-pill"
+            [class.status-office]="project.category === 'office'"
+            [class.status-personal]="project.category !== 'office'"
           >
-            {{ project.category === 'office' ? 'Office' : 'Personal' }}
-          </span>
-          <span class="type-badge"> {{ project.type }} </span>
+            <span class="status-dot"></span>
+            <span class="status-text">
+              {{ project.category === 'office' ? t.t('projects.badge_office') : t.t('projects.badge_personal') }}
+            </span>
+          </div>
         </div>
-        <h3 class="project-name-text">
-          {{ project.name }} @if (project.shortRole) {
-          <span class="project-role-text"> ({{ project.shortRole }}) </span>
-          }
-        </h3>
+
+        <!-- 3. Project Summary -->
         <p class="project-desc-text">{{ project.description }}</p>
 
-        <div class="tech-container">
-          @for (tech of project.tech; track tech) {
-          <span class="tech-badge">{{ tech }}</span>
-          }
-        </div>
-        <!-- See Details link -->
+        <!-- 4. Card Footer: Clean Tech Tags + Details Link -->
         <div class="card-footer">
+          <div class="tech-container">
+            @for (tech of project.tech.slice(0, 3); track tech) {
+            <span class="tech-badge">{{ tech }}</span>
+            }
+            @if (project.tech.length > 3) {
+            <span class="tech-badge tech-badge-more">+{{ project.tech.length - 3 }}</span>
+            }
+          </div>
+
           <a
             [routerLink]="['/project', getSlug(project.name)]"
             (click)="$event.stopPropagation()"
             class="details-link"
             [style.color]="project.color"
           >
-            <span>See Details</span>
-            <i class="fa-solid fa-arrow-right"></i>
+            <span>{{ t.t('projects.see_details') }}</span>
+            <i class="fa-solid fa-arrow-right link-arrow"></i>
           </a>
         </div>
       </div>
