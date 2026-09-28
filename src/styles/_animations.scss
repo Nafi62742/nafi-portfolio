@@ -124,3 +124,30 @@
 @for $i from 1 through 12 {
   .delay-#{$i} { transition-delay: #{$i * 80}ms; }
 }
+
+// ─── Mobile View & Reduced Motion Optimizations ───────────────────────────────
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-glow,
+  .bounce-subtle {
+    animation: none !important;
+  }
+
+  .reveal,
+  .reveal.reveal-left,
+  .reveal.reveal-right,
+  .reveal.reveal-scale {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+
+    &.revealed {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+    }
+  }
+}
+

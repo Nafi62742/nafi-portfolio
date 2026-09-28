@@ -362,6 +362,21 @@
   animation: shootStar 14s ease-in-out infinite 8s;
 }
 
+/* Turn off heavy continuous starfield animations & shooting stars on mobile */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .stars-sm,
+  .stars-md,
+  .stars-lg {
+    animation: none !important;
+  }
+  .shooting-star-track,
+  .shooting-star-1,
+  .shooting-star-2 {
+    display: none !important;
+    animation: none !important;
+  }
+}
+
 @keyframes starDriftSlow {
   from { transform: translate(0, 0); }
   to   { transform: translate(60px, -40px); }
@@ -414,6 +429,19 @@
 .cursor-blink       { animation: cursorBlink 0.8s step-end infinite; }
 .bounce-subtle      { animation: bounceSubtle 2s ease-in-out infinite; }
 
+/* Turn off non-essential continuous ambient animations on mobile to prevent lag */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-glow,
+  .cursor-blink,
+  .bounce-subtle,
+  .orbit-spin-1,
+  .orbit-spin-2,
+  .orbit-spin-3 {
+    animation: none !important;
+  }
+}
+
 /* Stagger delays */
 .delay-1  { transition-delay: 80ms;  }
 .delay-2  { transition-delay: 160ms; }
@@ -440,6 +468,23 @@
     opacity: 1;
     filter: blur(0);
     transform: scale(1);
+  }
+}
+
+/* Remove scroll blur filter and heavy transitions on mobile for instant 60fps scrolling */
+@media (max-width: 768px), (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+
+    &.revealed {
+      opacity: 1 !important;
+      filter: none !important;
+      transform: none !important;
+    }
   }
 }
 

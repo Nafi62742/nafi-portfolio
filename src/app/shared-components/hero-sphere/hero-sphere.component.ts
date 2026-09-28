@@ -166,15 +166,18 @@ export class HeroSphereComponent implements AfterViewInit, OnDestroy {
     this.camera = new THREE.PerspectiveCamera(44, width / height, 0.1, 100);
     this.camera.position.set(0, 0, 18.0);
 
-    // 3. Renderer
+    // 3. Renderer with mobile-aware pixel ratio capping
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const maxDpr = isMobile ? 1.0 : 2.0;
+
     this.renderer = new THREE.WebGLRenderer({
       canvas,
       alpha: true,
-      antialias: true,
+      antialias: !isMobile,
       powerPreference: 'high-performance'
     });
     this.renderer.setSize(width, height);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxDpr));
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1.1;
 
@@ -358,7 +361,7 @@ export class HeroSphereComponent implements AfterViewInit, OnDestroy {
    */
   private animate = (): void => {
     if (!this.isVisible) {
-      this.animFrameId = requestAnimationFrame(this.animate);
+      this.animFrameId = null;
       return;
     }
 
@@ -522,7 +525,11 @@ export class HeroSphereComponent implements AfterViewInit, OnDestroy {
     this.intersectionObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
+          const wasVisible = this.isVisible;
           this.isVisible = entry.isIntersecting;
+          if (this.isVisible && !wasVisible && this.animFrameId === null) {
+            this.animFrameId = requestAnimationFrame(this.animate);
+          }
         }
       },
       { threshold: 0.05 }
