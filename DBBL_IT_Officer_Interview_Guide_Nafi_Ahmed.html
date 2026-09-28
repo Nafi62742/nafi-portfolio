@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DBBL Officer (IT) Interview Preparation Guide - Nafi Ahmed</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1e293b;
+      background-color: #ffffff;
+      line-height: 1.55;
+      font-size: 13px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-container {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Header & Branding */
+    .header {
+      border-bottom: 2.5px solid #006837;
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .header-left h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0f172a;
+      margin: 0 0 4px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .header-left .subtitle {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #006837;
+      margin: 0 0 4px 0;
+    }
+
+    .header-left .meta {
+      font-size: 11.5px;
+      color: #64748b;
+    }
+
+    .header-right {
+      text-align: right;
+    }
+
+    .bank-badge {
+      background: linear-gradient(135deg, #006837 0%, #008744 100%);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 6px;
+      display: inline-block;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .target-role {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #334155;
+      margin-top: 6px;
+    }
+
+    /* Profile Summary Card */
+    .profile-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-left: 4px solid #006837;
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 22px;
+    }
+
+    .profile-card h3 {
+      margin: 0 0 6px 0;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+      font-size: 12px;
+    }
+
+    .profile-item strong {
+      color: #334155;
+    }
+
+    .tags-container {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .tag {
+      background: #e2e8f0;
+      color: #1e293b;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .tag-accent {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 5px;
+      margin: 22px 0 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      page-break-after: avoid;
+    }
+
+    .section-number {
+      background: #006837;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Question & Answer Blocks */
+    .qa-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+
+    .question {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 12.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .question-icon {
+      color: #006837;
+      font-weight: 800;
+    }
+
+    .answer {
+      font-size: 12px;
+      color: #334155;
+    }
+
+    .answer ul {
+      margin: 4px 0 4px 16px;
+      padding: 0;
+    }
+
+    .answer li {
+      margin-bottom: 3px;
+    }
+
+    .key-concept {
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    .highlight-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-left: 3px solid #16a34a;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin: 8px 0;
+      font-size: 11.5px;
+      color: #14532d;
+    }
+
+    .highlight-box strong {
+      color: #166534;
+    }
+
+    .tip-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-left: 3px solid #2563eb;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin: 8px 0;
+      font-size: 11.5px;
+      color: #1e3a8a;
+    }
+
+    /* Comparison Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px 0;
+      font-size: 11.5px;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    /* Code Block */
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      overflow-x: auto;
+      margin: 6px 0;
+    }
+
+    .page-break {
+      page-break-before: always;
+    }
+
+    /* Footer */
+    .doc-footer {
+      margin-top: 25px;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 10px;
+      font-size: 10.5px;
+      color: #94a3b8;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    
+    <!-- Header -->
+    <div class="header">
+      <div class="header-left">
+        <h1>Dutch-Bangla Bank Limited (DBBL)</h1>
+        <div class="subtitle">Officer (IT) — Technical & Viva Interview Preparation Blueprint</div>
+        <div class="meta">Candidate: <strong>Nafi Ahmed</strong> | Tailored to Full-Stack, Mobile, Cloud & Database Experience</div>
+      </div>
+      <div class="header-right">
+        <div class="bank-badge">DBBL IT Viva Guide</div>
+        <div class="target-role">Position: Officer / Asst. Officer (IT)</div>
+      </div>
+    </div>
+
+    <!-- Candidate Profile Card -->
+    <div class="profile-card">
+      <h3><span>👤</span> Candidate Profile Breakdown</h3>
+      <div class="profile-grid">
+        <div class="profile-item"><strong>Education:</strong> B.Sc. in CSE, Ahsanullah University of Science and Technology (AUST)</div>
+        <div class="profile-item"><strong>Current Experience:</strong> Software Developer @ XORGeek (Aug 2023 – Present)</div>
+        <div class="profile-item"><strong>Production Systems:</strong> RunMate Club, Koyama Shokai, Pet App, KEIAI, Izumi, Ginsen</div>
+        <div class="profile-item"><strong>Research:</strong> 3 Publications (Bengali Food ML, IEEE Face BMR DL, Drought Forecasting)</div>
+      </div>
+      <div class="tags-container">
+        <span class="tag tag-accent">Flutter & Dart</span>
+        <span class="tag tag-accent">Angular & TypeScript</span>
+        <span class="tag tag-accent">AWS Serverless (Lambda, DynamoDB)</span>
+        <span class="tag tag-accent">MySQL & PostgreSQL</span>
+        <span class="tag tag-accent">SSLCommerz Payment Gateway</span>
+        <span class="tag tag-accent">RBAC & Session Security</span>
+        <span class="tag">Docker & CI/CD</span>
+        <span class="tag">REST API Architecture</span>
+      </div>
+    </div>
+
+    <!-- SECTION 1 -->
+    <div class="section-title">
+      <span class="section-number">1</span> Questions on Your Work Experience & Projects
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q1.</span>
+        <span>You integrated SSLCommerz in RunMate Club. Walk us through a secure payment gateway handshake from user checkout to database commit.</span>
+      </div>
+      <div class="answer">
+        <strong>Structured Model Answer:</strong>
+        <ol style="margin: 4px 0 4px 18px; padding:0;">
+          <li><strong>Initiation:</strong> Client clicks Pay $\rightarrow$ Backend initiates transaction with SSLCommerz API (passes `store_id`, `total_amount`, `tran_id`, `currency`, `callback_urls`).</li>
+          <li><strong>Redirect & Payment:</strong> User is redirected to SSLCommerz Hosted Gateway or popup and authorizes payment (Card/Rocket/bKash/Nexus).</li>
+          <li><strong>IPN (Instant Payment Notification) & Webhook:</strong> SSLCommerz sends a server-to-server POST request (`IPN`) with `val_id` and `tran_id`.</li>
+          <li><strong>Validation & Verification:</strong> Backend queries SSLCommerz validation endpoint using `val_id` to verify genuine success, currency, and exact amount matches.</li>
+          <li><strong>Idempotency & Database Commit:</strong> Use an atomic database transaction (`BEGIN ... COMMIT`) to update invoice status from `PENDING` to `SUCCESS`. If `tran_id` is already processed, reject duplicates.</li>
+        </ol>
+        <div class="highlight-box">
+          <strong>Key Bank Keyword:</strong> <em>Idempotency Key</em> and <em>Server-Side IPN Validation</em> (Never trust client-side return URLs for ledger updates).
+        </div>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q2.</span>
+        <span>In Koyama Shokai, you designed a 4-tier Role-Based Access Control (RBAC). How does this translate to a Banking Maker-Checker system?</span>
+      </div>
+      <div class="answer">
+        <strong>Answer Focus:</strong>
+        <ul>
+          <li><strong>Maker-Checker Principle:</strong> Core regulatory banking rule where no single officer can authorize a transaction alone. A "Maker" creates the transaction (Status: `PENDING_APPROVAL`), and a "Checker" (Manager/Supervisor) verifies and approves it.</li>
+          <li><strong>Implementation:</strong> Angular route guards handle UI visibility, but strict security is enforced at the API gateway / Lambda layer via JWT claims / Session context checking both user role, branch ID, and transaction threshold limits.</li>
+          <li><strong>Tamper-proof Audit Trail:</strong> Every action records `maker_user_id`, `checker_user_id`, `timestamp`, `ip_address`, and before/after state diff in an append-only audit ledger.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q3.</span>
+        <span>DBBL operates high-volume mobile apps (Rocket, NexusPay). As a Flutter developer, how do you harden mobile banking applications against attacks?</span>
+      </div>
+      <div class="answer">
+        <ul>
+          <li><strong>Root / Jailbreak Detection:</strong> Block app execution on compromised devices (using libraries like `flutter_jailbreak_detection` or native integrity APIs).</li>
+          <li><strong>SSL Certificate Pinning:</strong> Hardcode SSL certificate public keys in the app to prevent Man-in-the-Middle (MitM) proxy attacks (e.g. Charles / Burp Suite).</li>
+          <li><strong>Screen Capture & Overlay Protection:</strong> Set `FLAG_SECURE` in Android native window manager to prevent screenshots, screen recording, and tapjacking overlays.</li>
+          <li><strong>Encrypted Local Storage:</strong> Store session tokens only in Android Keystore / iOS Keychain (using `flutter_secure_storage`), never in `SharedPreferences` or plain SQLite.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION 2 -->
+    <div class="section-title">
+      <span class="section-number">2</span> Banking & FinTech Domain Mastery (Must-Know for DBBL)
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q4.</span>
+        <span>Explain ACID properties in the context of an inter-account fund transfer. What happens if the server crashes mid-way?</span>
+      </div>
+      <div class="answer">
+        <table style="margin-top: 4px;">
+          <thead>
+            <tr>
+              <th style="width: 22%;">Property</th>
+              <th style="width: 38%;">Banking Meaning</th>
+              <th style="width: 40%;">Example in ৳10,000 Transfer (A $\rightarrow$ B)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Atomicity</strong></td>
+              <td>All or nothing execution.</td>
+              <td>Debit from A and Credit to B must both succeed. If server fails after debiting A, entire transaction rolls back (`ROLLBACK`).</td>
+            </tr>
+            <tr>
+              <td><strong>Consistency</strong></td>
+              <td>Preserves database invariants & balance rules.</td>
+              <td>Account A cannot go below minimum balance or zero; total sum ($A + B$) remains unchanged before & after.</td>
+            </tr>
+            <tr>
+              <td><strong>Isolation</strong></td>
+              <td>Concurrent transactions do not interfere.</td>
+              <td>If Account A tries to withdraw while a transfer is happening, row locking prevents double-spending.</td>
+            </tr>
+            <tr>
+              <td><strong>Durability</strong></td>
+              <td>Once committed, changes survive system failure.</td>
+              <td>Transaction log (WAL / Redo Log) is written to non-volatile disk before returning success response.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q5.</span>
+        <span>What is the difference between NPSB, BEFTN, and RTGS in Bangladesh's banking ecosystem?</span>
+      </div>
+      <div class="answer">
+        <table>
+          <thead>
+            <tr>
+              <th>System</th>
+              <th>Full Form</th>
+              <th>Settlement Speed</th>
+              <th>Typical Use Case / Limits</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>NPSB</strong></td>
+              <td>National Payment Switch Bangladesh</td>
+              <td>Instant / Real-time (24/7)</td>
+              <td>Interbank ATM withdrawals, POS card payments, Internet Banking Fund Transfer (IBFT) up to ৳3,00,000.</td>
+            </tr>
+            <tr>
+              <td><strong>BEFTN</strong></td>
+              <td>Bangladesh Electronic Funds Transfer Network</td>
+              <td>Batch / Next Business Day</td>
+              <td>Salary disbursements, dividend payments, large batch account-to-account transfers.</td>
+            </tr>
+            <tr>
+              <td><strong>RTGS</strong></td>
+              <td>Real-Time Gross Settlement</td>
+              <td>Immediate / Gross (Working hours)</td>
+              <td>High-value transactions (Minimum ৳1,00,000, typically corporate, multi-crore settlements).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q6.</span>
+        <span>What is ISO 8583? Why is it vital to DBBL's ATM and POS Switch network?</span>
+      </div>
+      <div class="answer">
+        ISO 8583 is the international standard messaging protocol for Card-Originated Financial Transactions. When a customer inserts a DBBL Nexus or VISA card into an ATM, the ATM converts the PIN, track data, and withdrawal amount into an ISO 8583 formatted message:
+        <ul>
+          <li><strong>MTI (Message Type Identifier):</strong> e.g., `0100` (Authorization Request), `0110` (Authorization Response), `0200` (Financial Transaction Request).</li>
+          <li><strong>Bitmap:</strong> Identifies which Data Elements (DEs) are present in the packet.</li>
+          <li><strong>Data Elements:</strong> DE-2 (Primary Account Number), DE-3 (Processing Code), DE-4 (Transaction Amount), DE-11 (System Trace Audit Number - STAN), DE-52 (PIN Data).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- PAGE BREAK FOR CLEAN PRINTING -->
+    <div class="page-break"></div>
+
+    <!-- SECTION 3 -->
+    <div class="section-title">
+      <span class="section-number">3</span> Core CS, Databases & High Availability
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q7.</span>
+        <span>Why do core banking systems strictly use Relational Databases (Oracle / PostgreSQL / SQL Server) instead of NoSQL (MongoDB / DynamoDB)?</span>
+      </div>
+      <div class="answer">
+        <ul>
+          <li><strong>Strict ACID Guarantees:</strong> Core ledgers cannot tolerate "eventual consistency" where balance updates might lag across nodes. Relational databases provide strong serialization.</li>
+          <li><strong>Relational Integrity:</strong> Foreign key constraints prevent orphaned transaction records, invalid account references, or unlinked ledger entries.</li>
+          <li><strong>Complex Multi-Table Joins & Regulatory Audits:</strong> Financial audits require multi-table reconciliation queries which are natural in SQL with indexed joins.</li>
+          <li><strong>Where NoSQL IS used in Banking:</strong> Storing session states (Redis), audit log ingestion, clickstream analytics, or product catalog lookup (DynamoDB/MongoDB).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q8.</span>
+        <span>What is Optimistic vs. Pessimistic Locking? When would you use <code>SELECT ... FOR UPDATE</code>?</span>
+      </div>
+      <div class="answer">
+        <ul>
+          <li><strong>Pessimistic Locking (<code>SELECT ... FOR UPDATE</code>):</strong> Locks the selected account row immediately until the transaction commits or rolls back. Other concurrent transactions must wait.
+            <div class="highlight-box" style="margin: 4px 0;">
+              <strong>Bank Use Case:</strong> ATM cash withdrawal or balance debit where race conditions cannot be tolerated.
+            </div>
+          </li>
+          <li><strong>Optimistic Locking:</strong> Does not lock the row during reading. Instead, it checks a `version` column before updating: <br>
+            <code>UPDATE accounts SET balance = 500, version = version + 1 WHERE id = 101 AND version = 3;</code>
+            <br>If `rows_affected == 0`, a conflict occurred and the application retries. Best for read-heavy systems with low collision frequency.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q9.</span>
+        <span>How does Database Indexing work internally, and why shouldn't you index every column?</span>
+      </div>
+      <div class="answer">
+        <ul>
+          <li><strong>B+ Tree Indexing:</strong> Balanced tree data structure allowing $O(\log N)$ search, insertion, and range queries. Leaf nodes are linked as a doubly-linked list for sequential scans.</li>
+          <li><strong>Write Penalty on High-Frequency Tables:</strong> In high-throughput banking transaction tables, every `INSERT` or `UPDATE` forces the database engine to update all associated index trees and rebalance nodes, degrading write performance significantly.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION 4 -->
+    <div class="section-title">
+      <span class="section-number">4</span> System Design & Security Scenarios
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q10.</span>
+        <span>System Design Scenario: How would you architect DBBL's ATM backend to handle 10x traffic surges during Eid without crashing or double-debiting?</span>
+      </div>
+      <div class="answer">
+        <strong>Architectural Blueprint:</strong>
+        <ol style="margin: 4px 0 4px 18px; padding:0;">
+          <li><strong>Read/Write Separation:</strong> Direct account balance inquiries and mini-statement reads to <em>Read Replicas</em> or a fast Redis cache cluster. Reserve the <em>Primary Master Database</em> strictly for financial write transactions.</li>
+          <li><strong>Connection Pooling:</strong> Use database connection poolers (like PgBouncer / HikariCP) to prevent thousands of ATM terminals from overwhelming database thread limits.</li>
+          <li><strong>Asynchronous Non-Critical Pipelines:</strong> Offload SMS alerts, email receipts, push notifications, and analytics to a message broker (Kafka / AWS SQS / RabbitMQ).</li>
+          <li><strong>Circuit Breaker Pattern:</strong> If downstream core banking services experience latency, circuit breakers (e.g. Resilience4j) fail fast with graceful user messaging instead of hanging ATM hardware.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q11.</span>
+        <span>What is the difference between Symmetric vs. Asymmetric Encryption, and how are they used in banking?</span>
+      </div>
+      <div class="answer">
+        <ul>
+          <li><strong>Symmetric Encryption (AES-256):</strong> Same secret key for both encryption and decryption. Very fast. Used for encrypting database data-at-rest and ATM PIN blocks (in HSM - Hardware Security Modules).</li>
+          <li><strong>Asymmetric Encryption (RSA / ECC):</strong> Public key encrypts, private key decrypts. Slower. Used for TLS/SSL handshake, digital signatures, and securely exchanging the symmetric session key.</li>
+          <li><strong>Hashing (bcrypt / Argon2 / SHA-256):</strong> One-way cryptographic transformation with salt. Used for storing passwords and PIN verification.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION 5 -->
+    <div class="section-title">
+      <span class="section-number">5</span> Machine Learning & Research Alignment
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q12.</span>
+        <span>You have 3 published AI/ML papers. How can machine learning specifically benefit DBBL IT operations?</span>
+      </div>
+      <div class="answer">
+        <ul>
+          <li><strong>Real-Time Fraud & Anomaly Detection:</strong> Train classification models on historical transaction vectors (time, amount, velocity, geocoding) to flag suspicious ATM or card transactions in milliseconds.</li>
+          <li><strong>e-KYC & Biometric Verification:</strong> Your research in facial attribute estimation directly maps to digital customer onboarding in Rocket and NexusPay (matching NID photo with live selfie and liveness detection).</li>
+          <li><strong>ATM Cash Demand Forecasting:</strong> Using time-series forecasting models (ARIMA / LSTM / Random Forest — as explored in your published drought forecasting paper) to predict daily cash depletion per ATM and optimize armored cash replenishment logistics.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SECTION 6 -->
+    <div class="section-title">
+      <span class="section-number">6</span> Behavioral & HR Questions
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q13.</span>
+        <span>You are currently working in a software development agency (XORGeek). Why do you want to switch to a bank like DBBL?</span>
+      </div>
+      <div class="answer">
+        <div class="tip-box">
+          <strong>Winning Angle:</strong> "At XORGeek, I have proven my ability to build and deploy 6 live production systems across mobile, web, and cloud. However, I want to apply my engineering skills to mission-critical, large-scale financial infrastructure where reliability, zero downtime, and data integrity impact millions of citizens daily. DBBL is the pioneer in ATM networks, FastTrack, and mobile banking in Bangladesh, offering the exact scale and high-stake engineering environment I want to build my long-term career in."
+        </div>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <div class="question">
+        <span class="question-icon">Q14.</span>
+        <span>Banking IT requires 24/7 on-call availability, night maintenance windows, and emergency troubleshooting. Are you prepared for this?</span>
+      </div>
+      <div class="answer">
+        <div class="tip-box">
+          <strong>Winning Angle:</strong> "Yes, absolutely. In my current role, managing live production deployments and race-day live tracking for RunMate Club already demanded off-hour monitoring, high-stress issue resolution, and immediate hotfixes. I understand that banking services operate 24/7/365, and I am fully committed to rotational on-call and weekend maintenance schedules."
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICK CHECKLIST -->
+    <div class="section-title">
+      <span class="section-number">7</span> Rapid 5-Minute Pre-Viva Checklist
+    </div>
+
+    <div class="profile-card" style="margin-bottom: 0;">
+      <div class="profile-grid">
+        <div>
+          <strong>Technical Terms to Say Confidently:</strong>
+          <ul style="margin: 4px 0 0 16px; padding: 0;">
+            <li>ACID Transactions & Two-Phase Commit (2PC)</li>
+            <li>Database Indexing (B+ Tree, Clustered vs Non-Clustered)</li>
+            <li>Maker-Checker Workflow & Tamper-proof Audit Logs</li>
+            <li>Idempotency Keys & Server-side IPN Handshakes</li>
+          </ul>
+        </div>
+        <div>
+          <strong>DBBL Facts to Keep in Mind:</strong>
+          <ul style="margin: 4px 0 0 16px; padding: 0;">
+            <li>Largest ATM & FastTrack network in Bangladesh</li>
+            <li>Core Products: Rocket (MFS), NexusPay, Agent Banking</li>
+            <li>Switch Networks: NPSB, VISA, MasterCard, UnionPay</li>
+            <li>Core Banking Solution (CBS): High-availability Oracle/Unix backend</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="doc-footer">
+      <div>Prepared for Nafi Ahmed | DBBL Officer (IT) Interview Preparation Blueprint</div>
+      <div>Generated on: March 2026 | Private & Confidential</div>
+    </div>
+
+  </div>
+</body>
+</html>
