@@ -116,17 +116,18 @@ The homepage is organized into a carefully balanced alternating rhythm that prov
 
 ## 5. Core Visual Elements & Key Components
 
-### 5.1 Interactive 3D Technology Sphere (Hero Section)
+### 5.1 Interactive Technology Sphere (Hero Section)
 
-The hero graphic is a custom WebGL Three.js interactive component (`src/app/shared-components/hero-sphere/`):
+The hero graphic is a lightweight native HTML5 Canvas 2D interactive component (`src/app/shared-components/hero-sphere/`) built with pure JavaScript trigonometry (replacing Three.js for optimal 60fps performance on low-end devices):
 
-- **Metallic Core**: High-poly sphere (`SphereGeometry(2.5, 48, 48)`) with `MeshStandardMaterial` metalness of `0.92` and subtle counter-rotating icosahedron wireframe lattice.
+- **Metallic Core**: Central metallic sphere with theme-adaptive radial gradients, specular highlights, and a rotating 3D wireframe lattice on the front hemisphere.
 - **Architectural Orbital Rings**:
-  - Primary **Gold Ring** (`TorusGeometry(4.1)`) rotated at `68°` with metallic golden specular response.
-  - Secondary **Cyan Tech Ring** (`TorusGeometry(5.1)`) rotated at `-45°` with luminous emissive intensity.
-- **Orbiting 3D Satellites**: 6 tech nodes (**Angular**, **TypeScript**, **Node.js**, **AWS**, **Flutter**, **Docker**) orbiting on distinct elliptical planes with high-resolution canvas monogram sprites.
-- **Framing & Zero-Clipping Optics**: Configured with `PerspectiveCamera(44°, aspect, 0.1, 100)` at `(0, 0, 18.0)`, guaranteeing full rotation clearance across all display ratios.
-- **Performance**: Runs outside Angular Zone via `NgZone.runOutsideAngular()` at 60 FPS and automatically pauses rendering when scrolled offscreen via `IntersectionObserver`.
+  - Primary **Gold Ring** rotated at `68°` with metallic golden specular response and inner guide orbit.
+  - Secondary **Cyan Tech Ring** rotated at `-45°` with luminous neon glow.
+  - Depth-filtered rendering (Painter's algorithm) ensuring true 3D occlusion behind and in front of the core sphere.
+- **Orbiting 3D Satellites**: 6 tech nodes (**Angular**, **TypeScript**, **Node.js**, **AWS**, **Flutter**, **Docker**) orbiting on distinct planes with brand-colored glowing badges and depth scaling.
+- **Interactivity**: Pointer parallax tilt and touch/mouse drag-to-rotate with smooth momentum damping.
+- **Performance**: Zero external 3D libraries, clamped DPR (`<= 1.5`), runs outside Angular Zone via `NgZone.runOutsideAngular()`, frame-rate throttling, and automatically pauses rendering when scrolled offscreen via `IntersectionObserver`.
 
 ```
                   ┌──────────────────────────────┐
@@ -249,7 +250,7 @@ Elements marked with `.reveal` enter the viewport with zero opacity, a soft `8px
 | Feature / System | Key Files |
 | :--- | :--- |
 | **Global Theme & Tokens** | `src/styles.scss`, `src/app/services/theme.service.ts` |
-| **Hero & 3D WebGL Sphere** | `src/app/pages/hero/`, `src/app/shared-components/hero-sphere/` |
+| **Hero & Interactive Canvas Sphere** | `src/app/pages/hero/`, `src/app/shared-components/hero-sphere/` |
 | **Navigation & Header** | `src/app/shared-components/navbar/` |
 | **Project Cards** | `src/app/pages/projects/`, `src/app/pages/projects/project-details/` |
 | **Experience Timeline** | `src/app/pages/experience/` |
