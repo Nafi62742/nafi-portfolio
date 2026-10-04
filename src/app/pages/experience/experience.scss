@@ -28,6 +28,130 @@
   line-height: 1.6;
 }
 
+/* ── Career Summary Card ─────────────────────────────────────────── */
+.career-summary-card {
+  @apply max-w-[920px] mx-auto mb-10 p-5 sm:p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-5;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #818cf8, #38bdf8);
+  }
+}
+
+.summary-left {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.company-logo-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: var(--hero-accent, #38bdf8);
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.company-meta-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.company-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.company-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.company-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.trajectory-tagline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+
+  .trajectory-arrow {
+    font-size: 0.75rem;
+  }
+}
+
+.summary-right {
+  display: flex;
+  align-items: center;
+}
+
+.total-tenure-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.08);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+
+  @media (min-width: 768px) {
+    align-items: flex-end;
+  }
+}
+
+.tenure-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.tenure-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'Fira Code', monospace;
+}
+
+.tenure-duration {
+  color: var(--hero-accent, #38bdf8);
+  font-weight: 700;
+}
+
 /* ── Timeline ─────────────────────────────────────────────────────── */
 .experience-timeline {
   @apply max-w-[920px] mx-auto flex flex-col;
@@ -157,6 +281,11 @@
 
   .experience-card:hover & {
     opacity: 1;
+  }
+
+  &.accent-live {
+    opacity: 0.85;
+    background: linear-gradient(90deg, transparent, #38bdf8 30%, #34d399 70%, transparent);
   }
 }
 
@@ -292,6 +421,11 @@
   .period-icon {
     font-size: 0.72rem;
     color: var(--hero-accent, #38bdf8);
+  }
+
+  .duration-tag {
+    color: var(--hero-accent, #38bdf8);
+    font-weight: 600;
   }
 }
 
@@ -438,3 +572,130 @@
     transform: translateY(-1px);
   }
 }
+
+/* ── Progression / Promotion Milestone Bridge ─────────────────────── */
+.progression-bridge-row {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 1.25rem;
+  position: relative;
+  margin: -0.5rem 0 1.5rem 0;
+
+  @media (min-width: 640px) {
+    grid-template-columns: 56px 1fr;
+    gap: 1.75rem;
+  }
+}
+
+.bridge-marker-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.bridge-spine-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-size: 0.85rem;
+  z-index: 2;
+  margin-top: 0.25rem;
+  transition: transform 250ms ease;
+
+  &.icon-company {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    box-shadow: 0 0 14px rgba(99, 102, 241, 0.45);
+  }
+
+  &.icon-promotion {
+    background: linear-gradient(135deg, #06b6d4, #10b981);
+    box-shadow: 0 0 16px rgba(6, 182, 212, 0.55);
+  }
+
+  .progression-bridge-row:hover & {
+    transform: scale(1.15) rotate(5deg);
+  }
+}
+
+.bridge-spine-line {
+  flex: 1;
+  width: 2px;
+  margin-top: 0.5rem;
+  background: linear-gradient(to bottom, rgba(6, 182, 212, 0.5), rgba(99, 102, 241, 0.3));
+  border-radius: 9999px;
+  min-height: 24px;
+}
+
+.promotion-bridge-card {
+  position: relative;
+  padding: 1.15rem 1.4rem;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(6, 182, 212, 0.06) 100%);
+  border: 1px dashed rgba(99, 102, 241, 0.35);
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  &.bridge-promotion-glow {
+    border-color: rgba(6, 182, 212, 0.45);
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(16, 185, 129, 0.06) 100%);
+  }
+
+  &:hover {
+    border-color: #38bdf8;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(6, 182, 212, 0.1) 100%);
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.15);
+    transform: translateX(4px);
+  }
+}
+
+.bridge-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.bridge-header-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.milestone-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #38bdf8;
+}
+
+.milestone-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-family: 'Fira Code', monospace;
+  color: var(--text-muted);
+}
+
+.bridge-title {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.bridge-desc {
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+

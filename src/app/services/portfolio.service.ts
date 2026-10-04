@@ -60,21 +60,19 @@ export class PortfolioService {
   public getExperiences(): Array<Experience> {
     return [
       {
-        company:    'XORGeek',
+        company:    'Software & Application Development',
         location:   'Dhaka, Bangladesh',
-        role:       'Software Developer',
-        type:       'fulltime',
-        startDate:  'Aug 2023',
-        endDate:    null,
-        icon:       'fa-briefcase',
+        role:       'Software Developer (Project-Based)',
+        type:       'contract',
+        startDate:  'Jan 2021',
+        endDate:    'May 2023',
+        icon:       'fa-laptop-code',
         bullets: [
-          'Core engineer behind 6 live production systems (RunMate Club, Koyama Shokai, Pet Auction App, KEIAI Order App, Izumi, Ginsen), architecting responsive Angular SPAs and cross-platform Flutter mobile apps.',
-          'Engineered and deployed serverless cloud architectures on AWS (Lambda, API Gateway, S3, CloudFront, DynamoDB, EC2, SQS, SNS, Route53) with secure CI/CD and HttpOnly session authentication.',
-          'Structured and optimized relational SQL (MySQL, PostgreSQL) schemas and NoSQL (DynamoDB, Firebase RTDB) models, significantly reducing data retrieval latency and improving API throughput.',
-          'Designed high-throughput REST APIs and real-time data ingestion pipelines handling live race GPS telemetry, interactive auction bidding streams, and dynamic order workflows.',
-          'Implemented strict 4-tier Role-Based Access Control (RBAC) with custom Angular route guards, action-level permission matrices, and automated PDF export pipelines.'
+          'Delivered commercial web applications and cross-platform mobile apps with Flutter, JavaScript, and TypeScript for diverse client requirements.',
+          'Designed relational database schemas in MySQL and PostgreSQL, architected RESTful API endpoints, and integrated secure payment & auth gateways.',
+          'Optimized database queries, streamlined client-server data flows, and engineered reusable, responsive UI component libraries.'
         ],
-        tech: ['Angular', 'TypeScript', 'Flutter', 'Dart', 'AWS (Lambda, S3, DynamoDB)', 'Firebase', 'Laravel', 'MySQL', 'RxJS', 'REST APIs']
+        tech: ['Flutter', 'Dart', 'JavaScript', 'TypeScript', 'MySQL', 'PostgreSQL', 'PHP', 'Laravel', 'REST APIs', 'Git']
       },
       {
         company:    'XORGeek',
@@ -90,6 +88,23 @@ export class PortfolioService {
           'Participated in agile sprints, code reviews, and hands-on mobile-to-backend application architecture workflows.'
         ],
         tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL', 'REST APIs']
+      },
+      {
+        company:    'XORGeek',
+        location:   'Dhaka, Bangladesh',
+        role:       'Software Developer',
+        type:       'fulltime',
+        startDate:  'Aug 2023',
+        endDate:    null,
+        icon:       'fa-briefcase',
+        bullets: [
+          'Core engineer behind 6 live production systems (RunMate Club, Koyama Shokai, Pet Auction App, KEIAI Order App, Izumi, Ginsen), architecting responsive Angular SPAs and cross-platform Flutter mobile apps.',
+          'Engineered and deployed serverless cloud architectures on AWS (Lambda, API Gateway, S3, CloudFront, DynamoDB, EC2, SQS, SNS, Route53) with secure CI/CD and HttpOnly session authentication.',
+          'Structured and optimized relational SQL (MySQL, PostgreSQL) schemas and NoSQL (DynamoDB, Firebase RTDB) models, significantly reducing data retrieval latency and improving API throughput.',
+          'Designed high-throughput REST APIs and real-time data ingestion pipelines handling live race GPS telemetry, interactive auction bidding streams, and dynamic order workflows.',
+          'Implemented strict 4-tier Role-Based Access Control (RBAC) with custom Angular route guards, action-level permission matrices, and automated PDF export pipelines.'
+        ],
+        tech: ['Angular', 'TypeScript', 'Flutter', 'Dart', 'AWS (Lambda, S3, DynamoDB)', 'Firebase', 'Laravel', 'MySQL', 'RxJS', 'REST APIs']
       }
     ];
   }
