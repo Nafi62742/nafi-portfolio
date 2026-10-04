@@ -1,0 +1,18 @@
+.starfield-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.starfield-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  background: transparent;
+  outline: none;
+  border: none;
+}

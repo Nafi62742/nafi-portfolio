@@ -99,16 +99,16 @@ The homepage is organized into a carefully balanced alternating rhythm that prov
 ┌────┬─────────────────┬──────────────────┬─────────────────────────────┐
 │ #  │ Section         │ Background Type  │ Visual Characteristic       │
 ├────┼─────────────────┼──────────────────┼─────────────────────────────┤
-│ 01 │ Hero            │ Starfield (Odd)  │ 3D Sphere, Intro, Live CTAs │
-│ 02 │ About           │ Solid Surface    │ Bio, Metric Cards, Facts    │
-│ 03 │ Skills          │ Starfield (Odd)  │ Categorized Tech Badges     │
-│ 04 │ Experience      │ Solid Surface    │ Illuminated Timeline Spine  │
-│ 05 │ Projects        │ Starfield (Odd)  │ Keyvo Inset Cards & Links   │
-│ 06 │ RunMate Club    │ Solid Surface    │ Interactive App Showcase    │
-│ 07 │ Publications    │ Starfield (Odd)  │ Academic Research Cards     │
-│ 08 │ Education       │ Solid Surface    │ Degree & Leadership Grid    │
-│ 09 │ Contact         │ Starfield (Odd)  │ Glassmorphism Form & Links  │
-│ 10 │ Footer          │ Starfield (Odd)  │ Brand Signature & Scroll-up │
+│ 01 │ Hero            │ Global Starfield │ 3D Sphere, Intro, Live CTAs │
+│ 02 │ About           │ Translucent Surf │ Bio, Metric Cards, Facts    │
+│ 03 │ Skills          │ Global Starfield │ Categorized Tech Badges     │
+│ 04 │ Experience      │ Translucent Surf │ Illuminated Timeline Spine  │
+│ 05 │ Projects        │ Global Starfield │ Keyvo Inset Cards & Links   │
+│ 06 │ RunMate Club    │ Translucent Surf │ Interactive App Showcase    │
+│ 07 │ Publications    │ Global Starfield │ Academic Research Cards     │
+│ 08 │ Education       │ Translucent Surf │ Degree & Leadership Grid    │
+│ 09 │ Contact         │ Global Starfield │ Glassmorphism Form & Links  │
+│ 10 │ Footer          │ Translucent Surf │ Brand Signature & Scroll-up │
 └────┴─────────────────┴──────────────────┴─────────────────────────────┘
 ```
 
@@ -250,6 +250,7 @@ Elements marked with `.reveal` enter the viewport with zero opacity, a soft `8px
 | Feature / System | Key Files |
 | :--- | :--- |
 | **Global Theme & Tokens** | `src/styles.scss`, `src/app/services/theme.service.ts` |
+| **Global Starfield Background** | `src/app/shared-components/starfield/` |
 | **Hero & Interactive Canvas Sphere** | `src/app/pages/hero/`, `src/app/shared-components/hero-sphere/` |
 | **Navigation & Header** | `src/app/shared-components/navbar/` |
 | **Project Cards** | `src/app/pages/projects/`, `src/app/pages/projects/project-details/` |
