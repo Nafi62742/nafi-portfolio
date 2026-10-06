@@ -86,7 +86,13 @@ _Software Development Intern_ | **June 2023 – July 2023**
 - **Role & Implementation:** Built a data ingestion system designed to handle dynamic forms, facilitating flexible collections, formatting, and processing pipelines utilizing AWS backend services.
 - **Technologies:** HTML5, AWS, JSON.
 
-### 5. **Pabo Kothay Android App**
+### 5. **RemindLy (Offline Reminder & Routine Tracker)**
+
+- **Description:** A clean, 100% offline-first reminder, daily routine checklist, and workout tracking mobile app with zero cloud tracking.
+- **Role & Implementation:** Designed local architecture with background notifications, drag-and-drop routine checklists, workout logs, completion analytics, and local JSON backup/restore.
+- **Technologies:** Flutter, Dart, SQLite, Local Notifications.
+
+### 6. **Pabo Kothay Android App**
 
 - **Description:** A mobile application designed to help local small businesses advertise their services and reach traveling tourists.
 - **Role & Implementation:** Built local discovery features and simple business advertising profiles using a mobile frontend.

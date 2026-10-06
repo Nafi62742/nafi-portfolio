@@ -97,6 +97,9 @@ export const PROJECT_GALLERY_ASSETS: Record<string, string[]> = {
   "recklessseas": [
     "assets/images/projects/recklessseas/reckless_seas_gameplay_banner.jpg"
   ],
+  "remindly": [],
+  "reminderapp": [],
+  "reminder": [],
   "schoolmanagementsystem": [
     "assets/images/projects/schoolmanagementsystem/school_system_intro.jpg"
   ],

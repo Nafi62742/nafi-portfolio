@@ -44,7 +44,8 @@ async function compileOnlineWithRetry(texPath, destPath, retries = 3) {
   const tempTar = path.join(dirName, `temp_${Date.now()}_${Math.random().toString(36).slice(2)}.tar`);
 
   try {
-    execSync(`tar.exe -cf "${tempTar}" -C "${dirName}" "${fileName}"`);
+    const tarCmd = process.platform === 'win32' ? 'tar.exe' : 'tar';
+    execSync(`${tarCmd} -cf "${tempTar}" -C "${dirName}" "${fileName}"`);
     const tarBuffer = fs.readFileSync(tempTar);
     if (fs.existsSync(tempTar)) fs.unlinkSync(tempTar);
 

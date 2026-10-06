@@ -257,6 +257,25 @@ export class PortfolioService {
         shortRole:       'Offline Voice Recorder'
       },
       {
+        name:            'RemindLy',
+        description:     'A clean, fully offline reminder & daily-routine app. No cloud. No accounts. Your data never leaves your device.',
+        longDescription: 'RemindLy is a clean, fully offline mobile reminder, daily-routine checklist, and workout tracking application built with Flutter. Designed with an offline-first philosophy, all user data—including time-based reminders, reorderable daily schedule checklists, custom workout logs, and personal health metrics—is stored 100% locally on the device with zero cloud sync or external accounts. Key capabilities include closed-app background notifications, intuitive drag-and-drop schedule reordering, preset & custom workout templates, daily/weekly/monthly completion analytics, complete reminder history logs, JSON backup & restore data export, and automated system light/dark theme adaptation.',
+        highlights:      'Engineered an offline-first Flutter application featuring background notifications, drag-and-drop daily routines, workout logging, and local backup/restore.',
+        tech:            ['Flutter', 'Dart', 'SQLite', 'Local Notifications', 'State Management'],
+        icon:            'fa-bell',
+        color:           '#8b5cf6',
+        category:        'personal',
+        type:            'Mobile App',
+        link:            'https://drive.google.com/file/d/1OCzd86wLhE996OFB8Jn6BdMlihWEjz-D/view?usp=drive_link',
+        github:          'https://github.com/Nafi62742/reminder_app',
+        screenshots:     getProjectScreenshots('remindly'),
+        additionalLinks: [
+          { label: 'Download APK', url: 'https://drive.google.com/file/d/1OCzd86wLhE996OFB8Jn6BdMlihWEjz-D/view?usp=drive_link', icon: 'fa-download' },
+          { label: 'GitHub Repository', url: 'https://github.com/Nafi62742/reminder_app', icon: 'fa-github' }
+        ],
+        shortRole:       'Offline Reminder & Routine Tracker'
+      },
+      {
         name:            'Pabo Kothay',
         description:     'A discovery and advertising platform helper for small businesses to showcase services to nearby tourists.',
         longDescription: 'Pabo Kothay (Bengali for "Where Will I Find It?") is an Android application designed to bridge the gap between local small businesses and tourists exploring unfamiliar areas in Bangladesh. Business owners can register their shops, restaurants, or service providers with descriptions, photos, and location data. Tourists browsing the app can filter listings by category and proximity, seeing only businesses near their current location. The app leverages Firebase Realtime Database for live data sync, allowing business owners to update their listings instantly. It features a map-integrated discovery view, category filters, and a simple business dashboard for managing listings.',

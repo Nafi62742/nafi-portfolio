@@ -33,10 +33,18 @@ This portfolio serves as an interactive showcase of my professional journey, ski
 
 All in-depth technical documentation, architectural overviews, project guidelines, and case studies are maintained inside the [`docs/`](./docs/) directory:
 
-- [Project & Architecture Documentation](./docs/)
-- [Detailed Professional Profile](./docs/Nafi_Ahmed_Detailed_Profile.md)
-- [System Architecture Guidelines](./docs/SYSTEM_ARCHITECTURE.md)
-- [Project Guidelines & Standards](./docs/ANGULAR_PROJECT_GUIDELINES.md)
+- [**Architecture & Guidelines**](./docs/architecture/)
+  - [System Architecture](./docs/architecture/SYSTEM_ARCHITECTURE.md)
+  - [Angular Project Guidelines](./docs/architecture/ANGULAR_PROJECT_GUIDELINES.md)
+  - [Portfolio Design System & Architecture](./docs/architecture/portfolio-design-system-and-architecture.md)
+- [**Profile & Career**](./docs/profile/)
+  - [Detailed Professional Profile](./docs/profile/Nafi_Ahmed_Detailed_Profile.md)
+  - [Airwork Profile Description](./docs/profile/airwork-profile-description.md)
+- [**Projects & Case Studies**](./docs/projects-and-case-studies/)
+  - [A/B Testing Guide](./docs/projects-and-case-studies/ab-testing-guide.md)
+  - [Design Inspiration & Case Study](./docs/projects-and-case-studies/design-inspiration-nahin-abrar.md)
+  - [Koyama Shokai System Breakdown](./docs/projects-and-case-studies/koyama%20shokai.md)
+  - [RunMate Retrospective](./docs/projects-and-case-studies/runmate_linkedin_post.md)
 
 ---
 
