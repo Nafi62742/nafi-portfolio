@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nafi-ahmed.vercel.app/sitemap.xml

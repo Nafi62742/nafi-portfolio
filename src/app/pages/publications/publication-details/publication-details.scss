@@ -1,6 +1,6 @@
 .pub-details-container {
   @apply pt-28 pb-20 min-h-screen relative z-[1];
-  background-color: var(--bg-base);
+  background-color: transparent;
 
   &::before {
     content: '';

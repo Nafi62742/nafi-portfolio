@@ -59,6 +59,12 @@
     background: radial-gradient(circle, var(--orb-color-3) 0%, transparent 70%);
     animation: orbDrift 14s ease-in-out infinite 8s;
   }
+
+  @media (max-width: 768px), (prefers-reduced-motion: reduce) {
+    &-1, &-2, &-3 {
+      animation: none !important;
+    }
+  }
 }
 
 .hero-container {

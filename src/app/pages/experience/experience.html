@@ -9,7 +9,43 @@
       <p class="experience-subtitle">{{ t.t('experience.subtitle') }}</p>
     </div>
 
-    <!-- Timeline Container -->
+    <!-- Career Trajectory Summary Header -->
+    <div class="career-summary-card glass-card reveal">
+      <div class="summary-left">
+        <div class="company-logo-avatar">
+          <i class="fa-solid fa-chart-line"></i>
+        </div>
+        <div class="company-meta-col">
+          <div class="company-title-row">
+            <h3 class="company-name">Career Evolution</h3>
+            <span class="company-location">
+              <i class="fa-solid fa-location-dot"></i>
+              Dhaka, Bangladesh
+            </span>
+          </div>
+          <p class="trajectory-tagline">
+            <span class="font-medium text-text-primary">Project Developer (2021)</span>
+            <i class="fa-solid fa-arrow-right-long text-accent trajectory-arrow"></i>
+            <span>{{ t.t('experience.internship') }} (2023)</span>
+            <i class="fa-solid fa-arrow-right-long text-accent trajectory-arrow"></i>
+            <span class="text-accent font-semibold">{{ t.t('experience.fulltime') }} Developer ({{ t.t('experience.present') }})</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="summary-right">
+        <div class="total-tenure-badge">
+          <span class="tenure-label">{{ t.t('experience.total_tenure') }}</span>
+          <span class="tenure-value">
+            <i class="fa-regular fa-clock text-accent"></i>
+            Jan 2021 — {{ t.t('experience.present') }}
+            <span class="tenure-duration">({{ getTotalTenure() }})</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Container (Chronological: Past to Present) -->
     <div class="experience-timeline">
       @for (exp of experiences; track exp; let i = $index; let last = $last) {
         <div
@@ -18,8 +54,7 @@
           [class.pb-10]="!last"
           [class.delay-1]="i === 0"
           [class.delay-2]="i === 1"
-          [class.delay-3]="i === 2"
-          [class.delay-4]="i === 3">
+          [class.delay-3]="i === 2">
           
           <!-- Timeline Marker & Spine Line -->
           <div class="timeline-marker-col">
@@ -37,7 +72,7 @@
           <!-- Experience Card -->
           <div class="experience-card glass-card">
             <!-- Top Accent Gradient Line -->
-            <div class="card-accent-line"></div>
+            <div class="card-accent-line" [class.accent-live]="!exp.endDate"></div>
 
             <!-- Card Header: Role, Company, Period & Type Badge -->
             <div class="card-header">
@@ -72,13 +107,16 @@
                   <span class="experience-period">
                     {{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}
                   </span>
+                  <span class="duration-tag">
+                    • {{ calculateDuration(exp.startDate, exp.endDate) }}
+                  </span>
                 </div>
                 <span class="experience-badge"
                   [class.badge-fulltime]="exp.type === 'fulltime'"
                   [class.badge-internship]="exp.type === 'internship'"
                   [class.badge-contract]="exp.type === 'contract'">
                   <i class="fa-solid badge-icon"
-                    [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-handshake')"></i>
+                    [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-laptop-code')"></i>
                   {{ t.t('experience.' + exp.type) }}
                 </span>
               </div>
@@ -111,6 +149,62 @@
           </div>
 
         </div>
+
+        <!-- Milestone Transition 1: Transitioning to Enterprise Engineering at XORGeek (After Index 0) -->
+        @if (i === 0) {
+          <div class="progression-bridge-row reveal">
+            <div class="bridge-marker-col">
+              <div class="bridge-spine-icon icon-company">
+                <i class="fa-solid fa-building-columns"></i>
+              </div>
+              <div class="bridge-spine-line"></div>
+            </div>
+            <div class="promotion-bridge-card">
+              <div class="bridge-content">
+                <div class="bridge-header-badge">
+                  <span class="milestone-pill text-indigo-400">
+                    <i class="fa-solid fa-right-to-bracket text-indigo-400"></i>
+                    Enterprise Milestone
+                  </span>
+                  <span class="milestone-time">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    Jun 2023 · Joined XORGeek
+                  </span>
+                </div>
+                <h4 class="bridge-title">{{ t.t('experience.joined_xorgeek_title') }}</h4>
+                <p class="bridge-desc">{{ t.t('experience.joined_xorgeek_desc') }}</p>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Milestone Transition 2: Fast-Track Promotion from Intern to Core Software Developer (After Index 1) -->
+        @if (i === 1) {
+          <div class="progression-bridge-row reveal">
+            <div class="bridge-marker-col">
+              <div class="bridge-spine-icon icon-promotion">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+              </div>
+              <div class="bridge-spine-line"></div>
+            </div>
+            <div class="promotion-bridge-card bridge-promotion-glow">
+              <div class="bridge-content">
+                <div class="bridge-header-badge">
+                  <span class="milestone-pill text-cyan-400">
+                    <i class="fa-solid fa-bolt-lightning text-cyan-400"></i>
+                    Fast-Track Promotion
+                  </span>
+                  <span class="milestone-time">
+                    <i class="fa-regular fa-calendar-check"></i>
+                    Aug 2023 · Promoted in 2 mos
+                  </span>
+                </div>
+                <h4 class="bridge-title">{{ t.t('experience.promotion_title') }}</h4>
+                <p class="bridge-desc">{{ t.t('experience.promotion_desc') }}</p>
+              </div>
+            </div>
+          </div>
+        }
       }
     </div>
 

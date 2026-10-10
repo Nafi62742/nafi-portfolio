@@ -6,6 +6,7 @@ import { ScrollService } from '@services/scroll.service';
 import { ThemeService } from '@services/theme.service';
 import { FooterComponent } from '@shared-components/footer/footer';
 import { NavbarComponent } from '@shared-components/navbar/navbar';
+import { StarfieldComponent } from '@shared-components/starfield/starfield.component';
 
 /**
  * Root component of the portfolio application.
@@ -17,8 +18,9 @@ import { NavbarComponent } from '@shared-components/navbar/navbar';
   imports: [
     RouterOutlet,
     NavbarComponent,
-    FooterComponent
-],
+    FooterComponent,
+    StarfieldComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

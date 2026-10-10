@@ -67,12 +67,19 @@ export interface TranslationSchema {
     cat_tools:     string;
   };
   experience: {
-    section_label: string;
-    title:         string;
-    subtitle:      string;
-    present:       string;
-    internship:    string;
-    fulltime:      string;
+    section_label:        string;
+    title:                string;
+    subtitle:             string;
+    present:              string;
+    internship:           string;
+    fulltime:             string;
+    contract:             string;
+    total_tenure:         string;
+    promotion_title:      string;
+    promotion_desc:       string;
+    career_trajectory:    string;
+    joined_xorgeek_title: string;
+    joined_xorgeek_desc:  string;
   };
   projects: {
     section_label:     string;
@@ -215,12 +222,19 @@ export const EN: TranslationSchema = {
     cat_tools:     'Tools & Analytics'
   },
   experience: {
-    section_label: 'Experience',
-    title:         'Professional Journey',
-    subtitle:      'Where I\'ve worked and what I\'ve built.',
-    present:       'Present',
-    internship:    'Internship',
-    fulltime:      'Full-time'
+    section_label:        'Experience',
+    title:                'Professional Journey',
+    subtitle:             'From independent project delivery to core enterprise engineering — a chronological timeline of growth.',
+    present:              'Present',
+    internship:           'Internship',
+    fulltime:             'Full-time',
+    contract:             'Contract / Projects',
+    total_tenure:         'Total Engineering Experience',
+    promotion_title:      'Promoted to Full-time Software Developer',
+    promotion_desc:       'Transitioned from 2-month internship to core engineering role following high-impact delivery on mobile architecture and backend pipelines.',
+    career_trajectory:    'Career Progression',
+    joined_xorgeek_title: 'Transitioned to Enterprise Engineering at XORGeek',
+    joined_xorgeek_desc:  'Brought hands-on project and mobile architecture experience to deliver production platforms at scale.'
   },
   projects: {
     section_label:     'Projects',
