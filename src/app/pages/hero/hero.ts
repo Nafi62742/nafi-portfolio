@@ -19,12 +19,21 @@ export class HeroComponent {
   /** Signal tracking whether the email address was recently copied to clipboard. */
   public readonly copied = signal<boolean>(false);
 
+  /** Profile link for GitHub. */
+  public readonly githubUrl: string = 'https://github.com/Nafi62742';
+
+  /** Profile link for LinkedIn. */
+  public readonly linkedinUrl: string = 'https://linkedin.com/in/racer007';
+
+  /** Primary contact email address. */
+  public readonly emailAddress: string = 'nafiahmed318@gmail.com';
+
   /**
    * @param t - Translation service for i18n labels
    * @param scroll - Scroll service for CTA button navigation
    */
-  public readonly t = inject(TranslateService);
-  public readonly scroll = inject(ScrollService);
+  public readonly t: TranslateService = inject(TranslateService);
+  public readonly scroll: ScrollService = inject(ScrollService);
 
   /**
    * Copies the given email to the clipboard and opens the mail client.
