@@ -88,6 +88,16 @@
                     <button
                       type="button"
                       class="pill-btn"
+                      [class.active]="stagedLayoutId() === 'maxcool-mc5'"
+                      (click)="stageLayout('maxcool-mc5')">
+                      <span>Maxcool Inferno MC5</span>
+                      @if (stagedLayoutId() === 'maxcool-mc5' && hasPendingLayoutChange()) {
+                        <span class="pending-tag">Staged</span>
+                      }
+                    </button>
+                    <button
+                      type="button"
+                      class="pill-btn"
                       [class.active]="stagedLayoutId() === 'dual-chamber'"
                       (click)="stageLayout('dual-chamber')">
                       <span>Dual-Chamber</span>
@@ -445,6 +455,28 @@
                         <text x="422" y="198" text-anchor="middle" fill="#f8fafc" font-size="8">{{ currentCpuConfig().name }} ({{ dynamicCpuFanRpm() }} RPM)</text>
                       }
 
+                      @case ('ak400') {
+                        <!-- DeepCool AK400 Matrix Fin Stack -->
+                        <rect x="375" y="95" width="95" height="90" rx="6" class="ag400-tower-body" />
+                        <line x1="392" y1="95" x2="392" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="410" y1="95" x2="410" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="428" y1="95" x2="428" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="446" y1="95" x2="446" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="380" y1="120" x2="465" y2="120" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="4,3" />
+                        <line x1="380" y1="140" x2="465" y2="140" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="4,3" />
+                        <line x1="380" y1="160" x2="465" y2="160" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="4,3" />
+                        <g class="fan-symbol spin-fan" transform="translate(478, 140)">
+                          <circle cx="0" cy="0" r="26" class="fan-housing" />
+                          <circle cx="0" cy="0" r="8" class="fan-hub" />
+                          <path d="M 0 -22 C 6 -14 6 -6 0 0" class="fan-blade" />
+                          <path d="M 22 0 C 14 6 6 6 0 0" class="fan-blade" />
+                          <path d="M 0 22 C -6 14 -6 6 0 0" class="fan-blade" />
+                          <path d="M -22 0 C -14 -6 -6 -6 0 0" class="fan-blade" />
+                        </g>
+                        <text x="422" y="90" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">DeepCool AK400</text>
+                        <text x="422" y="198" text-anchor="middle" fill="#f8fafc" font-size="8">{{ currentCpuConfig().name }} ({{ dynamicCpuFanRpm() }} RPM)</text>
+                      }
+
                       @case ('intel-stock') {
                         <!-- Intel Box Stock Cooler (Radial Aluminum Flower) -->
                         <circle cx="425" cy="140" r="42" class="stock-cooler-flower" />
@@ -597,15 +629,15 @@
                       <path d="M 318 295 L 235 295" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="3,3" />
                       <polygon points="230,295 238,291 238,299" fill="#f59e0b" />
 
-                    } @else if (selectedGpuId() === 'gtx-1650') {
-                      <!-- GTX 1650 4GB: Compact 215mm dual-fan card (75W PCIe powered only) -->
+                    } @else if (selectedGpuId() === 'gtx-1650' || selectedGpuId() === 'gtx-1650s') {
+                      <!-- GTX 1650 / 1650 Super 4GB: Compact dual-fan card -->
                       <rect x="425" y="255" width="215" height="80" rx="7" class="component-block gtx1650-shroud" />
                       <line x1="423" y1="255" x2="423" y2="335" stroke="#14b8a6" stroke-width="4" stroke-linecap="round" />
                       <text x="438" y="274" fill="#14b8a6" font-size="10" font-weight="700">
-                        NVIDIA GEFORCE GTX 1650 4GB
+                        {{ selectedGpuId() === 'gtx-1650s' ? 'NVIDIA GEFORCE GTX 1650 SUPER 4GB' : 'NVIDIA GEFORCE GTX 1650 4GB' }}
                       </text>
                       <text x="438" y="287" fill="#94a3b8" font-size="7.5">
-                        Dual Axial Fans • 75W PCIe Power • Minimal Heat Discharge
+                        {{ selectedGpuId() === 'gtx-1650s' ? 'Dual Axial Fans • 100W TDP • Turing NVENC • GDDR6' : 'Dual Axial Fans • 75W PCIe Power • Minimal Heat Discharge' }}
                       </text>
 
                       <!-- PCIe Slot Powered Only Badge (No 8-pin Aux Cable Needed) -->
@@ -1100,6 +1132,14 @@
                         <line x1="446" y1="95" x2="446" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
                         <text x="422" y="145" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="700">DeepCool AG400</text>
                       }
+                      @case ('ak400') {
+                        <rect x="375" y="95" width="95" height="90" rx="6" class="ag400-tower-body" />
+                        <line x1="392" y1="95" x2="392" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="410" y1="95" x2="410" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="428" y1="95" x2="428" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="446" y1="95" x2="446" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <text x="422" y="145" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="700">DeepCool AK400</text>
+                      }
                       @case ('intel-stock') {
                         <circle cx="422" cy="142" r="38" fill="#1e293b" stroke="#0284c7" stroke-width="2.5" />
                         <circle cx="422" cy="142" r="14" fill="#0284c7" />
@@ -1189,11 +1229,15 @@
                         <polygon points="515,223 512,230 518,230" fill="#818cf8" />
                         <text x="515" y="218" text-anchor="middle" fill="#818cf8" font-size="6.5" font-weight="700">▲ 225W DEEP LINK PLUME ▲</text>
                       </g>
-                    } @else if (selectedGpuId() === 'gtx-1650') {
-                      <!-- GTX 1650 4GB -->
+                    } @else if (selectedGpuId() === 'gtx-1650' || selectedGpuId() === 'gtx-1650s') {
+                      <!-- GTX 1650 / 1650 Super 4GB -->
                       <rect x="425" y="255" width="215" height="80" rx="7" class="component-block gtx1650-shroud" />
-                      <text x="438" y="274" fill="#14b8a6" font-size="10" font-weight="700">NVIDIA GEFORCE GTX 1650 4GB</text>
-                      <text x="438" y="287" fill="#94a3b8" font-size="7.5">Dual Axial Fans • 75W PCIe Power</text>
+                      <text x="438" y="274" fill="#14b8a6" font-size="10" font-weight="700">
+                        {{ selectedGpuId() === 'gtx-1650s' ? 'NVIDIA GEFORCE GTX 1650 SUPER 4GB' : 'NVIDIA GEFORCE GTX 1650 4GB' }}
+                      </text>
+                      <text x="438" y="287" fill="#94a3b8" font-size="7.5">
+                        {{ selectedGpuId() === 'gtx-1650s' ? 'Dual Axial Fans • 100W TDP • Turing NVENC' : 'Dual Axial Fans • 75W PCIe Power' }}
+                      </text>
                     } @else {
                       <!-- RTX 3060 12GB -->
                       <rect x="320" y="255" width="320" height="80" rx="7" class="component-block gpu-shroud" />
@@ -1262,6 +1306,349 @@
                       <path d="M 850 362 L 740 362 L 695 362 L 525 360 L 418 300 L 190 300" class="streamline-path stream-gpu-feed" />
                       <!-- Front Bottom Intake -> Lower HDD/PSU Shroud Tunnel -->
                       <path d="M 850 380 L 740 380 L 672 490 L 545 490 L 440 490 L 285 490 L 190 495" class="streamline-path stream-psu-intake" />
+                    </g>
+                  }
+
+                } @else if (appliedLayoutId() === 'maxcool-mc5') {
+
+                  <!-- ========================================================== -->
+                  <!-- LAYOUT 3: MAXCOOL INFERNO MC5 CHASSIS SCHEMATIC            -->
+                  <!-- Dimensions: 380mm (Depth) x 200mm (Width) x 450mm (Height) -->
+                  <!-- 5x 120mm ARGB Fans (2 Front Intake + 1 Rear + 2 Top Exhaust)-->
+                  <!-- ========================================================== -->
+
+                  <!-- PHYSICAL DIMENSION ANNOTATIONS -->
+                  <g class="chassis-dimensions" opacity="0.65">
+                    <!-- Height dimension indicator line (450 mm) -->
+                    <line x1="225" y1="40" x2="225" y2="590" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" />
+                    <line x1="218" y1="40" x2="232" y2="40" stroke="#64748b" stroke-width="1.5" />
+                    <line x1="218" y1="590" x2="232" y2="590" stroke="#64748b" stroke-width="1.5" />
+                    <text x="215" y="315" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1" transform="rotate(-90, 215, 315)">
+                      HEIGHT: 450 mm (Maxcool Inferno MC5)
+                    </text>
+
+                    <!-- Length/Depth dimension indicator line (380 mm) -->
+                    <line x1="270" y1="620" x2="730" y2="620" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" />
+                    <line x1="270" y1="613" x2="270" y2="627" stroke="#64748b" stroke-width="1.5" />
+                    <line x1="730" y1="613" x2="730" y2="627" stroke="#64748b" stroke-width="1.5" />
+                    <text x="500" y="638" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1">
+                      DEPTH: 380 mm • 5-Fan Chimney Aerodynamics
+                    </text>
+                  </g>
+
+                  <!-- CHASSIS RUBBER FEET (Bottom Airflow Clearance for 450W PSU) -->
+                  <rect x="295" y="590" width="42" height="18" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2" />
+                  <rect x="660" y="590" width="42" height="18" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2" />
+                  <line x1="295" y1="608" x2="700" y2="608" stroke="#475569" stroke-width="1" opacity="0.4" />
+
+                  <!-- CHASSIS OUTER FRAME (460px wide x 550px high) -->
+                  <rect x="270" y="40" width="460" height="550" rx="14" class="chassis-outer-shell" />
+                  <!-- Case Inner Chamber -->
+                  <rect x="282" y="53" width="436" height="524" rx="8" class="chassis-inner-chamber" />
+
+                  <!-- REAL-TIME TELEMETRY OVERLAY -->
+                  <g class="blueprint-hud-telemetry" transform="translate(290, 60)">
+                    <rect x="0" y="0" width="420" height="22" rx="4" fill="rgba(2, 6, 23, 0.85)" stroke="rgba(244, 63, 94, 0.4)" stroke-width="0.8" />
+                    <text x="10" y="15" fill="#f43f5e" font-size="8" font-family="monospace" font-weight="700">
+                      CPU: {{ currentCpuConfig().shortName }} ({{ activeCustomizationAnalysis().estimatedCpuLoadTemp }})
+                    </text>
+                    <text x="145" y="15" fill="#38bdf8" font-size="8" font-family="monospace" font-weight="700">
+                      GPU: {{ currentGpuConfig().shortName }} ({{ activeCustomizationAnalysis().estimatedGpuLoadTemp }})
+                    </text>
+                    <text x="285" y="15" fill="#f59e0b" font-size="8" font-family="monospace" font-weight="700">
+                      {{ activeCustomizationAnalysis().totalSystemTdpWatts }}W • {{ activeCustomizationAnalysis().netPressureCfm > 0 ? '+' : '' }}{{ activeCustomizationAnalysis().netPressureCfm }} CFM
+                    </text>
+                  </g>
+
+                  <!-- FRONT PANEL: Maxcool Inferno High-Airflow Diamond Mesh -->
+                  <g class="front-mesh-panel cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'case'"
+                     (click)="selectComponent('case')">
+                    <rect x="730" y="48" width="22" height="534" rx="5" fill="#0b1320" stroke="#f43f5e" stroke-width="2" />
+                    <!-- Geometric Honeycomb/Diamond Ventilation Slits -->
+                    <line x1="736" y1="60" x2="736" y2="570" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,4" opacity="0.9" />
+                    <line x1="742" y1="70" x2="742" y2="560" stroke="#fb7185" stroke-width="2" stroke-dasharray="8,5" opacity="0.75" />
+                    <line x1="748" y1="80" x2="748" y2="550" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="4,3" opacity="0.6" />
+                    <text x="765" y="315" fill="#fb7185" font-size="8.5" font-weight="700" letter-spacing="2" transform="rotate(90, 765, 315)">
+                      MAXCOOL INFERNO MC5 MESH
+                    </text>
+                  </g>
+
+                  <!-- TOP PANEL: DUAL 120mm CHIMNEY EXHAUST FANS (Under Magnetic Filter) -->
+                  <g class="top-mesh-panel">
+                    <rect x="310" y="36" width="400" height="15" rx="3" class="top-vent-bar" />
+                    <line x1="315" y1="44" x2="705" y2="44" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+                    <text x="510" y="30" text-anchor="middle" fill="#94a3b8" font-size="8.5" font-weight="600" letter-spacing="0.5">
+                      TOP MAGNETIC DUST FILTER • DUAL 120mm CHIMNEY EXHAUST
+                    </text>
+
+                    <!-- Top Rear Chimney Exhaust Fan (Slot #1, x: 390) -->
+                    <g class="fan-node-group exhaust-node cursor-pointer"
+                       [class.node-selected]="selectedComponentId() === 'leo-top-fan-1'"
+                       (click)="selectComponent('leo-top-fan-1')">
+                      <rect x="345" y="40" width="95" height="24" rx="4" class="fan-bracket exhaust-bracket" />
+                      <g class="fan-symbol spin-fan" transform="translate(392, 52)">
+                        <circle cx="0" cy="0" r="13" class="fan-housing exhaust-housing" />
+                        <circle cx="0" cy="0" r="4.5" class="fan-hub exhaust-hub" />
+                        <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade-exhaust" />
+                        <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade-exhaust" />
+                        <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade-exhaust" />
+                        <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade-exhaust" />
+                      </g>
+                      <text x="392" y="74" text-anchor="middle" fill="#ef4444" font-size="7.5" font-weight="700">TOP REAR EXHAUST &uarr;</text>
+                    </g>
+
+                    <!-- Top Front Chimney Exhaust Fan (Slot #2, x: 525) -->
+                    <g class="fan-node-group exhaust-node cursor-pointer"
+                       [class.node-selected]="selectedComponentId() === 'leo-top-fan-2'"
+                       (click)="selectComponent('leo-top-fan-2')">
+                      <rect x="475" y="40" width="95" height="24" rx="4" class="fan-bracket exhaust-bracket" />
+                      <g class="fan-symbol spin-fan" transform="translate(522, 52)">
+                        <circle cx="0" cy="0" r="13" class="fan-housing exhaust-housing" />
+                        <circle cx="0" cy="0" r="4.5" class="fan-hub exhaust-hub" />
+                        <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade-exhaust" />
+                        <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade-exhaust" />
+                        <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade-exhaust" />
+                        <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade-exhaust" />
+                      </g>
+                      <text x="522" y="74" text-anchor="middle" fill="#ef4444" font-size="7.5" font-weight="700">TOP FRONT EXHAUST &uarr;</text>
+                    </g>
+                  </g>
+
+                  <!-- LOWER PSU SHROUD & 450W PSU ISOLATION CHAMBER -->
+                  <g class="psu-shroud-area">
+                    <rect x="282" y="445" width="436" height="132" class="psu-shroud-plate" />
+                    <!-- Honeycomb PSU shroud ventilation grill -->
+                    <line x1="435" y1="445" x2="680" y2="445" stroke="#38bdf8" stroke-width="2" stroke-dasharray="6,4" opacity="0.6" />
+
+                    <!-- Storage Drive Cage / 2.5" SSD -->
+                    <g class="drive-bay-group cursor-pointer"
+                       [class.comp-selected]="selectedComponentId() === 'hdd-bay'"
+                       (click)="selectComponent('hdd-bay')">
+                      <rect x="545" y="455" width="115" height="78" rx="6" class="component-block drive-cage-box" />
+                      <line x1="555" y1="480" x2="650" y2="480" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+                      <line x1="555" y1="505" x2="650" y2="505" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+                      <text x="602" y="475" text-anchor="middle" fill="#38bdf8" font-size="8.5" font-weight="700">STORAGE DRIVE BAY</text>
+                      <text x="602" y="497" text-anchor="middle" fill="#f8fafc" font-size="7.5">1TB SSD / 2.5" Bays</text>
+                      <text x="602" y="517" text-anchor="middle" fill="#64748b" font-size="7">Direct Intake Channel</text>
+                    </g>
+
+                    <text x="295" y="457" fill="#94a3b8" font-size="9" font-weight="600" letter-spacing="0.5">
+                      MAXCOOL MC5 LOWER PSU TUNNEL
+                    </text>
+
+                    <!-- 450W 80 PLUS Bronze PSU Unit -->
+                    <g class="psu-assembly-group cursor-pointer"
+                       [class.comp-selected]="selectedComponentId() === 'psu'"
+                       (click)="selectComponent('psu')">
+                      <rect x="290" y="462" width="155" height="75" rx="8" class="component-block psu-unit" />
+                      <text x="367" y="494" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="700">450W 80+ BRONZE</text>
+                      <text x="367" y="510" text-anchor="middle" fill="#94a3b8" font-size="8">~200W Peak Load • >240W Margin</text>
+                    </g>
+
+                    <!-- Underside PSU Intake -->
+                    <path d="M 367 590 L 367 542" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="3,3" />
+                    <polygon points="367,537 363,545 371,545" fill="#06b6d4" />
+                    <!-- PSU Exhaust out rear -->
+                    <path d="M 290 499 L 230 499" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="3,3" />
+                    <polygon points="225,499 233,495 233,503" fill="#f59e0b" />
+                  </g>
+
+                  <!-- GIGABYTE B550M DS3H AC WIFI MOTHERBOARD (Micro-ATX • AM4) -->
+                  <g class="motherboard-tray cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'vrm'"
+                     (click)="selectComponent('vrm')">
+                    <rect x="305" y="75" width="365" height="360" rx="8" class="component-block mobo-board" />
+                    <text x="320" y="95" fill="#64748b" font-size="9" font-weight="600" letter-spacing="0.5">
+                      GIGABYTE B550M DS3H AC WIFI (Micro-ATX • AM4)
+                    </text>
+                    <!-- VRM Heatsink -->
+                    <rect x="315" y="105" width="28" height="90" rx="4" class="vrm-heatsink" />
+                    <text x="329" y="150" text-anchor="middle" fill="#94a3b8" font-size="8" transform="rotate(-90, 329, 150)">5+3 PHASES VRM</text>
+
+                    <!-- Dual Band AC WiFi / BT Antenna Module on Rear I/O -->
+                    <rect x="290" y="85" width="14" height="24" rx="2" fill="#042f2e" stroke="#14b8a6" stroke-width="1.2" />
+                    <circle cx="297" cy="93" r="3" fill="#14b8a6" />
+                    <circle cx="297" cy="103" r="3" fill="#14b8a6" />
+                    <text x="280" y="95" text-anchor="end" fill="#14b8a6" font-size="6.5" font-weight="700">AC WIFI/BT</text>
+                  </g>
+
+                  <!-- 16GB DUAL-CHANNEL DDR4 RAM (3200MHz 1:1 Infinity Fabric) -->
+                  <g class="ram-modules cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'ram'"
+                     (click)="selectComponent('ram')">
+                    <rect x="522" y="95" width="8" height="95" rx="2" class="ram-stick" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.5" />
+                    <rect x="537" y="95" width="8" height="95" rx="2" class="ram-stick" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.5" />
+                    <text x="533" y="205" text-anchor="middle" fill="#818cf8" font-size="8" font-weight="700">16GB 3200MHz</text>
+                  </g>
+
+                  <!-- 500GB PCIe 4.0 NVMe SSD (Direct CPU M.2) -->
+                  <g class="nvme-slot cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'nvme'"
+                     (click)="selectComponent('nvme')">
+                    <rect x="420" y="215" width="75" height="14" rx="3" class="nvme-stick" fill="#042f2e" stroke="#14b8a6" stroke-width="1.5" />
+                    <text x="457" y="225" text-anchor="middle" fill="#14b8a6" font-size="7.5" font-weight="700">PCIe 4.0 NVMe (5,000MB/s)</text>
+                  </g>
+
+                  <!-- DEEPCOOL AK400 SINGLE-TOWER MATRIX COOLER (4 HEATPIPES • 220W TDP) -->
+                  <g class="cpu-cooler-assembly cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'cpu'"
+                     (click)="selectComponent('cpu')">
+                    <rect x="375" y="95" width="95" height="92" rx="6" class="ag400-tower-body" />
+                    <!-- 4x Direct-Touch Copper Heatpipes -->
+                    <line x1="392" y1="95" x2="392" y2="187" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                    <line x1="410" y1="95" x2="410" y2="187" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                    <line x1="428" y1="95" x2="428" y2="187" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                    <line x1="446" y1="95" x2="446" y2="187" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                    <!-- Matrix fin array pattern lines -->
+                    <line x1="378" y1="115" x2="467" y2="115" stroke="rgba(255,255,255,0.15)" stroke-width="1.2" stroke-dasharray="5,3" />
+                    <line x1="378" y1="135" x2="467" y2="135" stroke="rgba(255,255,255,0.15)" stroke-width="1.2" stroke-dasharray="5,3" />
+                    <line x1="378" y1="155" x2="467" y2="155" stroke="rgba(255,255,255,0.15)" stroke-width="1.2" stroke-dasharray="5,3" />
+                    <line x1="378" y1="175" x2="467" y2="175" stroke="rgba(255,255,255,0.15)" stroke-width="1.2" stroke-dasharray="5,3" />
+
+                    <!-- DeepCool 120mm FDB PWM Fan -->
+                    <g class="fan-symbol spin-fan" transform="translate(460, 141)">
+                      <circle cx="0" cy="0" r="22" class="fan-housing" />
+                      <circle cx="0" cy="0" r="7" class="fan-hub" />
+                      <path d="M 0 -18 C 5 -10 5 -5 0 0" class="fan-blade" />
+                      <path d="M 18 0 C 10 5 5 5 0 0" class="fan-blade" />
+                      <path d="M 0 18 C -5 10 -5 5 0 0" class="fan-blade" />
+                      <path d="M -18 0 C -10 -5 -5 -5 0 0" class="fan-blade" />
+                    </g>
+                    <text x="422" y="90" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">DeepCool AK400</text>
+                    <text x="422" y="200" text-anchor="middle" fill="#f8fafc" font-size="8">{{ currentCpuConfig().name }} ({{ dynamicCpuFanRpm() }} RPM)</text>
+                  </g>
+
+                  <!-- NVIDIA GEFORCE GTX 1650 SUPER 4GB GDDR6 (DUAL AXIAL FANS • 100W TDP) -->
+                  <g class="gpu-card-assembly cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'gpu'"
+                     (click)="selectComponent('gpu')">
+                    <rect x="415" y="255" width="230" height="80" rx="7" fill="#09141c" stroke="#10b981" stroke-width="2" />
+                    <line x1="413" y1="255" x2="413" y2="335" stroke="#10b981" stroke-width="5" stroke-linecap="round" />
+                    <text x="430" y="274" fill="#34d399" font-size="10" font-weight="700">
+                      NVIDIA GEFORCE GTX 1650 SUPER 4GB
+                    </text>
+                    <text x="430" y="287" fill="#94a3b8" font-size="7.5">
+                      Turing NVENC • GDDR6 12Gbps • Dual Axial Fans • 100W TDP
+                    </text>
+
+                    <!-- 1x 6-Pin Auxiliary PCIe Power Plug -->
+                    <rect x="622" y="253" width="16" height="9" rx="2" fill="#1e293b" stroke="#10b981" stroke-width="1.2" />
+                    <line x1="626" y1="253" x2="626" y2="246" stroke="#10b981" stroke-width="1.8" />
+                    <line x1="632" y1="253" x2="632" y2="246" stroke="#10b981" stroke-width="1.8" />
+
+                    <!-- Upward Convection Vectors toward Top Chimney Exhaust -->
+                    <g class="gpu-upward-vectors">
+                      <path d="M 475 255 L 475 228" stroke="#10b981" stroke-width="1.8" stroke-dasharray="2,2" />
+                      <polygon points="475,223 472,230 478,230" fill="#10b981" />
+                      <path d="M 570 255 L 570 228" stroke="#10b981" stroke-width="1.8" stroke-dasharray="2,2" />
+                      <polygon points="570,223 567,230 573,230" fill="#10b981" />
+                      <text x="525" y="218" text-anchor="middle" fill="#34d399" font-size="6.5" font-weight="700">
+                        ▲ 100W CHIMNEY HEAT PLUME ▲
+                      </text>
+                    </g>
+
+                    <!-- GPU Fan 1 (Left Axial Fan, x: 475) -->
+                    <g class="fan-symbol spin-fan" transform="translate(475, 305)">
+                      <circle cx="0" cy="0" r="17" class="gpu-fan-housing" stroke="#10b981" fill="rgba(16, 185, 129, 0.12)" />
+                      <circle cx="0" cy="0" r="5.5" class="gpu-fan-hub" fill="#10b981" />
+                      <path d="M 0 -14 C 4 -7 4 -3 0 0" class="gpu-blade" stroke="#34d399" />
+                      <path d="M 14 0 C 7 4 3 4 0 0" class="gpu-blade" stroke="#34d399" />
+                      <path d="M 0 14 C -4 7 -4 3 0 0" class="gpu-blade" stroke="#34d399" />
+                      <path d="M -14 0 C -7 -4 -3 -4 0 0" class="gpu-blade" stroke="#34d399" />
+                    </g>
+                    <!-- GPU Fan 2 (Right Axial Fan, x: 570) -->
+                    <g class="fan-symbol spin-fan" transform="translate(570, 305)">
+                      <circle cx="0" cy="0" r="17" class="gpu-fan-housing" stroke="#10b981" fill="rgba(16, 185, 129, 0.12)" />
+                      <circle cx="0" cy="0" r="5.5" class="gpu-fan-hub" fill="#10b981" />
+                      <path d="M 0 -14 C 4 -7 4 -3 0 0" class="gpu-blade" stroke="#34d399" />
+                      <path d="M 14 0 C 7 4 3 4 0 0" class="gpu-blade" stroke="#34d399" />
+                      <path d="M 0 14 C -4 7 -4 3 0 0" class="gpu-blade" stroke="#34d399" />
+                      <path d="M -14 0 C -7 -4 -3 -4 0 0" class="gpu-blade" stroke="#34d399" />
+                    </g>
+
+                    <!-- Underside Intake Flow Vectors -->
+                    <path d="M 475 358 L 475 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                    <polygon points="475,335 472,341 478,341" fill="#06b6d4" opacity="0.8" />
+                    <path d="M 570 358 L 570 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                    <polygon points="570,335 567,341 573,341" fill="#06b6d4" opacity="0.8" />
+
+                    <!-- PCIe Backplate Vent -->
+                    <path d="M 413 295 L 340 295" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3" />
+                    <polygon points="335,295 343,291 343,299" fill="#f59e0b" />
+                  </g>
+
+                  <!-- 2x FRONT INTAKE FANS (120mm ARGB: Upper + Lower) -->
+                  <!-- Front Upper Intake Fan (y: 150, feeds AK400, RAM & VRM) -->
+                  <g class="fan-node-group intake-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'mc5-front-top'"
+                     (click)="selectComponent('mc5-front-top')">
+                    <rect x="685" y="145" width="28" height="105" rx="5" class="fan-bracket intake-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(699, 197)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing intake-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub intake-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade" />
+                    </g>
+                    <text x="699" y="263" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">FRONT UPPER INTAKE</text>
+                    <text x="699" y="274" text-anchor="middle" fill="#38bdf8" font-size="6.5" font-weight="600">AK400 &amp; RAM FLOW</text>
+                  </g>
+
+                  <!-- Front Lower Intake Fan (y: 310, feeds GTX 1650 Super & 450W PSU) -->
+                  <g class="fan-node-group intake-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'mc5-front-bot'"
+                     (click)="selectComponent('mc5-front-bot')">
+                    <rect x="685" y="305" width="28" height="105" rx="5" class="fan-bracket intake-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(699, 357)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing intake-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub intake-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade" />
+                    </g>
+                    <text x="699" y="423" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">FRONT LOWER INTAKE</text>
+                    <text x="699" y="434" text-anchor="middle" fill="#38bdf8" font-size="6.5" font-weight="600">GTX 1650S &amp; PSU FLOW</text>
+                  </g>
+
+                  <!-- 1x REAR EXHAUST FAN (120mm ARGB) -->
+                  <g class="fan-node-group exhaust-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'mc5-rear'"
+                     (click)="selectComponent('mc5-rear')">
+                    <rect x="280" y="85" width="28" height="100" rx="5" class="fan-bracket exhaust-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(294, 135)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing exhaust-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub exhaust-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade-exhaust" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade-exhaust" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade-exhaust" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade-exhaust" />
+                    </g>
+                    <text x="294" y="198" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">REAR EXHAUST</text>
+                  </g>
+
+                  <!-- AIRFLOW STREAMLINES FOR MAXCOOL INFERNO MC5 (CHIMNEY FLOW) -->
+                  @if (showAirflowStreams()) {
+                    <g class="streamlines-layer" opacity="0.85">
+                      <!-- Front Upper Intake -> Across RAM & AK400 -> Rear Exhaust -->
+                      <path d="M 850 197 L 730 197 L 685 197 L 530 180 L 470 140 L 310 135 L 190 135" class="streamline-path stream-direct-cpu" />
+                      <!-- Front Upper Intake -> Rising Convection -> Top Rear Chimney Exhaust -->
+                      <path d="M 850 185 L 730 185 L 685 185 Q 560 160 430 120 L 392 65 L 392 0" class="streamline-path stream-top-fan-exhaust" />
+                      <!-- Front Upper Intake -> Rising Convection -> Top Front Chimney Exhaust -->
+                      <path d="M 850 175 L 730 175 L 685 175 Q 600 130 522 65 L 522 0" class="streamline-path stream-top-fan-exhaust" />
+                      <!-- Front Lower Intake -> GTX 1650 Super Fans -> Upward Chimney Plume -->
+                      <path d="M 850 357 L 730 357 L 685 357 L 525 355 L 475 295 L 392 65" class="streamline-path stream-gpu-feed" />
+                      <!-- Front Lower Intake -> Lower HDD/PSU Shroud Tunnel -->
+                      <path d="M 850 375 L 730 375 L 665 490 L 545 490 L 440 490 L 290 490 L 190 499" class="streamline-path stream-psu-intake" />
+                      <!-- Arrowheads -->
+                      <polygon points="750,197 738,192 738,202" fill="#06b6d4" />
+                      <polygon points="750,357 738,352 738,362" fill="#06b6d4" />
+                      <polygon points="392,-5 388,5 396,5" fill="#ef4444" />
+                      <polygon points="522,-5 518,5 526,5" fill="#ef4444" />
+                      <polygon points="190,135 202,130 202,140" fill="#ef4444" />
+                      <polygon points="190,499 202,494 202,504" fill="#f59e0b" />
                     </g>
                   }
 

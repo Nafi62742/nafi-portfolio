@@ -4,12 +4,12 @@
 
 /* System Vitals Summary Strip */
 .system-vitals-strip {
-  @apply flex flex-wrap items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl;
+  @apply grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-between gap-3 sm:gap-4 p-4 sm:p-6 rounded-2xl;
   background: var(--bg-card);
   border: 1px solid rgba(255, 255, 255, 0.08);
 
   .vital-item {
-    @apply flex flex-col min-w-[130px] flex-1;
+    @apply flex flex-col min-w-0 sm:min-w-[130px] flex-1;
 
     .v-label {
       @apply text-[11px] font-semibold text-text-muted mb-1 flex items-center;
@@ -65,8 +65,12 @@
 /* Specs Cards Grid */
 .specs-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
+
+  @screen sm {
+    gap: 1.5rem;
+  }
 }
 
 .spec-card {
@@ -277,10 +281,11 @@
 
     .matrix-table-wrapper {
       @apply w-full overflow-x-auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .matrix-table {
-      @apply w-full text-left border-collapse text-xs;
+      @apply w-full text-left border-collapse text-xs min-w-[620px];
 
       th {
         @apply p-3 font-bold text-cyan-300 uppercase tracking-wider font-mono text-[11px];

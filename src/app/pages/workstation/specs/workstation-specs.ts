@@ -55,6 +55,9 @@ export class WorkstationSpecsComponent {
   /** Currently active rig preset ID. */
   public readonly activeRigId = this.ws.activeRigId;
 
+  /** Active rig profile configuration details. */
+  public readonly currentRig = this.ws.currentRigProfile;
+
   /** Switches the active PC rig preset. */
   public selectRig(rigId: PcRigPresetId): void {
     this.ws.selectRigPreset(rigId);

@@ -26,6 +26,9 @@ export class WorkstationNavbarComponent {
   /** Workstation telemetry and state service. */
   public readonly ws = inject(WorkstationService);
 
+  /** Available PC Rig Presets. */
+  public readonly rigPresets = this.ws.getRigPresets();
+
   /** Theme service for light/dark mode toggling. */
   public readonly theme = inject(ThemeService);
 

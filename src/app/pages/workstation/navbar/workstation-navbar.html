@@ -34,8 +34,9 @@
             [value]="ws.activeRigId()"
             (change)="onRigSelect($event)"
             title="Active Desktop Rig">
-            <option value="darkflash-leo">darkFlash Leo (ATX)</option>
-            <option value="deepcool-matrexx40">DeepCool MATREXX 40 (M-ATX)</option>
+            @for (rig of rigPresets; track rig.id) {
+              <option [value]="rig.id">{{ rig.name }}</option>
+            }
           </select>
           <i class="fa-solid fa-chevron-down select-caret"></i>
         </div>
@@ -98,8 +99,9 @@
           class="ws-mobile-rig-select w-full"
           [value]="ws.activeRigId()"
           (change)="onRigSelect($event); toggleMenu()">
-          <option value="darkflash-leo">darkFlash Leo (ATX)</option>
-          <option value="deepcool-matrexx40">DeepCool MATREXX 40 (M-ATX)</option>
+          @for (rig of rigPresets; track rig.id) {
+            <option [value]="rig.id">{{ rig.name }}</option>
+          }
         </select>
         <i class="fa-solid fa-chevron-down select-caret"></i>
       </div>

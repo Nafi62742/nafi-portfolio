@@ -27,7 +27,7 @@ export interface CaseFanNode {
   description: string;
 }
 
-export type AirflowLayoutId = 'standard-mesh' | 'matrexx-40' | 'dual-chamber';
+export type AirflowLayoutId = 'standard-mesh' | 'matrexx-40' | 'maxcool-mc5' | 'dual-chamber';
 
 export interface AirflowLayout {
   id: AirflowLayoutId;
@@ -46,7 +46,7 @@ export type FanSpeedProfile = 'silent' | 'balanced' | 'turbo';
 
 export type TopFanDirection = 'off' | 'exhaust' | 'intake';
 
-export type CpuModelId = 'i5-10400f' | 'i5-12400' | 'i7-10700k' | 'i9-10900k' | 'r5-5600x';
+export type CpuModelId = 'i5-10400f' | 'i5-12400' | 'i7-10700k' | 'i9-10900k' | 'r5-5600' | 'r5-5600x';
 
 export interface CpuOptionConfig {
   id: CpuModelId;
@@ -66,7 +66,7 @@ export interface CpuOptionConfig {
   disadvantages?: string[];
 }
 
-export type CpuCoolerId = 'ag400' | 'intel-stock' | 'peerless-assassin' | 'aio-240';
+export type CpuCoolerId = 'ag400' | 'ak400' | 'intel-stock' | 'peerless-assassin' | 'aio-240';
 
 export interface CpuCoolerOptionConfig {
   id: CpuCoolerId;
@@ -90,7 +90,7 @@ export interface CpuCoolerOptionConfig {
   disadvantages?: string[];
 }
 
-export type GpuModelId = 'rtx-3060' | 'gtx-1650' | 'r7-360' | 'rx-6600' | 'rtx-4060' | 'arc-a750';
+export type GpuModelId = 'rtx-3060' | 'gtx-1650' | 'gtx-1650s' | 'r7-360' | 'rx-6600' | 'rtx-4060' | 'arc-a750';
 
 export interface GpuOptionConfig {
   id: GpuModelId;
@@ -124,7 +124,8 @@ export type FanModelId =
   | 'deepcool-fk120'
   | 'deepcool-fc120'
   | 'deepcool-mf120gt'
-  | 'deepcool-rf120m';
+  | 'deepcool-rf120m'
+  | 'maxcool-mc5-fan';
 
 export type RamOptionId = 'corsair-16gb-3200' | 'corsair-32gb-3200' | 'gskill-32gb-3600' | 'corsair-64gb-3200';
 
@@ -146,7 +147,7 @@ export interface RamOptionConfig {
   disadvantages?: string[];
 }
 
-export type PcRigPresetId = 'darkflash-leo' | 'deepcool-matrexx40';
+export type PcRigPresetId = 'darkflash-leo' | 'deepcool-matrexx40' | 'maxcool-mc5';
 
 export interface PcRigProfileConfig {
   id: PcRigPresetId;

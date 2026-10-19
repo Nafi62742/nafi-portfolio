@@ -69,8 +69,12 @@
 /* Benchmark Cards Grid */
 .bench-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
+
+  @screen sm {
+    gap: 1.5rem;
+  }
 }
 
 .bench-card {
@@ -269,10 +273,11 @@
 
   .torture-table-wrapper {
     @apply w-full overflow-x-auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .torture-table {
-    @apply w-full text-left border-collapse text-xs;
+    @apply w-full text-left border-collapse text-xs min-w-[540px];
 
     th {
       @apply p-3 font-bold text-cyan-300 uppercase tracking-wider font-mono text-[11px];

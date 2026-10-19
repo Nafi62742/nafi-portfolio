@@ -9,7 +9,7 @@
       </div>
       <span class="text-[11px] text-text-muted font-mono">Click to toggle components &amp; live diagnostics</span>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       @for (rig of rigPresets; track rig.id) {
         <button
           type="button"
@@ -19,7 +19,7 @@
           (click)="selectRig(rig.id)">
           <div class="flex items-center justify-between gap-2 mb-1">
             <div class="flex items-center gap-2">
-              <i class="fa-solid" [ngClass]="rig.id === 'darkflash-leo' ? 'fa-desktop text-cyan-400' : 'fa-microchip text-emerald-400'"></i>
+              <i class="fa-solid" [ngClass]="rig.id === 'darkflash-leo' ? 'fa-desktop text-cyan-400' : (rig.id === 'maxcool-mc5' ? 'fa-wind text-amber-400' : 'fa-microchip text-emerald-400')"></i>
               <span class="text-xs sm:text-sm font-bold text-text-primary">{{ rig.name }}</span>
             </div>
             @if (activeRigId() === rig.id) {
@@ -44,7 +44,7 @@
           Compute Cores
         </span>
         <span class="v-val text-cyan-400">{{ v.cores }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'Intel Core i5-12400 (6P/12T)' : 'Intel Core i5-10400F (6C/12T)' }}</span>
+        <span class="v-sub">{{ currentRig().cpuName.split('(')[0] }}</span>
       </div>
 
       <div class="vital-divider"></div>
@@ -55,7 +55,7 @@
           Dedicated VRAM
         </span>
         <span class="v-val text-emerald-400">{{ v.vram }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'AMD Radeon R7 360 2GB' : 'NVIDIA RTX 3060 12GB' }}</span>
+        <span class="v-sub">{{ currentRig().gpuName.split('(')[0] }}</span>
       </div>
 
       <div class="vital-divider"></div>
@@ -66,7 +66,7 @@
           System Memory
         </span>
         <span class="v-val text-indigo-300">{{ v.ram }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'Corsair LPX DDR4 3200MHz' : 'Dual-Channel DDR4 2666MHz' }}</span>
+        <span class="v-sub">{{ currentRig().ramName }}</span>
       </div>
 
       <div class="vital-divider"></div>
@@ -77,7 +77,7 @@
           Power Capacity
         </span>
         <span class="v-val text-amber-400">{{ v.powerSupply }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'Corsair CV650 650W Bronze' : 'Corsair RM750x 750W Gold' }}</span>
+        <span class="v-sub">{{ currentRig().psuName }}</span>
       </div>
 
       <div class="vital-divider"></div>
@@ -88,7 +88,7 @@
           Cooling Headroom
         </span>
         <span class="v-val text-rose-400">{{ v.coolingCapacity }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'MATREXX 40 3FS Triple Fan' : 'DeepCool AG400 Tower' }}</span>
+        <span class="v-sub">{{ currentRig().caseName }}</span>
       </div>
     </div>
   }
@@ -230,12 +230,12 @@
         <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
           <div class="flex items-center gap-2">
             <i class="fa-solid fa-server text-cyan-400 text-lg"></i>
-            <h3 class="text-base font-bold text-text-primary">Desktop Rig Showdown: darkFlash Leo Studio vs DeepCool MATREXX 40 3FS</h3>
+            <h3 class="text-base font-bold text-text-primary">Desktop Rig Showdown: darkFlash Leo Studio vs DeepCool MATREXX 40 vs Maxcool Inferno MC5</h3>
           </div>
-          <span class="badge-win font-mono">ACTIVE: {{ activeRigId() === 'deepcool-matrexx40' ? 'DEEPCOOL MATREXX 40 3FS' : 'DARKFLASH LEO STUDIO' }}</span>
+          <span class="badge-win font-mono">ACTIVE: {{ activeRigId() === 'maxcool-mc5' ? 'MAXCOOL INFERNO MC5' : (activeRigId() === 'deepcool-matrexx40' ? 'DEEPCOOL MATREXX 40 3FS' : 'DARKFLASH LEO STUDIO') }}</span>
         </div>
         <p class="text-xs text-text-muted">
-          Comprehensive physical, aerodynamic, and architectural comparison between the two primary desktop workstation configurations.
+          Comprehensive physical, aerodynamic, and architectural comparison between the three desktop workstation configurations.
         </p>
       </div>
 
@@ -243,14 +243,18 @@
         <table class="matrix-table">
           <thead>
             <tr>
-              <th style="width: 20%;">Component / Subsystem</th>
-              <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 40%;">
+              <th style="width: 16%;">Component / Subsystem</th>
+              <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 28%;">
                 <span class="text-cyan-400 font-bold">Rig #1: darkFlash Leo Studio Rig</span>
                 <span class="text-[10px] text-text-muted ml-2 font-normal">(ATX • ML &amp; Dev Studio)</span>
               </th>
-              <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 40%;">
+              <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 28%;">
                 <span class="text-emerald-400 font-bold">Rig #2: DeepCool MATREXX 40 3FS</span>
                 <span class="text-[10px] text-text-muted ml-2 font-normal">(Micro-ATX • High-Airflow Dev Rig)</span>
+              </th>
+              <th [class.highlight-col]="activeRigId() === 'maxcool-mc5'" style="width: 28%;">
+                <span class="text-amber-400 font-bold">Rig #3: Maxcool Inferno MC5</span>
+                <span class="text-[10px] text-text-muted ml-2 font-normal">(Mid-Tower • Zen 3 5-Fan Array)</span>
               </th>
             </tr>
           </thead>
@@ -265,6 +269,10 @@
                 <span class="font-bold text-emerald-300">Modern Agile Web Dev, Microservices, 120Hz IPS High-Refresh Workspace</span>
                 <div class="text-[11px] text-text-muted mt-0.5">High single-core IPC (Alder Lake Golden Cove) + Gen4 NVMe 6,400MB/s I/O throughput.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="font-bold text-amber-300">Modern Web &amp; Microservices Dev, 200Hz IPS Gaming &amp; Esports</span>
+                <div class="text-[11px] text-text-muted mt-0.5">High single-thread Zen 3 IPC + rapid 5-fan chimney thermal extraction for all-day coding.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Processor (CPU)</strong></td>
@@ -277,6 +285,11 @@
                 <span class="font-bold text-emerald-400">Intel Core i5-12400</span>
                 <div class="text-[11px] text-text-muted mt-0.5">6 P-Cores / 12 Threads • 2.50–4.40 GHz • 18MB Smart Cache • 65W/117W Turbo (Alder Lake LGA1700)</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">32MB L3 Cache</span>
+                <span class="font-bold text-amber-400">AMD Ryzen 5 5600</span>
+                <div class="text-[11px] text-text-muted mt-0.5">6 Cores / 12 Threads • 3.50–4.40 GHz • 32MB Unified Cache • 65W TDP (Zen 3 Vermeer AM4)</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Motherboard</strong></td>
@@ -288,6 +301,11 @@
                 <span class="badge-win mr-1">PCIe 4.0 &amp; 2.5GbE</span>
                 <span class="font-bold text-emerald-400">Gigabyte B660M DS3H DDR4</span>
                 <div class="text-[11px] text-text-muted mt-0.5">Intel B660 Chipset • PCIe 4.0 x16 Steel Slot • Dual M.2 PCIe 4.0 x4 • 2.5GbE LAN</div>
+              </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">Wi-Fi + PCIe 4.0</span>
+                <span class="font-bold text-amber-400">Gigabyte B550M DS3H AC WiFi</span>
+                <div class="text-[11px] text-text-muted mt-0.5">AMD B550 • PCIe 4.0 x16 Steel Armor • Dual M.2 • Intel 802.11ac Dual-Band Wi-Fi + BT</div>
               </td>
             </tr>
             <tr>
@@ -302,6 +320,11 @@
                 <span class="font-bold text-emerald-400">16GB (2 × 8GB) Corsair Vengeance LPX DDR4 3200MHz</span>
                 <div class="text-[11px] text-text-muted mt-0.5">XMP 2.0 profile • Low-profile anodized aluminum heat spreader • CL16 low latency.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">1:1 Infinity Fabric</span>
+                <span class="font-bold text-amber-300">16GB (2 × 8GB) DDR4 3200MHz CL16</span>
+                <div class="text-[11px] text-text-muted mt-0.5">Matched 1:1 FCLK 1600MHz ratio • Low-profile aluminum heat spreaders • CL16 low latency.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Primary Storage (OS / Boot)</strong></td>
@@ -314,6 +337,11 @@
                 <span class="font-bold text-emerald-400">Samsung 980 PRO 250GB PCIe 4.0 NVMe M.2</span>
                 <div class="text-[11px] text-text-muted mt-0.5">Samsung Elpis Controller • Sequential Read up to 6,400 MB/s • Nickel-coated thermal control.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">PCIe 4.0 Gen4</span>
+                <span class="font-bold text-amber-400">512GB PCIe 4.0 NVMe M.2 SSD</span>
+                <div class="text-[11px] text-text-muted mt-0.5">Sequential Read up to 5,000 MB/s • Sub-second boot times &amp; instant Git repository indexing.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Secondary Storage (Data Archive)</strong></td>
@@ -324,6 +352,11 @@
               <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
                 <span class="font-bold text-text-primary">2TB 7200 RPM Mechanical HDD</span>
                 <div class="text-[11px] text-text-muted mt-0.5">SATA 6Gb/s • 256MB Cache • High-capacity media &amp; archive storage.</div>
+              </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">Silent Solid State</span>
+                <span class="font-bold text-amber-400">1TB High-Performance SATA SSD</span>
+                <div class="text-[11px] text-text-muted mt-0.5">SATA III 6Gb/s • Up to 550 MB/s • 0.0 dBA completely silent solid-state archive.</div>
               </td>
             </tr>
             <tr>
@@ -338,6 +371,11 @@
                 <span class="font-bold text-rose-400">AMD Radeon R7 360 2GB GDDR5</span>
                 <div class="text-[11px] text-text-muted mt-0.5">100W TDP • 768 Stream Processors • 128-bit bus • 1x 6-Pin PCIe power • Multi-display output.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">Turing NVENC + GDDR6</span>
+                <span class="font-bold text-amber-300">NVIDIA GeForce GTX 1650 Super 4GB</span>
+                <div class="text-[11px] text-text-muted mt-0.5">100W TDP • 1,280 CUDA Cores • 192 GB/s GDDR6 Bandwidth • Dual Axial Fans • Turing NVENC.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Power Supply (PSU)</strong></td>
@@ -349,6 +387,11 @@
               <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
                 <span class="font-bold text-amber-400">Corsair CV650 (650W, 80 Plus Bronze)</span>
                 <div class="text-[11px] text-text-muted mt-0.5">Up to 88% efficiency • 120mm thermally controlled low-noise fan • Compact 125mm casing.</div>
+              </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">Optimal 50% Load Curve</span>
+                <span class="font-bold text-amber-400">450W 80 PLUS Bronze Certified</span>
+                <div class="text-[11px] text-text-muted mt-0.5">~200W Peak System Draw • >240W Safety Headroom • Ultra-quiet 120mm temperature-controlled fan.</div>
               </td>
             </tr>
             <tr>
@@ -362,6 +405,11 @@
                 <span class="font-bold text-emerald-400">DeepCool MATREXX 40 3FS (Micro-ATX)</span>
                 <div class="text-[11px] text-text-muted mt-0.5">400 × 215 × 431 mm • Geometric Mesh Front • Edge-to-edge Tempered Glass.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">High-Airflow Mesh</span>
+                <span class="font-bold text-amber-400">Maxcool Inferno MC5 (Mid-Tower)</span>
+                <div class="text-[11px] text-text-muted mt-0.5">380 × 200 × 450 mm • High-Permeability Front Mesh • Edge-to-edge Tempered Glass.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Chassis Fans &amp; Aerodynamic CFD</strong></td>
@@ -373,6 +421,11 @@
                 <span class="badge-win mr-1">Strong Positive Pressure</span>
                 <span class="font-bold text-emerald-400">3 × 120mm Tri-Color LED (2 Front Intake + 1 Rear Exhaust)</span>
                 <div class="text-[11px] text-text-muted mt-0.5">104 CFM Intake vs 52 CFM Exhaust (+52 CFM Positive Pressure, completely repels chassis dust).</div>
+              </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">5-Fan Chimney Array</span>
+                <span class="font-bold text-amber-300">5 × 120mm ARGB (2 Front + 1 Rear + 2 Top)</span>
+                <div class="text-[11px] text-text-muted mt-0.5">104 CFM Intake vs 132 CFM Exhaust (-28 CFM Chimney Extraction, rapidly ejects hot air).</div>
               </td>
             </tr>
             <tr>
@@ -387,6 +440,11 @@
                 <span class="font-bold text-emerald-400">ASUS VA249HG 23.8" 120Hz IPS + Dareu A87 Alpha TKL</span>
                 <div class="text-[11px] text-text-muted mt-0.5">1920×1080 IPS 120Hz Eye Care • Dareu A87 Alpha Tenkeyless Mechanical Keyboard.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">200Hz Ultra-Fast</span>
+                <span class="font-bold text-cyan-400">Gigabyte 25" 200Hz IPS Gaming Monitor</span>
+                <div class="text-[11px] text-text-muted mt-0.5">1920×1080 SuperSpeed IPS • 200Hz (3.33x vs 60Hz) • 1ms MPRT • G-Sync / FreeSync Premium.</div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -395,9 +453,10 @@
       <div class="comparison-summary-box">
         <i class="fa-solid fa-code-fork text-cyan-400 text-base mt-0.5 flex-shrink-0"></i>
         <div class="text-xs text-text-secondary leading-relaxed">
-          <strong class="text-text-primary">Dual-Station Architecture Summary: </strong>
-          The <span class="text-cyan-300 font-semibold">darkFlash Leo Studio Rig</span> excels in intensive AI/ML workloads, CUDA tensor operations, large RAM datasets, and fluid 200Hz visual refresh on the <span class="text-cyan-300 font-semibold">Gigabyte 25" display</span>.
-          The <span class="text-emerald-300 font-semibold">DeepCool MATREXX 40 3FS Dev Station</span> brings high IPC responsiveness from the 12th-Gen Core i5-12400 (Alder Lake), blazing PCIe 4.0 Samsung 980 PRO read speeds (6,400 MB/s), an exceptional +52 CFM positive pressure dust defense profile, and a fluid 120Hz IPS display paired with a Dareu A87 Alpha mechanical keyboard.
+          <strong class="text-text-primary">Multi-Station Architecture Summary: </strong>
+          The <span class="text-cyan-300 font-semibold">darkFlash Leo Studio Rig</span> excels in intensive AI/ML workloads, CUDA tensor operations, 32GB RAM datasets, and fluid 200Hz visual refresh.
+          The <span class="text-emerald-300 font-semibold">DeepCool MATREXX 40 3FS Dev Station</span> brings high IPC responsiveness from the 12th-Gen Core i5-12400 (Alder Lake), blazing PCIe 4.0 Samsung 980 PRO read speeds (6,400 MB/s), an exceptional +52 CFM positive pressure dust defense profile, and a fluid 120Hz IPS display.
+          The <span class="text-amber-300 font-semibold">Maxcool Inferno MC5 Rig</span> delivers outstanding Zen 3 6C/12T efficiency on the Gigabyte B550M DS3H AC WiFi, powered by a DeepCool AK400 matrix cooler, NVIDIA GTX 1650 Super GDDR6, and a dedicated 5-fan chimney array (2 intake, 3 exhaust) for rapid thermal evacuation.
         </div>
       </div>
     </div>
