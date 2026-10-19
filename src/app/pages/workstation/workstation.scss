@@ -1,34 +1,128 @@
 .workstation-page {
   @apply pt-28 pb-24 min-h-screen relative z-[1] overflow-hidden;
   background-color: transparent;
+
+  /* ══════════════════════════════════════════════════════════════
+     TECH LAB / CYBER TELEMETRY THEME OVERRIDES (Scoped to Workstation)
+     ══════════════════════════════════════════════════════════════ */
+  &.tech-theme {
+    --bg-base: #02050b;
+    --bg-surface: #040914;
+    --bg-card: rgba(5, 12, 26, 0.93);
+    --bg-card-hover: rgba(8, 18, 38, 0.98);
+    --border-color: rgba(6, 182, 212, 0.22);
+    --glass-bg: rgba(4, 10, 24, 0.88);
+    --glass-border: rgba(6, 182, 212, 0.24);
+    --text-primary: #e0f2fe;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --link-hover-color: #00f0ff;
+    --gradient-primary: linear-gradient(135deg, #00f0ff 0%, #3b82f6 50%, #10b981 100%);
+
+    background-color: #02050b;
+    background-image:
+      radial-gradient(ellipse 90% 50% at 50% -10%, rgba(6, 182, 212, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 45% at 90% 35%, rgba(16, 185, 129, 0.1) 0%, transparent 55%),
+      radial-gradient(ellipse 80% 50% at 10% 75%, rgba(245, 158, 11, 0.08) 0%, transparent 55%),
+      radial-gradient(ellipse 60% 40% at 50% 100%, rgba(99, 102, 241, 0.08) 0%, transparent 60%);
+    color: var(--text-primary);
+
+    /* Scoped card styling overrides for all workstation subcomponents */
+    .glass-card,
+    .page-header-card,
+    .hardware-deck,
+    .system-vitals-strip,
+    .filter-deck,
+    .spec-card,
+    .simulator-card,
+    .lab-banner,
+    .comparison-hero-card,
+    .thermal-torture-card,
+    .gpu-showdown-card,
+    .pressure-calc-card,
+    .dust-dynamics-card,
+    .config-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55), inset 0 0 20px rgba(6, 182, 212, 0.02);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: all 0.25s ease-in-out;
+
+      &:hover {
+        border-color: rgba(6, 182, 212, 0.4);
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65), 0 0 24px rgba(6, 182, 212, 0.12);
+      }
+    }
+
+    /* Monospace telemetry numbers glow */
+    .font-mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+  }
+}
+
+/* Tactical Cartesian Blueprint Grid Overlay */
+.tech-grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-size: 36px 36px, 36px 36px, 180px 180px, 180px 180px;
+  background-image:
+    linear-gradient(to right, rgba(6, 182, 212, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 182, 212, 0.04) 1px, transparent 1px),
+    linear-gradient(to right, rgba(6, 182, 212, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(6, 182, 212, 0.08) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 85% 85% at 50% 35%, black 45%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 35%, black 45%, transparent 95%);
+  opacity: 0.85;
+  z-index: 0;
+}
+
+/* Precision Tech Crosshairs */
+.tech-crosshair {
+  position: absolute;
+  color: rgba(6, 182, 212, 0.4);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 15px;
+  line-height: 1;
+  font-weight: 700;
+  user-select: none;
+  pointer-events: none;
+  z-index: 2;
+
+  &.ch-tl { top: 96px; left: 20px; }
+  &.ch-tr { top: 96px; right: 20px; }
+  &.ch-bl { bottom: 28px; left: 20px; }
+  &.ch-br { bottom: 28px; right: 20px; }
 }
 
 /* Ambient Ambient Glow Orbs */
 .ambient-glow {
-  @apply absolute pointer-events-none rounded-full blur-[140px] opacity-20;
+  @apply absolute pointer-events-none rounded-full blur-[140px] opacity-25;
 }
 
 .glow-cyan {
-  width: 500px;
-  height: 500px;
-  background: #06b6d4;
-  top: 8%;
+  width: 520px;
+  height: 520px;
+  background: #00f0ff;
+  top: 5%;
   left: -120px;
 }
 
 .glow-indigo {
-  width: 600px;
-  height: 600px;
-  background: #6366f1;
-  top: 35%;
+  width: 620px;
+  height: 620px;
+  background: #3b82f6;
+  top: 30%;
   right: -150px;
 }
 
 .glow-amber {
-  width: 450px;
-  height: 450px;
+  width: 480px;
+  height: 480px;
   background: #f59e0b;
-  bottom: 10%;
+  bottom: 12%;
   left: 20%;
 }
 
@@ -36,83 +130,157 @@
   @apply w-full max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10;
 }
 
-/* Top Navigation Bar */
+/* Top Breadcrumb Bar */
 .top-nav-bar {
-  @apply flex flex-wrap items-center justify-between gap-4 mb-6;
-}
-
-.btn-back {
-  @apply inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer;
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: var(--text-secondary);
-
-  &:hover {
-    color: var(--text-primary);
-    border-color: rgba(99, 102, 241, 0.4);
-    background: rgba(99, 102, 241, 0.12);
-    transform: translateY(-1px);
-  }
+  @apply flex items-center justify-end gap-4 mb-4;
 }
 
 .breadcrumb-trail {
   @apply inline-flex items-center gap-2 text-xs font-medium text-text-muted;
 
-  .crumb-root {
-    @apply hover:text-text-primary transition-colors cursor-pointer;
+  .crumb-mid {
+    @apply hover:text-cyan-300 transition-colors cursor-pointer text-text-secondary;
   }
 
   .crumb-current {
     @apply font-bold text-cyan-400;
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
   }
 }
 
-/* Page Header Card */
+/* Page Header Card (Cyber CAD Console) */
 .page-header-card {
   @apply p-6 sm:p-8 rounded-3xl mb-8 relative overflow-hidden;
   background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
   .header-top-accent {
-    @apply absolute top-0 left-0 right-0 h-[3px];
-    background: linear-gradient(90deg, #06b6d4, #6366f1, #10b981);
+    @apply absolute top-0 left-0 right-0 h-[2px];
+    background: linear-gradient(90deg, #00f0ff, #3b82f6 50%, #10b981 85%, #f59e0b);
+    box-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
   }
 
-  .header-badge-row {
-    @apply flex flex-wrap items-center gap-2.5 mb-4;
+  /* Tactical Corner Brackets */
+  .tech-corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
+    border-color: #00f0ff;
+    z-index: 2;
+    opacity: 0.8;
+
+    &-tl { top: -1px; left: -1px; border-top: 2px solid; border-left: 2px solid; }
+    &-tr { top: -1px; right: -1px; border-top: 2px solid; border-right: 2px solid; }
+    &-bl { bottom: -1px; left: -1px; border-bottom: 2px solid; border-left: 2px solid; }
+    &-br { bottom: -1px; right: -1px; border-bottom: 2px solid; border-right: 2px solid; }
   }
 
-  .badge {
-    @apply inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-semibold;
+  /* Clean Rig Selector Bar */
+  .rig-selector-bar {
+    @apply flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl mb-5;
+    background: linear-gradient(135deg, rgba(4, 10, 24, 0.75) 0%, rgba(2, 6, 18, 0.85) 100%);
+    border: 1px solid rgba(6, 182, 212, 0.22);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 16px rgba(6, 182, 212, 0.03);
+    backdrop-filter: blur(12px);
+
+    .rig-select-group {
+      @apply flex items-center gap-2.5 flex-wrap sm:flex-nowrap;
+
+      .rig-select-label {
+        @apply text-xs font-semibold text-text-muted uppercase tracking-wider flex items-center whitespace-nowrap;
+      }
+    }
+
+    .rig-select-dropdown {
+      @apply appearance-none text-xs sm:text-sm font-medium px-3.5 py-2 pr-9 rounded-xl focus:outline-none cursor-pointer;
+      background: linear-gradient(135deg, rgba(8, 16, 36, 0.95) 0%, rgba(4, 9, 22, 0.98) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.32);
+      color: #e0f2fe;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.25);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover {
+        border-color: rgba(6, 182, 212, 0.65);
+        background: linear-gradient(135deg, rgba(12, 24, 52, 0.98) 0%, rgba(6, 14, 30, 0.98) 100%);
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 14px rgba(6, 182, 212, 0.2);
+      }
+
+      &:focus {
+        border-color: #00f0ff;
+        box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.25), 0 0 18px rgba(0, 240, 255, 0.35);
+      }
+
+      option {
+        background-color: #050c1c;
+        color: #e0f2fe;
+        padding: 8px 12px;
+      }
+    }
+
+    .rig-meta-pill {
+      @apply inline-flex items-center gap-2 text-xs text-text-muted font-mono;
+
+      .sep {
+        color: rgba(255, 255, 255, 0.15);
+      }
+    }
   }
 
-  .badge-accent {
-    background: rgba(6, 182, 212, 0.12);
-    border: 1px solid rgba(6, 182, 212, 0.3);
-    color: #38bdf8;
+  /* Select Caret Wrapper */
+  .select-wrapper {
+    @apply relative inline-flex items-center;
+
+    .select-caret {
+      @apply absolute right-3 text-[11px] pointer-events-none;
+      color: #00f0ff;
+      filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.5));
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    &:hover .select-caret {
+      color: #38bdf8;
+      transform: scale(1.1);
+    }
+
+    &:focus-within .select-caret {
+      transform: rotate(180deg);
+      color: #00f0ff;
+    }
   }
 
-  .badge-status {
-    background: rgba(16, 185, 129, 0.12);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #34d399;
-  }
+  /* Clean Spec Summary Strip */
+  .spec-summary-strip {
+    @apply flex flex-wrap items-center gap-2 sm:gap-3 mb-4 text-xs;
 
-  .badge-spec {
-    background: rgba(99, 102, 241, 0.12);
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    color: #a5b4fc;
-  }
+    .spec-item {
+      @apply inline-flex items-center px-3 py-1 rounded-md text-text-secondary;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
 
-  .status-pulse-dot {
-    @apply w-2 h-2 rounded-full mr-2 bg-emerald-400 inline-block;
-    box-shadow: 0 0 8px #34d399;
-    animation: pulseGlow 2s infinite ease-in-out;
+      &.status-item {
+        color: #34d399;
+        background: rgba(16, 185, 129, 0.08);
+        border-color: rgba(16, 185, 129, 0.25);
+      }
+    }
+
+    .status-dot {
+      @apply w-1.5 h-1.5 rounded-full bg-emerald-400 mr-1.5 inline-block;
+      box-shadow: 0 0 6px #10b981;
+    }
   }
 
   .page-title {
-    @apply text-2xl sm:text-4xl font-extrabold text-text-primary tracking-tight mb-2.5;
+    @apply text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-3;
+
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #00f0ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(6, 182, 212, 0.35);
+    }
   }
 
   .page-subtitle {
@@ -120,1268 +288,106 @@
   }
 }
 
-/* Tabs Navigation Bar */
-.tabs-nav-bar {
-  @apply flex flex-wrap items-center gap-3 pt-5 border-t;
-  border-color: rgba(255, 255, 255, 0.06);
+/* Tabs Navigation Bar (Flight Console HUD) */
+.tabs-nav-bar.tech-nav-bar {
+  @apply flex flex-wrap items-center gap-2 p-1.5 rounded-2xl w-full sm:w-fit;
+  background: rgba(2, 6, 16, 0.85);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.4);
 
-  .tab-btn {
-    @apply inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-secondary);
+  .tab-btn.tech-tab {
+    @apply inline-flex items-center gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-text-secondary no-underline;
+    position: relative;
+    border: 1px solid transparent;
+
+    .tab-index {
+      @apply text-[11px] font-bold text-cyan-500/70;
+    }
 
     &:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.16);
-      transform: translateY(-1px);
+      color: #e0f2fe;
+      background: rgba(6, 182, 212, 0.08);
+      border-color: rgba(6, 182, 212, 0.25);
+
+      .tab-index {
+        color: #00f0ff;
+      }
     }
 
     &.active {
-      background: linear-gradient(135deg, rgba(6, 182, 212, 0.25), rgba(99, 102, 241, 0.25));
-      border-color: #06b6d4;
-      color: #f8fafc;
-      box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
-    }
-  }
-}
-
-/* Control Deck */
-.controls-deck {
-  @apply p-4 sm:p-5 rounded-2xl mb-6 flex flex-wrap items-center justify-between gap-4;
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  .control-group {
-    @apply flex flex-col gap-1.5;
-  }
-
-  .control-label {
-    @apply text-xs font-semibold text-text-muted uppercase tracking-wider;
-  }
-
-  .control-pill-group {
-    @apply flex flex-wrap items-center gap-2;
-  }
-
-  .pill-btn {
-    @apply inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-secondary);
-
-    &:hover {
-      color: var(--text-primary);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
-
-    &.active {
-      background: rgba(6, 182, 212, 0.15);
-      border-color: #06b6d4;
-      color: #38bdf8;
-      box-shadow: 0 0 16px rgba(6, 182, 212, 0.25);
-    }
-
-    .tag-mini {
-      @apply ml-2 px-1.5 py-0.5 rounded text-[10px] uppercase font-bold;
-      background: rgba(16, 185, 129, 0.2);
-      color: #34d399;
-    }
-  }
-
-  .toggle-action-btn {
-    @apply inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-muted);
-
-    &.active {
-      background: rgba(245, 158, 11, 0.15);
-      border-color: rgba(245, 158, 11, 0.45);
-      color: #fbbf24;
-    }
-  }
-
-  .top-fan-control-group {
-    @apply w-full p-4 rounded-xl flex flex-col gap-3;
-    background: rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-
-    .top-slots-grid {
-      @apply grid grid-cols-1 md:grid-cols-2 gap-3 w-full;
-    }
-
-    .slot-control-item {
-      @apply p-3 rounded-xl flex flex-col gap-2;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-
-      .slot-header {
-        @apply flex items-center justify-between gap-2;
-
-        .slot-title {
-          @apply text-xs font-semibold text-text-primary flex items-center gap-2;
-
-          .slot-num {
-            @apply px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/10 border border-cyan-500/20;
-          }
-        }
-      }
-
-      .slot-pill-group {
-        @apply flex items-center gap-1.5;
-
-        .dir-btn {
-          @apply flex-1 inline-flex items-center justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          color: var(--text-muted);
-
-          &:hover {
-            color: var(--text-primary);
-            border-color: rgba(255, 255, 255, 0.15);
-          }
-
-          &.active {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
-            color: #f8fafc;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-          }
-
-          &.btn-exhaust.active {
-            background: rgba(239, 68, 68, 0.15);
-            border-color: rgba(239, 68, 68, 0.5);
-            color: #fca5a5;
-            box-shadow: 0 0 14px rgba(239, 68, 68, 0.25);
-          }
-
-          &.btn-intake.active {
-            background: rgba(6, 182, 212, 0.15);
-            border-color: rgba(6, 182, 212, 0.5);
-            color: #67e8f9;
-            box-shadow: 0 0 14px rgba(6, 182, 212, 0.25);
-          }
-        }
-      }
-    }
-
-    .presets-row {
-      @apply flex flex-wrap items-center gap-2 pt-2 border-t;
-      border-color: rgba(255, 255, 255, 0.05);
-
-      .presets-label {
-        @apply text-[11px] font-semibold text-text-muted flex items-center mr-1;
-      }
-
-      .presets-pills {
-        @apply flex flex-wrap items-center gap-1.5;
-
-        .preset-chip {
-          @apply px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.07);
-          color: var(--text-secondary);
-
-          &:hover {
-            color: var(--text-primary);
-            border-color: rgba(255, 255, 255, 0.15);
-          }
-
-          &.active {
-            background: rgba(99, 102, 241, 0.18);
-            border-color: rgba(99, 102, 241, 0.5);
-            color: #a5b4fc;
-            box-shadow: 0 0 10px rgba(99, 102, 241, 0.25);
-          }
-
-          &.chip-hybrid {
-            border-color: rgba(245, 158, 11, 0.3);
-
-            &.active {
-              background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(245, 158, 11, 0.2));
-              border-color: #f59e0b;
-              color: #fde68a;
-              box-shadow: 0 0 14px rgba(245, 158, 11, 0.3);
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-/* Telemetry Quick Bar */
-.telemetry-banner {
-  @apply p-4 sm:p-5 rounded-2xl mb-8 flex flex-wrap items-center justify-between gap-4;
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  .telemetry-item {
-    @apply flex flex-col items-start min-w-[120px];
-  }
-
-  .tel-label {
-    @apply text-xs font-semibold text-text-muted mb-0.5 flex items-center;
-  }
-
-  .tel-val {
-    @apply text-lg sm:text-2xl font-black tracking-tight;
-  }
-
-  .tel-sub {
-    @apply text-[11px] text-text-muted;
-  }
-
-  .telemetry-divider {
-    @apply hidden md:block w-[1px] h-10;
-    background: rgba(255, 255, 255, 0.06);
-  }
-}
-
-/* Schematic Layout Grid */
-.schematic-layout-grid {
-  @apply grid grid-cols-1 lg:grid-cols-12 gap-6;
-
-  .chassis-card {
-    @apply lg:col-span-8 p-5 sm:p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden;
-    background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
-  }
-
-  .inspector-column {
-    @apply lg:col-span-4 flex flex-col gap-6;
-  }
-}
-
-/* Chassis Header Inside Card */
-.chassis-card-header {
-  @apply flex flex-wrap items-start justify-between gap-4 mb-4;
-
-  .case-badge {
-    @apply inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider text-cyan-400 mb-1;
-    background: rgba(6, 182, 212, 0.12);
-    border: 1px solid rgba(6, 182, 212, 0.25);
-  }
-
-  .case-title {
-    @apply text-lg sm:text-xl font-bold text-text-primary tracking-tight;
-  }
-
-  .case-desc {
-    @apply text-xs sm:text-sm text-text-secondary max-w-xl mt-1 leading-relaxed;
-  }
-
-  .legend-badges {
-    @apply flex flex-wrap items-center gap-2;
-  }
-
-  .legend-pill {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: var(--text-secondary);
-  }
-
-  .legend-dot {
-    @apply w-2 h-2 rounded-full;
-  }
-}
-
-/* Chassis Stage SVG Container */
-.chassis-stage-container {
-  @apply w-full relative rounded-xl overflow-hidden my-2 flex items-center justify-center;
-  background: radial-gradient(circle at 50% 50%, #0d1527 0%, #070a12 100%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  min-height: 480px;
-
-  .blueprint-grid {
-    @apply absolute inset-0 pointer-events-none opacity-20;
-    background-size: 24px 24px;
-    background-image:
-      linear-gradient(to right, rgba(99, 102, 241, 0.15) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(99, 102, 241, 0.15) 1px, transparent 1px);
-  }
-
-  .chassis-svg {
-    @apply w-full h-auto relative z-10 block;
-    max-height: 520px;
-  }
-}
-
-/* SVG Schematic Element Styles */
-.chassis-outer-shell {
-  fill: #090e1a;
-  stroke: #334155;
-  stroke-width: 3;
-}
-
-.chassis-inner-chamber {
-  fill: #0c1322;
-  stroke: rgba(255, 255, 255, 0.06);
-  stroke-width: 1.5;
-}
-
-.front-mesh-bar {
-  fill: #111a2e;
-  stroke: #06b6d4;
-  stroke-width: 2;
-  opacity: 0.8;
-}
-
-.carbon-armor-bezel {
-  fill: #0b1220;
-  stroke: #06b6d4;
-  stroke-width: 2;
-  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.25));
-}
-
-.top-fan-slot-placeholder {
-  cursor: pointer;
-  transition: all 0.2s ease;
-
-  .slot-placeholder-box {
-    fill: rgba(0, 0, 0, 0.45);
-    stroke: rgba(255, 255, 255, 0.2);
-    stroke-width: 1.5;
-    stroke-dasharray: 4, 3;
-    transition: all 0.2s ease;
-  }
-
-  text {
-    transition: fill 0.2s ease;
-  }
-
-  &:hover {
-    .slot-placeholder-box {
-      fill: rgba(239, 68, 68, 0.15);
-      stroke: #ef4444;
-      stroke-dasharray: 0;
-      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
-    }
-
-    text {
-      fill: #ef4444;
-      font-weight: 700;
-    }
-  }
-}
-
-.top-vent-bar {
-  fill: #111a2e;
-  stroke: rgba(245, 158, 11, 0.4);
-  stroke-width: 1.5;
-}
-
-.psu-shroud-box {
-  fill: #080c16;
-  stroke: rgba(255, 255, 255, 0.06);
-}
-
-.drive-cage-box {
-  fill: #091222;
-  stroke: rgba(56, 189, 248, 0.4);
-  stroke-width: 1.5;
-}
-
-.component-block {
-  fill: #131c2e;
-  stroke: rgba(255, 255, 255, 0.12);
-  stroke-width: 1.5;
-}
-
-.mobo-board {
-  fill: #0e1628;
-  stroke: #475569;
-}
-
-.vrm-heatsink {
-  fill: #1e293b;
-  stroke: #64748b;
-}
-
-.ram-stick {
-  fill: #312e81;
-  stroke: #818cf8;
-  stroke-width: 1.5;
-}
-
-.nvme-stick {
-  fill: #042f2e;
-  stroke: #14b8a6;
-  stroke-width: 1.5;
-}
-
-.ag400-tower-body {
-  fill: #1e293b;
-  stroke: #38bdf8;
-  stroke-width: 2;
-  filter: drop-shadow(0 4px 12px rgba(6, 182, 212, 0.2));
-}
-
-.gpu-shroud {
-  fill: #06191d;
-  stroke: #10b981;
-  stroke-width: 2;
-  filter: drop-shadow(0 6px 16px rgba(16, 185, 129, 0.15));
-}
-
-.rad-body {
-  fill: #1f132b;
-  stroke: #f43f5e;
-  stroke-width: 2;
-}
-
-.side-bracket, .bottom-bracket {
-  fill: #0c1829;
-  stroke: #06b6d4;
-  stroke-width: 1.5;
-}
-
-/* Fan Housings & Nodes */
-.fan-bracket {
-  fill: #0f172a;
-  stroke: rgba(255, 255, 255, 0.15);
-  stroke-width: 1.5;
-  transition: all 0.2s ease;
-}
-
-.intake-bracket {
-  stroke: #06b6d4;
-}
-
-.exhaust-bracket {
-  stroke: #ef4444;
-}
-
-.fan-node-group {
-  transition: transform 0.2s ease;
-
-  &:hover {
-    .fan-bracket {
-      filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
-    }
-  }
-
-  &.node-selected {
-    .fan-bracket {
-      stroke-width: 3;
-      stroke: #38bdf8;
-      filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.8));
-    }
-  }
-}
-
-.fan-housing {
-  fill: rgba(6, 182, 212, 0.1);
-  stroke: #06b6d4;
-  stroke-width: 1.5;
-}
-
-.exhaust-housing {
-  fill: rgba(239, 68, 68, 0.1);
-  stroke: #ef4444;
-}
-
-.gpu-fan-housing {
-  fill: rgba(16, 185, 129, 0.1);
-  stroke: #10b981;
-  stroke-width: 1.5;
-}
-
-.fan-hub {
-  fill: #06b6d4;
-}
-
-.exhaust-hub {
-  fill: #ef4444;
-}
-
-.gpu-fan-hub {
-  fill: #10b981;
-}
-
-.fan-blade {
-  stroke: #38bdf8;
-  stroke-width: 2.5;
-  fill: none;
-}
-
-.fan-blade-exhaust {
-  stroke: #f87171;
-  stroke-width: 2.5;
-  fill: none;
-}
-
-.gpu-blade {
-  stroke: #34d399;
-  stroke-width: 2;
-  fill: none;
-}
-
-/* Dynamic Fan Blade Spinning Animation */
-.spin-fan {
-  transform-origin: 0 0;
-  animation: fanSpin var(--fan-duration, 0.7s) infinite linear;
-}
-
-@keyframes fanSpin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Animated Airflow Streamline Paths */
-.streamline-path {
-  fill: none;
-  stroke-dasharray: 12, 8;
-  animation: flowMotion var(--stream-duration, 2.0s) infinite linear;
-}
-
-.stream-direct-cpu {
-  stroke: url(#heatExchangeGrad);
-  stroke-width: 4;
-}
-
-.stream-top-bypass {
-  stroke: url(#coolStreamGrad);
-  stroke-width: 2.5;
-}
-
-.stream-gpu-feed {
-  stroke: url(#coolStreamGrad);
-  stroke-width: 3.5;
-}
-
-.stream-gpu-core {
-  stroke: url(#exhaustGrad);
-  stroke-width: 3;
-}
-
-.stream-bottom-intake {
-  stroke: url(#coolStreamGrad);
-  stroke-width: 2.5;
-}
-
-.stream-psu-intake {
-  stroke: url(#coolStreamGrad);
-  stroke-width: 3.5;
-  stroke-dasharray: 10, 6;
-  filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.6));
-}
-
-.stream-top-fan-exhaust {
-  stroke: url(#exhaustGrad);
-  stroke-width: 3.5;
-  filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.6));
-}
-
-.stream-chimney {
-  stroke: url(#heatExchangeGrad);
-  stroke-width: 4;
-  animation: chimneyFlow var(--stream-duration, 2.0s) infinite linear;
-}
-
-@keyframes flowMotion {
-  from {
-    stroke-dashoffset: 40;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes chimneyFlow {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: 40;
-  }
-}
-
-/* Advantages Pill List */
-.advantages-row {
-  @apply pt-4 border-t flex flex-col gap-2;
-  border-color: rgba(255, 255, 255, 0.06);
-
-  .adv-title {
-    @apply text-xs font-bold text-text-primary flex items-center;
-  }
-
-  .adv-chips {
-    @apply flex flex-wrap gap-2;
-  }
-
-  .adv-chip {
-    @apply text-[11px] px-3 py-1.5 rounded-lg text-text-secondary;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-  }
-}
-
-/* Inspector Column Cards */
-.inspector-card, .pressure-card, .quick-rig-card {
-  @apply p-5 rounded-2xl;
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.card-tag {
-  @apply text-xs font-bold uppercase tracking-wider text-text-muted flex items-center;
-}
-
-.inspector-header {
-  @apply flex items-center justify-between mb-4;
-
-  .live-pulse {
-    @apply inline-flex items-center text-xs font-semibold text-emerald-400 gap-1.5;
-
-    .pulse-dot {
-      @apply w-2 h-2 rounded-full bg-emerald-400;
-      box-shadow: 0 0 8px #34d399;
-      animation: pulseGlow 2s infinite ease-in-out;
-    }
-  }
-}
-
-.fan-title-row {
-  @apply flex items-center gap-3 mb-3;
-
-  .fan-icon-circle {
-    @apply w-10 h-10 rounded-xl flex items-center justify-center text-cyan-400;
-    background: rgba(6, 182, 212, 0.15);
-    border: 1px solid rgba(6, 182, 212, 0.3);
-
-    &.is-exhaust {
-      @apply text-rose-400;
-      background: rgba(239, 68, 68, 0.15);
-      border-color: rgba(239, 68, 68, 0.3);
-    }
-  }
-
-  .fan-name {
-    @apply text-sm sm:text-base font-bold text-text-primary;
-  }
-
-  .fan-role-badge {
-    @apply inline-block text-[10px] uppercase font-bold text-cyan-400 px-2 py-0.5 rounded;
-    background: rgba(6, 182, 212, 0.12);
-
-    &.badge-exhaust {
-      @apply text-rose-400;
-      background: rgba(239, 68, 68, 0.12);
-    }
-  }
-}
-
-.fan-desc {
-  @apply text-xs text-text-secondary leading-relaxed mb-4;
-}
-
-.specs-grid-mini {
-  @apply grid grid-cols-2 gap-2;
-
-  .mini-spec {
-    @apply p-2.5 rounded-xl flex flex-col;
-    background: rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-
-    .m-label {
-      @apply text-[10px] text-text-muted font-medium mb-0.5;
-    }
-
-    .m-val {
-      @apply text-xs font-bold text-text-primary;
-    }
-  }
-}
-
-.empty-inspector {
-  @apply py-8 text-center text-xs text-text-muted flex flex-col items-center justify-center;
-}
-
-/* Component Condition Inspector Styles */
-.component-condition-card {
-  .component-quick-pills {
-    @apply flex flex-wrap gap-1.5;
-
-    .comp-pill-chip {
-      @apply px-2.5 py-1 rounded-lg text-[11px] font-semibold text-text-muted transition-all cursor-pointer;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.08);
-        color: #f8fafc;
-        border-color: rgba(6, 182, 212, 0.35);
-      }
-
-      &.active {
-        background: rgba(6, 182, 212, 0.16);
+      color: #ffffff;
+      background: rgba(6, 182, 212, 0.16);
+      border-color: rgba(6, 182, 212, 0.55);
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.35), inset 0 0 10px rgba(6, 182, 212, 0.15);
+
+      .tab-index {
         color: #38bdf8;
-        border-color: rgba(6, 182, 212, 0.55);
-        box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+        text-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
       }
     }
-  }
-
-  .comp-title-row {
-    @apply flex items-center gap-3 mb-3;
-
-    .comp-icon-box {
-      @apply w-11 h-11 rounded-xl flex items-center justify-center text-cyan-400 text-base flex-shrink-0;
-      background: rgba(6, 182, 212, 0.12);
-      border: 1px solid rgba(6, 182, 212, 0.28);
-      box-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
-    }
-
-    .comp-name {
-      @apply text-sm sm:text-base font-bold text-text-primary truncate;
-    }
-
-    .comp-temp-badge {
-      @apply inline-flex items-center text-xs font-bold px-2 py-0.5 rounded-lg text-emerald-400 border;
-      background: rgba(16, 185, 129, 0.12);
-      border-color: rgba(16, 185, 129, 0.3);
-    }
-
-    .comp-category {
-      @apply text-[10px] uppercase font-bold text-text-muted tracking-wider block mt-0.5;
-    }
-  }
-
-  .comp-status-banner {
-    @apply flex items-center gap-2.5 p-2.5 px-3 rounded-xl mb-3 border;
-    background: rgba(6, 182, 212, 0.06);
-    border-color: rgba(6, 182, 212, 0.2);
-
-    .status-indicator-dot {
-      @apply w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0;
-      box-shadow: 0 0 8px #06b6d4;
-      animation: pulseGlow 2s infinite ease-in-out;
-    }
-  }
-
-  .comp-narrative-box {
-    @apply flex flex-col gap-2.5 mb-3.5;
-
-    .narrative-item {
-      @apply p-3 rounded-xl border;
-      background: rgba(0, 0, 0, 0.25);
-      border-color: rgba(255, 255, 255, 0.05);
-
-      .narrative-heading {
-        @apply text-[11px] font-bold text-text-primary block mb-1 flex items-center;
-      }
-
-      .narrative-text {
-        @apply text-xs text-text-secondary leading-relaxed;
-      }
-
-      &.callout-impact {
-        background: rgba(245, 158, 11, 0.08) !important;
-        border-color: rgba(245, 158, 11, 0.25) !important;
-      }
-    }
-  }
-
-  .comp-metrics-grid {
-    @apply grid grid-cols-2 gap-2;
-
-    .comp-metric-box {
-      @apply p-2.5 rounded-xl flex flex-col;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-
-      .cm-label {
-        @apply text-[10px] text-text-muted font-medium mb-0.5;
-      }
-
-      .cm-val {
-        @apply text-xs font-bold text-text-primary;
-      }
-
-      .cm-hint {
-        @apply text-[9px] text-cyan-400/80 mt-0.5;
-      }
-    }
-  }
-}
-
-/* Interactive SVG Component Blueprint Highlighting */
-.cpu-cooler-assembly,
-.gpu-card-assembly,
-.ram-modules,
-.nvme-slot,
-.motherboard-tray,
-.psu-assembly-group,
-.drive-bay-assembly,
-.front-mesh-panel,
-.top-slot-passive {
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.55));
-    opacity: 0.95;
-  }
-
-  &.comp-selected {
-    filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.95)) !important;
-
-    rect, polygon, circle {
-      stroke: #38bdf8 !important;
-      stroke-width: 2.5px !important;
-    }
-  }
-}
-
-.gpu-card-assembly.comp-selected {
-  filter: drop-shadow(0 0 18px rgba(16, 185, 129, 0.95)) !important;
-
-  rect.gpu-shroud {
-    stroke: #34d399 !important;
-    stroke-width: 2.5px !important;
-  }
-}
-
-/* Pressure Card Elements */
-.gauge-bar-wrapper {
-  @apply mb-4;
-
-  .gauge-labels {
-    @apply flex items-center justify-between text-xs font-semibold mb-2;
-
-    .g-intake {
-      @apply text-cyan-400;
-    }
-
-    .g-exhaust {
-      @apply text-amber-400;
-    }
-  }
-
-  .gauge-track {
-    @apply w-full h-3 rounded-full flex overflow-hidden;
-    background: rgba(0, 0, 0, 0.4);
-  }
-
-  .gauge-fill-intake {
-    @apply h-full bg-cyan-400 transition-all duration-300;
-  }
-
-  .gauge-fill-exhaust {
-    @apply h-full bg-amber-400 transition-all duration-300;
-  }
-}
-
-.pressure-badge-box {
-  @apply p-3 rounded-xl flex items-start;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.25);
-}
-
-/* Quick Rig Card List */
-.quick-rig-list {
-  @apply flex flex-col gap-2 text-xs;
-
-  li {
-    @apply flex items-center justify-between pb-1.5 border-b;
-    border-color: rgba(255, 255, 255, 0.04);
-
-    &:last-child {
-      @apply border-b-0 pb-0;
-    }
-
-    .q-label {
-      @apply text-text-muted font-medium;
-    }
-
-    .q-val {
-      @apply text-text-primary font-semibold;
-    }
-  }
-}
-
-/* TAB 2: SPECS SECTION */
-.specs-section {
-  @apply flex flex-col gap-6;
-
-  .section-intro-bar {
-    @apply flex flex-wrap items-center justify-between gap-4 mb-2;
-  }
-
-  .specs-cards-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
-  }
-
-  .spec-card {
-    @apply p-6 rounded-2xl relative overflow-hidden flex flex-col justify-between transition-all duration-200;
-    background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-
-    &:hover {
-      border-color: rgba(99, 102, 241, 0.35);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .spec-card-top-border {
-      @apply absolute top-0 left-0 right-0 h-[2px];
-    }
-  }
-
-  .spec-card-header {
-    @apply flex items-start gap-3.5 mb-4;
-
-    .spec-icon-box {
-      @apply w-12 h-12 rounded-xl flex items-center justify-center text-lg flex-shrink-0 border;
-    }
-
-    .spec-titles {
-      @apply flex-1 min-w-0;
-
-      .spec-category-badge {
-        @apply text-[10px] uppercase font-bold tracking-wider text-text-muted mb-0.5;
-      }
-
-      .spec-model-name {
-        @apply text-base font-bold text-text-primary truncate;
-      }
-
-      .spec-brand {
-        @apply text-xs text-text-muted;
-      }
-    }
-
-    .spec-feature-badge {
-      @apply text-[10px] font-bold px-2 py-0.5 rounded-full border whitespace-nowrap;
-    }
-  }
-
-  .spec-details-table {
-    @apply flex flex-col gap-1.5 py-3 border-y mb-4 text-xs;
-    border-color: rgba(255, 255, 255, 0.06);
-
-    .detail-row {
-      @apply flex items-center justify-between gap-2;
-
-      .d-label {
-        @apply text-text-muted;
-      }
-
-      .d-value {
-        @apply text-text-primary font-semibold text-right;
-      }
-    }
-  }
-
-  .spec-features-list {
-    @apply mb-4 text-xs;
-
-    .features-title {
-      @apply font-bold text-text-secondary block mb-1.5;
-    }
-
-    ul {
-      @apply flex flex-col gap-1;
-
-      li {
-        @apply flex items-start text-text-secondary;
-      }
-    }
-  }
-
-  .thermal-role-box {
-    @apply p-2.5 rounded-xl text-xs text-text-secondary flex items-start mt-auto;
-    background: rgba(245, 158, 11, 0.08);
-    border: 1px solid rgba(245, 158, 11, 0.2);
-  }
-}
-
-/* TAB 3: PRESSURE DEEP DIVE */
-.pressure-deepdive-section {
-  @apply flex flex-col gap-6;
-
-  .deepdive-banner {
-    @apply p-6 sm:p-8 rounded-2xl flex items-center gap-5;
-    background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-
-    .banner-icon-circle {
-      @apply w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0;
-      background: rgba(6, 182, 212, 0.12);
-      border: 1px solid rgba(6, 182, 212, 0.3);
-    }
-  }
-
-  .deepdive-cards-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
-  }
-
-  .deepdive-card {
-    @apply p-6 rounded-2xl flex flex-col justify-between;
-    background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-
-    .card-icon-header {
-      @apply flex items-center gap-3.5;
-
-      .dd-icon {
-        @apply w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0;
-      }
-    }
-
-    .info-callout {
-      @apply p-3 rounded-xl text-xs text-text-secondary;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.15);
   }
 }
 
 /* Staged / Apply Changes Controls & Banners */
 .pending-banner {
-  @apply mb-6 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(6, 182, 212, 0.12));
-  border-color: rgba(245, 158, 11, 0.35);
-  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.12);
+  @apply flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-4 sm:p-5 rounded-2xl mb-8 border;
+  background: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.4);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.15), inset 0 0 15px rgba(245, 158, 11, 0.05);
 
   .pending-info {
-    @apply flex items-center gap-3;
+    @apply flex items-start gap-3;
   }
 
   .pending-actions {
-    @apply flex items-center gap-2;
-  }
-}
-
-.apply-action-btn {
-  @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer;
-  background: linear-gradient(135deg, #10b981, #06b6d4);
-  color: #022c22;
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 0 22px rgba(16, 185, 129, 0.65);
-    filter: brightness(1.1);
+    @apply flex items-center gap-2.5 w-full md:w-auto justify-end;
   }
 
-  &.pulse-glow {
-    animation: applyPulse 1.8s infinite ease-in-out;
+  .discard-btn {
+    @apply px-4 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer text-text-secondary hover:text-text-primary hover:bg-white/5;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
-
-  &.btn-sm {
-    @apply px-2.5 py-1 text-[11px];
-  }
-}
-
-@keyframes applyPulse {
-  0%, 100% {
-    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 24px rgba(6, 182, 212, 0.8);
-    transform: scale(1.03);
-  }
-}
-
-.discard-btn {
-  @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-text-muted hover:text-rose-400 hover:bg-rose-500/10 transition-all cursor-pointer;
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .applied-success-banner {
-  @apply mb-6 p-3.5 px-5 rounded-2xl flex items-center gap-3 border;
-  background: rgba(16, 185, 129, 0.12);
-  border-color: rgba(16, 185, 129, 0.35);
-  color: #a7f3d0;
-  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
+  @apply flex items-center p-3.5 sm:p-4 rounded-2xl mb-6 text-emerald-300 border;
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.4);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2), inset 0 0 15px rgba(16, 185, 129, 0.05);
 }
 
-.pending-tag {
-  @apply ml-2 px-1.5 py-0.5 rounded text-[10px] uppercase font-black tracking-wide;
-  background: rgba(245, 158, 11, 0.25);
-  color: #fde68a;
-  border: 1px solid rgba(245, 158, 11, 0.4);
-}
+.apply-action-btn {
+  @apply inline-flex items-center justify-center px-4 py-2 rounded-xl text-xs font-bold text-white transition-all cursor-pointer;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
 
-/* Comprehensive Condition Report Card */
-.condition-report-section {
-  @apply mt-8;
-}
-
-.condition-report-card {
-  @apply p-6 sm:p-8 rounded-3xl relative overflow-hidden;
-  background: var(--bg-card);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
-
-  .condition-top-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #06b6d4, #10b981, #f59e0b, #6366f1);
-  }
-
-  .condition-header {
-    @apply flex flex-wrap items-start justify-between gap-4 mb-6;
-  }
-
-  .condition-title {
-    @apply text-xl sm:text-2xl font-black text-text-primary tracking-tight;
-  }
-
-  .condition-tagline {
-    @apply text-xs sm:text-sm text-cyan-400 font-medium mt-1;
-  }
-
-  .condition-badges-row {
-    @apply flex flex-wrap items-center gap-2;
-  }
-
-  .cond-badge {
-    @apply inline-flex items-center px-3 py-1 rounded-xl text-xs font-bold;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-
-    &.badge-positive {
-      @apply text-emerald-400;
-      background: rgba(16, 185, 129, 0.12);
-      border-color: rgba(16, 185, 129, 0.3);
-    }
-
-    &.badge-balanced {
-      @apply text-cyan-400;
-      background: rgba(6, 182, 212, 0.12);
-      border-color: rgba(6, 182, 212, 0.3);
-    }
-
-    &.badge-neutral {
-      @apply text-amber-400;
-      background: rgba(245, 158, 11, 0.12);
-      border-color: rgba(245, 158, 11, 0.3);
-    }
-  }
-
-  .condition-body-text {
-    @apply text-sm text-text-secondary leading-relaxed mb-6 p-4 rounded-2xl;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  /* Real-time Estimated Thermal Metrics */
-  .condition-metrics-grid {
-    @apply grid grid-cols-2 md:grid-cols-4 gap-3 mb-6;
-
-    .metric-card {
-      @apply p-4 rounded-2xl flex flex-col;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-
-      .m-label {
-        @apply text-[11px] font-semibold text-text-muted mb-1 flex items-center;
-      }
-
-      .m-value {
-        @apply text-lg font-black text-text-primary tracking-tight;
-      }
-
-      .m-sub {
-        @apply text-[10px] text-text-muted mt-0.5;
-      }
-    }
-  }
-
-  /* GPU Upward Airflow Callout */
-  .gpu-upward-callout {
-    @apply p-4 rounded-2xl mb-6 flex flex-col gap-1.5 border;
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.08));
-    border-color: rgba(16, 185, 129, 0.3);
-
-    .callout-header {
-      @apply text-xs font-bold text-emerald-400 flex items-center uppercase tracking-wider;
-    }
-
-    .callout-content {
-      @apply text-xs sm:text-sm text-text-secondary leading-relaxed;
-    }
-  }
-
-  /* Pros vs Cons Comparison Grid */
-  .pros-cons-grid {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-6;
-
-    .pros-box, .cons-box {
-      @apply p-5 rounded-2xl flex flex-col gap-3;
-      background: rgba(0, 0, 0, 0.25);
-    }
-
-    .pros-box {
-      border: 1px solid rgba(16, 185, 129, 0.25);
-
-      .box-title {
-        @apply text-sm font-bold text-emerald-400 flex items-center;
-      }
-
-      li {
-        @apply text-xs text-text-secondary flex items-start leading-relaxed;
-      }
-    }
-
-    .cons-box {
-      border: 1px solid rgba(245, 158, 11, 0.25);
-
-      .box-title {
-        @apply text-sm font-bold text-amber-400 flex items-center;
-      }
-
-      li {
-        @apply text-xs text-text-secondary flex items-start leading-relaxed;
-      }
-    }
-  }
-
-  /* Recommended Workloads & Thermal Tip */
-  .condition-footer {
-    @apply pt-5 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-4;
-    border-color: rgba(255, 255, 255, 0.06);
-
-    .usecases-row {
-      @apply flex flex-wrap items-center gap-1.5;
-    }
-
-    .usecase-tag {
-      @apply px-2.5 py-1 rounded-lg text-[11px] font-semibold text-text-muted;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-    }
-
-    .pro-tip-box {
-      @apply text-xs text-text-secondary p-3 rounded-xl flex items-start gap-2;
-      background: rgba(245, 158, 11, 0.08);
-      border: 1px solid rgba(245, 158, 11, 0.2);
-    }
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(16, 185, 129, 0.55), 0 0 12px rgba(6, 182, 212, 0.4);
   }
 }
+
+.pulse-glow {
+  animation: pulseGlow 2.5s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(16, 185, 129, 0.65), 0 0 15px rgba(6, 182, 212, 0.45);
+  }
+}
+

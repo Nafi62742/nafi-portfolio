@@ -1,0 +1,314 @@
+.benchmarks-page-root {
+  @apply relative z-10 w-full;
+}
+
+/* Lab Header Banner */
+.lab-banner {
+  @apply flex items-start gap-4 p-6 sm:p-7 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .lab-icon-box {
+    @apply w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+  }
+
+  .lab-banner-text {
+    @apply flex-1;
+
+    .badge-lab {
+      @apply inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider text-cyan-400;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    .badge-live-cooling {
+      @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold text-emerald-400;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+
+      .status-pulse-dot {
+        @apply w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping;
+      }
+    }
+  }
+}
+
+/* Filter Deck */
+.filter-deck {
+  @apply p-4 sm:p-5 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .filter-pills-row {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .filter-pill {
+    @apply inline-flex items-center px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: var(--text-secondary);
+
+    &:hover {
+      color: var(--text-primary);
+      border-color: rgba(99, 102, 241, 0.4);
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    &.active {
+      color: #38bdf8;
+      background: rgba(6, 182, 212, 0.15);
+      border-color: rgba(6, 182, 212, 0.5);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+    }
+  }
+}
+
+/* Benchmark Cards Grid */
+.bench-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.bench-card {
+  @apply p-6 rounded-2xl relative overflow-hidden flex flex-col justify-between transition-all duration-300;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(6, 182, 212, 0.3);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  }
+
+  .bench-card-top-accent {
+    @apply absolute top-0 left-0 right-0 h-[2px];
+    background: linear-gradient(90deg, transparent, #06b6d4, transparent);
+  }
+
+  .bench-header {
+    @apply flex items-start justify-between gap-3 mb-4;
+
+    .bench-icon-box {
+      @apply w-10 h-10 rounded-xl flex items-center justify-center text-cyan-400 text-base flex-shrink-0;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+
+    .bench-status-badge {
+      @apply text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider flex-shrink-0;
+
+      &.status-exceptional {
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #34d399;
+      }
+
+      &.status-great {
+        background: rgba(6, 182, 212, 0.12);
+        border: 1px solid rgba(6, 182, 212, 0.3);
+        color: #38bdf8;
+      }
+
+      &.status-optimal {
+        background: rgba(99, 102, 241, 0.12);
+        border: 1px solid rgba(99, 102, 241, 0.3);
+        color: #a5b4fc;
+      }
+    }
+  }
+
+  .bench-metric-row {
+    @apply flex items-baseline justify-between gap-2 mb-3;
+
+    .metric-val {
+      @apply text-2xl font-black tracking-tight;
+    }
+
+    .specs-pill {
+      @apply text-[10px] font-semibold text-text-muted px-2 py-0.5 rounded bg-white/5 border border-white/5;
+    }
+  }
+
+  .relative-bar-wrapper {
+    @apply w-full h-1.5 rounded-full overflow-hidden;
+    background: rgba(255, 255, 255, 0.08);
+
+    .relative-bar-fill {
+      @apply h-full rounded-full transition-all duration-500;
+      background: linear-gradient(90deg, #06b6d4, #6366f1);
+    }
+  }
+
+  .comparison-pill {
+    @apply inline-flex items-center text-xs text-text-secondary px-3 py-1.5 rounded-xl border border-white/5;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .bench-desc-box {
+    @apply pt-3 border-t border-white/5;
+  }
+}
+
+/* Stress Testing Table Matrix */
+.thermal-matrix-card {
+  @apply p-6 sm:p-7 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .stress-table-wrapper {
+    @apply w-full overflow-x-auto;
+  }
+
+  .stress-table {
+    @apply w-full text-left text-xs border-collapse;
+
+    th {
+      @apply pb-3 px-3 text-[11px] font-bold uppercase tracking-wider text-text-muted border-b border-white/10;
+    }
+
+    td {
+      @apply py-3.5 px-3 border-b border-white/5 align-middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .highlight-row {
+      background: rgba(244, 63, 94, 0.04);
+    }
+
+    .temp-badge {
+      @apply inline-flex items-center px-2 py-0.5 rounded-md font-bold text-xs;
+    }
+  }
+}
+
+/* Power Card */
+.power-card {
+  @apply p-6 sm:p-7 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .badge-headroom {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-emerald-300;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .power-rails-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+
+    .rail-item {
+      @apply p-3.5 rounded-xl border border-white/5;
+      background: rgba(0, 0, 0, 0.25);
+
+      .rail-bar-wrapper {
+        @apply w-full h-1.5 rounded-full overflow-hidden;
+        background: rgba(255, 255, 255, 0.06);
+
+        .rail-bar-fill {
+          @apply h-full rounded-full;
+          background: linear-gradient(90deg, #f59e0b, #ef4444);
+        }
+      }
+    }
+  }
+}
+
+/* GPU Face-Off Showdown Card */
+.gpu-showdown-card, .cooler-torture-card {
+  @apply p-6 sm:p-7 rounded-2xl mb-8 relative overflow-hidden;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .showdown-header {
+    @apply pb-4 border-b border-white/10 mb-6;
+  }
+
+  .showdown-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-5;
+  }
+
+  .showdown-item {
+    @apply p-4 rounded-xl flex flex-col gap-2.5;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    .item-title-row {
+      @apply flex items-center justify-between text-xs;
+    }
+
+    .bar-comparison-row {
+      @apply flex flex-col gap-2;
+
+      .bar-label-group {
+        @apply flex items-center justify-between text-[11px];
+      }
+
+      .dual-bar-wrapper {
+        @apply w-full h-2 rounded-full overflow-hidden;
+        background: rgba(255, 255, 255, 0.06);
+
+        .bar-rtx {
+          @apply h-full rounded-full;
+          background: linear-gradient(90deg, #10b981, #06b6d4);
+        }
+
+        .bar-gtx {
+          @apply h-full rounded-full;
+          background: linear-gradient(90deg, #f59e0b, #ef4444);
+        }
+      }
+    }
+  }
+
+  .torture-table-wrapper {
+    @apply w-full overflow-x-auto;
+  }
+
+  .torture-table {
+    @apply w-full text-left border-collapse text-xs;
+
+    th {
+      @apply p-3 font-bold text-cyan-300 uppercase tracking-wider font-mono text-[11px];
+      background: rgba(6, 182, 212, 0.08);
+      border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+    }
+
+    td {
+      @apply p-3 text-text-secondary align-middle;
+      border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+    }
+
+    tr:hover td {
+      background: rgba(6, 182, 212, 0.05);
+    }
+
+    .highlight-active {
+      background: rgba(6, 182, 212, 0.09);
+    }
+  }
+}
+
+/* Subpage Next Navigation Banner */
+.subpage-next-banner {
+  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .btn-next-step {
+    @apply inline-flex items-center px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all cursor-pointer flex-shrink-0;
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+    }
+  }
+}

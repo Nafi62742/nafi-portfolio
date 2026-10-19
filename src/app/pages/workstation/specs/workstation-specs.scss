@@ -1,0 +1,343 @@
+.specs-page-root {
+  @apply relative z-10 w-full;
+}
+
+/* System Vitals Summary Strip */
+.system-vitals-strip {
+  @apply flex flex-wrap items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .vital-item {
+    @apply flex flex-col min-w-[130px] flex-1;
+
+    .v-label {
+      @apply text-[11px] font-semibold text-text-muted mb-1 flex items-center;
+    }
+
+    .v-val {
+      @apply text-base sm:text-lg font-extrabold tracking-tight font-mono text-cyan-200;
+      text-shadow: 0 0 12px rgba(6, 182, 212, 0.35);
+    }
+
+    .v-sub {
+      @apply text-[11px] text-text-muted mt-0.5;
+    }
+  }
+
+  .vital-divider {
+    @apply hidden md:block w-px h-10;
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* Category Filter Chips Deck */
+.filter-deck {
+  @apply p-4 sm:p-5 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .filter-pills-row {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .filter-pill {
+    @apply inline-flex items-center px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: var(--text-secondary);
+
+    &:hover {
+      color: var(--text-primary);
+      border-color: rgba(99, 102, 241, 0.4);
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    &.active {
+      color: #38bdf8;
+      background: rgba(6, 182, 212, 0.15);
+      border-color: rgba(6, 182, 212, 0.5);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+    }
+  }
+}
+
+/* Specs Cards Grid */
+.specs-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.spec-card {
+  @apply flex flex-col p-6 rounded-2xl relative overflow-hidden transition-all duration-300;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  }
+
+  .spec-card-top-border {
+    @apply absolute top-0 left-0 right-0 h-[2px];
+  }
+
+  .spec-card-header {
+    @apply flex items-start gap-3.5 mb-5;
+
+    .spec-icon-box {
+      @apply w-12 h-12 rounded-xl flex items-center justify-center text-lg border flex-shrink-0;
+    }
+
+    .spec-titles {
+      @apply flex-1 min-w-0;
+
+      .spec-category-badge {
+        @apply text-[10px] font-bold uppercase tracking-wider text-text-muted mb-0.5;
+      }
+
+      .spec-model-name {
+        @apply text-base font-bold text-text-primary truncate;
+      }
+
+      .spec-brand {
+        @apply text-xs text-text-secondary block;
+      }
+    }
+
+    .spec-feature-badge {
+      @apply text-[10px] font-bold px-2.5 py-1 rounded-full border flex-shrink-0;
+    }
+  }
+
+  .spec-details-table {
+    @apply flex flex-col gap-2 p-3.5 rounded-xl mb-4 text-xs;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+
+    .detail-row {
+      @apply flex items-center justify-between gap-2;
+
+      .d-label {
+        @apply text-text-muted;
+      }
+
+      .d-value {
+        @apply font-semibold text-text-primary text-right;
+      }
+    }
+  }
+
+  .spec-features-list {
+    @apply text-xs mb-4 flex-1;
+
+    .features-title {
+      @apply font-bold text-text-secondary block mb-1.5;
+    }
+
+    ul {
+      @apply flex flex-col gap-1 text-text-secondary;
+    }
+  }
+
+  .thermal-role-box {
+    @apply flex items-start p-3 rounded-xl text-xs mb-4;
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    color: rgba(254, 243, 199, 0.9);
+  }
+
+  .card-actions-row {
+    @apply flex items-center gap-2 pt-3 border-t border-white/5;
+
+    .btn-card-action {
+      @apply flex-1 inline-flex items-center justify-center py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer;
+    }
+
+    .btn-dive {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    .btn-sim {
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: #38bdf8;
+
+      &:hover {
+        background: rgba(6, 182, 212, 0.2);
+        border-color: rgba(6, 182, 212, 0.5);
+      }
+    }
+  }
+}
+
+/* Modal Backdrop & Dialog */
+.modal-backdrop {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+}
+
+.modal-dialog {
+  @apply w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl relative p-6 sm:p-7;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+
+  .modal-top-accent {
+    @apply absolute top-0 left-0 right-0 h-[3px];
+  }
+
+  .modal-header {
+    @apply flex items-center justify-between gap-4 pb-4 border-b border-white/10 mb-5;
+
+    .modal-icon-box {
+      @apply w-12 h-12 rounded-xl flex items-center justify-center border flex-shrink-0;
+    }
+
+    .btn-close-modal {
+      @apply w-9 h-9 rounded-xl flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-white/10 transition-all cursor-pointer;
+    }
+  }
+
+  .modal-section-title {
+    @apply text-xs font-bold uppercase tracking-wider text-text-primary flex items-center mb-2.5;
+  }
+
+  .modal-specs-table {
+    @apply flex flex-col gap-2 p-4 rounded-xl text-xs;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    .m-row {
+      @apply flex items-center justify-between gap-4;
+
+      .m-label {
+        @apply text-text-muted;
+      }
+
+      .m-val {
+        @apply font-bold text-text-primary text-right;
+      }
+    }
+  }
+
+  .modal-features-list {
+    @apply flex flex-col gap-2 text-xs text-text-secondary pl-1;
+  }
+
+  .modal-thermal-box {
+    @apply p-3.5 rounded-xl;
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+
+  .modal-footer {
+    @apply flex items-center justify-end gap-3 pt-5 border-t border-white/10 mt-6;
+
+    .btn-inspect-sim {
+      @apply inline-flex items-center px-4 py-2.5 rounded-xl text-xs font-bold text-white transition-all cursor-pointer;
+      background: linear-gradient(135deg, #06b6d4, #6366f1);
+      box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+      }
+    }
+
+    .btn-dismiss {
+      @apply px-4 py-2.5 rounded-xl text-xs font-semibold text-text-secondary hover:text-text-primary hover:bg-white/5 transition-all cursor-pointer;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+}
+
+/* Hardware Comparison Matrix Sections */
+.comparison-section {
+  @apply mt-10 flex flex-col gap-8;
+
+  .matrix-table-card {
+    @apply p-5 sm:p-6 rounded-2xl relative overflow-hidden;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    .matrix-header {
+      @apply pb-4 border-b border-white/10 mb-5;
+    }
+
+    .matrix-table-wrapper {
+      @apply w-full overflow-x-auto;
+    }
+
+    .matrix-table {
+      @apply w-full text-left border-collapse text-xs;
+
+      th {
+        @apply p-3 font-bold text-cyan-300 uppercase tracking-wider font-mono text-[11px];
+        background: rgba(6, 182, 212, 0.08);
+        border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+      }
+
+      td {
+        @apply p-3 text-text-secondary align-top;
+        border-bottom: 1px solid rgba(6, 182, 212, 0.1);
+      }
+
+      tr:hover td {
+        background: rgba(6, 182, 212, 0.05);
+      }
+
+      .highlight-col {
+        background: rgba(6, 182, 212, 0.08);
+      }
+    }
+
+    .badge-win {
+      @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase;
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-compromise {
+      @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .comparison-summary-box {
+      @apply mt-5 p-4 rounded-xl flex items-start gap-3;
+      background: rgba(6, 182, 212, 0.06);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+    }
+  }
+}
+
+/* Subpage Next Navigation Banner */
+.subpage-next-banner {
+  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .btn-next-step {
+    @apply inline-flex items-center px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all cursor-pointer flex-shrink-0;
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+    }
+  }
+}

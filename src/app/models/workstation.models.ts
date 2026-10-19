@@ -27,8 +27,10 @@ export interface CaseFanNode {
   description: string;
 }
 
+export type AirflowLayoutId = 'standard-mesh' | 'matrexx-40' | 'dual-chamber';
+
 export interface AirflowLayout {
-  id: 'standard-mesh' | 'dual-chamber';
+  id: AirflowLayoutId;
   name: string;
   subtitle: string;
   caseName: string;
@@ -43,6 +45,169 @@ export interface AirflowLayout {
 export type FanSpeedProfile = 'silent' | 'balanced' | 'turbo';
 
 export type TopFanDirection = 'off' | 'exhaust' | 'intake';
+
+export type CpuModelId = 'i5-10400f' | 'i5-12400' | 'i7-10700k' | 'i9-10900k' | 'r5-5600x';
+
+export interface CpuOptionConfig {
+  id: CpuModelId;
+  name: string;
+  shortName: string;
+  brand: 'Intel' | 'AMD';
+  cores: string;
+  baseClock: string;
+  turboClock: string;
+  tdpWatts: number;
+  maxLoadWatts: number;
+  socket: string;
+  thermalDifficulty: 'Low' | 'Moderate' | 'High' | 'Extreme';
+  badge: string;
+  description: string;
+  advantages?: string[];
+  disadvantages?: string[];
+}
+
+export type CpuCoolerId = 'ag400' | 'intel-stock' | 'peerless-assassin' | 'aio-240';
+
+export interface CpuCoolerOptionConfig {
+  id: CpuCoolerId;
+  name: string;
+  shortName: string;
+  type: 'single-tower' | 'stock-flower' | 'dual-tower' | 'aio-liquid';
+  heatpipes: string;
+  fanCount: number;
+  fanSizeMm: number;
+  minRpm: number;
+  maxRpm: number;
+  silentRpm: number;
+  balancedRpm: number;
+  turboRpm: number;
+  maxCfm: number;
+  maxNoiseDba: number;
+  coolingCapacityTdp: number;
+  badge: string;
+  description: string;
+  advantages?: string[];
+  disadvantages?: string[];
+}
+
+export type GpuModelId = 'rtx-3060' | 'gtx-1650' | 'r7-360' | 'rx-6600' | 'rtx-4060' | 'arc-a750';
+
+export interface GpuOptionConfig {
+  id: GpuModelId;
+  name: string;
+  shortName: string;
+  architecture: string;
+  vram: string;
+  vramType: string;
+  busWidth: string;
+  cudaCores: number;
+  tdpWatts: number;
+  fanCount: number;
+  fanFlowType: 'triple-axial-upward' | 'dual-axial-standard';
+  heatPlumeCfm: number;
+  powerConnector: string;
+  idleWatts: number;
+  loadWatts: number;
+  rayTracingCores: number;
+  tensorCores: number;
+  badge: string;
+  description: string;
+  advantages?: string[];
+  disadvantages?: string[];
+}
+
+export type FanModelId =
+  | 'cl6-argb'
+  | 'arctic-p12'
+  | 'noctua-a12'
+  | 'deepcool-3fs'
+  | 'deepcool-fk120'
+  | 'deepcool-fc120'
+  | 'deepcool-mf120gt'
+  | 'deepcool-rf120m';
+
+export type RamOptionId = 'corsair-16gb-3200' | 'corsair-32gb-3200' | 'gskill-32gb-3600' | 'corsair-64gb-3200';
+
+export interface RamOptionConfig {
+  id: RamOptionId;
+  name: string;
+  shortName: string;
+  capacityGb: number;
+  configuration: string;
+  speedMhz: number;
+  timing: string;
+  voltage: number;
+  formFactor: string;
+  maxBandwidthGbps: number;
+  badge: string;
+  dockerCapacity: string;
+  description: string;
+  advantages?: string[];
+  disadvantages?: string[];
+}
+
+export type PcRigPresetId = 'darkflash-leo' | 'deepcool-matrexx40';
+
+export interface PcRigProfileConfig {
+  id: PcRigPresetId;
+  name: string;
+  badge: string;
+  tagline: string;
+  caseName: string;
+  caseDimensions: string;
+  cpuName: string;
+  cpuId: CpuModelId;
+  gpuName: string;
+  gpuId: GpuModelId;
+  coolerId: CpuCoolerId;
+  fanModelId: FanModelId;
+  layoutId: AirflowLayoutId;
+  psuName: string;
+  ramName: string;
+  storagePrimary: string;
+  storageSecondary?: string;
+  motherboard: string;
+  monitor?: string;
+  keyboard?: string;
+  description: string;
+}
+
+export interface FanModelConfig {
+  id: FanModelId;
+  name: string;
+  brand: string;
+  minRpm: number;
+  maxRpm: number;
+  silentRpm: number;
+  balancedRpm: number;
+  turboRpm: number;
+  maxCfm: number;
+  staticPressureMmH2o: number;
+  maxNoiseDba: number;
+  bearing: string;
+  badge: string;
+  description: string;
+  advantages?: string[];
+  disadvantages?: string[];
+  rigPreset?: PcRigPresetId | 'both';
+}
+
+export interface CustomizationTradeoffAnalysis {
+  netPressureCfm: number;
+  pressureState: string;
+  pressureVerdict: 'optimal' | 'acceptable' | 'warning';
+  estimatedCpuLoadTemp: string;
+  estimatedGpuLoadTemp: string;
+  totalSystemTdpWatts: number;
+  psuSafetyMarginWatts: number;
+  psuUtilizationPercent: number;
+  psuSafetyStatus: 'safe' | 'optimal' | 'warning';
+  acousticRatingDba: number;
+  acousticCategory: string;
+  keyAdvantages: string[];
+  keyDisadvantages: string[];
+  thermalTip: string;
+}
 
 export interface FanSpeedConfig {
   profile: FanSpeedProfile;
@@ -98,4 +263,52 @@ export interface ComponentConditionDetail {
   currentImpact: string;
   metrics: Array<{ label: string; value: string; hint?: string }>;
 }
+
+export interface WorkstationBenchmarkItem {
+  id: string;
+  category: 'development' | 'ai-inference' | 'synthetic' | 'rendering';
+  categoryLabel: string;
+  title: string;
+  metric: string;
+  label: string;
+  baselineComparison: string;
+  hardwareUsed: string;
+  description: string;
+  percentage: number;
+  icon: string;
+  status: 'exceptional' | 'great' | 'optimal';
+  specsPill?: string;
+}
+
+export interface ThermalStressPoint {
+  workload: string;
+  state: 'idle' | 'coding' | 'compiling' | 'torture';
+  cpuTemp: number;
+  gpuTemp: number;
+  vrmTemp: number;
+  fanRpm: number;
+  noiseDb: number;
+  powerDrawWatts: number;
+  behaviorNote: string;
+}
+
+export interface PowerDistributionItem {
+  rail: string;
+  component: string;
+  idleWatts: number;
+  loadWatts: number;
+  maxWatts: number;
+  efficiencyRating: string;
+}
+
+export interface SystemVitalsSummary {
+  cores: string;
+  vram: string;
+  ram: string;
+  storage: string;
+  coolingCapacity: string;
+  powerSupply: string;
+  chassisVolume: string;
+}
+
 

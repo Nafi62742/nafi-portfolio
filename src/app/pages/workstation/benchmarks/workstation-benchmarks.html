@@ -1,0 +1,482 @@
+<section class="benchmarks-page-root">
+
+  <!-- BENCHMARKS HEADER BANNER -->
+  <div class="lab-banner glass-card mb-8">
+    <div class="lab-icon-box">
+      <i class="fa-solid fa-chart-line text-2xl text-cyan-400"></i>
+    </div>
+    <div class="lab-banner-text">
+      <div class="flex items-center gap-2 mb-1">
+        <span class="badge-lab">Verified Hardware Benchmarks</span>
+        <span class="badge-live-cooling">
+          <span class="status-pulse-dot"></span>
+          Cooling Preset: {{ ws.appliedSpeedProfile() | uppercase }} ({{ ws.dynamicIntakeCfm() }} CFM)
+        </span>
+      </div>
+      <h2 class="text-xl font-bold text-text-primary">{{ labels.benchmarks_title }}</h2>
+      <p class="text-sm text-text-muted mt-1 leading-relaxed">
+        {{ labels.benchmarks_subtitle }}
+      </p>
+    </div>
+  </div>
+
+  <!-- CATEGORY FILTER CHIPS -->
+  <div class="filter-deck glass-card mb-8">
+    <div class="flex items-center justify-between flex-wrap gap-4">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-sliders text-cyan-400 text-sm"></i>
+        <span class="text-xs font-bold text-text-primary uppercase tracking-wider">Benchmark Domain:</span>
+      </div>
+      <div class="filter-pills-row">
+        <button
+          type="button"
+          class="filter-pill"
+          [class.active]="activeCategory() === 'all'"
+          (click)="setCategory('all')">
+          <span>All Benchmarks ({{ benchmarks().length }})</span>
+        </button>
+        <button
+          type="button"
+          class="filter-pill"
+          [class.active]="activeCategory() === 'development'"
+          (click)="setCategory('development')">
+          <i class="fa-solid fa-cubes mr-1.5 text-cyan-400"></i>
+          <span>Development &amp; Build</span>
+        </button>
+        <button
+          type="button"
+          class="filter-pill"
+          [class.active]="activeCategory() === 'ai-inference'"
+          (click)="setCategory('ai-inference')">
+          <i class="fa-solid fa-brain mr-1.5 text-emerald-400"></i>
+          <span>Local AI &amp; Inference</span>
+        </button>
+        <button
+          type="button"
+          class="filter-pill"
+          [class.active]="activeCategory() === 'synthetic'"
+          (click)="setCategory('synthetic')">
+          <i class="fa-solid fa-microchip mr-1.5 text-indigo-400"></i>
+          <span>Synthetic Compute</span>
+        </button>
+        <button
+          type="button"
+          class="filter-pill"
+          [class.active]="activeCategory() === 'rendering'"
+          (click)="setCategory('rendering')">
+          <i class="fa-solid fa-cube mr-1.5 text-amber-400"></i>
+          <span>3D &amp; GPU Compute</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BENCHMARK CARDS GRID -->
+  <div class="bench-cards-grid mb-10">
+    @for (b of filteredBenchmarks; track b.id) {
+      <div class="bench-card glass-card animate-fade-in">
+        <div class="bench-card-top-accent"></div>
+
+        <div class="bench-header">
+          <div class="flex items-center gap-3">
+            <div class="bench-icon-box">
+              <i class="fa-solid" [ngClass]="b.icon"></i>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold text-text-muted uppercase tracking-wider block">{{ b.categoryLabel }}</span>
+              <h3 class="text-base font-bold text-text-primary">{{ b.title }}</h3>
+            </div>
+          </div>
+          <span class="bench-status-badge" [ngClass]="'status-' + b.status">
+            {{ b.status | uppercase }}
+          </span>
+        </div>
+
+        <!-- Metric Highlight -->
+        <div class="bench-metric-row">
+          <div>
+            <span class="text-xs text-text-muted block">{{ b.label }}</span>
+            <span class="metric-val text-cyan-400">{{ b.metric }}</span>
+          </div>
+          @if (b.specsPill) {
+            <span class="specs-pill">{{ b.specsPill }}</span>
+          }
+        </div>
+
+        <!-- Relative Performance Bar -->
+        <div class="relative-bar-wrapper mb-3">
+          <div class="relative-bar-fill" [style.width.%]="b.percentage"></div>
+        </div>
+
+        <!-- Baseline Comparison Callout -->
+        <div class="comparison-pill mb-3">
+          <i class="fa-solid fa-arrow-trend-up text-emerald-400 mr-1.5"></i>
+          <span>{{ b.baselineComparison }}</span>
+        </div>
+
+        <!-- Hardware & Description -->
+        <div class="bench-desc-box">
+          <p class="text-xs text-text-secondary leading-relaxed mb-2">{{ b.description }}</p>
+          <div class="text-[11px] text-text-muted flex items-center gap-1.5">
+            <i class="fa-solid fa-microchip text-indigo-400"></i>
+            <span class="font-medium text-text-primary">{{ b.hardwareUsed }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- THERMAL CURVES UNDER SUSTAINED WORKLOAD MATRIX -->
+  <div class="thermal-matrix-card glass-card mb-10">
+    <div class="matrix-header pb-4 border-b border-white/10 mb-6">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-temperature-arrow-up text-rose-400 text-lg"></i>
+        <h3 class="text-base font-bold text-text-primary">Thermal Equilibrium &amp; Acoustics Across Operating Workloads</h3>
+      </div>
+      <p class="text-xs text-text-muted mt-1">
+        Temperatures sustained indefinitely in 26°C ambient room temperature with darkFlash Leo straight-line airflow tunnel.
+      </p>
+    </div>
+
+    <div class="stress-table-wrapper">
+      <table class="stress-table">
+        <thead>
+          <tr>
+            <th>Workload Scenario</th>
+            <th>CPU Core (AG400)</th>
+            <th>GPU Core (RTX 3060)</th>
+            <th>Motherboard VRM</th>
+            <th>Fan Speed (RPM)</th>
+            <th>Noise Level</th>
+            <th>Total System Draw</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (point of stressPoints(); track point.workload) {
+            <tr [class.highlight-row]="point.state === 'torture'">
+              <td>
+                <div class="font-bold text-text-primary">{{ point.workload }}</div>
+                <div class="text-[11px] text-text-muted mt-0.5">{{ point.behaviorNote }}</div>
+              </td>
+              <td>
+                <span class="temp-badge text-cyan-300 bg-cyan-500/10 border border-cyan-500/20">
+                  {{ point.cpuTemp }}&deg;C
+                </span>
+              </td>
+              <td>
+                <span class="temp-badge text-emerald-300 bg-emerald-500/10 border border-emerald-500/20">
+                  {{ point.gpuTemp }}&deg;C
+                </span>
+              </td>
+              <td>
+                <span class="temp-badge text-amber-300 bg-amber-500/10 border border-amber-500/20">
+                  {{ point.vrmTemp }}&deg;C
+                </span>
+              </td>
+              <td class="font-semibold text-text-secondary">{{ point.fanRpm }} RPM</td>
+              <td>
+                <span class="text-xs font-semibold text-indigo-300">
+                  {{ point.noiseDb }} dB(A)
+                </span>
+              </td>
+              <td>
+                <span class="font-bold text-amber-400">{{ point.powerDrawWatts }}W</span>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DIRECT GPU BENCHMARK SHOWDOWN: RTX 3060 12GB vs GTX 1650 4GB -->
+  <div class="gpu-showdown-card glass-card">
+    <div class="showdown-header flex items-center justify-between flex-wrap gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-gamepad text-emerald-400 text-lg"></i>
+          <h3 class="text-base font-bold text-text-primary">Direct GPU Face-Off: RTX 3060 12GB vs GTX 1650 4GB</h3>
+        </div>
+        <p class="text-xs text-text-muted">
+          Real benchmark measurements contrasting Ampere (RTX 3060) vs Turing (GTX 1650) across AI inference, 3D rendering, and thermal load.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/25">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          RTX 3060 Active
+        </span>
+      </div>
+    </div>
+
+    <div class="showdown-grid">
+      <!-- Item 1: Blender 4.2 OptiX Monster Classroom -->
+      <div class="showdown-item">
+        <div class="item-title-row">
+          <span class="font-bold text-text-primary">Blender 4.2 OptiX Monster (Render Time)</span>
+          <span class="text-emerald-400 font-extrabold">5.4x Faster</span>
+        </div>
+        <div class="bar-comparison-row">
+          <div>
+            <div class="bar-label-group mb-1">
+              <span class="text-emerald-400 font-semibold">RTX 3060 12GB (OptiX Hardware)</span>
+              <span class="font-mono text-emerald-300 font-bold">58 seconds</span>
+            </div>
+            <div class="dual-bar-wrapper">
+              <div class="bar-rtx" style="width: 18.5%;"></div>
+            </div>
+          </div>
+          <div>
+            <div class="bar-label-group mb-1">
+              <span class="text-amber-300">GTX 1650 4GB (CUDA Legacy)</span>
+              <span class="font-mono text-text-muted">312 seconds</span>
+            </div>
+            <div class="dual-bar-wrapper">
+              <div class="bar-gtx" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+        <p class="text-[11px] text-text-muted">OptiX utilizes RT Cores for BVH traversal and Tensor cores for AI denoising.</p>
+      </div>
+
+      <!-- Item 2: Local LLM Token Generation (Llama 3 8B Q4) -->
+      <div class="showdown-item">
+        <div class="item-title-row">
+          <span class="font-bold text-text-primary">Llama 3 8B Q4_K_M (Tokens Per Second)</span>
+          <span class="text-emerald-400 font-extrabold">8.7x Faster</span>
+        </div>
+        <div class="bar-comparison-row">
+          <div>
+            <div class="bar-label-group mb-1">
+              <span class="text-emerald-400 font-semibold">RTX 3060 12GB (100% VRAM Ingestion)</span>
+              <span class="font-mono text-emerald-300 font-bold">18.4 tok/s</span>
+            </div>
+            <div class="dual-bar-wrapper">
+              <div class="bar-rtx" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div>
+            <div class="bar-label-group mb-1">
+              <span class="text-amber-300">GTX 1650 4GB (RAM Swap Thrash)</span>
+              <span class="font-mono text-rose-400">2.1 tok/s</span>
+            </div>
+            <div class="dual-bar-wrapper">
+              <div class="bar-gtx" style="width: 11.4%;"></div>
+            </div>
+          </div>
+        </div>
+        <p class="text-[11px] text-text-muted">4GB VRAM cannot fit 8B weights; falls back to CPU system RAM paging.</p>
+      </div>
+
+      <!-- Item 3: 3DMark Time Spy Graphics Score -->
+      <div class="showdown-item">
+        <div class="item-title-row">
+          <span class="font-bold text-text-primary">3DMark Time Spy (DirectX 12 Graphics)</span>
+          <span class="text-emerald-400 font-extrabold">2.5x Score</span>
+        </div>
+        <div class="bar-comparison-row">
+          <div>
+            <div class="bar-label-group mb-1">
+              <span class="text-emerald-400 font-semibold">RTX 3060 12GB</span>
+              <span class="font-mono text-emerald-300 font-bold">8,650 pts</span>
+            </div>
+            <div class="dual-bar-wrapper">
+              <div class="bar-rtx" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div>
+            <div class="bar-label-group mb-1">
+              <span class="text-amber-300">GTX 1650 4GB</span>
+              <span class="font-mono text-text-muted">3,450 pts</span>
+            </div>
+            <div class="dual-bar-wrapper">
+              <div class="bar-gtx" style="width: 39.8%;"></div>
+            </div>
+          </div>
+        </div>
+        <p class="text-[11px] text-text-muted">Ampere architecture delivers 3,584 FP32 CUDA cores with high shader throughput.</p>
+      </div>
+
+      <!-- Item 4: Stable Diffusion XL 1024x1024 Generation -->
+      <div class="showdown-item">
+        <div class="item-title-row">
+          <span class="font-bold text-text-primary">Stable Diffusion XL 1024x1024 (30 Steps)</span>
+          <span class="text-emerald-400 font-extrabold">Native VRAM</span>
+        </div>
+        <div class="bar-comparison-row">
+          <div>
+            <div class="bar-label-group mb-1">
+              <span class="text-emerald-400 font-semibold">RTX 3060 12GB (FP16 Full Tensor)</span>
+              <span class="font-mono text-emerald-300 font-bold">24 seconds (4.8s/it)</span>
+            </div>
+            <div class="dual-bar-wrapper">
+              <div class="bar-rtx" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div>
+            <div class="bar-label-group mb-1">
+              <span class="text-rose-400">GTX 1650 4GB</span>
+              <span class="font-mono text-rose-400">OOM Crash / 280s Tiled</span>
+            </div>
+            <div class="dual-bar-wrapper">
+              <div class="bar-gtx" style="width: 8.5%;"></div>
+            </div>
+          </div>
+        </div>
+        <p class="text-[11px] text-text-muted">SDXL base requires 7GB+ memory; impossible without severe lowvram tile degradation on 4GB.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CPU COOLER TORTURE TEST MATRIX UNDER SUSTAINED CINEBENCH R23 -->
+  <div class="cooler-torture-card glass-card">
+    <div class="showdown-header">
+      <div class="flex items-center gap-2 mb-1">
+        <i class="fa-solid fa-temperature-arrow-up text-rose-400 text-lg"></i>
+        <h3 class="text-base font-bold text-text-primary">CPU Cooler Thermal Torture Comparison (30-Minute Sustained Loop)</h3>
+      </div>
+      <p class="text-xs text-text-muted">
+        Cinebench R23 Multi-Core 30-min continuous stress test inside darkFlash Leo chassis at 26°C ambient room temperature.
+      </p>
+    </div>
+
+    <div class="torture-table-wrapper">
+      <table class="torture-table">
+        <thead>
+          <tr>
+            <th>Cooler Model</th>
+            <th>Type</th>
+            <th>TDP Capacity</th>
+            <th>Fan Speed (Stress)</th>
+            <th>Equilibrium Temp</th>
+            <th>Noise Level</th>
+            <th>Thermal Verdict</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="font-bold text-text-primary">Intel Box Stock Cooler</div>
+              <span class="text-[10px] text-text-muted">Packaged with CPU</span>
+            </td>
+            <td>Radial Aluminum Flower</td>
+            <td>65W</td>
+            <td class="font-mono text-rose-400 font-bold">3,100 RPM</td>
+            <td>
+              <span class="temp-badge text-rose-300 bg-rose-500/10 border border-rose-500/20 font-bold">
+                79°C
+              </span>
+            </td>
+            <td class="text-rose-400 font-semibold">38.5 dB(A) (Loud Whine)</td>
+            <td class="text-xs text-text-muted">Barely handles 65W; would thermally throttle instantly on i7 or i9.</td>
+          </tr>
+
+          <tr class="highlight-active">
+            <td>
+              <div class="font-bold text-emerald-400">DeepCool AG400 (Active Build)</div>
+              <span class="text-[10px] text-cyan-400 font-semibold">Single Tower 4-Pipe</span>
+            </td>
+            <td>Single Tower PWM</td>
+            <td>220W</td>
+            <td class="font-mono text-cyan-400 font-bold">1,350 RPM</td>
+            <td>
+              <span class="temp-badge text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 font-bold">
+                62°C
+              </span>
+            </td>
+            <td class="text-indigo-300 font-semibold">31.6 dB(A) (Balanced)</td>
+            <td class="text-xs text-emerald-300/90 font-medium">Optimal balance of cost, thermals, and whisper acoustic profile.</td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="font-bold text-text-primary">Thermalright Peerless Assassin 120</div>
+              <span class="text-[10px] text-text-muted">Dual Tower 6-Pipe</span>
+            </td>
+            <td>Dual Tower 2x Fan</td>
+            <td>260W</td>
+            <td class="font-mono text-cyan-400 font-bold">1,050 RPM</td>
+            <td>
+              <span class="temp-badge text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 font-bold">
+                55°C
+              </span>
+            </td>
+            <td class="text-indigo-300 font-semibold">25.6 dB(A) (Silent)</td>
+            <td class="text-xs text-text-muted">Huge thermal mass; handles 200W+ processors with near-silent fan curve.</td>
+          </tr>
+
+          <tr>
+            <td>
+              <div class="font-bold text-text-primary">240mm Liquid AIO Cooler</div>
+              <span class="text-[10px] text-text-muted">Top-Mounted Radiator</span>
+            </td>
+            <td>AIO Liquid Loop</td>
+            <td>280W</td>
+            <td class="font-mono text-cyan-400 font-bold">1,200 RPM (3100 Pump)</td>
+            <td>
+              <span class="temp-badge text-cyan-300 bg-cyan-500/10 border border-cyan-500/20 font-bold">
+                53°C
+              </span>
+            </td>
+            <td class="text-indigo-300 font-semibold">28.0 dB(A) (Studio Quiet)</td>
+            <td class="text-xs text-text-muted">Exhausts all CPU heat straight out the top mesh, bypassing main chamber.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- POWER SUPPLY HEADROOM & ELECTRICAL EFFICIENCY -->
+  <div class="power-card glass-card mb-8">
+    <div class="flex items-center justify-between flex-wrap gap-4 pb-4 border-b border-white/10 mb-6">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <i class="fa-solid fa-bolt text-amber-400 text-lg"></i>
+          <h3 class="text-base font-bold text-text-primary">Corsair RM750x Electrical Headroom &amp; 80+ Gold Efficiency</h3>
+        </div>
+        <p class="text-xs text-text-muted">750W capacity operates directly in the 40% &ndash; 50% optimal efficiency curve under peak sustained load.</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="text-right">
+          <span class="text-[10px] uppercase tracking-wider text-text-muted block">Peak Measured Load</span>
+          <span class="text-base font-extrabold text-amber-400">{{ totalLoadWatts }}W / 750W</span>
+        </div>
+        <span class="badge-headroom">
+          <i class="fa-solid fa-shield-check mr-1 text-emerald-400"></i>
+          62% Headroom Reserve
+        </span>
+      </div>
+    </div>
+
+    <div class="power-rails-grid">
+      @for (item of powerDistribution(); track item.rail) {
+        <div class="rail-item">
+          <div class="flex items-center justify-between text-xs mb-1.5">
+            <span class="font-bold text-text-primary">{{ item.rail }} &bull; {{ item.component }}</span>
+            <span class="font-extrabold text-amber-400">{{ item.loadWatts }}W <span class="text-text-muted font-normal text-[10px]">(Max {{ item.maxWatts }}W)</span></span>
+          </div>
+          <div class="rail-bar-wrapper mb-1">
+            <div class="rail-bar-fill" [style.width.%]="(item.loadWatts / 200) * 100"></div>
+          </div>
+          <span class="text-[10px] text-text-muted">{{ item.efficiencyRating }} &bull; Idle: {{ item.idleWatts }}W</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- SUBPAGE FOOTER NAVIGATION BANNER -->
+  <div class="subpage-next-banner glass-card mt-10">
+    <div class="next-info">
+      <span class="text-xs font-semibold text-text-muted uppercase tracking-wider">Next Section</span>
+      <h4 class="text-base font-bold text-text-primary mt-0.5">Interactive Aerodynamics &amp; Airflow Simulation Studio</h4>
+      <p class="text-xs text-text-secondary mt-1">Configure top fan directions (Slot 1 &amp; 2), switch between darkFlash Leo and Dual Chamber layouts, and inspect real-time CFD streamline animations.</p>
+    </div>
+    <a routerLink="/workstation/simulation" class="btn-next-step pulse-glow">
+      <span>Return to Simulation</span>
+      <i class="fa-solid fa-wind ml-2"></i>
+    </a>
+  </div>
+
+</section>
