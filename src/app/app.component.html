@@ -1,10 +1,15 @@
 <app-starfield></app-starfield>
 <div class="noise-overlay"></div>
 
-<app-navbar></app-navbar>
+@if (!isWorkstation()) {
+  <app-navbar></app-navbar>
+}
 
 <main>
   <router-outlet></router-outlet>
 </main>
 
-<app-footer></app-footer>
+@if (!isWorkstation()) {
+  <app-footer></app-footer>
+}
+

@@ -1,0 +1,2021 @@
+      <section class="airflow-section">
+
+        <!-- SCHEMATIC BLUEPRINT STAGE & INSPECTOR GRID -->
+        <div class="schematic-layout-grid mb-8">
+          
+          <!-- LEFT / MAIN: SVG CHASSIS SCHEMATIC WITH ACCURATE DARKFLASH LEO PROPORTIONS -->
+          <div class="chassis-card glass-card">
+                        <!-- SIMULATION TOP FILTER & CONTROL TOOLBAR -->
+            <div class="sim-top-toolbar">
+              <!-- Top Row: Case Meta & Visual Overlays + Legend -->
+              <div class="sim-toolbar-top-row">
+                <div class="case-info-meta">
+                  <span class="case-badge">
+                    <i class="fa-solid fa-cube mr-1"></i>
+                    {{ currentLayout?.caseName }} ({{ currentLayout?.subtitle }})
+                  </span>
+                  <h3 class="case-title">{{ currentLayout?.name }}</h3>
+                </div>
+
+                <!-- Visual Overlays (Thermal Heatmap & Streamlines) & Legend -->
+                <div class="sim-toolbar-actions">
+                  <div class="toggle-pills-group">
+                    <button
+                      type="button"
+                      class="toggle-action-btn"
+                      [class.active]="showAirflowStreams()"
+                      (click)="toggleAirflowStreams()"
+                      title="Toggle real-time CFD airflow streamlines">
+                      <i class="fa-solid fa-water text-cyan-400"></i>
+                      <span>Streamlines</span>
+                    </button>
+                    <button
+                      type="button"
+                      class="toggle-action-btn"
+                      [class.active]="showThermalZones()"
+                      (click)="toggleThermalZones()"
+                      title="Toggle chassis thermal dissipation heatmap">
+                      <i class="fa-solid fa-fire text-amber-400"></i>
+                      <span>Heatmap</span>
+                    </button>
+                  </div>
+
+                  <div class="airflow-legend hidden sm:flex">
+                    <span class="legend-pill legend-cool">
+                      <span class="legend-dot bg-cyan-400"></span>
+                      Cool Intake
+                    </span>
+                    <span class="legend-pill legend-warm">
+                      <span class="legend-dot bg-emerald-400"></span>
+                      GPU Flow
+                    </span>
+                    <span class="legend-pill legend-exhaust">
+                      <span class="legend-dot bg-rose-500"></span>
+                      Exhaust
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Filter Controls Strip: Chassis Architecture & Fan Speed Profile -->
+              <div class="sim-filter-strip">
+                <!-- Chassis Architecture Layout Filter -->
+                <div class="filter-group">
+                  <span class="filter-label">
+                    <i class="fa-solid fa-server text-cyan-400 mr-1"></i> Chassis:
+                  </span>
+                  <div class="filter-pills">
+                    <button
+                      type="button"
+                      class="pill-btn"
+                      [class.active]="stagedLayoutId() === 'standard-mesh'"
+                      (click)="stageLayout('standard-mesh')">
+                      <span>darkFlash Leo (ATX)</span>
+                      @if (stagedLayoutId() === 'standard-mesh' && hasPendingLayoutChange()) {
+                        <span class="pending-tag">Staged</span>
+                      }
+                    </button>
+                    <button
+                      type="button"
+                      class="pill-btn"
+                      [class.active]="stagedLayoutId() === 'matrexx-40'"
+                      (click)="stageLayout('matrexx-40')">
+                      <span>DeepCool MATREXX 40</span>
+                      @if (stagedLayoutId() === 'matrexx-40' && hasPendingLayoutChange()) {
+                        <span class="pending-tag">Staged</span>
+                      }
+                    </button>
+                    <button
+                      type="button"
+                      class="pill-btn"
+                      [class.active]="stagedLayoutId() === 'dual-chamber'"
+                      (click)="stageLayout('dual-chamber')">
+                      <span>Dual-Chamber</span>
+                      @if (stagedLayoutId() === 'dual-chamber' && hasPendingLayoutChange()) {
+                        <span class="pending-tag">Staged</span>
+                      }
+                    </button>
+
+                    @if (hasPendingLayoutChange()) {
+                      <button type="button" class="apply-action-btn pulse-glow btn-sm" (click)="applyLayoutChange()">
+                        <i class="fa-solid fa-check mr-1"></i>
+                        <span>Apply</span>
+                      </button>
+                    }
+                  </div>
+                </div>
+
+                <!-- Fan Speed Profile Filter -->
+                <div class="filter-group">
+                  <span class="filter-label">
+                    <i class="fa-solid fa-gauge text-indigo-400 mr-1"></i> Speed:
+                  </span>
+                  <div class="filter-pills">
+                    @for (profile of speedProfiles(); track profile.profile) {
+                      <button
+                        type="button"
+                        class="pill-btn profile-btn"
+                        [class.active]="stagedSpeedProfile() === profile.profile"
+                        (click)="stageSpeedProfile(profile.profile)">
+                        <i class="fa-solid" [ngClass]="profile.icon"></i>
+                        <span>{{ profile.label }}</span>
+                      </button>
+                    }
+
+                    @if (hasPendingSpeedChange()) {
+                      <button type="button" class="apply-action-btn pulse-glow btn-sm" (click)="applySpeedProfileChange()">
+                        <i class="fa-solid fa-check mr-1"></i>
+                        <span>Apply</span>
+                      </button>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SVG Chassis Cross-Section Blueprint -->
+            <div class="chassis-stage-container">
+              <div class="blueprint-grid"></div>
+
+              <svg
+                class="chassis-svg"
+                viewBox="170 0 720 650"
+                xmlns="http://www.w3.org/2000/svg"
+                [style.--fan-duration]="fanAnimationDuration"
+                [style.--stream-duration]="streamlineAnimationDuration">
+                
+                <defs>
+                  <!-- Cool Intake Stream Gradient -->
+                  <linearGradient id="coolStreamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.9" />
+                    <stop offset="60%" stop-color="#38bdf8" stop-opacity="0.75" />
+                    <stop offset="100%" stop-color="#818cf8" stop-opacity="0.4" />
+                  </linearGradient>
+
+                  <!-- Heat Dissipation Gradient -->
+                  <linearGradient id="heatExchangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.6" />
+                    <stop offset="40%" stop-color="#f59e0b" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#ef4444" stop-opacity="0.9" />
+                  </linearGradient>
+
+                  <!-- GPU Upward Discharge Gradient -->
+                  <linearGradient id="gpuUpwardGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.85" />
+                    <stop offset="40%" stop-color="#f59e0b" stop-opacity="0.8" />
+                    <stop offset="100%" stop-color="#ef4444" stop-opacity="0.9" />
+                  </linearGradient>
+
+                  <!-- Exhaust Stream Gradient -->
+                  <linearGradient id="exhaustGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.9" />
+                    <stop offset="100%" stop-color="#ef4444" stop-opacity="0.85" />
+                  </linearGradient>
+
+                  <!-- Enhanced Glow Filter for Airflow Vectors -->
+                  <filter id="neonAirflowGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3.5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- ========================================================== -->
+                <!-- LAYOUT 1: STANDARD MESH - DARKFLASH LEO PROPORTIONAL CHASSIS -->
+                <!-- Dimensions: 349mm (Length/Depth) x 430mm (Height)          -->
+                <!-- Aspect Ratio: 349 / 430 = 0.8116 (Rendered: 440 x 540)      -->
+                <!-- ========================================================== -->
+                @if (appliedLayoutId() === 'standard-mesh') {
+                  
+                  <!-- PHYSICAL DIMENSION ANNOTATIONS -->
+                  <g class="chassis-dimensions" opacity="0.65">
+                    <!-- Height dimension indicator line (430 mm) -->
+                    <line x1="245" y1="45" x2="245" y2="585" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" />
+                    <line x1="238" y1="45" x2="252" y2="45" stroke="#64748b" stroke-width="1.5" />
+                    <line x1="238" y1="585" x2="252" y2="585" stroke="#64748b" stroke-width="1.5" />
+                    <text x="235" y="315" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1" transform="rotate(-90, 235, 315)">
+                      HEIGHT: 430 mm (darkFlash Leo)
+                    </text>
+
+                    <!-- Length/Depth dimension indicator line (349 mm) -->
+                    <line x1="280" y1="620" x2="720" y2="620" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" />
+                    <line x1="280" y1="613" x2="280" y2="627" stroke="#64748b" stroke-width="1.5" />
+                    <line x1="720" y1="613" x2="720" y2="627" stroke="#64748b" stroke-width="1.5" />
+                    <text x="500" y="638" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1">
+                      DEPTH: 349 mm • PROPORTION 1 : 1.232
+                    </text>
+                  </g>
+
+                  <!-- CHASSIS RUBBER FEET (Bottom Airflow Clearance for PSU) -->
+                  <rect x="310" y="585" width="40" height="18" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2" />
+                  <rect x="640" y="585" width="40" height="18" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2" />
+                  <line x1="310" y1="603" x2="680" y2="603" stroke="#475569" stroke-width="1" opacity="0.4" />
+
+                  <!-- CHASSIS OUTER FRAME (440px wide x 540px high = 349mm x 430mm) -->
+                  <rect x="280" y="45" width="440" height="540" rx="14" class="chassis-outer-shell" />
+                                    <!-- Case Inner Chamber -->
+                  <rect x="292" y="58" width="416" height="514" rx="8" class="chassis-inner-chamber" />
+
+                  <!-- REAL-TIME CUSTOMIZATION TELEMETRY OVERLAY -->
+                  <g class="blueprint-hud-telemetry" transform="translate(300, 68)">
+                    <rect x="0" y="0" width="400" height="22" rx="4" fill="rgba(2, 6, 23, 0.85)" stroke="rgba(6, 182, 212, 0.4)" stroke-width="0.8" />
+                    <text x="10" y="15" fill="#38bdf8" font-size="8" font-family="monospace" font-weight="700">
+                      CPU: {{ currentCpuConfig().shortName }} ({{ activeCustomizationAnalysis().estimatedCpuLoadTemp }})
+                    </text>
+                    <text x="140" y="15" fill="#34d399" font-size="8" font-family="monospace" font-weight="700">
+                      GPU: {{ currentGpuConfig().shortName }} ({{ activeCustomizationAnalysis().estimatedGpuLoadTemp }})
+                    </text>
+                    <text x="275" y="15" fill="#f59e0b" font-size="8" font-family="monospace" font-weight="700">
+                      {{ activeCustomizationAnalysis().totalSystemTdpWatts }}W • {{ activeCustomizationAnalysis().netPressureCfm > 0 ? '+' : '' }}{{ activeCustomizationAnalysis().netPressureCfm }} CFM
+                    </text>
+                  </g>
+
+                  <!-- FRONT PANEL: darkFlash Leo Geometric "Carbon Armor" Iron-Mesh -->
+                  <g class="front-mesh-panel cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'case'"
+                     (click)="selectComponent('case')">
+                    <!-- Angular Carbon Armor Bezel -->
+                    <polygon points="720,58 755,85 755,545 720,572" class="carbon-armor-bezel" />
+                    <rect x="720" y="58" width="16" height="514" rx="3" class="front-mesh-bar" />
+                    <!-- Geometric Facet Lines (darkFlash signature) -->
+                    <line x1="720" y1="175" x2="755" y2="200" stroke="#06b6d4" stroke-width="1.5" opacity="0.75" />
+                    <line x1="720" y1="315" x2="755" y2="340" stroke="#06b6d4" stroke-width="1.5" opacity="0.75" />
+                    <line x1="720" y1="455" x2="755" y2="480" stroke="#06b6d4" stroke-width="1.5" opacity="0.75" />
+                    <!-- Micro Perforation pattern -->
+                    <line x1="728" y1="70" x2="728" y2="560" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="3,3" opacity="0.9" />
+                    <text x="746" y="315" fill="#38bdf8" font-size="9" font-weight="700" letter-spacing="2" transform="rotate(90, 746, 315)">
+                      CARBON ARMOR MESH
+                    </text>
+                  </g>
+
+                  <!-- TOP PANEL: Magnetic Dust Filter & Dual 120mm Fan Mounts -->
+                  <g class="top-mesh-panel">
+                    <rect x="330" y="42" width="365" height="15" rx="3" class="top-vent-bar" />
+                    <line x1="335" y1="50" x2="690" y2="50" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+                    <text x="512" y="36" text-anchor="middle" fill="#94a3b8" font-size="8.5" font-weight="600" letter-spacing="0.5">
+                      TOP MAGNETIC DUST FILTER (2x 120mm MOUNTS)
+                    </text>
+
+                    <!-- TOP FAN 1 (Rear-Top Mount, x: 400) -->
+                    @if (appliedTopRearFan() === 'exhaust') {
+                      <g class="fan-node-group exhaust-node cursor-pointer"
+                         [class.node-selected]="selectedComponentId() === 'leo-top-fan-1'"
+                         (click)="selectComponent('leo-top-fan-1')">
+                        <rect x="350" y="46" width="100" height="24" rx="4" class="fan-bracket exhaust-bracket" />
+                        <g class="fan-symbol spin-fan" transform="translate(400, 58)">
+                          <circle cx="0" cy="0" r="13" class="fan-housing exhaust-housing" />
+                          <circle cx="0" cy="0" r="4.5" class="fan-hub exhaust-hub" />
+                          <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade-exhaust" />
+                          <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade-exhaust" />
+                          <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade-exhaust" />
+                          <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade-exhaust" />
+                        </g>
+                        <text x="400" y="80" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">TOP EXHAUST #1 &uarr;</text>
+                      </g>
+                    } @else if (appliedTopRearFan() === 'intake') {
+                      <g class="fan-node-group intake-node cursor-pointer"
+                         [class.node-selected]="selectedComponentId() === 'leo-top-fan-1'"
+                         (click)="selectComponent('leo-top-fan-1')">
+                        <rect x="350" y="46" width="100" height="24" rx="4" class="fan-bracket intake-bracket" />
+                        <g class="fan-symbol spin-fan" transform="translate(400, 58)">
+                          <circle cx="0" cy="0" r="13" class="fan-housing intake-housing" />
+                          <circle cx="0" cy="0" r="4.5" class="fan-hub intake-hub" />
+                          <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade" />
+                          <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade" />
+                          <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade" />
+                          <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade" />
+                        </g>
+                        <text x="400" y="80" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">TOP INTAKE #1 &darr;</text>
+                      </g>
+                    } @else {
+                      <g class="top-slot-passive cursor-pointer"
+                         [class.comp-selected]="selectedComponentId() === 'leo-top-fan-1'"
+                         (click)="selectComponent('leo-top-fan-1')">
+                        <text x="400" y="65" text-anchor="middle" fill="#64748b" font-size="7.5" font-style="italic">
+                          Slot #1: Passive Mesh
+                        </text>
+                      </g>
+                    }
+
+                    <!-- TOP FAN 2 (Front-Top Mount, x: 535) -->
+                    @if (appliedTopFrontFan() === 'exhaust') {
+                      <g class="fan-node-group exhaust-node cursor-pointer"
+                         [class.node-selected]="selectedComponentId() === 'leo-top-fan-2'"
+                         (click)="selectComponent('leo-top-fan-2')">
+                        <rect x="485" y="46" width="100" height="24" rx="4" class="fan-bracket exhaust-bracket" />
+                        <g class="fan-symbol spin-fan" transform="translate(535, 58)">
+                          <circle cx="0" cy="0" r="13" class="fan-housing exhaust-housing" />
+                          <circle cx="0" cy="0" r="4.5" class="fan-hub exhaust-hub" />
+                          <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade-exhaust" />
+                          <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade-exhaust" />
+                          <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade-exhaust" />
+                          <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade-exhaust" />
+                        </g>
+                        <text x="535" y="80" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">TOP EXHAUST #2 &uarr;</text>
+                      </g>
+                    } @else if (appliedTopFrontFan() === 'intake') {
+                      <g class="fan-node-group intake-node cursor-pointer"
+                         [class.node-selected]="selectedComponentId() === 'leo-top-fan-2'"
+                         (click)="selectComponent('leo-top-fan-2')">
+                        <rect x="485" y="46" width="100" height="24" rx="4" class="fan-bracket intake-bracket" />
+                        <g class="fan-symbol spin-fan" transform="translate(535, 58)">
+                          <circle cx="0" cy="0" r="13" class="fan-housing intake-housing" />
+                          <circle cx="0" cy="0" r="4.5" class="fan-hub intake-hub" />
+                          <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade" />
+                          <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade" />
+                          <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade" />
+                          <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade" />
+                        </g>
+                        <text x="535" y="80" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">TOP INTAKE #2 &darr;</text>
+                      </g>
+                    } @else {
+                      <g class="top-slot-passive cursor-pointer"
+                         [class.comp-selected]="selectedComponentId() === 'leo-top-fan-2'"
+                         (click)="selectComponent('leo-top-fan-2')">
+                        <text x="535" y="65" text-anchor="middle" fill="#64748b" font-size="7.5" font-style="italic">
+                          Slot #2: Passive Mesh
+                        </text>
+                      </g>
+                    }
+                  </g>
+
+                  <!-- LOWER PSU SHROUD TUNNEL & 750W PSU -->
+                  <g class="psu-shroud">
+                    <!-- Shroud Body (ends at x: 645, leaving cutout for Front Fan #3 air ingestion) -->
+                    <rect x="292" y="435" width="353" height="130" class="psu-shroud-box" />
+                    <!-- Forward Cutout Opening for Front Fan #3 Intake -->
+                    <line x1="645" y1="435" x2="645" y2="565" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4,4" opacity="0.6" />
+                    <line x1="292" y1="435" x2="645" y2="435" stroke="#6366f1" stroke-width="2" opacity="0.4" />
+
+                    <!-- 3.5" HDD & 2.5" SSD Drive Cage (Inside Shroud) -->
+                    <g class="drive-bay-assembly cursor-pointer"
+                       [class.comp-selected]="selectedComponentId() === 'hdd-bay'"
+                       (click)="selectComponent('hdd-bay')">
+                      <rect x="535" y="450" width="100" height="78" rx="6" class="component-block drive-cage-box" />
+                      <line x1="545" y1="475" x2="625" y2="475" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+                      <line x1="545" y1="500" x2="625" y2="500" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+                      <text x="585" y="470" text-anchor="middle" fill="#38bdf8" font-size="8.5" font-weight="700">2x 3.5" HDD BAY</text>
+                      <text x="585" y="492" text-anchor="middle" fill="#f8fafc" font-size="7.5">Cooled by Fan #3</text>
+                      <text x="585" y="512" text-anchor="middle" fill="#64748b" font-size="7">Direct Intake Channel</text>
+                    </g>
+
+                    <text x="315" y="455" fill="#94a3b8" font-size="9" font-weight="600" letter-spacing="0.5">
+                      DARKFLASH LEO SHROUD TUNNEL
+                    </text>
+
+                    <!-- 750W 80+ PSU Block -->
+                    <g class="psu-assembly-group cursor-pointer"
+                       [class.comp-selected]="selectedComponentId() === 'psu'"
+                       (click)="selectComponent('psu')">
+                      <rect x="305" y="458" width="145" height="75" rx="8" class="component-block psu-unit" />
+                      <text x="377" y="492" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="700">750W 80+ PSU</text>
+                      <text x="377" y="508" text-anchor="middle" fill="#94a3b8" font-size="8">Dual Intake: Fan #3 + Underside</text>
+                    </g>
+
+                    <!-- Bottom PSU Intake from underside -->
+                    <path d="M 377 590 L 377 540" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="3,3" />
+                    <polygon points="377,535 373,543 381,543" fill="#06b6d4" />
+                    <!-- PSU Exhaust out rear -->
+                    <path d="M 305 495 L 245 495" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="3,3" />
+                    <polygon points="240,495 248,491 248,499" fill="#f59e0b" />
+                  </g>
+
+                  <!-- MOTHERBOARD TRAY (ATX) -->
+                  <g class="motherboard-tray cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'vrm'"
+                     (click)="selectComponent('vrm')">
+                    <rect x="315" y="65" width="355" height="360" rx="8" class="component-block mobo-board" />
+                    <text x="330" y="85" fill="#64748b" font-size="9" font-weight="600" letter-spacing="0.5">
+                      INTEL B460 / B560 MOTHERBOARD
+                    </text>
+                    <rect x="325" y="95" width="28" height="90" rx="4" class="vrm-heatsink" />
+                    <text x="339" y="140" text-anchor="middle" fill="#94a3b8" font-size="8" transform="rotate(-90, 339, 140)">VRM HEATSINK</text>
+                  </g>
+
+                  <!-- 32GB DDR4 RAM SLOTS -->
+                  <g class="ram-modules cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'ram'"
+                     (click)="selectComponent('ram')">
+                    <rect x="505" y="90" width="9" height="100" rx="2" class="ram-stick" />
+                    <rect x="520" y="90" width="9" height="100" rx="2" class="ram-stick" />
+                    <text x="517" y="202" text-anchor="middle" fill="#818cf8" font-size="8" font-weight="700">32GB RAM</text>
+                  </g>
+
+                  <!-- M.2 NVMe SSD -->
+                  <g class="nvme-slot cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'nvme'"
+                     (click)="selectComponent('nvme')">
+                    <rect x="410" y="215" width="65" height="14" rx="3" class="nvme-stick" />
+                    <text x="442" y="225" text-anchor="middle" fill="#14b8a6" font-size="7.5" font-weight="700">1TB NVMe M.2</text>
+                  </g>
+
+                  <!-- DYNAMIC CPU COOLER (AG400 vs INTEL STOCK vs PEERLESS ASSASSIN vs 240mm AIO) -->
+                  <g class="cpu-cooler-assembly cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'cpu'"
+                     (click)="selectComponent('cpu')">
+                    @switch (selectedCoolerId()) {
+                      @case ('ag400') {
+                        <!-- DeepCool AG400 Single-Tower Heatsink -->
+                        <rect x="375" y="95" width="95" height="90" rx="6" class="ag400-tower-body" />
+                        <!-- 4x Copper Heatpipes -->
+                        <line x1="392" y1="95" x2="392" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="410" y1="95" x2="410" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="428" y1="95" x2="428" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="446" y1="95" x2="446" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <!-- Fin Array Lines -->
+                        <line x1="380" y1="110" x2="465" y2="110" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+                        <line x1="380" y1="125" x2="465" y2="125" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+                        <line x1="380" y1="140" x2="465" y2="140" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+                        <line x1="380" y1="155" x2="465" y2="155" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+                        <line x1="380" y1="170" x2="465" y2="170" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" />
+
+                        <!-- AG400 Fan Mounted to front of tower -->
+                        <g class="fan-symbol spin-fan" transform="translate(478, 140)">
+                          <circle cx="0" cy="0" r="26" class="fan-housing" />
+                          <circle cx="0" cy="0" r="8" class="fan-hub" />
+                          <path d="M 0 -22 C 6 -14 6 -6 0 0" class="fan-blade" />
+                          <path d="M 22 0 C 14 6 6 6 0 0" class="fan-blade" />
+                          <path d="M 0 22 C -6 14 -6 6 0 0" class="fan-blade" />
+                          <path d="M -22 0 C -14 -6 -6 -6 0 0" class="fan-blade" />
+                        </g>
+
+                        <text x="422" y="90" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="700">DeepCool AG400</text>
+                        <text x="422" y="198" text-anchor="middle" fill="#f8fafc" font-size="8">{{ currentCpuConfig().name }} ({{ dynamicCpuFanRpm() }} RPM)</text>
+                      }
+
+                      @case ('intel-stock') {
+                        <!-- Intel Box Stock Cooler (Radial Aluminum Flower) -->
+                        <circle cx="425" cy="140" r="42" class="stock-cooler-flower" />
+                        <!-- Radial Heatsink Spoke Lines -->
+                        <line x1="390" y1="140" x2="460" y2="140" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5" />
+                        <line x1="425" y1="105" x2="425" y2="175" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5" />
+                        <line x1="400" y1="115" x2="450" y2="165" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5" />
+                        <line x1="400" y1="165" x2="450" y2="115" stroke="rgba(56, 189, 248, 0.4)" stroke-width="1.5" />
+
+                        <!-- Intel 80mm High-RPM Fan -->
+                        <g class="fan-symbol spin-fan" transform="translate(425, 140)">
+                          <circle cx="0" cy="0" r="22" class="fan-housing" />
+                          <circle cx="0" cy="0" r="9" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
+                          <path d="M 0 -18 C 5 -10 5 -5 0 0" class="fan-blade" />
+                          <path d="M 18 0 C 10 5 5 5 0 0" class="fan-blade" />
+                          <path d="M 0 18 C -5 10 -5 5 0 0" class="fan-blade" />
+                          <path d="M -18 0 C -10 -5 -5 -5 0 0" class="fan-blade" />
+                        </g>
+
+                        <text x="425" y="88" text-anchor="middle" fill="#38bdf8" font-size="9.5" font-weight="700">Intel Box Stock Cooler</text>
+                        <text x="425" y="198" text-anchor="middle" fill="#ef4444" font-size="7.5" font-weight="600">High RPM ({{ dynamicCpuFanRpm() }} RPM)</text>
+                      }
+
+                      @case ('peerless-assassin') {
+                        <!-- Thermalright Peerless Assassin 120 (Dual-Tower) -->
+                        <rect x="360" y="95" width="46" height="90" rx="5" class="pa120-tower-body" />
+                        <rect x="428" y="95" width="46" height="90" rx="5" class="pa120-tower-body" />
+                        <!-- 6x Copper Heatpipes through both towers -->
+                        <line x1="365" y1="110" x2="470" y2="110" stroke="#f59e0b" stroke-width="2.5" />
+                        <line x1="365" y1="130" x2="470" y2="130" stroke="#f59e0b" stroke-width="2.5" />
+                        <line x1="365" y1="150" x2="470" y2="150" stroke="#f59e0b" stroke-width="2.5" />
+                        <line x1="365" y1="170" x2="470" y2="170" stroke="#f59e0b" stroke-width="2.5" />
+
+                        <!-- Fan 1 (Center Fan Sandwiched) -->
+                        <g class="fan-symbol spin-fan" transform="translate(417, 140)">
+                          <circle cx="0" cy="0" r="22" class="fan-housing" />
+                          <circle cx="0" cy="0" r="7" class="fan-hub" />
+                          <path d="M 0 -18 C 5 -10 5 -5 0 0" class="fan-blade" />
+                          <path d="M 18 0 C 10 5 5 5 0 0" class="fan-blade" />
+                          <path d="M 0 18 C -5 10 -5 5 0 0" class="fan-blade" />
+                          <path d="M -18 0 C -10 -5 -5 -5 0 0" class="fan-blade" />
+                        </g>
+
+                        <!-- Fan 2 (Front Push Fan) -->
+                        <g class="fan-symbol spin-fan" transform="translate(485, 140)">
+                          <circle cx="0" cy="0" r="22" class="fan-housing" />
+                          <circle cx="0" cy="0" r="7" class="fan-hub" />
+                          <path d="M 0 -18 C 5 -10 5 -5 0 0" class="fan-blade" />
+                          <path d="M 18 0 C 10 5 5 5 0 0" class="fan-blade" />
+                          <path d="M 0 18 C -5 10 -5 5 0 0" class="fan-blade" />
+                          <path d="M -18 0 C -10 -5 -5 -5 0 0" class="fan-blade" />
+                        </g>
+
+                        <text x="422" y="88" text-anchor="middle" fill="#818cf8" font-size="9.5" font-weight="700">Peerless Assassin 120</text>
+                        <text x="422" y="198" text-anchor="middle" fill="#34d399" font-size="7.5" font-weight="600">Dual-Tower • Whisper ({{ dynamicCpuFanRpm() }} RPM)</text>
+                      }
+
+                      @case ('aio-240') {
+                        <!-- 240mm Liquid AIO Cooler -->
+                        <!-- Top 240mm Radiator Body -->
+                        <rect x="375" y="44" width="200" height="26" rx="4" class="aio-top-rad" />
+                        <text x="475" y="60" text-anchor="middle" fill="#38bdf8" font-size="8" font-weight="700">240mm AIO RADIATOR ({{ dynamicCpuFanRpm() }} RPM)</text>
+
+                        <!-- Flexible Braided Coolant Tubes from CPU Block to Top Radiator -->
+                        <path d="M 416 115 Q 410 75 430 60" class="aio-tube-path" />
+                        <path d="M 438 115 Q 455 75 490 60" class="aio-tube-path" />
+
+                        <!-- CPU Waterblock Pump Unit -->
+                        <rect x="400" y="115" width="55" height="55" rx="27" class="aio-pump-block" />
+                        <circle cx="427" cy="142" r="16" fill="rgba(6,182,212,0.2)" stroke="#38bdf8" stroke-width="1.5" />
+                        <text x="427" y="145" text-anchor="middle" fill="#38bdf8" font-size="7" font-weight="700">3100 RPM</text>
+
+                        <text x="427" y="90" text-anchor="middle" fill="#06b6d4" font-size="10" font-weight="700">240mm Liquid AIO</text>
+                        <text x="427" y="198" text-anchor="middle" fill="#38bdf8" font-size="7.5" font-weight="600">Direct Top Exhaust • Zero Cavity Heat</text>
+                      }
+                    }
+                  </g>
+
+                  <!-- DYNAMIC GRAPHICS CARD (RTX 3060 TRIPLE-FAN 170W vs GTX 1650 DUAL-FAN 75W) -->
+                  <g class="gpu-card-assembly cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'gpu'"
+                     (click)="selectComponent('gpu')">
+
+                    @if (selectedGpuId() === 'rtx-3060') {
+                      <!-- RTX 3060 12GB: Full 320mm triple-fan card -->
+                      <rect x="320" y="255" width="320" height="80" rx="7" class="component-block gpu-shroud" />
+                      <line x1="318" y1="255" x2="318" y2="335" stroke="#10b981" stroke-width="5" stroke-linecap="round" />
+                      <text x="335" y="274" fill="#10b981" font-size="10.5" font-weight="700">
+                        NVIDIA GEFORCE RTX 3060 12GB
+                      </text>
+                      <text x="335" y="287" fill="#94a3b8" font-size="7.5">
+                        Triple Axial Fans • 170W TDP • Flow-Through Upward Plume
+                      </text>
+
+                      <!-- PCIe 8-Pin Auxiliary Power Plug -->
+                      <rect x="620" y="253" width="16" height="10" rx="2" fill="#1e293b" stroke="#10b981" stroke-width="1.5" />
+                      <line x1="624" y1="253" x2="624" y2="245" stroke="#10b981" stroke-width="2" />
+                      <line x1="632" y1="253" x2="632" y2="245" stroke="#10b981" stroke-width="2" />
+
+                      <!-- UPWARD AIRFLOW DISCHARGE INDICATOR VECTORS (170W THERMAL PLUME) -->
+                      <g class="gpu-upward-vectors">
+                        <path d="M 375 255 L 375 225" stroke="#10b981" stroke-width="2" stroke-dasharray="3,2" />
+                        <polygon points="375,220 371,228 379,228" fill="#10b981" />
+                        <path d="M 460 255 L 460 225" stroke="#10b981" stroke-width="2" stroke-dasharray="3,2" />
+                        <polygon points="460,220 456,228 464,228" fill="#10b981" />
+                        <path d="M 545 255 L 545 225" stroke="#10b981" stroke-width="2" stroke-dasharray="3,2" />
+                        <polygon points="545,220 541,228 549,228" fill="#10b981" />
+                        <text x="460" y="215" text-anchor="middle" fill="#34d399" font-size="7" font-weight="700" letter-spacing="0.5">
+                          ▲ UPWARD HEAT DISCHARGE (170W) ▲
+                        </text>
+                      </g>
+
+                      <!-- GPU Fan 1 (Left, x: 375) -->
+                      <g class="fan-symbol spin-fan" transform="translate(375, 305)">
+                        <circle cx="0" cy="0" r="18" class="gpu-fan-housing" />
+                        <circle cx="0" cy="0" r="6" class="gpu-fan-hub" />
+                        <path d="M 0 -15 C 4 -8 4 -4 0 0" class="gpu-blade" />
+                        <path d="M 15 0 C 8 4 4 4 0 0" class="gpu-blade" />
+                        <path d="M 0 15 C -4 8 -4 4 0 0" class="gpu-blade" />
+                        <path d="M -15 0 C -8 -4 -4 -4 0 0" class="gpu-blade" />
+                      </g>
+                      <!-- GPU Fan 2 (Center, x: 460) -->
+                      <g class="fan-symbol spin-fan" transform="translate(460, 305)">
+                        <circle cx="0" cy="0" r="18" class="gpu-fan-housing" />
+                        <circle cx="0" cy="0" r="6" class="gpu-fan-hub" />
+                        <path d="M 0 -15 C 4 -8 4 -4 0 0" class="gpu-blade" />
+                        <path d="M 15 0 C 8 4 4 4 0 0" class="gpu-blade" />
+                        <path d="M 0 15 C -4 8 -4 4 0 0" class="gpu-blade" />
+                        <path d="M -15 0 C -8 -4 -4 -4 0 0" class="gpu-blade" />
+                      </g>
+                      <!-- GPU Fan 3 (Right, x: 545) -->
+                      <g class="fan-symbol spin-fan" transform="translate(545, 305)">
+                        <circle cx="0" cy="0" r="18" class="gpu-fan-housing" />
+                        <circle cx="0" cy="0" r="6" class="gpu-fan-hub" />
+                        <path d="M 0 -15 C 4 -8 4 -4 0 0" class="gpu-blade" />
+                        <path d="M 15 0 C 8 4 4 4 0 0" class="gpu-blade" />
+                        <path d="M 0 15 C -4 8 -4 4 0 0" class="gpu-blade" />
+                        <path d="M -15 0 C -8 -4 -4 -4 0 0" class="gpu-blade" />
+                      </g>
+
+                      <!-- Underside Intake Flow Vectors -->
+                      <path d="M 375 358 L 375 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                      <polygon points="375,335 372,341 378,341" fill="#06b6d4" opacity="0.8" />
+                      <path d="M 460 358 L 460 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                      <polygon points="460,335 457,341 463,341" fill="#06b6d4" opacity="0.8" />
+                      <path d="M 545 358 L 545 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                      <polygon points="545,335 542,341 548,341" fill="#06b6d4" opacity="0.8" />
+
+                      <!-- PCIe Backplate Warm Air Vent out back -->
+                      <path d="M 318 295 L 235 295" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="3,3" />
+                      <polygon points="230,295 238,291 238,299" fill="#f59e0b" />
+
+                    } @else if (selectedGpuId() === 'gtx-1650') {
+                      <!-- GTX 1650 4GB: Compact 215mm dual-fan card (75W PCIe powered only) -->
+                      <rect x="425" y="255" width="215" height="80" rx="7" class="component-block gtx1650-shroud" />
+                      <line x1="423" y1="255" x2="423" y2="335" stroke="#14b8a6" stroke-width="4" stroke-linecap="round" />
+                      <text x="438" y="274" fill="#14b8a6" font-size="10" font-weight="700">
+                        NVIDIA GEFORCE GTX 1650 4GB
+                      </text>
+                      <text x="438" y="287" fill="#94a3b8" font-size="7.5">
+                        Dual Axial Fans • 75W PCIe Power • Minimal Heat Discharge
+                      </text>
+
+                      <!-- PCIe Slot Powered Only Badge (No 8-pin Aux Cable Needed) -->
+                      <rect x="525" y="325" width="105" height="14" rx="3" fill="rgba(20, 184, 166, 0.15)" stroke="#14b8a6" stroke-width="1" />
+                      <text x="577" y="335" text-anchor="middle" fill="#2dd4bf" font-size="6.5" font-weight="700">PCIe Slot Powered (75W)</text>
+
+                      <!-- GENTLE LOW-POWER HEAT CONVECTION VECTORS -->
+                      <g class="gpu-upward-vectors">
+                        <path d="M 480 255 L 480 232" stroke="#14b8a6" stroke-width="1.6" stroke-dasharray="2,2" />
+                        <polygon points="480,227 477,234 483,234" fill="#14b8a6" />
+                        <path d="M 575 255 L 575 232" stroke="#14b8a6" stroke-width="1.6" stroke-dasharray="2,2" />
+                        <polygon points="575,227 572,234 578,234" fill="#14b8a6" />
+                        <text x="530" y="222" text-anchor="middle" fill="#2dd4bf" font-size="6.5" font-weight="700">
+                          ▲ LOW CONVECTION HEAT (75W) ▲
+                        </text>
+                      </g>
+
+                      <!-- GPU Fan 1 (Left, x: 480) -->
+                      <g class="fan-symbol spin-fan" transform="translate(480, 305)">
+                        <circle cx="0" cy="0" r="17" class="gpu-fan-housing" stroke="#14b8a6" fill="rgba(20, 184, 166, 0.1)" />
+                        <circle cx="0" cy="0" r="5.5" class="gpu-fan-hub" fill="#14b8a6" />
+                        <path d="M 0 -14 C 4 -7 4 -3 0 0" class="gpu-blade" stroke="#2dd4bf" />
+                        <path d="M 14 0 C 7 4 3 4 0 0" class="gpu-blade" stroke="#2dd4bf" />
+                        <path d="M 0 14 C -4 7 -4 3 0 0" class="gpu-blade" stroke="#2dd4bf" />
+                        <path d="M -14 0 C -7 -4 -3 -4 0 0" class="gpu-blade" stroke="#2dd4bf" />
+                      </g>
+                      <!-- GPU Fan 2 (Right, x: 575) -->
+                      <g class="fan-symbol spin-fan" transform="translate(575, 305)">
+                        <circle cx="0" cy="0" r="17" class="gpu-fan-housing" stroke="#14b8a6" fill="rgba(20, 184, 166, 0.1)" />
+                        <circle cx="0" cy="0" r="5.5" class="gpu-fan-hub" fill="#14b8a6" />
+                        <path d="M 0 -14 C 4 -7 4 -3 0 0" class="gpu-blade" stroke="#2dd4bf" />
+                        <path d="M 14 0 C 7 4 3 4 0 0" class="gpu-blade" stroke="#2dd4bf" />
+                        <path d="M 0 14 C -4 7 -4 3 0 0" class="gpu-blade" stroke="#2dd4bf" />
+                        <path d="M -14 0 C -7 -4 -3 -4 0 0" class="gpu-blade" stroke="#2dd4bf" />
+                      </g>
+
+                      <!-- Underside Intake Flow Vectors -->
+                      <path d="M 480 358 L 480 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                      <polygon points="480,335 477,341 483,341" fill="#06b6d4" opacity="0.8" />
+                      <path d="M 575 358 L 575 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                      <polygon points="575,335 572,341 578,341" fill="#06b6d4" opacity="0.8" />
+
+                    } @else {
+                      <!-- AMD RADEON R7 360 2GB: Compact 210mm card (100W, 1x 6-Pin PCIe) -->
+                      <rect x="430" y="255" width="210" height="80" rx="7" class="component-block r7-360-shroud" fill="#180c14" stroke="#f43f5e" stroke-width="1.8" />
+                      <line x1="428" y1="255" x2="428" y2="335" stroke="#f43f5e" stroke-width="4" stroke-linecap="round" />
+                      <text x="442" y="274" fill="#f43f5e" font-size="10" font-weight="700">
+                        AMD RADEON R7 360 2GB
+                      </text>
+                      <text x="442" y="287" fill="#94a3b8" font-size="7.5">
+                        Tobago XT • 100W TDP • 1x 6-Pin PCIe Power Plug
+                      </text>
+
+                      <!-- 1x 6-Pin PCIe Auxiliary Plug -->
+                      <rect x="618" y="253" width="14" height="9" rx="2" fill="#1e293b" stroke="#f43f5e" stroke-width="1.2" />
+                      <line x1="622" y1="253" x2="622" y2="246" stroke="#f43f5e" stroke-width="1.8" />
+                      <line x1="628" y1="253" x2="628" y2="246" stroke="#f43f5e" stroke-width="1.8" />
+
+                      <!-- 100W CONVECTION VECTORS -->
+                      <g class="gpu-upward-vectors">
+                        <path d="M 525 255 L 525 228" stroke="#f43f5e" stroke-width="1.8" stroke-dasharray="2,2" />
+                        <polygon points="525,223 522,230 528,230" fill="#f43f5e" />
+                        <text x="530" y="218" text-anchor="middle" fill="#fb7185" font-size="6.5" font-weight="700">
+                          ▲ 100W DIRECT EXHAUST ▲
+                        </text>
+                      </g>
+
+                      <!-- GPU Fan (Single 90mm Axial Fan, Center x: 525) -->
+                      <g class="fan-symbol spin-fan" transform="translate(525, 305)">
+                        <circle cx="0" cy="0" r="21" class="gpu-fan-housing" stroke="#f43f5e" fill="rgba(244, 63, 94, 0.12)" />
+                        <circle cx="0" cy="0" r="7" class="gpu-fan-hub" fill="#f43f5e" />
+                        <path d="M 0 -17 C 5 -9 5 -4 0 0" class="gpu-blade" stroke="#fb7185" stroke-width="2" />
+                        <path d="M 17 0 C 9 5 4 5 0 0" class="gpu-blade" stroke="#fb7185" stroke-width="2" />
+                        <path d="M 0 17 C -5 9 -5 4 0 0" class="gpu-blade" stroke="#fb7185" stroke-width="2" />
+                        <path d="M -17 0 C -9 -5 -4 -5 0 0" class="gpu-blade" stroke="#fb7185" stroke-width="2" />
+                      </g>
+
+                      <!-- Underside Intake Flow Vectors -->
+                      <path d="M 525 358 L 525 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                      <polygon points="525,335 522,341 528,341" fill="#06b6d4" opacity="0.8" />
+                      <!-- PCIe Backplate Vent -->
+                      <path d="M 428 295 L 350 295" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3" />
+                      <polygon points="345,295 353,291 353,299" fill="#f59e0b" />
+                    }
+
+                  </g>
+
+                  <!-- 3x FRONT INTAKE FANS (120mm PWM) -->
+                  <!-- Front Fan 1 (Top Intake, y: 115) -->
+                  <g class="fan-node-group intake-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'front-fan-1'"
+                     (click)="selectComponent('front-fan-1')">
+                    <rect x="675" y="65" width="28" height="100" rx="5" class="fan-bracket intake-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(689, 115)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing intake-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub intake-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade" />
+                    </g>
+                    <text x="689" y="178" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">INTAKE #1</text>
+                  </g>
+
+                  <!-- Front Fan 2 (Middle Intake, y: 240) -->
+                  <g class="fan-node-group intake-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'front-fan-2'"
+                     (click)="selectComponent('front-fan-2')">
+                    <rect x="675" y="190" width="28" height="100" rx="5" class="fan-bracket intake-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(689, 240)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing intake-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub intake-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade" />
+                    </g>
+                    <text x="689" y="303" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">INTAKE #2</text>
+                  </g>
+
+                  <!-- Front Fan 3 (Bottom Intake, y: 395 - Dual Zone: Motherboard & PSU Shroud Intake) -->
+                  <g class="fan-node-group intake-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'front-fan-3'"
+                     (click)="selectComponent('front-fan-3')">
+                    <rect x="675" y="340" width="28" height="105" rx="5" class="fan-bracket intake-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(689, 392)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing intake-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub intake-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade" />
+                    </g>
+                    <text x="689" y="458" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">INTAKE #3</text>
+                    <text x="689" y="469" text-anchor="middle" fill="#38bdf8" font-size="6.5" font-weight="600">GPU &amp; PSU FLOW</text>
+                  </g>
+
+                  <!-- 1x REAR EXHAUST FAN (120mm PWM) -->
+                  <g class="fan-node-group exhaust-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'rear-fan-1'"
+                     (click)="selectComponent('rear-fan-1')">
+                    <rect x="295" y="85" width="28" height="100" rx="5" class="fan-bracket exhaust-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(309, 135)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing exhaust-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub exhaust-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade-exhaust" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade-exhaust" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade-exhaust" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade-exhaust" />
+                    </g>
+                    <text x="309" y="198" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">REAR EXHAUST</text>
+                  </g>
+
+                  <!-- THERMAL HEATMAP ZONES OVERLAY -->
+                  @if (showThermalZones()) {
+                    <g class="thermal-zones-layer" opacity="0.32">
+                      <!-- Cool Ambient Front Chamber -->
+                      <ellipse cx="630" cy="250" rx="75" ry="160" fill="#06b6d4" />
+                      <!-- RAM & Socket Inflow -->
+                      <ellipse cx="515" cy="140" rx="40" ry="60" fill="#38bdf8" />
+                      <!-- CPU Heatsink Heat Zone -->
+                      <ellipse cx="420" cy="140" rx="50" ry="45" fill="#f59e0b" />
+                      <!-- GPU Thermal Core -->
+                      <ellipse cx="460" cy="295" rx="100" ry="32" fill="#f97316" />
+                      <!-- Exhaust Plume Zone -->
+                      <ellipse cx="309" cy="135" rx="35" ry="50" fill="#ef4444" />
+                      <!-- Top Fans Thermal Zones according to direction -->
+                      @if (appliedTopRearFan() === 'exhaust') {
+                        <ellipse cx="400" cy="65" rx="38" ry="20" fill="#ef4444" />
+                      } @else if (appliedTopRearFan() === 'intake') {
+                        <ellipse cx="400" cy="65" rx="38" ry="20" fill="#06b6d4" />
+                      }
+
+                      @if (appliedTopFrontFan() === 'exhaust') {
+                        <ellipse cx="535" cy="65" rx="38" ry="20" fill="#f59e0b" />
+                      } @else if (appliedTopFrontFan() === 'intake') {
+                        <ellipse cx="535" cy="65" rx="38" ry="20" fill="#06b6d4" />
+                      }
+                      <!-- Lower PSU Shroud Cool Stream -->
+                      <ellipse cx="550" cy="490" rx="60" ry="20" fill="#06b6d4" />
+                    </g>
+                  }
+
+                  <!-- ANIMATED AIRFLOW STREAMLINES & VECTORS -->
+                  @if (showAirflowStreams()) {
+                    <g class="airflow-streamlines" filter="url(#neonAirflowGlow)">
+                      <!-- Flow 1: Front Intake #1 -> Direct through AG400 CPU Cooler -> Rear Exhaust -->
+                      <path
+                        d="M 830 115 L 720 115 L 505 125 L 478 138 L 375 140 L 320 140 L 210 140"
+                        class="streamline-path stream-direct-cpu" />
+
+                      <path
+                        d="M 830 95 L 720 95 Q 600 95 515 110 Q 440 120 320 130 L 210 130"
+                        class="streamline-path stream-top-bypass" />
+
+                      <!-- Flow 2: Front Intake #2 -> Feeds RTX 3060 and Chipset -->
+                      <path
+                        d="M 830 240 L 720 240 Q 620 245 545 285 L 460 295 L 340 295 L 210 295"
+                        class="streamline-path stream-gpu-feed" />
+
+                      <!-- Flow 3: GPU Upward Flow-Through Streamlines Discharging Heat Above -->
+                      <!-- GPU Rear Fan Upward Streamline -->
+                      <path
+                        d="M 375 360 L 375 305 Q 375 220 340 165 L 309 145 L 210 145"
+                        class="streamline-path stream-gpu-core" />
+
+                      <!-- GPU Center Fan Upward Streamline (Top-Rear Slot #1 Exhaust) -->
+                      @if (appliedTopRearFan() === 'exhaust') {
+                        <path
+                          d="M 460 360 L 460 290 Q 450 190 410 90 L 400 35 L 400 0"
+                          class="streamline-path stream-top-fan-exhaust" />
+                        <polygon points="400,-5 396,5 404,5" fill="#ef4444" />
+                      } @else {
+                        <path
+                          d="M 460 360 L 460 290 Q 460 215 390 160 L 309 140 L 210 140"
+                          class="streamline-path stream-gpu-core" />
+                      }
+
+                      <!-- Top-Rear Slot #1 Inflow Streamline (if configured as Intake) -->
+                      @if (appliedTopRearFan() === 'intake') {
+                        <path
+                          d="M 400 5 L 400 45 L 390 95 L 360 130"
+                          class="streamline-path stream-top-bypass" />
+                        <polygon points="400,55 396,45 404,45" fill="#06b6d4" />
+                      }
+
+                      <!-- GPU Front Fan Upward Streamline (Top-Front Slot #2 Exhaust) -->
+                      @if (appliedTopFrontFan() === 'exhaust') {
+                        <path
+                          d="M 545 360 L 545 290 Q 542 180 538 90 L 535 35 L 535 0"
+                          class="streamline-path stream-top-fan-exhaust" />
+                        <polygon points="535,-5 531,5 539,5" fill="#ef4444" />
+                      } @else {
+                        <path
+                          d="M 545 360 L 545 290 Q 520 210 420 165 L 309 142 L 210 142"
+                          class="streamline-path stream-gpu-core" />
+                      }
+
+                      <!-- Top-Front Slot #2 Inflow Streamline (Direct RAM & AG400 Cooler Feed) -->
+                      @if (appliedTopFrontFan() === 'intake') {
+                        <path
+                          d="M 535 5 L 535 45 Q 535 90 515 115 L 478 138"
+                          class="streamline-path stream-top-bypass" />
+                        <polygon points="535,55 531,45 539,45" fill="#06b6d4" />
+                      }
+
+                      <!-- Flow 4A: Front Intake #3 -> Upper branch over PCIe slots to GPU Underside -->
+                      <path
+                        d="M 830 380 L 720 380 Q 620 385 545 360 L 460 360 L 375 360"
+                        class="streamline-path stream-bottom-intake" />
+
+                      <!-- Flow 4B: Front Intake #3 -> Cutout into Lower PSU Shroud & 3.5" HDD Cage -->
+                      <path
+                        d="M 830 405 L 720 405 L 645 490 L 535 490 L 435 490 L 305 490 L 210 495"
+                        class="streamline-path stream-psu-intake" />
+
+                      <!-- Flow 5: Underside 750W PSU Intake from below chassis -->
+                      <path
+                        d="M 377 630 L 377 560 L 377 495 L 305 495 L 210 495"
+                        class="streamline-path stream-direct-cpu" />
+
+                      <!-- Arrow Heads along flow vectors -->
+                      <polygon points="760,115 748,110 748,120" fill="#06b6d4" />
+                      <polygon points="760,240 748,235 748,245" fill="#06b6d4" />
+                      <polygon points="760,395 748,390 748,400" fill="#06b6d4" />
+                      <polygon points="650,490 660,485 660,495" fill="#06b6d4" />
+                      <polygon points="210,140 222,135 222,145" fill="#ef4444" />
+                      <polygon points="210,295 222,290 222,300" fill="#f59e0b" />
+                      <polygon points="210,495 222,490 222,500" fill="#f59e0b" />
+                    </g>
+                  }
+
+                } @else if (appliedLayoutId() === 'matrexx-40') {
+                  
+                  <!-- ========================================================== -->
+                  <!-- LAYOUT 2: DEEPCOOL MATREXX 40 3FS CHASSIS SCHEMATIC         -->
+                  <!-- Dimensions: 400mm (Depth) x 215mm (Width) x 431mm (Height)  -->
+                  <!-- Pre-installed 3x 120mm Tri-Color Fans (2 Front + 1 Rear)   -->
+                  <!-- ========================================================== -->
+
+                  <!-- PHYSICAL DIMENSION ANNOTATIONS -->
+                  <g class="chassis-dimensions" opacity="0.65">
+                    <!-- Height dimension indicator line (431 mm) -->
+                    <line x1="225" y1="45" x2="225" y2="585" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" />
+                    <line x1="218" y1="45" x2="232" y2="45" stroke="#64748b" stroke-width="1.5" />
+                    <line x1="218" y1="585" x2="232" y2="585" stroke="#64748b" stroke-width="1.5" />
+                    <text x="215" y="315" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1" transform="rotate(-90, 215, 315)">
+                      HEIGHT: 431 mm (DeepCool MATREXX 40 3FS)
+                    </text>
+
+                    <!-- Length/Depth dimension indicator line (400 mm) -->
+                    <line x1="260" y1="620" x2="740" y2="620" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" />
+                    <line x1="260" y1="613" x2="260" y2="627" stroke="#64748b" stroke-width="1.5" />
+                    <line x1="740" y1="613" x2="740" y2="627" stroke="#64748b" stroke-width="1.5" />
+                    <text x="500" y="638" text-anchor="middle" fill="#94a3b8" font-size="10" font-weight="700" letter-spacing="1">
+                      DEPTH: 400 mm • Micro-ATX High Airflow
+                    </text>
+                  </g>
+
+                  <!-- CHASSIS RUBBER FEET (Bottom Airflow Clearance for Corsair CV650) -->
+                  <rect x="290" y="585" width="42" height="18" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2" />
+                  <rect x="660" y="585" width="42" height="18" rx="4" fill="#334155" stroke="#0f172a" stroke-width="2" />
+                  <line x1="290" y1="603" x2="700" y2="603" stroke="#475569" stroke-width="1" opacity="0.4" />
+
+                  <!-- CHASSIS OUTER FRAME (480px wide x 540px high) -->
+                  <rect x="260" y="45" width="480" height="540" rx="14" class="chassis-outer-shell" />
+                  <!-- Case Inner Chamber -->
+                  <rect x="272" y="58" width="456" height="514" rx="8" class="chassis-inner-chamber" />
+
+                  <!-- FRONT PANEL: DeepCool Geometric Slotted Mesh -->
+                  <g class="front-mesh-panel cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'case'"
+                     (click)="selectComponent('case')">
+                    <rect x="740" y="58" width="18" height="514" rx="4" fill="#091424" stroke="#06b6d4" stroke-width="2" />
+                    <!-- Slotted Vertical Ventilation Slits -->
+                    <line x1="746" y1="70" x2="746" y2="560" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="8,5" opacity="0.9" />
+                    <line x1="752" y1="80" x2="752" y2="550" stroke="#06b6d4" stroke-width="2" stroke-dasharray="6,4" opacity="0.7" />
+                    <text x="765" y="315" fill="#38bdf8" font-size="8.5" font-weight="700" letter-spacing="2" transform="rotate(90, 765, 315)">
+                      DEEPCOOL MESH GRILLE
+                    </text>
+                  </g>
+
+                  <!-- TOP PANEL: Magnetic Dust Filter & Dual Optional Fan Mounts -->
+                  <g class="top-mesh-panel">
+                    <rect x="310" y="42" width="400" height="15" rx="3" class="top-vent-bar" />
+                    <line x1="315" y1="50" x2="705" y2="50" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.5" />
+                    <text x="510" y="36" text-anchor="middle" fill="#94a3b8" font-size="8.5" font-weight="600" letter-spacing="0.5">
+                      TOP MAGNETIC FILTER (2x 120mm / 140mm MOUNTS)
+                    </text>
+
+                    <!-- Top Rear Slot #1 -->
+                    @if (appliedTopRearFan() === 'exhaust') {
+                      <g class="fan-node-group exhaust-node cursor-pointer"
+                         [class.node-selected]="selectedComponentId() === 'leo-top-fan-1'"
+                         (click)="selectComponent('leo-top-fan-1')">
+                        <rect x="340" y="46" width="100" height="24" rx="4" class="fan-bracket exhaust-bracket" />
+                        <g class="fan-symbol spin-fan" transform="translate(390, 58)">
+                          <circle cx="0" cy="0" r="13" class="fan-housing exhaust-housing" />
+                          <circle cx="0" cy="0" r="4.5" class="fan-hub exhaust-hub" />
+                          <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade-exhaust" />
+                          <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade-exhaust" />
+                          <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade-exhaust" />
+                          <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade-exhaust" />
+                        </g>
+                        <text x="390" y="80" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">TOP EXHAUST #1 &uarr;</text>
+                      </g>
+                    } @else if (appliedTopRearFan() === 'intake') {
+                      <g class="fan-node-group intake-node cursor-pointer"
+                         [class.node-selected]="selectedComponentId() === 'leo-top-fan-1'"
+                         (click)="selectComponent('leo-top-fan-1')">
+                        <rect x="340" y="46" width="100" height="24" rx="4" class="fan-bracket intake-bracket" />
+                        <g class="fan-symbol spin-fan" transform="translate(390, 58)">
+                          <circle cx="0" cy="0" r="13" class="fan-housing intake-housing" />
+                          <circle cx="0" cy="0" r="4.5" class="fan-hub intake-hub" />
+                          <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade" />
+                          <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade" />
+                          <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade" />
+                          <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade" />
+                        </g>
+                        <text x="390" y="80" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">TOP INTAKE #1 &darr;</text>
+                      </g>
+                    } @else {
+                      <g class="top-slot-passive cursor-pointer"
+                         [class.comp-selected]="selectedComponentId() === 'leo-top-fan-1'"
+                         (click)="selectComponent('leo-top-fan-1')">
+                        <text x="390" y="65" text-anchor="middle" fill="#64748b" font-size="7.5" font-style="italic">
+                          Slot #1: Passive Mesh
+                        </text>
+                      </g>
+                    }
+
+                    <!-- Top Front Slot #2 -->
+                    @if (appliedTopFrontFan() === 'exhaust') {
+                      <g class="fan-node-group exhaust-node cursor-pointer"
+                         [class.node-selected]="selectedComponentId() === 'leo-top-fan-2'"
+                         (click)="selectComponent('leo-top-fan-2')">
+                        <rect x="520" y="46" width="100" height="24" rx="4" class="fan-bracket exhaust-bracket" />
+                        <g class="fan-symbol spin-fan" transform="translate(570, 58)">
+                          <circle cx="0" cy="0" r="13" class="fan-housing exhaust-housing" />
+                          <circle cx="0" cy="0" r="4.5" class="fan-hub exhaust-hub" />
+                          <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade-exhaust" />
+                          <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade-exhaust" />
+                          <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade-exhaust" />
+                          <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade-exhaust" />
+                        </g>
+                        <text x="570" y="80" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">TOP EXHAUST #2 &uarr;</text>
+                      </g>
+                    } @else if (appliedTopFrontFan() === 'intake') {
+                      <g class="fan-node-group intake-node cursor-pointer"
+                         [class.node-selected]="selectedComponentId() === 'leo-top-fan-2'"
+                         (click)="selectComponent('leo-top-fan-2')">
+                        <rect x="520" y="46" width="100" height="24" rx="4" class="fan-bracket intake-bracket" />
+                        <g class="fan-symbol spin-fan" transform="translate(570, 58)">
+                          <circle cx="0" cy="0" r="13" class="fan-housing intake-housing" />
+                          <circle cx="0" cy="0" r="4.5" class="fan-hub intake-hub" />
+                          <path d="M 0 -11 C 3 -7 3 -3 0 0" class="fan-blade" />
+                          <path d="M 11 0 C 7 3 3 3 0 0" class="fan-blade" />
+                          <path d="M 0 11 C -3 7 -3 3 0 0" class="fan-blade" />
+                          <path d="M -11 0 C -7 -3 -3 -3 0 0" class="fan-blade" />
+                        </g>
+                        <text x="570" y="80" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">TOP INTAKE #2 &darr;</text>
+                      </g>
+                    } @else {
+                      <g class="top-slot-passive cursor-pointer"
+                         [class.comp-selected]="selectedComponentId() === 'leo-top-fan-2'"
+                         (click)="selectComponent('leo-top-fan-2')">
+                        <text x="570" y="65" text-anchor="middle" fill="#64748b" font-size="7.5" font-style="italic">
+                          Slot #2: Passive Mesh
+                        </text>
+                      </g>
+                    }
+                  </g>
+
+                  <!-- LOWER PSU SHROUD TUNNEL & CORSAIR CV650 PSU -->
+                  <g class="psu-shroud">
+                    <rect x="272" y="435" width="400" height="130" class="psu-shroud-box" />
+                    <line x1="672" y1="435" x2="672" y2="565" stroke="#06b6d4" stroke-width="2" stroke-dasharray="4,4" opacity="0.6" />
+                    <line x1="272" y1="435" x2="672" y2="435" stroke="#10b981" stroke-width="2" opacity="0.4" />
+
+                    <!-- 2TB Mechanical HDD Bay (Inside Shroud) -->
+                    <g class="drive-bay-assembly cursor-pointer"
+                       [class.comp-selected]="selectedComponentId() === 'hdd-bay'"
+                       (click)="selectComponent('hdd-bay')">
+                      <rect x="545" y="450" width="115" height="78" rx="6" class="component-block drive-cage-box" />
+                      <line x1="555" y1="475" x2="650" y2="475" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+                      <line x1="555" y1="500" x2="650" y2="500" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+                      <text x="602" y="470" text-anchor="middle" fill="#38bdf8" font-size="8.5" font-weight="700">2TB HDD DRIVE CAGE</text>
+                      <text x="602" y="492" text-anchor="middle" fill="#f8fafc" font-size="7.5">Cooled by Front Bottom Fan</text>
+                      <text x="602" y="512" text-anchor="middle" fill="#64748b" font-size="7">7200 RPM Data Storage</text>
+                    </g>
+
+                    <text x="290" y="455" fill="#94a3b8" font-size="9" font-weight="600" letter-spacing="0.5">
+                      DEEPCOOL MATREXX 40 PSU SHROUD
+                    </text>
+
+                    <!-- Corsair CV650 (650W Bronze) PSU Unit -->
+                    <g class="psu-assembly-group cursor-pointer"
+                       [class.comp-selected]="selectedComponentId() === 'psu'"
+                       (click)="selectComponent('psu')">
+                      <rect x="285" y="458" width="155" height="75" rx="8" class="component-block psu-unit" />
+                      <text x="362" y="492" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="700">CORSAIR CV650 (650W)</text>
+                      <text x="362" y="508" text-anchor="middle" fill="#94a3b8" font-size="8">80+ Bronze • Thermally Regulated Fan</text>
+                    </g>
+
+                    <!-- Underside PSU Intake -->
+                    <path d="M 362 590 L 362 540" stroke="#06b6d4" stroke-width="2.5" stroke-dasharray="3,3" />
+                    <polygon points="362,535 358,543 366,543" fill="#06b6d4" />
+                    <!-- PSU Exhaust out rear -->
+                    <path d="M 285 495 L 225 495" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="3,3" />
+                    <polygon points="220,495 228,491 228,499" fill="#f59e0b" />
+                  </g>
+
+                  <!-- GIGABYTE B660M DS3H DDR4 MOTHERBOARD (Micro-ATX) -->
+                  <g class="motherboard-tray cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'vrm'"
+                     (click)="selectComponent('vrm')">
+                    <rect x="300" y="65" width="370" height="360" rx="8" class="component-block mobo-board" />
+                    <text x="315" y="85" fill="#64748b" font-size="9" font-weight="600" letter-spacing="0.5">
+                      GIGABYTE B660M DS3H DDR4 (Micro-ATX • LGA 1700)
+                    </text>
+                    <rect x="310" y="95" width="28" height="90" rx="4" class="vrm-heatsink" />
+                    <text x="324" y="140" text-anchor="middle" fill="#94a3b8" font-size="8" transform="rotate(-90, 324, 140)">6+2+1 VRM</text>
+                  </g>
+
+                  <!-- 16GB CORSAIR VENGEANCE LPX RAM -->
+                  <g class="ram-modules cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'ram'"
+                     (click)="selectComponent('ram')">
+                    <rect x="520" y="90" width="8" height="95" rx="2" class="ram-stick" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.5" />
+                    <rect x="535" y="90" width="8" height="95" rx="2" class="ram-stick" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.5" />
+                    <text x="531" y="200" text-anchor="middle" fill="#818cf8" font-size="8" font-weight="700">16GB LPX</text>
+                  </g>
+
+                  <!-- SAMSUNG 980 PRO 250GB PCIe 4.0 NVMe SSD -->
+                  <g class="nvme-slot cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'nvme'"
+                     (click)="selectComponent('nvme')">
+                    <rect x="420" y="215" width="75" height="14" rx="3" class="nvme-stick" fill="#042f2e" stroke="#14b8a6" stroke-width="1.5" />
+                    <text x="457" y="225" text-anchor="middle" fill="#14b8a6" font-size="7.5" font-weight="700">980 PRO 4.0 (6,400MB/s)</text>
+                  </g>
+
+                  <!-- DYNAMIC CPU COOLER (AG400 / INTEL STOCK / PA120 / AIO) -->
+                  <g class="cpu-cooler-assembly cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'cpu'"
+                     (click)="selectComponent('cpu')">
+                    @switch (selectedCoolerId()) {
+                      @case ('ag400') {
+                        <rect x="375" y="95" width="95" height="90" rx="6" class="ag400-tower-body" />
+                        <line x1="392" y1="95" x2="392" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="410" y1="95" x2="410" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="428" y1="95" x2="428" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <line x1="446" y1="95" x2="446" y2="185" stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round" />
+                        <text x="422" y="145" text-anchor="middle" fill="#38bdf8" font-size="9" font-weight="700">DeepCool AG400</text>
+                      }
+                      @case ('intel-stock') {
+                        <circle cx="422" cy="142" r="38" fill="#1e293b" stroke="#0284c7" stroke-width="2.5" />
+                        <circle cx="422" cy="142" r="14" fill="#0284c7" />
+                        <text x="422" y="145" text-anchor="middle" fill="#ffffff" font-size="8" font-weight="700">Laminar RM1</text>
+                      }
+                      @case ('peerless-assassin') {
+                        <rect x="345" y="90" width="70" height="95" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8" />
+                        <rect x="430" y="90" width="70" height="95" rx="5" fill="#1e293b" stroke="#38bdf8" stroke-width="1.8" />
+                        <text x="422" y="145" text-anchor="middle" fill="#38bdf8" font-size="8.5" font-weight="700">PA120 Dual Tower</text>
+                      }
+                      @case ('aio-240') {
+                        <circle cx="422" cy="142" r="30" fill="#091428" stroke="#06b6d4" stroke-width="2.5" />
+                        <text x="422" y="145" text-anchor="middle" fill="#38bdf8" font-size="8" font-weight="700">240mm AIO</text>
+                      }
+                    }
+                  </g>
+
+                  <!-- DYNAMIC GRAPHICS CARD IN MATREXX 40 -->
+                  <g class="gpu-card-assembly cursor-pointer"
+                     [class.comp-selected]="selectedComponentId() === 'gpu'"
+                     (click)="selectComponent('gpu')">
+                    @if (selectedGpuId() === 'r7-360') {
+                      <!-- AMD Radeon R7 360 2GB -->
+                      <rect x="420" y="255" width="220" height="80" rx="7" fill="#180c14" stroke="#f43f5e" stroke-width="1.8" />
+                      <line x1="418" y1="255" x2="418" y2="335" stroke="#f43f5e" stroke-width="4" stroke-linecap="round" />
+                      <text x="435" y="274" fill="#f43f5e" font-size="10" font-weight="700">AMD RADEON R7 360 2GB</text>
+                      <text x="435" y="287" fill="#94a3b8" font-size="7.5">Tobago XT • 100W TDP • 1x 6-Pin PCIe Power Plug</text>
+                      
+                      <!-- 6-Pin Plug -->
+                      <rect x="625" y="253" width="12" height="8" rx="2" fill="#1e293b" stroke="#f43f5e" stroke-width="1.2" />
+                      
+                      <!-- 100W Heat Plume -->
+                      <g class="gpu-upward-vectors">
+                        <path d="M 525 255 L 525 228" stroke="#f43f5e" stroke-width="1.8" stroke-dasharray="2,2" />
+                        <polygon points="525,223 522,230 528,230" fill="#f43f5e" />
+                        <text x="525" y="218" text-anchor="middle" fill="#fb7185" font-size="6.5" font-weight="700">▲ 100W DIRECT EXHAUST ▲</text>
+                      </g>
+
+                      <!-- Single 90mm Axial Fan -->
+                      <g class="fan-symbol spin-fan" transform="translate(525, 305)">
+                        <circle cx="0" cy="0" r="21" class="gpu-fan-housing" stroke="#f43f5e" fill="rgba(244, 63, 94, 0.12)" />
+                        <circle cx="0" cy="0" r="7" class="gpu-fan-hub" fill="#f43f5e" />
+                        <path d="M 0 -17 C 5 -9 5 -4 0 0" class="gpu-blade" stroke="#fb7185" stroke-width="2" />
+                        <path d="M 17 0 C 9 5 4 5 0 0" class="gpu-blade" stroke="#fb7185" stroke-width="2" />
+                        <path d="M 0 17 C -5 9 -5 4 0 0" class="gpu-blade" stroke="#fb7185" stroke-width="2" />
+                        <path d="M -17 0 C -9 -5 -4 -5 0 0" class="gpu-blade" stroke="#fb7185" stroke-width="2" />
+                      </g>
+
+                      <path d="M 525 358 L 525 338" stroke="#06b6d4" stroke-width="1.8" stroke-dasharray="3,2" opacity="0.8" />
+                      <polygon points="525,335 522,341 528,341" fill="#06b6d4" opacity="0.8" />
+                      <path d="M 418 295 L 340 295" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,3" />
+                      <polygon points="335,295 343,291 343,299" fill="#f59e0b" />
+
+                    } @else if (selectedGpuId() === 'rx-6600') {
+                      <!-- AMD Radeon RX 6600 8GB (Top Upgrade) -->
+                      <rect x="415" y="255" width="230" height="80" rx="7" fill="#120c18" stroke="#10b981" stroke-width="1.8" />
+                      <line x1="413" y1="255" x2="413" y2="335" stroke="#10b981" stroke-width="4" stroke-linecap="round" />
+                      <text x="430" y="274" fill="#34d399" font-size="10" font-weight="700">AMD RADEON RX 6600 8GB</text>
+                      <text x="430" y="287" fill="#94a3b8" font-size="7.5">RDNA 2 • 132W TDP • Dual Axial Fans • PCIe 4.0 x8</text>
+                      <rect x="622" y="253" width="16" height="8" rx="2" fill="#1e293b" stroke="#10b981" stroke-width="1.2" />
+                      <g class="gpu-upward-vectors">
+                        <path d="M 525 255 L 525 228" stroke="#10b981" stroke-width="1.8" stroke-dasharray="2,2" />
+                        <polygon points="525,223 522,230 528,230" fill="#10b981" />
+                        <text x="525" y="218" text-anchor="middle" fill="#34d399" font-size="6.5" font-weight="700">▲ 132W RDNA 2 FLOW ▲</text>
+                      </g>
+                    } @else if (selectedGpuId() === 'rtx-4060') {
+                      <!-- NVIDIA GeForce RTX 4060 8GB -->
+                      <rect x="415" y="255" width="230" height="80" rx="7" fill="#09181c" stroke="#38bdf8" stroke-width="1.8" />
+                      <line x1="413" y1="255" x2="413" y2="335" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" />
+                      <text x="430" y="274" fill="#38bdf8" font-size="10" font-weight="700">NVIDIA GEFORCE RTX 4060 8GB</text>
+                      <text x="430" y="287" fill="#94a3b8" font-size="7.5">Ada Lovelace (5nm) • 115W Ultra-Cool • DLSS 3</text>
+                      <rect x="622" y="253" width="16" height="8" rx="2" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
+                      <g class="gpu-upward-vectors">
+                        <path d="M 525 255 L 525 228" stroke="#38bdf8" stroke-width="1.8" stroke-dasharray="2,2" />
+                        <polygon points="525,223 522,230 528,230" fill="#38bdf8" />
+                        <text x="525" y="218" text-anchor="middle" fill="#38bdf8" font-size="6.5" font-weight="700">▲ 115W ULTRA-EFFICIENCY ▲</text>
+                      </g>
+                    } @else if (selectedGpuId() === 'arc-a750') {
+                      <!-- Intel Arc A750 8GB -->
+                      <rect x="390" y="255" width="255" height="80" rx="7" fill="#0c1024" stroke="#818cf8" stroke-width="1.8" />
+                      <line x1="388" y1="255" x2="388" y2="335" stroke="#818cf8" stroke-width="4" stroke-linecap="round" />
+                      <text x="405" y="274" fill="#818cf8" font-size="10" font-weight="700">INTEL ARC A750 8GB</text>
+                      <text x="405" y="287" fill="#94a3b8" font-size="7.5">Xe-HPG • 225W TDP • 256-bit (512 GB/s) • Intel Deep Link</text>
+                      <rect x="612" y="253" width="26" height="8" rx="2" fill="#1e293b" stroke="#818cf8" stroke-width="1.2" />
+                      <g class="gpu-upward-vectors">
+                        <path d="M 515 255 L 515 228" stroke="#818cf8" stroke-width="1.8" stroke-dasharray="2,2" />
+                        <polygon points="515,223 512,230 518,230" fill="#818cf8" />
+                        <text x="515" y="218" text-anchor="middle" fill="#818cf8" font-size="6.5" font-weight="700">▲ 225W DEEP LINK PLUME ▲</text>
+                      </g>
+                    } @else if (selectedGpuId() === 'gtx-1650') {
+                      <!-- GTX 1650 4GB -->
+                      <rect x="425" y="255" width="215" height="80" rx="7" class="component-block gtx1650-shroud" />
+                      <text x="438" y="274" fill="#14b8a6" font-size="10" font-weight="700">NVIDIA GEFORCE GTX 1650 4GB</text>
+                      <text x="438" y="287" fill="#94a3b8" font-size="7.5">Dual Axial Fans • 75W PCIe Power</text>
+                    } @else {
+                      <!-- RTX 3060 12GB -->
+                      <rect x="320" y="255" width="320" height="80" rx="7" class="component-block gpu-shroud" />
+                      <text x="335" y="274" fill="#10b981" font-size="10.5" font-weight="700">NVIDIA GEFORCE RTX 3060 12GB</text>
+                      <text x="335" y="287" fill="#94a3b8" font-size="7.5">Triple Axial Fans • 170W TDP</text>
+                    }
+                  </g>
+
+                  <!-- 2x FRONT INTAKE FANS: DeepCool MATREXX 40 3FS (Front Middle + Front Bottom) -->
+                  <!-- Front Middle Intake Fan (y: 200, feeds CPU/RAM/NVMe) -->
+                  <g class="fan-node-group intake-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'front-fan-2'"
+                     (click)="selectComponent('front-fan-2')">
+                    <rect x="695" y="150" width="28" height="105" rx="5" class="fan-bracket intake-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(709, 202)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing intake-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub intake-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade" />
+                    </g>
+                    <text x="709" y="268" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">FRONT MIDDLE INTAKE</text>
+                    <text x="709" y="279" text-anchor="middle" fill="#38bdf8" font-size="6.5" font-weight="600">CPU &amp; NVMe FLOW</text>
+                  </g>
+
+                  <!-- Front Bottom Intake Fan (y: 360, feeds GPU + HDD/PSU) -->
+                  <g class="fan-node-group intake-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'front-fan-3'"
+                     (click)="selectComponent('front-fan-3')">
+                    <rect x="695" y="310" width="28" height="105" rx="5" class="fan-bracket intake-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(709, 362)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing intake-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub intake-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade" />
+                    </g>
+                    <text x="709" y="428" text-anchor="middle" fill="#06b6d4" font-size="8" font-weight="700">FRONT BOTTOM INTAKE</text>
+                    <text x="709" y="439" text-anchor="middle" fill="#38bdf8" font-size="6.5" font-weight="600">GPU &amp; HDD/PSU FLOW</text>
+                  </g>
+
+                  <!-- 1x REAR EXHAUST FAN (DeepCool 3FS Tri-Color 120mm) -->
+                  <g class="fan-node-group exhaust-node cursor-pointer"
+                     [class.node-selected]="selectedComponentId() === 'rear-fan-1'"
+                     (click)="selectComponent('rear-fan-1')">
+                    <rect x="275" y="85" width="28" height="100" rx="5" class="fan-bracket exhaust-bracket" />
+                    <g class="fan-symbol spin-fan" transform="translate(289, 135)">
+                      <circle cx="0" cy="0" r="24" class="fan-housing exhaust-housing" />
+                      <circle cx="0" cy="0" r="7.5" class="fan-hub exhaust-hub" />
+                      <path d="M 0 -20 C 5 -12 5 -5 0 0" class="fan-blade-exhaust" />
+                      <path d="M 20 0 C 12 5 5 5 0 0" class="fan-blade-exhaust" />
+                      <path d="M 0 20 C -5 12 -5 5 0 0" class="fan-blade-exhaust" />
+                      <path d="M -20 0 C -12 -5 -5 -5 0 0" class="fan-blade-exhaust" />
+                    </g>
+                    <text x="289" y="198" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="700">REAR EXHAUST</text>
+                  </g>
+
+                  <!-- AIRFLOW STREAMLINES FOR MATREXX 40 -->
+                  @if (showAirflowStreams()) {
+                    <g class="streamlines-layer" opacity="0.85">
+                      <!-- Front Middle Intake -> Across RAM, NVMe & CPU Heatsink -> Rear Exhaust -->
+                      <path d="M 850 202 L 740 202 L 695 202 L 530 180 L 470 140 L 310 135 L 190 135" class="streamline-path stream-direct-cpu" />
+                      <!-- Front Bottom Intake -> GPU Underside -> Rear Exhaust -->
+                      <path d="M 850 362 L 740 362 L 695 362 L 525 360 L 418 300 L 190 300" class="streamline-path stream-gpu-feed" />
+                      <!-- Front Bottom Intake -> Lower HDD/PSU Shroud Tunnel -->
+                      <path d="M 850 380 L 740 380 L 672 490 L 545 490 L 440 490 L 285 490 L 190 495" class="streamline-path stream-psu-intake" />
+                    </g>
+                  }
+
+                } @else {
+                  <!-- ============================================== -->
+                  <!-- LAYOUT 3: DUAL-CHAMBER / PANORAMIC COMPARISON -->
+                  <!-- ============================================== -->
+                  <rect x="180" y="50" width="680" height="540" rx="18" class="chassis-outer-shell" />
+                  <rect x="195" y="65" width="650" height="510" rx="12" class="chassis-inner-chamber" />
+
+                  <!-- TOP 360mm RADIATOR & 3x EXHAUST FANS -->
+                  <g class="top-radiator-assembly">
+                    <rect x="340" y="70" width="400" height="35" rx="4" class="rad-body" />
+                    <text x="540" y="92" text-anchor="middle" fill="#f43f5e" font-size="10" font-weight="700">
+                      TOP 360mm EXHAUST RADIATOR (3x 120mm Fans)
+                    </text>
+                    <!-- Top Fan 1 -->
+                    <g class="fan-symbol spin-fan" transform="translate(410, 87)">
+                      <circle cx="0" cy="0" r="14" class="fan-housing exhaust-housing" />
+                      <circle cx="0" cy="0" r="5" class="fan-hub exhaust-hub" />
+                    </g>
+                    <!-- Top Fan 2 -->
+                    <g class="fan-symbol spin-fan" transform="translate(540, 87)">
+                      <circle cx="0" cy="0" r="14" class="fan-housing exhaust-housing" />
+                      <circle cx="0" cy="0" r="5" class="fan-hub exhaust-hub" />
+                    </g>
+                    <!-- Top Fan 3 -->
+                    <g class="fan-symbol spin-fan" transform="translate(670, 87)">
+                      <circle cx="0" cy="0" r="14" class="fan-housing exhaust-housing" />
+                      <circle cx="0" cy="0" r="5" class="fan-hub exhaust-hub" />
+                    </g>
+                  </g>
+
+                  <!-- SIDE INTAKE FANS (2x 120mm) -->
+                  <g class="side-intake-fans">
+                    <rect x="740" y="160" width="30" height="200" rx="4" class="side-bracket" />
+                    <text x="755" y="270" text-anchor="middle" fill="#06b6d4" font-size="9" font-weight="700" transform="rotate(-90, 755, 270)">
+                      2x 120mm SIDE INTAKE
+                    </text>
+                  </g>
+
+                  <!-- DUAL CHAMBER MOTHERBOARD & GPU -->
+                  <rect x="290" y="140" width="420" height="340" rx="6" class="component-block mobo-board" />
+                  <rect x="340" y="320" width="300" height="70" rx="6" class="component-block gpu-shroud" />
+                  <text x="490" y="360" text-anchor="middle" fill="#10b981" font-size="11" font-weight="700">
+                    RTX 3060 12GB (Triple-Fan Upward Discharge)
+                  </text>
+                  
+                  <!-- STREAMLINES FOR DUAL CHAMBER -->
+                  @if (showAirflowStreams()) {
+                    <g class="airflow-streamlines" filter="url(#neonAirflowGlow)">
+                      <path d="M 850 210 L 740 210 Q 560 220 540 115 L 540 60" class="streamline-path stream-chimney" />
+                      <path d="M 850 310 L 740 310 Q 490 340 410 115 L 410 60" class="streamline-path stream-chimney" />
+                      <path d="M 490 440 L 490 360 Q 490 200 670 115 L 670 60" class="streamline-path stream-chimney" />
+                    </g>
+                  }
+                }
+
+              </svg>
+            </div>
+
+            <!-- SIMULATION BOTTOM: HARDWARE CHANGING OPTIONS & INLINE TELEMETRY -->
+            <div class="sim-bottom-deck">
+              <!-- Hardware Changing Options Header -->
+              <div class="sim-options-header">
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-sliders text-cyan-400 text-xs"></i>
+                  <span class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">Hardware Component Customizer</span>
+                </div>
+                <span class="text-[11px] text-text-muted">Real-time dynamic impact on airflow CFM, thermals &amp; acoustics</span>
+              </div>
+
+              <!-- 4-Column Dropdowns Grid -->
+              <div class="sim-dropdowns-grid">
+                <!-- GPU Selector Dropdown -->
+                <div class="hw-dropdown-card">
+                  <label for="sim-gpu-select" class="hw-dropdown-label">
+                    <i class="fa-solid fa-gamepad text-emerald-400 mr-1.5"></i>
+                    <span>Graphics Card (GPU)</span>
+                  </label>
+                  <div class="select-wrapper">
+                    <select
+                      id="sim-gpu-select"
+                      class="hw-select"
+                      [value]="selectedGpuId()"
+                      (change)="onGpuSelect($event)">
+                      @for (gpu of gpus(); track gpu.id) {
+                        <option [value]="gpu.id">
+                          {{ gpu.name }} ({{ gpu.tdpWatts }}W)
+                        </option>
+                      }
+                    </select>
+                    <i class="fa-solid fa-chevron-down select-caret"></i>
+                  </div>
+                  <div class="hw-card-footer">
+                    <span class="hw-tag text-emerald-400">{{ currentGpuConfig().tdpWatts }}W TDP</span>
+                    <span class="hw-subtext">Est. {{ activeCustomizationAnalysis().estimatedGpuLoadTemp }}</span>
+                  </div>
+                </div>
+
+                <!-- CPU Processor Dropdown -->
+                <div class="hw-dropdown-card">
+                  <label for="sim-cpu-select" class="hw-dropdown-label">
+                    <i class="fa-solid fa-microchip text-indigo-400 mr-1.5"></i>
+                    <span>Processor (CPU)</span>
+                  </label>
+                  <div class="select-wrapper">
+                    <select
+                      id="sim-cpu-select"
+                      class="hw-select"
+                      [value]="selectedCpuId()"
+                      (change)="onCpuSelect($event)">
+                      @for (cpu of cpus(); track cpu.id) {
+                        <option [value]="cpu.id">
+                          {{ cpu.name }} ({{ cpu.tdpWatts }}W)
+                        </option>
+                      }
+                    </select>
+                    <i class="fa-solid fa-chevron-down select-caret"></i>
+                  </div>
+                  <div class="hw-card-footer">
+                    <span class="hw-tag text-indigo-400">{{ currentCpuConfig().tdpWatts }}W TDP</span>
+                    <span class="hw-subtext">Est. {{ activeCustomizationAnalysis().estimatedCpuLoadTemp }}</span>
+                  </div>
+                </div>
+
+                <!-- CPU Cooler Dropdown -->
+                <div class="hw-dropdown-card">
+                  <label for="sim-cooler-select" class="hw-dropdown-label">
+                    <i class="fa-solid fa-fan text-cyan-400 mr-1.5"></i>
+                    <span>CPU Cooler</span>
+                  </label>
+                  <div class="select-wrapper">
+                    <select
+                      id="sim-cooler-select"
+                      class="hw-select"
+                      [value]="selectedCoolerId()"
+                      (change)="onCoolerSelect($event)">
+                      @for (cooler of coolers(); track cooler.id) {
+                        <option [value]="cooler.id">
+                          {{ cooler.name }}
+                        </option>
+                      }
+                    </select>
+                    <i class="fa-solid fa-chevron-down select-caret"></i>
+                  </div>
+                  <div class="hw-card-footer">
+                    <span class="hw-tag text-cyan-400">{{ currentCoolerConfig().type | uppercase }}</span>
+                    <span class="hw-subtext">{{ dynamicCpuFanRpm() }} RPM</span>
+                  </div>
+                </div>
+
+                <!-- Fan Model Dropdown -->
+                <div class="hw-dropdown-card">
+                  <label for="sim-fan-model-select" class="hw-dropdown-label">
+                    <i class="fa-solid fa-wind text-rose-400 mr-1.5"></i>
+                    <span>Chassis Fan Model</span>
+                  </label>
+                  <div class="select-wrapper">
+                    <select
+                      id="sim-fan-model-select"
+                      class="hw-select"
+                      [value]="selectedFanModelId()"
+                      (change)="onFanModelSelect($event)">
+                      @for (fan of fanModels(); track fan.id) {
+                        <option [value]="fan.id">
+                          {{ fan.name }} ({{ fan.maxCfm }} CFM)
+                        </option>
+                      }
+                    </select>
+                    <i class="fa-solid fa-chevron-down select-caret"></i>
+                  </div>
+                  <div class="hw-card-footer">
+                    <span class="hw-tag text-rose-400">{{ currentFanModelConfig().maxCfm }} CFM</span>
+                    <span class="hw-subtext">{{ currentFanModelConfig().maxNoiseDba }} dBA</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- darkFlash Leo Top Fans Mounts Sub-Deck (if darkFlash Leo) -->
+              @if (stagedLayoutId() === 'standard-mesh') {
+                <div class="top-fans-mini-bar">
+                  <div class="flex items-center justify-between gap-2 flex-wrap mb-2">
+                    <span class="text-xs font-semibold text-text-primary flex items-center">
+                      <i class="fa-solid fa-arrows-up-down text-cyan-400 mr-1.5"></i>
+                      Top Fan Direction Mounts:
+                    </span>
+                    @if (hasPendingTopFansChange()) {
+                      <button type="button" class="apply-action-btn pulse-glow btn-sm" (click)="applyTopFansChange()">
+                        <i class="fa-solid fa-check mr-1"></i>
+                        <span>Apply Fan Setup</span>
+                      </button>
+                    }
+                  </div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div class="slot-mini-item">
+                      <label for="sim-slot1-select" class="text-[11px] text-text-muted block mb-1">
+                        <span class="font-bold text-cyan-400">Slot 1:</span> Top-Rear (Above CPU)
+                      </label>
+                      <div class="select-wrapper">
+                        <select
+                          id="sim-slot1-select"
+                          class="hw-select"
+                          [value]="stagedTopRearFan()"
+                          (change)="onTopRearFanSelect($event)">
+                          <option value="off">Passive Off</option>
+                          <option value="exhaust">Exhaust &uarr; (Recommended)</option>
+                          <option value="intake">Intake &darr;</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-caret"></i>
+                      </div>
+                    </div>
+                    <div class="slot-mini-item">
+                      <label for="sim-slot2-select" class="text-[11px] text-text-muted block mb-1">
+                        <span class="font-bold text-cyan-400">Slot 2:</span> Top-Front (Above RAM)
+                      </label>
+                      <div class="select-wrapper">
+                        <select
+                          id="sim-slot2-select"
+                          class="hw-select"
+                          [value]="stagedTopFrontFan()"
+                          (change)="onTopFrontFanSelect($event)">
+                          <option value="off">Passive Off</option>
+                          <option value="exhaust">Exhaust &uarr;</option>
+                          <option value="intake">Intake &darr; (Recommended)</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down select-caret"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Unified Compact Live Telemetry Strip -->
+              <div class="sim-inline-telemetry">
+                <div class="tel-pill">
+                  <span class="tel-pill-label"><i class="fa-solid fa-arrow-right-to-bracket text-cyan-400 mr-1"></i>Intake</span>
+                  <span class="tel-pill-val text-cyan-400">{{ dynamicIntakeCfm }} CFM</span>
+                </div>
+                <div class="tel-pill">
+                  <span class="tel-pill-label"><i class="fa-solid fa-arrow-right-from-bracket text-rose-400 mr-1"></i>Exhaust</span>
+                  <span class="tel-pill-val text-rose-400">{{ dynamicExhaustCfm }} CFM</span>
+                </div>
+                <div class="tel-pill">
+                  <span class="tel-pill-label"><i class="fa-solid fa-gauge text-emerald-400 mr-1"></i>Net Pressure</span>
+                  <span class="tel-pill-val" [ngClass]="netPressureCfm > 0 ? 'text-emerald-400' : 'text-amber-400'">
+                    {{ netPressureCfm > 0 ? '+' : '' }}{{ netPressureCfm }} CFM
+                  </span>
+                </div>
+                <div class="tel-pill">
+                  <span class="tel-pill-label"><i class="fa-solid fa-microchip text-indigo-400 mr-1"></i>CPU Load</span>
+                  <span class="tel-pill-val text-indigo-300">{{ activeCustomizationAnalysis().estimatedCpuLoadTemp }}</span>
+                </div>
+                <div class="tel-pill">
+                  <span class="tel-pill-label"><i class="fa-solid fa-gamepad text-emerald-400 mr-1"></i>GPU Load</span>
+                  <span class="tel-pill-val text-emerald-300">{{ activeCustomizationAnalysis().estimatedGpuLoadTemp }}</span>
+                </div>
+                <div class="tel-pill">
+                  <span class="tel-pill-label"><i class="fa-solid fa-volume-low text-purple-400 mr-1"></i>Acoustics</span>
+                  <span class="tel-pill-val text-purple-300">{{ currentConditionReport().acousticDba }} dB(A)</span>
+                </div>
+              </div>
+
+              <!-- Advantages Row -->
+              <div class="advantages-row">
+                <span class="adv-title">
+                  <i class="fa-solid fa-circle-check text-emerald-400 mr-1.5"></i>
+                  Active Airflow Configuration Advantages:
+                </span>
+                <div class="adv-chips">
+                  @for (adv of currentLayout?.advantages; track adv) {
+                    <span class="adv-chip">
+                      <i class="fa-solid fa-angle-right text-cyan-400 mr-1"></i>
+                      {{ adv }}
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: FAN INSPECTOR & SYSTEM HARDWARE MINI CARDS -->
+          <div class="inspector-column">
+            
+            <!-- Selected Component Real-Time Condition Report Card -->
+            <div class="inspector-card glass-card component-condition-card">
+              <div class="inspector-header">
+                <span class="card-tag">
+                  <i class="fa-solid fa-microchip text-cyan-400 mr-1.5"></i>
+                  Component Condition Inspector
+                </span>
+                <span class="live-pulse">
+                  <span class="pulse-dot"></span>
+                  Live Dynamics
+                </span>
+              </div>
+
+              <!-- Quick Component Switcher Pills -->
+              <div class="component-quick-pills mb-4">
+                <button
+                  type="button"
+                  class="comp-pill-chip"
+                  [class.active]="selectedComponentId() === 'cpu'"
+                  (click)="selectComponent('cpu')">
+                  <i class="fa-solid fa-microchip mr-1"></i> CPU AG400
+                </button>
+                <button
+                  type="button"
+                  class="comp-pill-chip"
+                  [class.active]="selectedComponentId() === 'gpu'"
+                  (click)="selectComponent('gpu')">
+                  <i class="fa-solid fa-gamepad mr-1"></i> RTX 3060
+                </button>
+                <button
+                  type="button"
+                  class="comp-pill-chip"
+                  [class.active]="selectedComponentId() === 'ram'"
+                  (click)="selectComponent('ram')">
+                  <i class="fa-solid fa-memory mr-1"></i> 32GB RAM
+                </button>
+                <button
+                  type="button"
+                  class="comp-pill-chip"
+                  [class.active]="selectedComponentId() === 'vrm'"
+                  (click)="selectComponent('vrm')">
+                  <i class="fa-solid fa-chess-board mr-1"></i> VRM Heatsink
+                </button>
+                <button
+                  type="button"
+                  class="comp-pill-chip"
+                  [class.active]="selectedComponentId() === 'psu'"
+                  (click)="selectComponent('psu')">
+                  <i class="fa-solid fa-bolt mr-1"></i> 750W PSU
+                </button>
+                <button
+                  type="button"
+                  class="comp-pill-chip"
+                  [class.active]="selectedComponentId() === 'nvme'"
+                  (click)="selectComponent('nvme')">
+                  <i class="fa-solid fa-hard-drive mr-1"></i> NVMe SSD
+                </button>
+                <button
+                  type="button"
+                  class="comp-pill-chip"
+                  [class.active]="selectedComponentId() === 'hdd-bay'"
+                  (click)="selectComponent('hdd-bay')">
+                  <i class="fa-solid fa-database mr-1"></i> HDD Bay
+                </button>
+              </div>
+
+              <!-- Condition Details for Selected Component -->
+              @if (selectedComponentCondition(); as comp) {
+                <div class="component-condition-details animate-fade-in">
+                  <!-- Header: Icon, Name, and Status Badge -->
+                  <div class="comp-title-row">
+                    <div class="comp-icon-box">
+                      <i class="fa-solid" [ngClass]="comp.icon"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <div class="flex items-center justify-between gap-2 flex-wrap">
+                        <h4 class="comp-name">{{ comp.name }}</h4>
+                        @if (comp.temperature) {
+                          <span class="comp-temp-badge">
+                            <i class="fa-solid fa-temperature-three-quarters mr-1"></i>
+                            {{ comp.temperature }}
+                          </span>
+                        }
+                      </div>
+                      <span class="comp-category">{{ comp.category }}</span>
+                    </div>
+                  </div>
+
+                  <!-- Status Banner -->
+                  <div class="comp-status-banner">
+                    <div class="status-indicator-dot"></div>
+                    <div class="flex-1">
+                      <div class="text-[10px] uppercase font-bold text-cyan-400">Operating Condition</div>
+                      <div class="text-xs font-semibold text-text-primary">{{ comp.statusBadge }}</div>
+                    </div>
+                  </div>
+
+                  <!-- Condition Summary & Airflow Interaction -->
+                  <div class="comp-narrative-box">
+                    <div class="narrative-item">
+                      <span class="narrative-heading">
+                        <i class="fa-solid fa-circle-info text-cyan-400 mr-1.5"></i>
+                        Condition &amp; Thermal Behavior
+                      </span>
+                      <p class="narrative-text">{{ comp.conditionSummary }}</p>
+                    </div>
+
+                    <div class="narrative-item">
+                      <span class="narrative-heading">
+                        <i class="fa-solid fa-wind text-indigo-400 mr-1.5"></i>
+                        Airflow Dynamics &amp; Ingestion Route
+                      </span>
+                      <p class="narrative-text">{{ comp.airflowInteraction }}</p>
+                    </div>
+
+                    <div class="narrative-item callout-impact">
+                      <span class="narrative-heading text-amber-300">
+                        <i class="fa-solid fa-bolt-lightning text-amber-400 mr-1.5"></i>
+                        Active Configuration Impact
+                      </span>
+                      <p class="narrative-text text-amber-100/90">{{ comp.currentImpact }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Dynamic Metrics Grid (4 Telemetry Badges) -->
+                  <div class="comp-metrics-grid">
+                    @for (m of comp.metrics; track m.label) {
+                      <div class="comp-metric-box">
+                        <span class="cm-label">{{ m.label }}</span>
+                        <span class="cm-val">{{ m.value }}</span>
+                        @if (m.hint) {
+                          <span class="cm-hint">{{ m.hint }}</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Pressure Balance Card -->
+            <div class="pressure-card glass-card">
+              <span class="card-tag mb-3">
+                <i class="fa-solid fa-shield-halved text-emerald-400 mr-1.5"></i>
+                Pressure Gradient Physics
+              </span>
+
+              <div class="pressure-status-box mb-4">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-xs text-text-secondary">Chassis Gradient:</span>
+                  <span class="text-xs font-bold" [ngClass]="netPressureCfm >= 0 ? 'text-emerald-400' : 'text-amber-400'">
+                    {{ currentLayout?.pressureType }} ({{ netPressureCfm > 0 ? '+' : '' }}{{ netPressureCfm }} CFM)
+                  </span>
+                </div>
+                <div class="gauge-bar-wrapper">
+                  <div class="gauge-bar-fill" [style.width.%]="Math.min(100, Math.max(15, (dynamicIntakeCfm / (dynamicIntakeCfm + dynamicExhaustCfm)) * 100))"></div>
+                </div>
+                <div class="flex items-center justify-between mt-1 text-[10px] text-text-muted">
+                  <span>Intake ({{ dynamicIntakeCfm }} CFM)</span>
+                  <span>Exhaust ({{ dynamicExhaustCfm }} CFM)</span>
+                </div>
+              </div>
+
+              <div class="pressure-takeaway">
+                <i class="fa-solid fa-circle-info text-cyan-400 text-sm mt-0.5"></i>
+                <p class="text-xs text-text-secondary leading-relaxed">
+                  Positive pressure pushes air out of the case gaps, completely preventing dust ingress. Lower Front Fan #3 cools the 3.5" drive cage and 750W PSU shroud directly.
+                </p>
+              </div>
+            </div>
+
+            <!-- Quick Components Summary Mini Card -->
+            <div class="quick-rig-card glass-card">
+              <span class="card-tag mb-3">
+                <i class="fa-solid fa-microchip text-indigo-400 mr-1.5"></i>
+                Build Hardware Summary
+              </span>
+              <ul class="quick-rig-list">
+                <li>
+                  <span class="q-label">CPU:</span>
+                  <span class="q-val">{{ currentCpuConfig().name }} ({{ currentCpuConfig().cores }} • {{ currentCpuConfig().tdpWatts }}W)</span>
+                </li>
+                <li>
+                  <span class="q-label">Cooler:</span>
+                  <span class="q-val">{{ currentCoolerConfig().name }} ({{ dynamicCpuFanRpm() }} RPM)</span>
+                </li>
+                <li>
+                  <span class="q-label">GPU:</span>
+                  <span class="q-val">{{ currentGpuConfig().name }} ({{ currentGpuConfig().tdpWatts }}W • {{ currentGpuConfig().vram }})</span>
+                </li>
+                <li>
+                  <span class="q-label">Case Fans:</span>
+                  <span class="q-val text-cyan-400">{{ currentFanModelConfig().name }} ({{ dynamicCaseFanRpm() }} RPM)</span>
+                </li>
+                <li>
+                  <span class="q-label">PSU:</span>
+                  <span class="q-val text-amber-400">750W 80+ Certified</span>
+                </li>
+                <li>
+                  <span class="q-label">RAM:</span>
+                  <span class="q-val">32 GB Dual-Channel DDR4</span>
+                </li>
+                <li>
+                  <span class="q-label">Case:</span>
+                  <span class="q-val">darkFlash Leo (349 x 190 x 430 mm)</span>
+                </li>
+                <li>
+                  <span class="q-label">Fan Setup:</span>
+                  <span class="q-val">
+                    3x Front, Top [R: {{ appliedTopRearFan() === 'exhaust' ? 'Exh ↑' : appliedTopRearFan() === 'intake' ? 'In ↓' : 'Off' }} | F: {{ appliedTopFrontFan() === 'exhaust' ? 'Exh ↑' : appliedTopFrontFan() === 'intake' ? 'In ↓' : 'Off' }}], 1x Rear
+                  </span>
+                </li>
+                <li>
+                  <span class="q-label">PSU Inflow:</span>
+                  <span class="q-val text-cyan-400">Front Fan #3 &rarr; Lower Shroud</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- DYNAMIC CUSTOMIZATION & AIRFLOW TRADE-OFF MATRIX (PROS & CONS)  -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <div class="tradeoff-matrix-deck glass-card mb-8">
+          <div class="matrix-header">
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <i class="fa-solid fa-scale-balanced text-cyan-400 text-sm"></i>
+              <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-text-primary font-mono m-0">
+                Aerodynamic &amp; Hardware Customization Trade-off Matrix
+              </h3>
+              <span class="matrix-live-pill">
+                <span class="live-pulse-dot"></span>
+                LIVE SIMULATION TELEMETRY
+              </span>
+            </div>
+
+            <!-- Telemetry strip -->
+            <div class="matrix-telemetry-summary">
+              <span class="telemetry-pill">
+                <i class="fa-solid fa-wind text-cyan-400"></i>
+                <span>{{ activeCustomizationAnalysis().pressureState }}</span>
+              </span>
+              <span class="telemetry-pill">
+                <i class="fa-solid fa-microchip text-indigo-400"></i>
+                <span>CPU ~{{ activeCustomizationAnalysis().estimatedCpuLoadTemp }}</span>
+              </span>
+              <span class="telemetry-pill">
+                <i class="fa-solid fa-gamepad text-emerald-400"></i>
+                <span>GPU ~{{ activeCustomizationAnalysis().estimatedGpuLoadTemp }}</span>
+              </span>
+              <span class="telemetry-pill">
+                <i class="fa-solid fa-bolt text-amber-400"></i>
+                <span>{{ activeCustomizationAnalysis().totalSystemTdpWatts }}W TDP ({{ activeCustomizationAnalysis().psuSafetyMarginWatts }}W Margin)</span>
+              </span>
+              <span class="telemetry-pill">
+                <i class="fa-solid fa-volume-low text-purple-400"></i>
+                <span>{{ activeCustomizationAnalysis().acousticRatingDba }} dBA ({{ activeCustomizationAnalysis().acousticCategory }})</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Pros vs Cons 2-Column Split -->
+          <div class="matrix-grid">
+            <!-- ADVANTAGES (PROS) -->
+            <div class="matrix-box pros-column">
+              <div class="column-header text-emerald-400">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Configured System Advantages (Pros)</span>
+              </div>
+              <ul class="matrix-list">
+                @for (adv of activeCustomizationAnalysis().keyAdvantages; track adv) {
+                  <li class="matrix-list-item pro-item">
+                    <i class="fa-solid fa-check text-emerald-400 text-xs mt-1 flex-shrink-0"></i>
+                    <span>{{ adv }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+
+            <!-- DISADVANTAGES & CONSIDERATIONS (CONS) -->
+            <div class="matrix-box cons-column">
+              <div class="column-header text-amber-400">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span>Engineering Considerations &amp; Trade-offs (Cons)</span>
+              </div>
+              <ul class="matrix-list">
+                @for (dis of activeCustomizationAnalysis().keyDisadvantages; track dis) {
+                  <li class="matrix-list-item con-item">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xs mt-1 flex-shrink-0"></i>
+                    <span>{{ dis }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+
+          <!-- Dynamic Thermal Guidance Bar -->
+          <div class="matrix-guidance-bar">
+            <i class="fa-solid fa-lightbulb text-amber-400 text-sm flex-shrink-0 mt-0.5"></i>
+            <div class="text-xs">
+              <strong class="text-cyan-300 font-mono">Thermodynamic Verdict: </strong>
+              <span class="text-text-secondary">{{ activeCustomizationAnalysis().thermalTip }}</span>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ============================================================= -->
+        <!-- COMPREHENSIVE ACTIVE CONDITION REPORT & THERMAL ANALYSIS CARD -->
+        <!-- Updates dynamically whenever the user applies any change!     -->
+        <!-- ============================================================= -->
+        <div class="condition-report-section">
+          <div class="condition-report-card">
+            <div class="condition-top-glow"></div>
+
+            <!-- Condition Header & Applied Status Badges -->
+            <div class="condition-header">
+              <div>
+                <span class="card-tag mb-1">
+                  <i class="fa-solid fa-chart-line text-cyan-400 mr-1.5"></i>
+                  Active Aerodynamic &amp; Thermal Condition Report
+                </span>
+                <h3 class="condition-title">{{ currentConditionReport().title }}</h3>
+                <p class="condition-tagline">{{ currentConditionReport().tagline }}</p>
+              </div>
+
+              <div class="condition-badges-row">
+                <span class="cond-badge" [class.badge-positive]="currentConditionReport().netPressureCfm >= 40" [class.badge-balanced]="currentConditionReport().netPressureCfm > 0 && currentConditionReport().netPressureCfm < 40">
+                  <i class="fa-solid fa-gauge mr-1"></i>
+                  {{ currentConditionReport().pressureType }} ({{ currentConditionReport().netPressureCfm > 0 ? '+' : '' }}{{ currentConditionReport().netPressureCfm }} CFM)
+                </span>
+                <span class="cond-badge">
+                  <i class="fa-solid fa-volume-low text-indigo-400 mr-1"></i>
+                  {{ currentConditionReport().acousticDba }} dB(A) • {{ currentConditionReport().acousticCategory }}
+                </span>
+                <span class="cond-badge">
+                  <i class="fa-solid fa-fan text-rose-400 mr-1"></i>
+                  {{ currentConditionReport().fanSetupLabel }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Real-Time Estimated Operating Temperatures Grid -->
+            <div class="condition-metrics-grid">
+              <div class="metric-card">
+                <span class="m-label">
+                  <i class="fa-solid fa-microchip text-indigo-400 mr-1.5"></i>
+                  CPU Core ({{ currentCoolerConfig().name }})
+                </span>
+                <span class="m-value text-indigo-300">{{ currentConditionReport().temperatures.cpuLoad }}</span>
+                <span class="m-sub">{{ currentCpuConfig().name }} • Sustained Load</span>
+              </div>
+
+              <div class="metric-card">
+                <span class="m-label">
+                  <i class="fa-solid fa-gamepad text-emerald-400 mr-1.5"></i>
+                  GPU Core ({{ currentGpuConfig().name }})
+                </span>
+                <span class="m-value text-emerald-300">{{ currentConditionReport().temperatures.gpuLoad }}</span>
+                <span class="m-sub">{{ currentGpuConfig().tdpWatts }}W TDP • {{ currentGpuConfig().fanCount }} Axial Fans</span>
+              </div>
+
+              <div class="metric-card">
+                <span class="m-label">
+                  <i class="fa-solid fa-temperature-arrow-up text-amber-400 mr-1.5"></i>
+                  Motherboard VRM
+                </span>
+                <span class="m-value text-amber-300">{{ currentConditionReport().temperatures.vrmTemp }}</span>
+                <span class="m-sub">Power Delivery Phases</span>
+              </div>
+
+              <div class="metric-card">
+                <span class="m-label">
+                  <i class="fa-solid fa-bolt text-cyan-400 mr-1.5"></i>
+                  750W PSU Shroud
+                </span>
+                <span class="m-value text-cyan-300">{{ currentConditionReport().temperatures.psuChamber }}</span>
+                <span class="m-sub">Independent Lower Chamber</span>
+              </div>
+            </div>
+
+            <!-- In-Depth Condition Body Description -->
+            <div class="condition-body-text">
+              <strong class="text-text-primary block mb-1">Operational State Analysis:</strong>
+              {{ currentConditionReport().conditionDescription }}
+            </div>
+
+            <!-- GPU Airflow Dynamic Callout -->
+            <div class="gpu-upward-callout">
+              <span class="callout-header">
+                <i class="fa-solid fa-wind mr-1.5"></i>
+                {{ currentGpuConfig().name }} Thermal Airflow Dynamic in this Configuration:
+              </span>
+              <p class="callout-content">{{ currentConditionReport().gpuUpwardFlowBehavior }}</p>
+            </div>
+
+            <!-- Advantages vs Disadvantages 2-Column Comparison -->
+            <div class="pros-cons-grid">
+              <!-- Advantages (Pros) -->
+              <div class="pros-box">
+                <span class="box-title">
+                  <i class="fa-solid fa-circle-check text-emerald-400 mr-2"></i>
+                  Aerodynamic &amp; Engineering Advantages:
+                </span>
+                <ul class="flex flex-col gap-2">
+                  @for (adv of currentConditionReport().advantages; track adv) {
+                    <li>
+                      <i class="fa-solid fa-check text-emerald-400 text-xs mr-2 mt-0.5 flex-shrink-0"></i>
+                      <span>{{ adv }}</span>
+                    </li>
+                  }
+                </ul>
+              </div>
+
+              <!-- Disadvantages (Cons & Trade-offs) -->
+              <div class="cons-box">
+                <span class="box-title">
+                  <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-2"></i>
+                  Engineering Trade-offs &amp; Caveats:
+                </span>
+                <ul class="flex flex-col gap-2">
+                  @for (dis of currentConditionReport().disadvantages; track dis) {
+                    <li>
+                      <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xs mr-2 mt-0.5 flex-shrink-0"></i>
+                      <span>{{ dis }}</span>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+
+            <!-- Footer: Recommended Computing Workloads & Thermal Tip -->
+            <div class="condition-footer">
+              <div class="flex flex-col gap-1.5">
+                <span class="text-xs font-semibold text-text-muted">Recommended Workload Scenarios:</span>
+                <div class="usecases-row">
+                  @for (useCase of currentConditionReport().recommendedUseCases; track useCase) {
+                    <span class="usecase-tag">
+                      <i class="fa-solid fa-check-double text-cyan-400 mr-1 text-[10px]"></i>
+                      {{ useCase }}
+                    </span>
+                  }
+                </div>
+              </div>
+
+              <div class="pro-tip-box">
+                <i class="fa-solid fa-lightbulb text-amber-400 mt-0.5 flex-shrink-0"></i>
+                <div>
+                  <strong class="text-text-primary">Pro Thermal Tip: </strong>
+                  <span>{{ currentConditionReport().thermalTip }}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+        <!-- SUBPAGE FOOTER NAVIGATION BANNER -->
+        <div class="subpage-next-banner glass-card mt-8">
+          <div class="next-info">
+            <span class="text-xs font-semibold text-text-muted uppercase tracking-wider">Next Section</span>
+            <h4 class="text-base font-bold text-text-primary mt-0.5">Component Matrix &amp; Hardware Specifications</h4>
+            <p class="text-xs text-text-secondary mt-1">Explore detailed architectural specs, VRM power phases, memory timings, and developer workload suitability.</p>
+          </div>
+          <a routerLink="/workstation/specs" class="btn-next-step pulse-glow">
+            <span>View Hardware Specs</span>
+            <i class="fa-solid fa-arrow-right ml-2"></i>
+          </a>
+        </div>

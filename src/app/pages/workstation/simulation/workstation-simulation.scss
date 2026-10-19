@@ -1,0 +1,1610 @@
+/* Hardware Swap & Simulation Deck */
+.hardware-deck {
+  @apply p-4 sm:p-5 rounded-2xl mb-6 flex flex-col gap-4;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .hw-deck-header {
+    @apply flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b;
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .hw-dropdowns-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5;
+  }
+
+  .hw-dropdown-card {
+    @apply flex flex-col gap-2 p-3.5 rounded-xl transition-all duration-200;
+    background: linear-gradient(135deg, rgba(4, 10, 24, 0.75) 0%, rgba(2, 6, 18, 0.85) 100%);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+
+    &:hover {
+      border-color: rgba(6, 182, 212, 0.45);
+      background: linear-gradient(135deg, rgba(6, 14, 32, 0.88) 0%, rgba(3, 8, 22, 0.95) 100%);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(6, 182, 212, 0.12);
+    }
+
+    .hw-dropdown-label {
+      @apply text-xs font-semibold text-text-primary flex items-center cursor-pointer;
+    }
+
+    .hw-card-footer {
+      @apply flex items-center justify-between text-[11px] pt-1.5 text-text-muted border-t border-cyan-500/10;
+
+      .hw-tag {
+        @apply font-mono font-bold;
+      }
+
+      .hw-subtext {
+        @apply font-mono text-[10px];
+      }
+    }
+
+    .hw-tradeoff-chips {
+      @apply flex flex-col gap-1 mt-1 pt-1.5 border-t border-cyan-500/10;
+
+      .hw-mini-pro {
+        @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] text-emerald-300 font-mono;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.25);
+      }
+
+      .hw-mini-con {
+        @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] text-amber-300 font-mono;
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.25);
+      }
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UNIFIED WORKSTATION DROPDOWN DESIGN SYSTEM
+   ═══════════════════════════════════════════════════════════════ */
+.select-wrapper {
+  @apply relative w-full flex items-center;
+
+  .hw-select {
+    @apply w-full appearance-none text-xs sm:text-sm font-medium px-3.5 py-2.5 pr-9 rounded-xl focus:outline-none cursor-pointer;
+    background: linear-gradient(135deg, rgba(8, 16, 36, 0.95) 0%, rgba(4, 9, 22, 0.98) 100%);
+    border: 1px solid rgba(6, 182, 212, 0.32);
+    color: #e0f2fe;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      border-color: rgba(6, 182, 212, 0.65);
+      background: linear-gradient(135deg, rgba(12, 24, 52, 0.98) 0%, rgba(6, 14, 30, 0.98) 100%);
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5), 0 0 14px rgba(6, 182, 212, 0.2);
+    }
+
+    &:focus {
+      border-color: #00f0ff;
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.25), 0 0 18px rgba(0, 240, 255, 0.35);
+    }
+
+    option {
+      background-color: #050c1c;
+      color: #e0f2fe;
+      padding: 10px 14px;
+      font-size: 13px;
+    }
+  }
+
+  .select-caret {
+    @apply absolute right-3 text-[11px] pointer-events-none;
+    color: #00f0ff;
+    filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.5));
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  &:hover .select-caret {
+    color: #38bdf8;
+    transform: scale(1.1);
+  }
+
+  &:focus-within .select-caret {
+    transform: rotate(180deg);
+    color: #00f0ff;
+  }
+}
+
+:host-context([data-theme="light"]) {
+  .hw-dropdown-card {
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(63, 114, 175, 0.22);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    &:hover {
+      border-color: rgba(63, 114, 175, 0.45);
+      background: #ffffff;
+      box-shadow: 0 6px 18px rgba(63, 114, 175, 0.12);
+    }
+
+    .hw-card-footer {
+      border-color: rgba(63, 114, 175, 0.1);
+    }
+  }
+
+  .select-wrapper {
+    .hw-select {
+      background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+      border-color: rgba(63, 114, 175, 0.35);
+      color: #112d4e;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+
+      &:hover {
+        border-color: rgba(63, 114, 175, 0.7);
+        background: #f8fafc;
+        box-shadow: 0 0 10px rgba(63, 114, 175, 0.15);
+      }
+
+      &:focus {
+        border-color: #3f72af;
+        box-shadow: 0 0 0 2px rgba(63, 114, 175, 0.2), 0 0 12px rgba(63, 114, 175, 0.25);
+      }
+
+      option {
+        background-color: #ffffff;
+        color: #112d4e;
+      }
+    }
+
+    .select-caret {
+      color: #3f72af;
+      filter: drop-shadow(0 0 3px rgba(63, 114, 175, 0.3));
+    }
+
+    &:hover .select-caret {
+      color: #1d4ed8;
+    }
+
+    &:focus-within .select-caret {
+      color: #3f72af;
+    }
+  }
+}
+
+/* Control Deck */
+.controls-deck {
+  @apply p-4 sm:p-5 rounded-2xl mb-6 flex flex-wrap items-center justify-between gap-4;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .control-group {
+    @apply flex flex-col gap-1.5;
+  }
+
+  .control-label {
+    @apply text-xs font-semibold text-text-muted uppercase tracking-wider;
+  }
+
+  .control-pill-group {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .pill-btn {
+    @apply inline-flex items-center px-3.5 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+
+    &:hover {
+      color: var(--text-primary);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    &.active {
+      background: rgba(6, 182, 212, 0.15);
+      border-color: #06b6d4;
+      color: #38bdf8;
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.25);
+    }
+
+    .tag-mini {
+      @apply ml-2 px-1.5 py-0.5 rounded text-[10px] uppercase font-bold;
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+  }
+
+  .toggle-action-btn {
+    @apply inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold transition-all cursor-pointer;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+
+    &.active {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.45);
+      color: #fbbf24;
+    }
+  }
+
+  .top-fan-control-group {
+    @apply w-full p-4 rounded-xl flex flex-col gap-3;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    .top-slots-grid {
+      @apply grid grid-cols-1 md:grid-cols-2 gap-3 w-full;
+    }
+
+    .slot-control-item {
+      @apply p-3 rounded-xl flex flex-col gap-2;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+
+      .slot-header {
+        @apply flex items-center justify-between gap-2;
+
+        .slot-title {
+          @apply text-xs font-semibold text-text-primary flex items-center gap-2;
+
+          .slot-num {
+            @apply px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/10 border border-cyan-500/20;
+          }
+        }
+      }
+
+      .slot-pill-group {
+        @apply flex items-center gap-1.5;
+
+        .dir-btn {
+          @apply flex-1 inline-flex items-center justify-center px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: var(--text-muted);
+
+          &:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.15);
+          }
+
+          &.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
+            color: #f8fafc;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+          }
+
+          &.btn-exhaust.active {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            box-shadow: 0 0 14px rgba(239, 68, 68, 0.25);
+          }
+
+          &.btn-intake.active {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: rgba(6, 182, 212, 0.5);
+            color: #67e8f9;
+            box-shadow: 0 0 14px rgba(6, 182, 212, 0.25);
+          }
+        }
+      }
+    }
+
+    .presets-row {
+      @apply flex flex-wrap items-center gap-2 pt-2 border-t;
+      border-color: rgba(255, 255, 255, 0.05);
+
+      .presets-label {
+        @apply text-[11px] font-semibold text-text-muted flex items-center mr-1;
+      }
+
+      .presets-pills {
+        @apply flex flex-wrap items-center gap-1.5;
+
+        .preset-chip {
+          @apply px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all cursor-pointer;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.07);
+          color: var(--text-secondary);
+
+          &:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.15);
+          }
+
+          &.active {
+            background: rgba(99, 102, 241, 0.18);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: #a5b4fc;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.25);
+          }
+
+          &.chip-hybrid {
+            border-color: rgba(245, 158, 11, 0.3);
+
+            &.active {
+              background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(245, 158, 11, 0.2));
+              border-color: #f59e0b;
+              color: #fde68a;
+              box-shadow: 0 0 14px rgba(245, 158, 11, 0.3);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Telemetry Quick Bar */
+.telemetry-banner {
+  @apply p-4 sm:p-5 rounded-2xl mb-8 flex flex-wrap items-center justify-between gap-4;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .telemetry-item {
+    @apply flex flex-col items-start min-w-[120px];
+  }
+
+  .tel-label {
+    @apply text-xs font-semibold text-text-muted mb-0.5 flex items-center;
+  }
+
+  .tel-val {
+    @apply text-lg sm:text-2xl font-black tracking-tight;
+  }
+
+  .tel-sub {
+    @apply text-[11px] text-text-muted;
+  }
+
+  .telemetry-divider {
+    @apply hidden md:block w-[1px] h-10;
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* Schematic Layout Grid */
+.schematic-layout-grid {
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-6;
+
+  .chassis-card {
+    @apply lg:col-span-8 p-5 sm:p-6 rounded-2xl flex flex-col justify-between relative overflow-hidden;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  .inspector-column {
+    @apply lg:col-span-4 flex flex-col gap-6;
+  }
+}
+
+/* Chassis Header Inside Card */
+.chassis-card-header {
+  @apply flex flex-wrap items-start justify-between gap-4 mb-4;
+
+  .case-badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider text-cyan-400 mb-1;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+  }
+
+  .case-title {
+    @apply text-lg sm:text-xl font-bold text-text-primary tracking-tight;
+  }
+
+  .case-desc {
+    @apply text-xs sm:text-sm text-text-secondary max-w-xl mt-1 leading-relaxed;
+  }
+
+  .legend-badges {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .legend-pill {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+  }
+
+  .legend-dot {
+    @apply w-2 h-2 rounded-full;
+  }
+}
+
+/* Chassis Stage SVG Container */
+.chassis-stage-container {
+  @apply w-full relative rounded-xl overflow-hidden my-1 flex items-center justify-center;
+  background: radial-gradient(ellipse 90% 70% at 50% 40%, #051428 0%, #020612 100%);
+  border: 1px solid rgba(6, 182, 212, 0.25);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 8px 24px rgba(0, 0, 0, 0.5);
+  min-height: 360px;
+
+  .blueprint-grid {
+    @apply absolute inset-0 pointer-events-none opacity-25;
+    background-size: 20px 20px;
+    background-image:
+      linear-gradient(to right, rgba(6, 182, 212, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(6, 182, 212, 0.12) 1px, transparent 1px);
+  }
+
+  .chassis-svg {
+    @apply w-full h-auto relative z-10 block;
+    max-height: 480px;
+  }
+}
+
+/* SVG Schematic Element Styles */
+.chassis-outer-shell {
+  fill: #090e1a;
+  stroke: #334155;
+  stroke-width: 3;
+}
+
+.chassis-inner-chamber {
+  fill: #0c1322;
+  stroke: rgba(255, 255, 255, 0.06);
+  stroke-width: 1.5;
+}
+
+.front-mesh-bar {
+  fill: #111a2e;
+  stroke: #06b6d4;
+  stroke-width: 2;
+  opacity: 0.8;
+}
+
+.carbon-armor-bezel {
+  fill: #0b1220;
+  stroke: #06b6d4;
+  stroke-width: 2;
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.25));
+}
+
+.top-fan-slot-placeholder {
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  .slot-placeholder-box {
+    fill: rgba(0, 0, 0, 0.45);
+    stroke: rgba(255, 255, 255, 0.2);
+    stroke-width: 1.5;
+    stroke-dasharray: 4, 3;
+    transition: all 0.2s ease;
+  }
+
+  text {
+    transition: fill 0.2s ease;
+  }
+
+  &:hover {
+    .slot-placeholder-box {
+      fill: rgba(239, 68, 68, 0.15);
+      stroke: #ef4444;
+      stroke-dasharray: 0;
+      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
+    }
+
+    text {
+      fill: #ef4444;
+      font-weight: 700;
+    }
+  }
+}
+
+.top-vent-bar {
+  fill: #111a2e;
+  stroke: rgba(245, 158, 11, 0.4);
+  stroke-width: 1.5;
+}
+
+.psu-shroud-box {
+  fill: #080c16;
+  stroke: rgba(255, 255, 255, 0.06);
+}
+
+.drive-cage-box {
+  fill: #091222;
+  stroke: rgba(56, 189, 248, 0.4);
+  stroke-width: 1.5;
+}
+
+.component-block {
+  fill: #131c2e;
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 1.5;
+}
+
+.mobo-board {
+  fill: #0e1628;
+  stroke: #475569;
+}
+
+.vrm-heatsink {
+  fill: #1e293b;
+  stroke: #64748b;
+}
+
+.ram-stick {
+  fill: #312e81;
+  stroke: #818cf8;
+  stroke-width: 1.5;
+}
+
+.nvme-stick {
+  fill: #042f2e;
+  stroke: #14b8a6;
+  stroke-width: 1.5;
+}
+
+.ag400-tower-body {
+  fill: #1e293b;
+  stroke: #38bdf8;
+  stroke-width: 2;
+  filter: drop-shadow(0 4px 12px rgba(6, 182, 212, 0.2));
+}
+
+.stock-cooler-flower {
+  fill: #1a2234;
+  stroke: #0284c7;
+  stroke-width: 2;
+  filter: drop-shadow(0 4px 12px rgba(2, 132, 199, 0.25));
+}
+
+.pa120-tower-body {
+  fill: #1e293b;
+  stroke: #818cf8;
+  stroke-width: 2;
+  filter: drop-shadow(0 4px 14px rgba(129, 140, 248, 0.25));
+}
+
+.aio-pump-block {
+  fill: #091322;
+  stroke: #06b6d4;
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 14px rgba(6, 182, 212, 0.4));
+}
+
+.aio-top-rad {
+  fill: #0c1524;
+  stroke: #06b6d4;
+  stroke-width: 2;
+  filter: drop-shadow(0 4px 12px rgba(6, 182, 212, 0.2));
+}
+
+.aio-tube-path {
+  fill: none;
+  stroke: #0891b2;
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.3));
+}
+
+.gpu-shroud {
+  fill: #06191d;
+  stroke: #10b981;
+  stroke-width: 2;
+  filter: drop-shadow(0 6px 16px rgba(16, 185, 129, 0.15));
+}
+
+.gtx1650-shroud {
+  fill: #091a18;
+  stroke: #14b8a6;
+  stroke-width: 2;
+  filter: drop-shadow(0 6px 14px rgba(20, 184, 166, 0.18));
+}
+
+.rad-body {
+  fill: #1f132b;
+  stroke: #f43f5e;
+  stroke-width: 2;
+}
+
+.side-bracket, .bottom-bracket {
+  fill: #0c1829;
+  stroke: #06b6d4;
+  stroke-width: 1.5;
+}
+
+/* Fan Housings & Nodes */
+.fan-bracket {
+  fill: #0f172a;
+  stroke: rgba(255, 255, 255, 0.15);
+  stroke-width: 1.5;
+  transition: all 0.2s ease;
+}
+
+.intake-bracket {
+  stroke: #06b6d4;
+}
+
+.exhaust-bracket {
+  stroke: #ef4444;
+}
+
+.fan-node-group {
+  transition: transform 0.2s ease;
+
+  &:hover {
+    .fan-bracket {
+      filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
+    }
+  }
+
+  &.node-selected {
+    .fan-bracket {
+      stroke-width: 3;
+      stroke: #38bdf8;
+      filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.8));
+    }
+  }
+}
+
+.fan-housing {
+  fill: rgba(6, 182, 212, 0.1);
+  stroke: #06b6d4;
+  stroke-width: 1.5;
+}
+
+.exhaust-housing {
+  fill: rgba(239, 68, 68, 0.1);
+  stroke: #ef4444;
+}
+
+.gpu-fan-housing {
+  fill: rgba(16, 185, 129, 0.1);
+  stroke: #10b981;
+  stroke-width: 1.5;
+}
+
+.fan-hub {
+  fill: #06b6d4;
+}
+
+.exhaust-hub {
+  fill: #ef4444;
+}
+
+.gpu-fan-hub {
+  fill: #10b981;
+}
+
+.fan-blade {
+  stroke: #38bdf8;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.fan-blade-exhaust {
+  stroke: #f87171;
+  stroke-width: 2.5;
+  fill: none;
+}
+
+.gpu-blade {
+  stroke: #34d399;
+  stroke-width: 2;
+  fill: none;
+}
+
+/* Dynamic Fan Blade Spinning Animation */
+.spin-fan {
+  transform-origin: 0 0;
+  animation: fanSpin var(--fan-duration, 0.7s) infinite linear;
+}
+
+@keyframes fanSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animated Airflow Streamline Paths */
+.streamline-path {
+  fill: none;
+  stroke-dasharray: 12, 8;
+  animation: flowMotion var(--stream-duration, 2.0s) infinite linear;
+}
+
+.stream-direct-cpu {
+  stroke: url(#heatExchangeGrad);
+  stroke-width: 4;
+}
+
+.stream-top-bypass {
+  stroke: url(#coolStreamGrad);
+  stroke-width: 2.5;
+}
+
+.stream-gpu-feed {
+  stroke: url(#coolStreamGrad);
+  stroke-width: 3.5;
+}
+
+.stream-gpu-core {
+  stroke: url(#exhaustGrad);
+  stroke-width: 3;
+}
+
+.stream-bottom-intake {
+  stroke: url(#coolStreamGrad);
+  stroke-width: 2.5;
+}
+
+.stream-psu-intake {
+  stroke: url(#coolStreamGrad);
+  stroke-width: 3.5;
+  stroke-dasharray: 10, 6;
+  filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.6));
+}
+
+.stream-top-fan-exhaust {
+  stroke: url(#exhaustGrad);
+  stroke-width: 3.5;
+  filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.6));
+}
+
+.stream-chimney {
+  stroke: url(#heatExchangeGrad);
+  stroke-width: 4;
+  animation: chimneyFlow var(--stream-duration, 2.0s) infinite linear;
+}
+
+@keyframes flowMotion {
+  from {
+    stroke-dashoffset: 40;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes chimneyFlow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 40;
+  }
+}
+
+/* Advantages Pill List */
+.advantages-row {
+  @apply pt-4 border-t flex flex-col gap-2;
+  border-color: rgba(255, 255, 255, 0.06);
+
+  .adv-title {
+    @apply text-xs font-bold text-text-primary flex items-center;
+  }
+
+  .adv-chips {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .adv-chip {
+    @apply text-[11px] px-3 py-1.5 rounded-lg text-text-secondary;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+}
+
+/* Inspector Column Cards */
+.inspector-card, .pressure-card, .quick-rig-card {
+  @apply p-5 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.card-tag {
+  @apply text-xs font-bold uppercase tracking-wider text-text-muted flex items-center;
+}
+
+.inspector-header {
+  @apply flex items-center justify-between mb-4;
+
+  .live-pulse {
+    @apply inline-flex items-center text-xs font-semibold text-emerald-400 gap-1.5;
+
+    .pulse-dot {
+      @apply w-2 h-2 rounded-full bg-emerald-400;
+      box-shadow: 0 0 8px #34d399;
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+  }
+}
+
+.fan-title-row {
+  @apply flex items-center gap-3 mb-3;
+
+  .fan-icon-circle {
+    @apply w-10 h-10 rounded-xl flex items-center justify-center text-cyan-400;
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+
+    &.is-exhaust {
+      @apply text-rose-400;
+      background: rgba(239, 68, 68, 0.15);
+      border-color: rgba(239, 68, 68, 0.3);
+    }
+  }
+
+  .fan-name {
+    @apply text-sm sm:text-base font-bold text-text-primary;
+  }
+
+  .fan-role-badge {
+    @apply inline-block text-[10px] uppercase font-bold text-cyan-400 px-2 py-0.5 rounded;
+    background: rgba(6, 182, 212, 0.12);
+
+    &.badge-exhaust {
+      @apply text-rose-400;
+      background: rgba(239, 68, 68, 0.12);
+    }
+  }
+}
+
+.fan-desc {
+  @apply text-xs text-text-secondary leading-relaxed mb-4;
+}
+
+.specs-grid-mini {
+  @apply grid grid-cols-2 gap-2;
+
+  .mini-spec {
+    @apply p-2.5 rounded-xl flex flex-col;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+
+    .m-label {
+      @apply text-[10px] text-text-muted font-medium mb-0.5;
+    }
+
+    .m-val {
+      @apply text-xs font-bold text-text-primary;
+    }
+  }
+}
+
+.empty-inspector {
+  @apply py-8 text-center text-xs text-text-muted flex flex-col items-center justify-center;
+}
+
+/* Component Condition Inspector Styles */
+.component-condition-card {
+  .component-quick-pills {
+    @apply flex flex-wrap gap-1.5;
+
+    .comp-pill-chip {
+      @apply px-2.5 py-1 rounded-lg text-[11px] font-semibold text-text-muted transition-all cursor-pointer;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: #f8fafc;
+        border-color: rgba(6, 182, 212, 0.35);
+      }
+
+      &.active {
+        background: rgba(6, 182, 212, 0.16);
+        color: #38bdf8;
+        border-color: rgba(6, 182, 212, 0.55);
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+      }
+    }
+  }
+
+  .comp-title-row {
+    @apply flex items-center gap-3 mb-3;
+
+    .comp-icon-box {
+      @apply w-11 h-11 rounded-xl flex items-center justify-center text-cyan-400 text-base flex-shrink-0;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.28);
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
+    }
+
+    .comp-name {
+      @apply text-sm sm:text-base font-bold text-text-primary truncate;
+    }
+
+    .comp-temp-badge {
+      @apply inline-flex items-center text-xs font-bold px-2 py-0.5 rounded-lg text-emerald-400 border;
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .comp-category {
+      @apply text-[10px] uppercase font-bold text-text-muted tracking-wider block mt-0.5;
+    }
+  }
+
+  .comp-status-banner {
+    @apply flex items-center gap-2.5 p-2.5 px-3 rounded-xl mb-3 border;
+    background: rgba(6, 182, 212, 0.06);
+    border-color: rgba(6, 182, 212, 0.2);
+
+    .status-indicator-dot {
+      @apply w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0;
+      box-shadow: 0 0 8px #06b6d4;
+      animation: pulseGlow 2s infinite ease-in-out;
+    }
+  }
+
+  .comp-narrative-box {
+    @apply flex flex-col gap-2.5 mb-3.5;
+
+    .narrative-item {
+      @apply p-3 rounded-xl border;
+      background: rgba(0, 0, 0, 0.25);
+      border-color: rgba(255, 255, 255, 0.05);
+
+      .narrative-heading {
+        @apply text-[11px] font-bold text-text-primary block mb-1 flex items-center;
+      }
+
+      .narrative-text {
+        @apply text-xs text-text-secondary leading-relaxed;
+      }
+
+      &.callout-impact {
+        background: rgba(245, 158, 11, 0.08) !important;
+        border-color: rgba(245, 158, 11, 0.25) !important;
+      }
+    }
+  }
+
+  .comp-metrics-grid {
+    @apply grid grid-cols-2 gap-2;
+
+    .comp-metric-box {
+      @apply p-2.5 rounded-xl flex flex-col;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+
+      .cm-label {
+        @apply text-[10px] text-text-muted font-medium mb-0.5;
+      }
+
+      .cm-val {
+        @apply text-xs font-bold text-text-primary;
+      }
+
+      .cm-hint {
+        @apply text-[9px] text-cyan-400/80 mt-0.5;
+      }
+    }
+  }
+}
+
+/* Interactive SVG Component Blueprint Highlighting */
+.cpu-cooler-assembly,
+.gpu-card-assembly,
+.ram-modules,
+.nvme-slot,
+.motherboard-tray,
+.psu-assembly-group,
+.drive-bay-assembly,
+.front-mesh-panel,
+.top-slot-passive {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.55));
+    opacity: 0.95;
+  }
+
+  &.comp-selected {
+    filter: drop-shadow(0 0 16px rgba(56, 189, 248, 0.95)) !important;
+
+    rect, polygon, circle {
+      stroke: #38bdf8 !important;
+      stroke-width: 2.5px !important;
+    }
+  }
+}
+
+.gpu-card-assembly.comp-selected {
+  filter: drop-shadow(0 0 18px rgba(16, 185, 129, 0.95)) !important;
+
+  rect.gpu-shroud {
+    stroke: #34d399 !important;
+    stroke-width: 2.5px !important;
+  }
+}
+
+/* Pressure Card Elements */
+.gauge-bar-wrapper {
+  @apply mb-4;
+
+  .gauge-labels {
+    @apply flex items-center justify-between text-xs font-semibold mb-2;
+
+    .g-intake {
+      @apply text-cyan-400;
+    }
+
+    .g-exhaust {
+      @apply text-amber-400;
+    }
+  }
+
+  .gauge-track {
+    @apply w-full h-3 rounded-full flex overflow-hidden;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .gauge-fill-intake {
+    @apply h-full bg-cyan-400 transition-all duration-300;
+  }
+
+  .gauge-fill-exhaust {
+    @apply h-full bg-amber-400 transition-all duration-300;
+  }
+}
+
+.pressure-badge-box {
+  @apply p-3 rounded-xl flex items-start;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Quick Rig Card List */
+.quick-rig-list {
+  @apply flex flex-col gap-2 text-xs;
+
+  li {
+    @apply flex items-center justify-between pb-1.5 border-b;
+    border-color: rgba(255, 255, 255, 0.04);
+
+    &:last-child {
+      @apply border-b-0 pb-0;
+    }
+
+    .q-label {
+      @apply text-text-muted font-medium;
+    }
+
+    .q-val {
+      @apply text-text-primary font-semibold;
+    }
+  }
+}
+
+
+/* Staged / Apply Changes Controls & Banners */
+.pending-banner {
+  @apply mb-6 p-4 rounded-2xl flex flex-wrap items-center justify-between gap-4 border;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(6, 182, 212, 0.12));
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 10px 25px rgba(245, 158, 11, 0.12);
+
+  .pending-info {
+    @apply flex items-center gap-3;
+  }
+
+  .pending-actions {
+    @apply flex items-center gap-2;
+  }
+}
+
+.apply-action-btn {
+  @apply inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer;
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  color: #022c22;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 22px rgba(16, 185, 129, 0.65);
+    filter: brightness(1.1);
+  }
+
+  &.pulse-glow {
+    animation: applyPulse 1.8s infinite ease-in-out;
+  }
+
+  &.btn-sm {
+    @apply px-2.5 py-1 text-[11px];
+  }
+}
+
+@keyframes applyPulse {
+  0%, 100% {
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(6, 182, 212, 0.8);
+    transform: scale(1.03);
+  }
+}
+
+.discard-btn {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-text-muted hover:text-rose-400 hover:bg-rose-500/10 transition-all cursor-pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.applied-success-banner {
+  @apply mb-6 p-3.5 px-5 rounded-2xl flex items-center gap-3 border;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #a7f3d0;
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.15);
+}
+
+.pending-tag {
+  @apply ml-2 px-1.5 py-0.5 rounded text-[10px] uppercase font-black tracking-wide;
+  background: rgba(245, 158, 11, 0.25);
+  color: #fde68a;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+/* Comprehensive Condition Report Card */
+.condition-report-section {
+  @apply mt-8;
+}
+
+.condition-report-card {
+  @apply p-6 sm:p-8 rounded-3xl relative overflow-hidden;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+
+  .condition-top-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #06b6d4, #10b981, #f59e0b, #6366f1);
+  }
+
+  .condition-header {
+    @apply flex flex-wrap items-start justify-between gap-4 mb-6;
+  }
+
+  .condition-title {
+    @apply text-xl sm:text-2xl font-black text-text-primary tracking-tight;
+  }
+
+  .condition-tagline {
+    @apply text-xs sm:text-sm text-cyan-400 font-medium mt-1;
+  }
+
+  .condition-badges-row {
+    @apply flex flex-wrap items-center gap-2;
+  }
+
+  .cond-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-xl text-xs font-bold;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    &.badge-positive {
+      @apply text-emerald-400;
+      background: rgba(16, 185, 129, 0.12);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    &.badge-balanced {
+      @apply text-cyan-400;
+      background: rgba(6, 182, 212, 0.12);
+      border-color: rgba(6, 182, 212, 0.3);
+    }
+
+    &.badge-neutral {
+      @apply text-amber-400;
+      background: rgba(245, 158, 11, 0.12);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+  }
+
+  .condition-body-text {
+    @apply text-sm text-text-secondary leading-relaxed mb-6 p-4 rounded-2xl;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Real-time Estimated Thermal Metrics */
+  .condition-metrics-grid {
+    @apply grid grid-cols-2 md:grid-cols-4 gap-3 mb-6;
+
+    .metric-card {
+      @apply p-4 rounded-2xl flex flex-col;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+
+      .m-label {
+        @apply text-[11px] font-semibold text-text-muted mb-1 flex items-center;
+      }
+
+      .m-value {
+        @apply text-lg font-black text-text-primary tracking-tight;
+      }
+
+      .m-sub {
+        @apply text-[10px] text-text-muted mt-0.5;
+      }
+    }
+  }
+
+  /* GPU Upward Airflow Callout */
+  .gpu-upward-callout {
+    @apply p-4 rounded-2xl mb-6 flex flex-col gap-1.5 border;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(6, 182, 212, 0.08));
+    border-color: rgba(16, 185, 129, 0.3);
+
+    .callout-header {
+      @apply text-xs font-bold text-emerald-400 flex items-center uppercase tracking-wider;
+    }
+
+    .callout-content {
+      @apply text-xs sm:text-sm text-text-secondary leading-relaxed;
+    }
+  }
+
+  /* Pros vs Cons Comparison Grid */
+  .pros-cons-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6 mb-6;
+
+    .pros-box, .cons-box {
+      @apply p-5 rounded-2xl flex flex-col gap-3;
+      background: rgba(0, 0, 0, 0.25);
+    }
+
+    .pros-box {
+      border: 1px solid rgba(16, 185, 129, 0.25);
+
+      .box-title {
+        @apply text-sm font-bold text-emerald-400 flex items-center;
+      }
+
+      li {
+        @apply text-xs text-text-secondary flex items-start leading-relaxed;
+      }
+    }
+
+    .cons-box {
+      border: 1px solid rgba(245, 158, 11, 0.25);
+
+      .box-title {
+        @apply text-sm font-bold text-amber-400 flex items-center;
+      }
+
+      li {
+        @apply text-xs text-text-secondary flex items-start leading-relaxed;
+      }
+    }
+  }
+
+  /* Recommended Workloads & Thermal Tip */
+  .condition-footer {
+    @apply pt-5 border-t flex flex-col md:flex-row items-start md:items-center justify-between gap-4;
+    border-color: rgba(255, 255, 255, 0.06);
+
+    .usecases-row {
+      @apply flex flex-wrap items-center gap-1.5;
+    }
+
+    .usecase-tag {
+      @apply px-2.5 py-1 rounded-lg text-[11px] font-semibold text-text-muted;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .pro-tip-box {
+      @apply text-xs text-text-secondary p-3 rounded-xl flex items-start gap-2;
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   AERODYNAMIC & HARDWARE TRADE-OFF MATRIX (PROS & CONS)
+   ═══════════════════════════════════════════════════════════════ */
+.tradeoff-matrix-deck {
+  @apply p-5 sm:p-6 rounded-2xl mb-8 border transition-all duration-300;
+  background: var(--bg-card);
+  border-color: rgba(6, 182, 212, 0.28);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 0 24px rgba(6, 182, 212, 0.04);
+
+  .matrix-header {
+    @apply flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-4 border-b border-cyan-500/15;
+  }
+
+  .matrix-live-pill {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.35);
+    color: #38bdf8;
+
+    .live-pulse-dot {
+      @apply w-1.5 h-1.5 rounded-full bg-cyan-400;
+      box-shadow: 0 0 8px #00f0ff;
+      animation: pulseDot 2s infinite ease-in-out;
+    }
+  }
+
+  .matrix-telemetry-summary {
+    @apply flex flex-wrap items-center gap-2;
+
+    .telemetry-pill {
+      @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-primary);
+    }
+  }
+
+  .matrix-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-4 mt-5;
+
+    .matrix-box {
+      @apply p-4 sm:p-5 rounded-xl flex flex-col gap-3;
+
+      &.pros-column {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(2, 6, 18, 0.6) 100%);
+        border: 1px solid rgba(16, 185, 129, 0.28);
+      }
+
+      &.cons-column {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.06) 0%, rgba(2, 6, 18, 0.6) 100%);
+        border: 1px solid rgba(245, 158, 11, 0.28);
+      }
+
+      .column-header {
+        @apply flex items-center gap-2 text-xs font-bold uppercase tracking-wider font-mono pb-2 border-b;
+        border-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .matrix-list {
+        @apply list-none flex flex-col gap-2.5 p-0 m-0;
+
+        .matrix-list-item {
+          @apply flex items-start gap-2.5 text-xs text-text-secondary leading-relaxed;
+
+          &.pro-item span {
+            color: #d1fae5;
+          }
+
+          &.con-item span {
+            color: #fef3c7;
+          }
+        }
+      }
+    }
+  }
+
+  .matrix-guidance-bar {
+    @apply mt-5 p-3.5 sm:p-4 rounded-xl flex items-start gap-3;
+    background: rgba(6, 182, 212, 0.08);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+  }
+}
+
+/* Blueprint SVG Live Telemetry HUD */
+.blueprint-hud-telemetry {
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+/* Subpage Next Navigation Banner */
+.subpage-next-banner {
+  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .btn-next-step {
+    @apply inline-flex items-center px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all cursor-pointer flex-shrink-0;
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INTEGRATED SIMULATION TOP TOOLBAR & BOTTOM CUSTOMIZATION DECK
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Top Simulation Toolbar */
+.sim-top-toolbar {
+  @apply flex flex-col gap-2.5 pb-2.5 border-b;
+  border-color: rgba(255, 255, 255, 0.07);
+
+  .sim-toolbar-top-row {
+    @apply flex flex-wrap items-center justify-between gap-3;
+
+    .case-info-meta {
+      @apply flex items-center gap-2.5 flex-wrap;
+
+      .case-badge {
+        @apply inline-flex items-center px-2 py-0.5 rounded-md text-[10.5px] font-bold uppercase tracking-wider text-cyan-400 font-mono;
+        background: rgba(6, 182, 212, 0.12);
+        border: 1px solid rgba(6, 182, 212, 0.25);
+      }
+
+      .case-title {
+        @apply text-sm sm:text-base font-bold text-text-primary tracking-tight m-0;
+      }
+    }
+
+    .sim-toolbar-actions {
+      @apply flex items-center gap-2.5 flex-wrap;
+
+      .toggle-pills-group {
+        @apply flex items-center gap-1.5;
+
+        .toggle-action-btn {
+          @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold cursor-pointer transition-all;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          color: var(--text-secondary);
+
+          &:hover {
+            color: var(--text-primary);
+            border-color: rgba(6, 182, 212, 0.35);
+          }
+
+          &.active {
+            background: rgba(6, 182, 212, 0.16);
+            border-color: rgba(6, 182, 212, 0.55);
+            color: #e0f2fe;
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.25);
+          }
+        }
+      }
+
+      .airflow-legend {
+        @apply flex items-center gap-1.5;
+
+        .legend-pill {
+          @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono;
+          background: rgba(0, 0, 0, 0.35);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          color: var(--text-muted);
+        }
+
+        .legend-dot {
+          @apply w-1.5 h-1.5 rounded-full;
+        }
+      }
+    }
+  }
+
+  /* Filter Controls Strip */
+  .sim-filter-strip {
+    @apply flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-cyan-500/10;
+
+    .filter-group {
+      @apply flex flex-wrap items-center gap-1.5;
+
+      .filter-label {
+        @apply text-[11px] font-mono font-bold uppercase tracking-wider text-text-muted flex items-center mr-1;
+      }
+
+      .filter-pills {
+        @apply flex flex-wrap items-center gap-1;
+
+        .pill-btn {
+          @apply px-2.5 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          color: var(--text-secondary);
+
+          &:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.16);
+          }
+
+          &.active {
+            background: rgba(6, 182, 212, 0.16);
+            border-color: rgba(6, 182, 212, 0.55);
+            color: #e0f2fe;
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+          }
+
+          .pending-tag {
+            @apply ml-1.5 px-1 py-0.5 rounded text-[9px] font-mono font-bold uppercase bg-amber-500/20 text-amber-300 border border-amber-500/30;
+          }
+        }
+
+        .apply-action-btn {
+          @apply inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider cursor-pointer transition-all;
+          background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+          color: #ffffff;
+          box-shadow: 0 0 14px rgba(6, 182, 212, 0.4);
+
+          &:hover {
+            filter: brightness(1.15);
+            box-shadow: 0 0 18px rgba(6, 182, 212, 0.6);
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Bottom Simulation Customizer Deck */
+.sim-bottom-deck {
+  @apply flex flex-col gap-3 pt-3 border-t;
+  border-color: rgba(255, 255, 255, 0.07);
+
+  .sim-options-header {
+    @apply flex items-center justify-between gap-2;
+  }
+
+  .sim-dropdowns-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2.5;
+
+    .hw-dropdown-card {
+      @apply flex flex-col gap-1.5 p-2.5 rounded-xl transition-all duration-200;
+      background: linear-gradient(135deg, rgba(4, 10, 24, 0.75) 0%, rgba(2, 6, 18, 0.85) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+
+      &:hover {
+        border-color: rgba(6, 182, 212, 0.45);
+        background: linear-gradient(135deg, rgba(6, 14, 32, 0.88) 0%, rgba(3, 8, 22, 0.95) 100%);
+      }
+
+      .hw-dropdown-label {
+        @apply text-[11px] font-semibold text-text-primary flex items-center cursor-pointer;
+      }
+
+      .hw-select {
+        @apply py-1.5 px-2.5 text-xs rounded-lg;
+      }
+
+      .hw-card-footer {
+        @apply flex items-center justify-between text-[10px] pt-1 text-text-muted border-t border-cyan-500/10;
+
+        .hw-tag {
+          @apply font-mono font-bold;
+        }
+
+        .hw-subtext {
+          @apply font-mono text-[9.5px];
+        }
+      }
+    }
+  }
+
+  .top-fans-mini-bar {
+    @apply p-2.5 rounded-xl;
+    background: rgba(4, 10, 24, 0.6);
+    border: 1px solid rgba(6, 182, 212, 0.15);
+
+    .slot-mini-item {
+      .hw-select {
+        @apply py-1.5 px-2.5 text-xs rounded-lg;
+      }
+    }
+  }
+
+  /* Inline Telemetry Bar */
+  .sim-inline-telemetry {
+    @apply grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-2 p-2.5 rounded-xl;
+    background: linear-gradient(135deg, rgba(2, 6, 18, 0.9) 0%, rgba(4, 10, 26, 0.95) 100%);
+    border: 1px solid rgba(6, 182, 212, 0.2);
+
+    .tel-pill {
+      @apply flex flex-col gap-0.5 px-2 py-1 rounded-lg;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+
+      .tel-pill-label {
+        @apply text-[9.5px] font-mono uppercase tracking-wider text-text-muted flex items-center;
+      }
+
+      .tel-pill-val {
+        @apply text-xs font-mono font-bold;
+      }
+    }
+  }
+}

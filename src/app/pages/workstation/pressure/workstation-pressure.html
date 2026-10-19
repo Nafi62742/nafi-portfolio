@@ -1,0 +1,225 @@
+<section class="pressure-deepdive-root">
+
+  <!-- DEEP DIVE INTRO BANNER -->
+  <div class="deepdive-banner glass-card mb-8">
+    <div class="banner-icon-circle">
+      <i class="fa-solid fa-wind text-2xl text-cyan-400"></i>
+    </div>
+    <div class="banner-text">
+      <h2 class="text-xl font-bold text-text-primary">{{ labels.pressure_title }}</h2>
+      <p class="text-sm text-text-muted mt-1 leading-relaxed">
+        Engineering deep dive into why the 3x Front Intake + DeepCool AG400 Tower Push + 1x Rear Exhaust configuration was architected specifically for extreme thermal headroom, 0dB acoustic idling, and perpetual dust immunity in the darkFlash Leo chassis.
+      </p>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE CFM & PRESSURE GRADIENT SIMULATOR -->
+  <div class="simulator-card glass-card mb-8">
+    <div class="flex items-center justify-between flex-wrap gap-3 pb-4 border-b border-white/10 mb-5">
+      <div>
+        <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider block">Interactive Aerodynamics Lab</span>
+        <h3 class="text-base font-bold text-text-primary">Volumetric Pressure &amp; Dust Ingress Simulator</h3>
+      </div>
+      <button type="button" class="btn-sync-live" (click)="resetToLiveSetup()">
+        <i class="fa-solid fa-arrows-rotate mr-1.5 text-cyan-400"></i>
+        <span>Sync With Live Setup ({{ ws.dynamicIntakeCfm() }} In / {{ ws.dynamicExhaustCfm() }} Out)</span>
+      </button>
+    </div>
+
+    <!-- Simulator Controls & Sliders Grid -->
+    <div class="sim-controls-grid mb-6">
+      <!-- Intake Column -->
+      <div class="sim-col sim-intake">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-cyan-400 flex items-center">
+            <i class="fa-solid fa-arrow-right-to-bracket mr-1.5"></i>
+            Chassis Intake Flow
+          </span>
+          <span class="text-base font-extrabold text-cyan-300">{{ simIntakeCfm() }} CFM</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" class="btn-sim-adjust" (click)="adjustIntake(-15)">-15</button>
+          <button type="button" class="btn-sim-adjust" (click)="adjustIntake(-5)">-5</button>
+          <input
+            type="range"
+            min="0"
+            max="250"
+            step="5"
+            [value]="simIntakeCfm()"
+            (input)="simIntakeCfm.set(+$any($event.target).value)"
+            class="sim-slider slider-cyan flex-1" />
+          <button type="button" class="btn-sim-adjust" (click)="adjustIntake(5)">+5</button>
+          <button type="button" class="btn-sim-adjust" (click)="adjustIntake(15)">+15</button>
+        </div>
+        <span class="text-[11px] text-text-muted mt-1.5 block">Front hex mesh + top intake fan mounts</span>
+      </div>
+
+      <!-- Exhaust Column -->
+      <div class="sim-col sim-exhaust">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold text-rose-400 flex items-center">
+            <i class="fa-solid fa-arrow-right-from-bracket mr-1.5"></i>
+            Chassis Exhaust Flow
+          </span>
+          <span class="text-base font-extrabold text-rose-300">{{ simExhaustCfm() }} CFM</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" class="btn-sim-adjust" (click)="adjustExhaust(-15)">-15</button>
+          <button type="button" class="btn-sim-adjust" (click)="adjustExhaust(-5)">-5</button>
+          <input
+            type="range"
+            min="0"
+            max="250"
+            step="5"
+            [value]="simExhaustCfm()"
+            (input)="simExhaustCfm.set(+$any($event.target).value)"
+            class="sim-slider slider-rose flex-1" />
+          <button type="button" class="btn-sim-adjust" (click)="adjustExhaust(5)">+5</button>
+          <button type="button" class="btn-sim-adjust" (click)="adjustExhaust(15)">+15</button>
+        </div>
+        <span class="text-[11px] text-text-muted mt-1.5 block">Rear 120mm fan + top exhaust chimney</span>
+      </div>
+    </div>
+
+    <!-- Simulator Output Status Gauge -->
+    <div class="sim-results-box" [ngClass]="'status-' + simStatusBadge().type">
+      <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid text-lg" [ngClass]="simStatusBadge().type === 'positive' ? 'fa-shield-halved text-emerald-400' : simStatusBadge().type === 'negative' ? 'fa-triangle-exclamation text-rose-400' : 'fa-scale-balanced text-amber-400'"></i>
+          <span class="text-sm font-bold text-text-primary">{{ simStatusBadge().label }}</span>
+        </div>
+        <span class="text-sm font-extrabold" [ngClass]="simNetPressure() > 0 ? 'text-emerald-400' : simNetPressure() < 0 ? 'text-rose-400' : 'text-amber-400'">
+          Differential: {{ simNetPressure() > 0 ? '+' : '' }}{{ simNetPressure() }} CFM
+        </span>
+      </div>
+
+      <!-- Ratio Progress Bar -->
+      <div class="gauge-bar-wrapper mb-3">
+        <div
+          class="gauge-bar-fill"
+          [style.width.%]="Math.min(100, Math.max(10, (simIntakeCfm() / Math.max(1, (simIntakeCfm() + simExhaustCfm()))) * 100))"
+          [style.background]="simNetPressure() > 0 ? 'linear-gradient(90deg, #06b6d4, #10b981)' : 'linear-gradient(90deg, #f59e0b, #ef4444)'">
+        </div>
+      </div>
+
+      <p class="text-xs text-text-secondary leading-relaxed">{{ simStatusBadge().description }}</p>
+    </div>
+  </div>
+
+  <!-- 5 DEEP DIVE ENGINEERING CARDS GRID -->
+  <div class="deepdive-cards-grid">
+    <!-- Card 1: Positive Air Pressure -->
+    <div class="deepdive-card glass-card">
+      <div class="card-icon-header">
+        <div class="dd-icon bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+          <i class="fa-solid fa-shield-virus"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-text-primary text-base">The Physics of Positive Air Pressure</h3>
+          <span class="text-xs text-emerald-400">Total Intake CFM &gt; Total Exhaust CFM</span>
+        </div>
+      </div>
+      <p class="text-sm text-text-secondary mt-3 leading-relaxed">
+        In a positive pressure environment, more air is forced into the chassis than is extracted by exhaust fans. The excess air volume builds a slight internal positive gradient, forcing air outwards through every microscopic seam, PCIe bracket slot, and vent.
+      </p>
+      <div class="info-callout mt-4">
+        <strong class="text-text-primary">Key Advantage:</strong>
+        Because 100% of incoming air passes through the darkFlash Leo front mesh dust filter, zero dust enters through unfiltered chassis gaps.
+      </div>
+    </div>
+
+    <!-- Card 2: Straight-Through Laminar Tunnel -->
+    <div class="deepdive-card glass-card">
+      <div class="card-icon-header">
+        <div class="dd-icon bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <i class="fa-solid fa-arrows-split-up-and-left"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-text-primary text-base">Linear Wind-Tunnel Flow Path</h3>
+          <span class="text-xs text-cyan-400">Front Hex Mesh &rarr; DeepCool AG400 &rarr; Rear Exhaust</span>
+        </div>
+      </div>
+      <p class="text-sm text-text-secondary mt-3 leading-relaxed">
+        Unlike cases with choked front glass or turbulent multi-directional fans, the darkFlash Leo with DeepCool AG400 creates an uninterrupted horizontal wind tunnel. The AG400 fan is mechanically in-line with the top front intake and rear exhaust fan.
+      </p>
+      <div class="info-callout mt-4">
+        <strong class="text-text-primary">Thermal Headroom:</strong>
+        Allows the Intel i5-10400F to sustain maximum boost frequencies indefinitely with core temperatures staying safely below 65°C under synthetic loads.
+      </div>
+    </div>
+
+    <!-- Card 3: GPU Independent Ingestion -->
+    <div class="deepdive-card glass-card">
+      <div class="card-icon-header">
+        <div class="dd-icon bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+          <i class="fa-solid fa-gamepad"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-text-primary text-base">RTX 3060 Direct Fresh Air Delivery</h3>
+          <span class="text-xs text-indigo-400">Front Fan #2 Dedicated Intake Stream</span>
+        </div>
+      </div>
+      <p class="text-sm text-text-secondary mt-3 leading-relaxed">
+        Front intake fan #2 is positioned precisely level with the graphics card's triple axial fans. The fans draw fresh air from below and drive airflow directly upward through the heatsink and vented backplate into the top/rear exhaust stream, preventing heat recirculation.
+      </p>
+      <div class="info-callout mt-4">
+        <strong class="text-text-primary">0dB Fan Stop:</strong>
+        During programming, writing code, or web browsing, the GPU fans can completely turn off (0 RPM) while ambient case airflow keeps the GPU core idling under 40°C.
+      </div>
+    </div>
+
+    <!-- Card 4: Isolated PSU Chamber -->
+    <div class="deepdive-card glass-card">
+      <div class="card-icon-header">
+        <div class="dd-icon bg-amber-500/10 text-amber-400 border border-amber-500/20">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-text-primary text-base">Independent Thermal Shroud (PSU)</h3>
+          <span class="text-xs text-amber-400">Underside Intake &rarr; Direct Rear Exhaust</span>
+        </div>
+      </div>
+      <p class="text-sm text-text-secondary mt-3 leading-relaxed">
+        The 750W power supply is housed inside a dedicated bottom metal tunnel. It draws cold air from underneath the case through an easily cleanable dust filter and exhausts heat directly out the back, completely isolated from the CPU and GPU chamber.
+      </p>
+      <div class="info-callout mt-4">
+        <strong class="text-text-primary">Zero Thermal Spill:</strong>
+        Power supply transformation heat never enters or warms up the CPU or GPU cooling cycles.
+      </div>
+    </div>
+
+    <!-- Card 5: Static Pressure & Mesh Impedance -->
+    <div class="deepdive-card glass-card">
+      <div class="card-icon-header">
+        <div class="dd-icon bg-rose-500/10 text-rose-400 border border-rose-500/20">
+          <i class="fa-solid fa-gauge"></i>
+        </div>
+        <div>
+          <h3 class="font-bold text-text-primary text-base">Static Pressure &amp; Mesh Impedance Curves</h3>
+          <span class="text-xs text-rose-400">Pascal Pressure vs Free-Air CFM</span>
+        </div>
+      </div>
+      <p class="text-sm text-text-secondary mt-3 leading-relaxed">
+        Airflow volume drops when encountering dust mesh filters and heatsink fin stacks. The darkFlash CL6 ARGB fans provide 1.42 mm-H₂O static pressure, overcoming front mesh flow resistance with minimal turbulence hum.
+      </p>
+      <div class="info-callout mt-4">
+        <strong class="text-text-primary">Acoustic Balance:</strong>
+        Curved fan blades with hydro bearings prevent aerodynamic chop against case honeycomb perforations.
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBPAGE FOOTER NAVIGATION BANNER -->
+  <div class="subpage-next-banner glass-card mt-10">
+    <div class="next-info">
+      <span class="text-xs font-semibold text-text-muted uppercase tracking-wider">Next Section</span>
+      <h4 class="text-base font-bold text-text-primary mt-0.5">Workstation Performance &amp; Thermal Stress Lab</h4>
+      <p class="text-xs text-text-secondary mt-1">Examine real-world developer build benchmarks (Angular, Rust, Next.js), local AI inference throughput, and 100% AVX2 torture test metrics.</p>
+    </div>
+    <a routerLink="/workstation/benchmarks" class="btn-next-step pulse-glow">
+      <span>View Benchmarks Lab</span>
+      <i class="fa-solid fa-arrow-right ml-2"></i>
+    </a>
+  </div>
+
+</section>

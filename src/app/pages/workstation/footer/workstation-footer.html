@@ -1,0 +1,26 @@
+<footer class="ws-footer-root">
+  <div class="ws-footer-container">
+    <div class="ws-footer-node-info">
+      <div class="flex items-center gap-2">
+        <i class="fa-solid fa-server text-cyan-400 text-sm"></i>
+        <span class="font-mono text-xs font-bold text-text-primary tracking-wider">SYS::WORKSTATION ARCHITECTURE LAB</span>
+      </div>
+      <p class="font-mono text-[11px] text-text-muted mt-1">
+        Active Node: {{ currentRig().name }} ({{ currentRig().caseName }}) • {{ currentRig().cpuName.split('(')[0] }} • {{ currentRig().gpuName.split('(')[0] }}
+      </p>
+    </div>
+
+    <div class="ws-footer-actions">
+      <a routerLink="/" class="ws-footer-return-btn" title="Exit Workstation and Return to Main Portfolio">
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+        <span>{{ labels.return_to_portfolio }}</span>
+      </a>
+    </div>
+
+    <div class="ws-footer-bottom">
+      <p class="text-xs text-text-muted font-mono">
+        © {{ year }} Nafi Ahmed. Thermodynamic &amp; Hardware Engineering Studio.
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,166 @@
+.pressure-deepdive-root {
+  @apply relative z-10 w-full;
+}
+
+/* Deep Dive Banner */
+.deepdive-banner {
+  @apply flex items-start gap-4 p-6 sm:p-7 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .banner-icon-circle {
+    @apply w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+  }
+
+  .banner-text {
+    @apply flex-1;
+  }
+}
+
+/* Simulator Card */
+.simulator-card {
+  @apply p-6 sm:p-7 rounded-2xl;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .btn-sync-live {
+    @apply inline-flex items-center px-3.5 py-1.5 rounded-xl text-xs font-semibold text-text-secondary hover:text-text-primary hover:bg-white/5 transition-all cursor-pointer;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sim-controls-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-6;
+
+    .sim-col {
+      @apply p-4 rounded-xl border;
+
+      &.sim-intake {
+        background: rgba(6, 182, 212, 0.04);
+        border-color: rgba(6, 182, 212, 0.2);
+      }
+
+      &.sim-exhaust {
+        background: rgba(244, 63, 94, 0.04);
+        border-color: rgba(244, 63, 94, 0.2);
+      }
+    }
+
+    .btn-sim-adjust {
+      @apply w-8 h-8 rounded-lg text-xs font-bold flex items-center justify-center transition-all cursor-pointer;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-primary);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    .sim-slider {
+      @apply h-2 rounded-lg cursor-pointer appearance-none;
+      background: rgba(255, 255, 255, 0.1);
+
+      &.slider-cyan::-webkit-slider-thumb {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #06b6d4;
+        box-shadow: 0 0 10px rgba(6, 182, 212, 0.8);
+        cursor: pointer;
+      }
+
+      &.slider-rose::-webkit-slider-thumb {
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #f43f5e;
+        box-shadow: 0 0 10px rgba(244, 63, 94, 0.8);
+        cursor: pointer;
+      }
+    }
+  }
+
+  .sim-results-box {
+    @apply p-4 sm:p-5 rounded-xl border transition-all;
+
+    &.status-positive {
+      background: rgba(16, 185, 129, 0.07);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    &.status-neutral {
+      background: rgba(245, 158, 11, 0.07);
+      border-color: rgba(245, 158, 11, 0.25);
+    }
+
+    &.status-negative {
+      background: rgba(239, 68, 68, 0.07);
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+
+    .gauge-bar-wrapper {
+      @apply w-full h-2 rounded-full overflow-hidden;
+      background: rgba(255, 255, 255, 0.08);
+
+      .gauge-bar-fill {
+        @apply h-full transition-all duration-300 rounded-full;
+      }
+    }
+  }
+}
+
+/* Deep Dive Cards Grid */
+.deepdive-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.deepdive-card {
+  @apply p-6 rounded-2xl flex flex-col justify-between transition-all duration-300;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  }
+
+  .card-icon-header {
+    @apply flex items-center gap-3.5 mb-2;
+
+    .dd-icon {
+      @apply w-10 h-10 rounded-xl flex items-center justify-center text-base flex-shrink-0;
+    }
+  }
+
+  .info-callout {
+    @apply p-3.5 rounded-xl text-xs leading-relaxed;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+  }
+}
+
+/* Subpage Next Navigation Banner */
+.subpage-next-banner {
+  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  .btn-next-step {
+    @apply inline-flex items-center px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all cursor-pointer flex-shrink-0;
+    background: linear-gradient(135deg, #06b6d4, #6366f1);
+    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+    }
+  }
+}
