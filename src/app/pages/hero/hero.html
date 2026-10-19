@@ -43,6 +43,42 @@
           <span>{{ t.t("hero.location") }}</span>
         </p>
       </div>
+
+      <!-- Social Quick Links (GitHub, LinkedIn, Email) -->
+      <div class="hero-socials">
+        <a
+          [href]="githubUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+          aria-label="GitHub Profile"
+          title="GitHub">
+          <i class="fa-brands fa-github"></i>
+        </a>
+        <a
+          [href]="linkedinUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+          aria-label="LinkedIn Profile"
+          title="LinkedIn">
+          <i class="fa-brands fa-linkedin-in"></i>
+        </a>
+        <a
+          [href]="'https://mail.google.com/mail/?view=cm&fs=1&to=' + emailAddress"
+          (click)="copyEmail(emailAddress, $event)"
+          class="social-link"
+          aria-label="Send Email"
+          title="Send Email">
+          <i class="fa-solid fa-envelope"></i>
+        </a>
+        @if (copied()) {
+          <span class="copied-indicator">
+            <i class="fa-solid fa-check"></i>
+            <span>Email Copied!</span>
+          </span>
+        }
+      </div>
     </div>
 
     <!-- Hero Graphic (3D WebGL Interactive Technology Sphere) -->

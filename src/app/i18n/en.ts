@@ -151,6 +151,24 @@ export interface TranslationSchema {
     built_with:    string;
     rights:        string;
   };
+  workstation: {
+    section_label:        string;
+    title:                string;
+    subtitle:             string;
+    back_btn:             string;
+    breadcrumb_root:      string;
+    breadcrumb_current:   string;
+    toggle_view_label:    string;
+    fan_speed_label:      string;
+    specs_tab:            string;
+    airflow_tab:          string;
+    pressure_tab:         string;
+    pressure_title:       string;
+    intake_label:         string;
+    exhaust_label:        string;
+    net_label:            string;
+    positive_badge:       string;
+  };
 }
 
 /**
@@ -305,5 +323,23 @@ export const EN: TranslationSchema = {
   footer: {
     built_with:  'Built by Nafi Ahmed',
     rights:      'All rights reserved.'
+  },
+  workstation: {
+    section_label:      'Hardware & Workstation Engineering',
+    title:              'Workstation Architecture & Thermals',
+    subtitle:           'Personal workstation hardware specifications, thermal zone mapping, and real-time positive pressure airflow simulation.',
+    back_btn:           'Back to Portfolio',
+    breadcrumb_root:    'Portfolio',
+    breadcrumb_current: 'Workstation Architecture & Thermals',
+    toggle_view_label:  'Chassis Airflow Architecture',
+    fan_speed_label:    'Fan & Thermal Profile',
+    specs_tab:          'Hardware Specs',
+    airflow_tab:        'Airflow & Thermal Simulation',
+    pressure_tab:       'Pressure Dynamics',
+    pressure_title:     'Chassis Pressure & Volumetric Flow Dynamics',
+    intake_label:       'Total Intake Volume',
+    exhaust_label:      'Total Exhaust Volume',
+    net_label:          'Net Airflow Differential',
+    positive_badge:     'Optimized Positive Pressure (Dust-Repelling)'
   }
 };

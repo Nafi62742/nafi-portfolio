@@ -12,6 +12,7 @@ export interface IAppRoutes {
   PUBLICATION_DETAILS: string;
   EDUCATION: string;
   CONTACT: string;
+  WORKSTATION: string;
 }
 
 /**
@@ -28,5 +29,6 @@ export const AppRoutes: IAppRoutes = {
   PUBLICATIONS: 'publications',
   PUBLICATION_DETAILS: 'publication/:id',
   EDUCATION: 'education',
-  CONTACT: 'contact'
+  CONTACT: 'contact',
+  WORKSTATION: 'workstation'
 };
