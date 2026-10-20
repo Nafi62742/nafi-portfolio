@@ -69,8 +69,12 @@
 /* Benchmark Cards Grid */
 .bench-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 1.25rem;
+
+  @screen sm {
+    gap: 1.5rem;
+  }
 }
 
 .bench-card {
@@ -269,10 +273,11 @@
 
   .torture-table-wrapper {
     @apply w-full overflow-x-auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .torture-table {
-    @apply w-full text-left border-collapse text-xs;
+    @apply w-full text-left border-collapse text-xs min-w-[540px];
 
     th {
       @apply p-3 font-bold text-cyan-300 uppercase tracking-wider font-mono text-[11px];
@@ -291,24 +296,6 @@
 
     .highlight-active {
       background: rgba(6, 182, 212, 0.09);
-    }
-  }
-}
-
-/* Subpage Next Navigation Banner */
-.subpage-next-banner {
-  @apply flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl;
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  .btn-next-step {
-    @apply inline-flex items-center px-5 py-2.5 rounded-xl text-xs font-bold text-white transition-all cursor-pointer flex-shrink-0;
-    background: linear-gradient(135deg, #06b6d4, #6366f1);
-    box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
     }
   }
 }

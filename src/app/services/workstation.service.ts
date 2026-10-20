@@ -372,7 +372,8 @@ export class WorkstationService {
     // Scale intake flow proportionally with the selected fan model's max CFM (baseline 55 CFM)
     const fanMultiplier = fan ? (fan.maxCfm / 55.0) : 1.0;
     const isMatrexx = this.appliedLayoutId() === 'matrexx-40';
-    const baseCfm = isMatrexx ? 104 : 145;
+    const isMaxcool = this.appliedLayoutId() === 'maxcool-mc5';
+    const baseCfm = isMatrexx || isMaxcool ? 104 : 145;
     const topSlotCfm = isMatrexx ? 52 : 40;
 
     const rearTopIntake: number = this.appliedTopRearFan() === 'intake' ? Math.round(topSlotCfm * fanMultiplier) : 0;
@@ -392,7 +393,8 @@ export class WorkstationService {
     // Scale exhaust flow proportionally with the selected fan model's max CFM (baseline 55 CFM)
     const fanMultiplier = fan ? (fan.maxCfm / 55.0) : 1.0;
     const isMatrexx = this.appliedLayoutId() === 'matrexx-40';
-    const baseCfm = isMatrexx ? 52 : 55;
+    const isMaxcool = this.appliedLayoutId() === 'maxcool-mc5';
+    const baseCfm = isMatrexx || isMaxcool ? 52 : 55;
     const topSlotCfm = isMatrexx ? 52 : 40;
 
     const rearTopExhaust: number = this.appliedTopRearFan() === 'exhaust' ? Math.round(topSlotCfm * fanMultiplier) : 0;
@@ -459,7 +461,9 @@ export class WorkstationService {
         ? 'darkFlash Leo ATX'
         : targetLayout === 'matrexx-40'
           ? 'DeepCool MATREXX 40 3FS'
-          : 'Dual-Chamber Panoramic';
+          : targetLayout === 'maxcool-mc5'
+            ? 'Maxcool Inferno MC5 (5-Fan)'
+            : 'Dual-Chamber Panoramic';
     this.flashNotification(`Chassis Layout Applied: ${name}`);
   }
 
@@ -514,6 +518,29 @@ export class WorkstationService {
         keyboard: 'Dareu A87 Alpha Tenkeyless (TKL) Mechanical Keyboard',
         description:
           'Dedicated engineering workstation inside the DeepCool MATREXX 40 3FS high-airflow mesh chassis. Powered by 12th Gen Intel Core i5-12400 on Gigabyte B660M DS3H with Samsung 980 PRO PCIe 4.0 NVMe, Corsair Vengeance LPX RAM, AMD Radeon R7 360 2GB, Corsair CV650 PSU, and 3 pre-installed 120mm Tri-Color LED fans.'
+      },
+      {
+        id: 'maxcool-mc5',
+        name: 'Maxcool Inferno MC5 Rig',
+        badge: 'Mid-Tower • Ryzen 5 5600 • GTX 1650 Super • 450W Bronze',
+        tagline: 'High-Airflow 5-Fan Array & AMD Zen 3 Precision Dev Rig',
+        caseName: 'Maxcool Inferno MC5 High-Airflow Chassis',
+        caseDimensions: '380 x 200 x 450 mm',
+        cpuName: 'AMD Ryzen 5 5600 (6C/12T • 4.40 GHz Max Boost)',
+        cpuId: 'r5-5600',
+        gpuName: 'NVIDIA GeForce GTX 1650 Super 4GB GDDR6',
+        gpuId: 'gtx-1650s',
+        coolerId: 'ak400',
+        fanModelId: 'maxcool-mc5-fan',
+        layoutId: 'maxcool-mc5',
+        psuName: '450W 80 PLUS Bronze Certified',
+        ramName: '16GB (2x8GB) Dual-Channel DDR4 3200MHz',
+        storagePrimary: '512GB PCIe 4.0 NVMe M.2 SSD',
+        storageSecondary: '1TB High-Performance SATA SSD',
+        motherboard: 'Gigabyte B550M DS3H AC WiFi (Micro-ATX • PCIe 4.0 • Wi-Fi + BT)',
+        monitor: 'Gigabyte 25" Full HD 200Hz IPS Gaming Monitor',
+        description:
+          'Balanced engineering and high-efficiency workstation built inside the Maxcool Inferno MC5 chassis. Equipped with AMD Ryzen 5 5600 on Gigabyte B550M DS3H AC WiFi, cooled by DeepCool AK400, 16GB Dual-Channel DDR4 3200MHz, NVIDIA GeForce GTX 1650 Super 4GB GDDR6, 450W Bronze PSU, and a 5-fan chimney array (2 intake, 3 exhaust).'
       }
     ];
   }
@@ -523,11 +550,25 @@ export class WorkstationService {
    */
   public selectRigPreset(rigId: PcRigPresetId): void {
     this.activeRigId.set(rigId);
-    if (rigId === 'deepcool-matrexx40') {
+    if (rigId === 'maxcool-mc5') {
+      this.appliedLayoutId.set('maxcool-mc5');
+      this.stagedLayoutId.set('maxcool-mc5');
+      this.selectedCpuId.set('r5-5600');
+      this.selectedGpuId.set('gtx-1650s');
+      this.selectedCoolerId.set('ak400');
+      this.selectedFanModelId.set('maxcool-mc5-fan');
+      this.selectedRamId.set('corsair-16gb-3200');
+      this.appliedTopRearFan.set('exhaust');
+      this.appliedTopFrontFan.set('exhaust');
+      this.stagedTopRearFan.set('exhaust');
+      this.stagedTopFrontFan.set('exhaust');
+      this.flashNotification('Active Rig: Maxcool Inferno MC5 (Ryzen 5 5600 • GTX 1650 Super • B550M WiFi • AK400 • 5 Fans)');
+    } else if (rigId === 'deepcool-matrexx40') {
       this.appliedLayoutId.set('matrexx-40');
       this.stagedLayoutId.set('matrexx-40');
       this.selectedCpuId.set('i5-12400');
       this.selectedGpuId.set('r7-360');
+      this.selectedCoolerId.set('ag400');
       this.selectedFanModelId.set('deepcool-3fs');
       this.selectedRamId.set('corsair-16gb-3200');
       this.flashNotification('Active Rig: DeepCool MATREXX 40 3FS (i5-12400 • R7 360 • B660M • Samsung 980 PRO)');
@@ -536,6 +577,7 @@ export class WorkstationService {
       this.stagedLayoutId.set('standard-mesh');
       this.selectedCpuId.set('i5-10400f');
       this.selectedGpuId.set('rtx-3060');
+      this.selectedCoolerId.set('ag400');
       this.selectedFanModelId.set('cl6-argb');
       this.selectedRamId.set('corsair-32gb-3200');
       this.flashNotification('Active Rig: darkFlash Leo Studio (i5-10400F • RTX 3060 12GB • 750W Gold)');
@@ -784,6 +826,284 @@ export class WorkstationService {
    * @returns Array of WorkstationComponentSpec representing all build components.
    */
   public getWorkstationSpecs(): Array<WorkstationComponentSpec> {
+    if (this.activeRigId() === 'maxcool-mc5') {
+      return [
+        {
+          name: 'Processor (CPU)',
+          category: 'cpu',
+          model: 'AMD Ryzen 5 5600',
+          brand: 'AMD',
+          icon: 'fa-microchip',
+          badge: '6C / 12T • 4.40 GHz Boost',
+          accentColor: '#f97316',
+          details: [
+            { label: 'Architecture', value: 'Zen 3 (Vermeer 7nm TSMC)' },
+            { label: 'Cores / Threads', value: '6 Cores / 12 Threads' },
+            { label: 'Base Clock', value: '3.50 GHz' },
+            { label: 'Max Boost Clock', value: '4.40 GHz' },
+            { label: 'L3 Cache', value: '32 MB Unified L3 Cache' },
+            { label: 'TDP / Socket Power', value: '65W Base / 76W Max Package Power' },
+            { label: 'Socket', value: 'Socket AM4' },
+            { label: 'PCIe Support', value: 'PCIe 4.0 (24 Lanes Total)' }
+          ],
+          features: [
+            'Zen 3 single-CCD architecture with unified 32MB L3 cache eliminating cross-core latency',
+            'Simultaneous Multi-Threading (SMT) for 12 parallel execution threads',
+            'Precision Boost 2 dynamically scales clock speeds based on AK400 thermal headroom',
+            'Ultra-low 65W TDP package ensures cool operating thermals (<62°C) under sustained compilation'
+          ],
+          roleInThermal: 'High-efficiency 65W thermal load directly aligned with DeepCool AK400 and rear exhaust fan corridor.'
+        },
+        {
+          name: 'Motherboard',
+          category: 'motherboard',
+          model: 'B550M DS3H AC WiFi',
+          brand: 'Gigabyte',
+          icon: 'fa-chess-board',
+          badge: 'Micro-ATX • PCIe 4.0 • Wi-Fi + BT',
+          accentColor: '#ec4899',
+          details: [
+            { label: 'Form Factor', value: 'Micro-ATX (244 x 244 mm)' },
+            { label: 'CPU Socket', value: 'AMD AM4 (Ryzen 5000 / 4000 / 3000 Series)' },
+            { label: 'Power Delivery', value: '5+3 Phases Pure Digital VRM with Low RDS(on) MOSFETs' },
+            { label: 'Primary PCIe Slot', value: '1x PCIe 4.0 x16 Ultra Durable Steel Slot' },
+            { label: 'Storage Interface', value: 'Dual NVMe M.2 (1x PCIe 4.0 x4 + 1x PCIe 3.0 x2) + 4x SATA 6Gb/s' },
+            { label: 'Wireless Connectivity', value: 'Intel Dual Band 802.11ac Wi-Fi + Bluetooth 4.2' },
+            { label: 'Networking', value: 'Realtek GbE Gaming LAN with Bandwidth Management' }
+          ],
+          features: [
+            'PCIe 4.0 x16 slot unlocks full bandwidth for high-speed GPUs and accelerators',
+            'Dual NVMe M.2 slots for ultrafast Gen4 OS boot and secondary storage',
+            'Onboard Intel Dual-Band 802.11ac Wi-Fi and Bluetooth 4.2 for versatile wireless setups',
+            'Q-Flash Plus allows BIOS updating without installing CPU, memory, or GPU',
+            'Smart Fan 5 with multi-zone temperature sensors and hybrid fan headers'
+          ],
+          roleInThermal: 'Low RDS(on) MOSFETs cooled by continuous downward and horizontal air wash from front intake and top exhaust.'
+        },
+        {
+          name: 'CPU Cooler',
+          category: 'cooler',
+          model: 'AK400 Performance Air Cooler',
+          brand: 'DeepCool',
+          icon: 'fa-snowflake',
+          badge: '4 Heatpipes • FDB Fan • 220W TDP',
+          accentColor: '#06b6d4',
+          details: [
+            { label: 'Cooler Type', value: 'Single-Tower Heatsink with Matrix Fin Stack' },
+            { label: 'Heatpipes', value: '4x Ø6mm Direct-Touch Copper Heatpipes' },
+            { label: 'Cooling Capacity', value: 'Up to 220W TDP Heat Dissipation' },
+            { label: 'Included Fan', value: '1x 120mm Fluid Dynamic Bearing (FDB) PWM Fan' },
+            { label: 'Fan Speed', value: '500 ~ 1,850 RPM ±10%' },
+            { label: 'Airflow Output', value: 'Up to 66.47 CFM' },
+            { label: 'Noise Ceiling', value: '≤ 29.0 dBA (Ultra-Quiet FDB Bearing)' },
+            { label: 'RAM Clearance', value: '100% Unobstructed RAM Slot Access' }
+          ],
+          features: [
+            'Distinctive matrix fin array accelerates laminar airflow through the fin stack',
+            'Premium checkerboard decorative top cover gives a clean modern aesthetic',
+            'Fluid Dynamic Bearing (FDB) fan maximizes longevity and minimizes motor hum',
+            'Asymmetrical heatpipe layout guarantees zero overhang over motherboard RAM slots'
+          ],
+          roleInThermal: 'Direct-touch copper heatpipes swiftly pull heat from Ryzen 5 5600, pushing it straight toward the rear exhaust.'
+        },
+        {
+          name: 'Dedicated Graphics (GPU)',
+          category: 'gpu',
+          model: 'GeForce GTX 1650 Super 4GB GDDR6',
+          brand: 'NVIDIA',
+          icon: 'fa-gamepad',
+          badge: '4GB GDDR6 • 1280 Cores • 100W',
+          accentColor: '#10b981',
+          details: [
+            { label: 'Architecture', value: 'NVIDIA Turing (TU116 Die, 12nm TSMC)' },
+            { label: 'CUDA Cores', value: '1,280 CUDA Cores (+43% over GTX 1650 non-super)' },
+            { label: 'VRAM Capacity', value: '4 GB GDDR6' },
+            { label: 'Memory Bus & Speed', value: '128-bit Bus Width • 12 Gbps (192 GB/s Bandwidth)' },
+            { label: 'Base / Boost Clock', value: '1,530 MHz / 1,725 MHz Boost' },
+            { label: 'Power Consumption', value: '100W TDP' },
+            { label: 'Power Connector', value: '1x 6-Pin PCIe Power Cable' },
+            { label: 'Cooling Design', value: 'Dual Axial Fans with Direct Copper Heatpipes' }
+          ],
+          features: [
+            'Turing NVENC hardware video encoder delivering broadcast-quality streaming and encoding',
+            'Upgraded GDDR6 memory providing 192 GB/s memory bandwidth (+50% vs GTX 1650 GDDR5)',
+            'Efficient 100W power draw leaves massive +240W headroom on the 450W Bronze PSU',
+            'Compact dual-slot footprint promotes unobstructed front-to-back chassis circulation'
+          ],
+          roleInThermal: 'Dual axial fans draw fresh air from lower front intake and discharge warm plume into top and rear exhaust flow.'
+        },
+        {
+          name: 'System Memory (RAM)',
+          category: 'ram',
+          model: '16GB (2x 8GB) DDR4 3200MHz CL16',
+          brand: 'High-Performance Kit',
+          icon: 'fa-memory',
+          badge: '16GB (2x8GB) • 3200MHz CL16',
+          accentColor: '#818cf8',
+          details: [
+            { label: 'Capacity', value: '16 GB (2x 8GB Dual-Channel Kit)' },
+            { label: 'Speed / Frequency', value: 'DDR4 3200 MHz (PC4-25600)' },
+            { label: 'Tested Latency', value: 'CL16 (16-18-18-36)' },
+            { label: 'Operating Voltage', value: '1.35V' },
+            { label: 'Infinity Fabric Match', value: '1:1 Ratio with AMD FCLK at 1,600 MHz' },
+            { label: 'Form Factor', value: 'Low-Profile Anodized Aluminum Heatsink' }
+          ],
+          features: [
+            'Dual-channel configuration delivers 51.2 GB/s memory bandwidth to the Ryzen 5 5600',
+            '1:1 coupled mode with AMD Infinity Fabric minimizes memory controller latency',
+            'Anodized aluminum heat spreaders ensure reliable heat dissipation under prolonged tasks',
+            'Full physical clearance under the DeepCool AK400 heatsink'
+          ],
+          roleInThermal: 'Heatsinks radiate memory heat directly into the front intake air stream before rising to the top exhaust fans.'
+        },
+        {
+          name: 'Primary Storage (SSD)',
+          category: 'storage',
+          model: '512GB PCIe 4.0 NVMe M.2 SSD',
+          brand: 'High-Speed Gen4 NVMe',
+          icon: 'fa-bolt',
+          badge: 'PCIe 4.0 NVMe • Up to 5,000 MB/s',
+          accentColor: '#14b8a6',
+          details: [
+            { label: 'Form Factor', value: 'M.2 2280 NVMe' },
+            { label: 'Interface', value: 'PCIe Gen 4.0 x4, NVMe 1.4' },
+            { label: 'Sequential Read', value: 'Up to 5,000 MB/s' },
+            { label: 'Sequential Write', value: 'Up to 3,600 MB/s' },
+            { label: 'NAND Flash', value: '3D TLC NAND Flash' },
+            { label: 'Primary Use', value: 'OS Boot, Development IDEs, Docker Images & Node Modules' }
+          ],
+          features: [
+            'High-bandwidth PCIe 4.0 interface directly wired to Ryzen 5 5600 CPU lanes',
+            'Sub-second boot times, instant application launches, and fast Git repository indexing',
+            'Advanced thermal throttling protection and active wear leveling algorithms'
+          ],
+          roleInThermal: 'Directly cooled by the intake air stream from the front upper 120mm ARGB fan.'
+        },
+        {
+          name: 'Secondary Storage (SSD)',
+          category: 'storage',
+          model: '1TB High-Performance SATA SSD',
+          brand: 'High-End Solid State Drive',
+          icon: 'fa-hard-drive',
+          badge: '1 TB • SATA III 6Gb/s • Silent',
+          accentColor: '#0ea5e9',
+          details: [
+            { label: 'Storage Capacity', value: '1,000 GB (1 TB)' },
+            { label: 'Interface', value: 'SATA III 6.0 Gb/s' },
+            { label: 'Sequential Read', value: 'Up to 550 MB/s' },
+            { label: 'Sequential Write', value: 'Up to 520 MB/s' },
+            { label: 'Acoustics', value: '0.0 dBA (Completely Silent Solid-State Operation)' },
+            { label: 'Primary Use', value: 'Project Archives, Virtual Machine Volumes & Media Assets' }
+          ],
+          features: [
+            'Massive 1TB secondary storage pool with zero rotational motor noise or vibration',
+            'Instant random 4K read/write access for fast database reads and build caching',
+            'Sturdy 2.5-inch metal enclosure mounted neatly in the chassis storage bay'
+          ],
+          roleInThermal: 'Consumes less than 2.5W, generating near-zero thermal load inside the lower chassis.'
+        },
+        {
+          name: 'Power Supply (PSU)',
+          category: 'psu',
+          model: '450W 80 PLUS Bronze Certified',
+          brand: 'High-Efficiency PSU',
+          icon: 'fa-bolt',
+          badge: '450W • 80 PLUS Bronze',
+          accentColor: '#eab308',
+          details: [
+            { label: 'Continuous Output', value: '450 Watts Continuous Power Delivery' },
+            { label: 'Efficiency Rating', value: '80 PLUS Bronze Certified (Up to 85% Efficiency)' },
+            { label: 'Cooling Solution', value: '120mm Ultra-Quiet Temperature-Controlled Hydraulic Fan' },
+            { label: 'Dedicated PCIe Power', value: '1x 6+2 Pin PCIe Connector (Powers GTX 1650 Super)' },
+            { label: 'CPU EPS Delivery', value: '1x 8-Pin (4+4) EPS 12V Solid Pin Delivery' },
+            { label: 'System Peak Draw', value: '~200W Peak Load (~250W PSU Safety Margin)' },
+            { label: 'Protection Suite', value: 'OVP, UVP, OPP, SCP, OCP' }
+          ],
+          features: [
+            'Exceptional efficiency curve: operating at 45-50% load sweet spot for maximum electrical efficiency',
+            'Over 240W of power headroom ensures cool, quiet fan curves even under full CPU + GPU load',
+            'Full circuit protection suite safeguards all connected components against power surges',
+            'Dedicated lower chamber mounting prevents PSU heat from entering the upper motherboard zone'
+          ],
+          roleInThermal: 'Draws independent cool air from the chassis bottom dust filter and exhausts out the rear.'
+        },
+        {
+          name: 'PC Chassis (Case)',
+          category: 'case',
+          model: 'Maxcool Inferno MC5 High-Airflow',
+          brand: 'Maxcool',
+          icon: 'fa-box',
+          badge: '5 Fans • Mesh Front • Chimney Exhaust',
+          accentColor: '#f43f5e',
+          details: [
+            { label: 'Chassis Dimensions', value: '380 x 200 x 450 mm (Mid-Tower)' },
+            { label: 'Materials', value: 'SPCC Steel Chassis + High-Permeability Front Mesh + Tempered Glass' },
+            { label: 'Fan Configuration', value: '5 Fans Total (2 Front Intake + 1 Rear Exhaust + 2 Top Exhaust)' },
+            { label: 'Front Fan Mounts', value: '2x 120mm ARGB Fans (Pre-installed Intake)' },
+            { label: 'Rear Fan Mount', value: '1x 120mm ARGB Fan (Pre-installed Exhaust)' },
+            { label: 'Top Fan Mounts', value: '2x 120mm ARGB Fans (Pre-installed Chimney Exhaust)' },
+            { label: 'Dust Filtration', value: 'Top Magnetic Dust Filter + Bottom PSU Removable Filter' },
+            { label: 'Clearances', value: 'GPU: Up to 320mm • CPU Cooler: Up to 165mm • PSU: Up to 160mm' }
+          ],
+          features: [
+            'Full 5-fan layout provides rapid chimney air extraction, pulling rising hot air straight up and out',
+            'High-permeability front mesh panel maximizes fresh cold air intake for CPU and GPU',
+            'Edge-to-edge tempered glass side panel provides complete view of the interior and components',
+            'Top magnetic dust filter allows high exhaust airflow while protecting internals when powered down'
+          ],
+          roleInThermal: 'Dual front intake fans supply cold air, while triple exhaust fans (1 rear + 2 top) create swift vertical chimney extraction.'
+        },
+        {
+          name: 'Chassis Fans & Aerodynamics',
+          category: 'fans',
+          model: 'Maxcool Inferno 120mm ARGB 5-Fan Array',
+          brand: 'Maxcool',
+          icon: 'fa-fan',
+          badge: '5x 120mm ARGB • 2 In / 3 Out',
+          accentColor: '#06b6d4',
+          details: [
+            { label: 'Fan Count & Size', value: '5x 120mm Hydraulic Bearing ARGB Fans' },
+            { label: 'Arrangement', value: '2 Front Intake • 1 Rear Exhaust • 2 Top Chimney Exhaust' },
+            { label: 'Intake CFM', value: '104 CFM (2x 52 CFM Front Fans)' },
+            { label: 'Exhaust CFM', value: '132 CFM (52 CFM Rear + 2x 40 CFM Top)' },
+            { label: 'CFM Differential', value: '-28 CFM (High Heat Extraction Chimney Flow)' },
+            { label: 'Fan Speed', value: '600 ~ 1,500 RPM ±10%' },
+            { label: 'Acoustics', value: '21.0 ~ 24.5 dBA (Quiet Studio Acoustic Profile)' }
+          ],
+          features: [
+            'Synchronized ARGB lighting rings with dynamic motherboard header illumination',
+            'Curved aerodynamic fan blades optimized for steady static pressure through chassis mesh',
+            'Chimney flow architecture prevents GPU hot air pockets from forming above the PCIe slot',
+            'Quiet operation at balanced speeds maintaining optimal developer focus'
+          ],
+          roleInThermal: 'Rapidly exhausts thermal energy rising off the DeepCool AK400 and GTX 1650 Super.'
+        },
+        {
+          name: 'Display & Workspace',
+          category: 'gpu',
+          model: 'Gigabyte 25" 200Hz IPS Gaming Display',
+          brand: 'Gigabyte',
+          icon: 'fa-tv',
+          badge: '25" 200Hz • 1ms MPRT • SuperSpeed IPS',
+          accentColor: '#38bdf8',
+          details: [
+            { label: 'Panel Size / Type', value: '25-Inch SuperSpeed (SS) IPS Panel' },
+            { label: 'Resolution', value: 'Full HD 1920 x 1080 Pixels' },
+            { label: 'Refresh Rate', value: '200 Hz Ultra-High Refresh Rate (0.5ms GTG / 1ms MPRT)' },
+            { label: 'Color Gamut', value: '125% sRGB / 90% DCI-P3 Wide Color Spectrum' },
+            { label: 'Sync Technology', value: 'AMD FreeSync Premium & NVIDIA G-Sync Compatible' },
+            { label: 'Ergonomics', value: 'Tilt Adjustment with Eye Safe Low Blue Light & Flicker-Free' }
+          ],
+          features: [
+            '200Hz ultra-fluid refresh rate ensures buttery-smooth cursor tracking and IDE scrolling',
+            'SuperSpeed IPS technology delivers vibrant, accurate colors for front-end design and UI work',
+            'Full HD resolution is the native sweet-spot match for the NVIDIA GTX 1650 Super',
+            'Flicker-free and low blue light certification reduces fatigue during prolonged dev sessions'
+          ],
+          roleInThermal: 'External display: operates on independent DC power outside the chassis thermal perimeter.'
+        }
+      ];
+    }
     if (this.activeRigId() === 'deepcool-matrexx40') {
       return [
         {
@@ -1474,6 +1794,92 @@ export class WorkstationService {
           'Front middle fan delivers direct uninhibited airflow to the Samsung 980 PRO PCIe 4.0 M.2 SSD and B660M VRMs',
           'Dedicated lower intake path prevents the 100W AMD Radeon R7 360 and 2TB HDD from creating heat recirculations',
           'Top magnetic dust filter supports up to 2x 120mm/140mm fans or 240mm liquid cooling radiator'
+        ]
+      },
+      {
+        id: 'maxcool-mc5',
+        name: 'Maxcool Inferno MC5 (5-Fan Setup)',
+        subtitle: 'Dual Front Intake & Triple Chimney Exhaust',
+        caseName: 'Maxcool Inferno MC5 High-Airflow Mid-Tower',
+        pressureType: 'Negative',
+        description:
+          'Equipped with 5x 120mm ARGB fans: 2 front intake fans drawing fresh cool air across the AMD Ryzen 5 5600 and GTX 1650 Super, 1 rear exhaust fan, and 2 top exhaust fans creating accelerated vertical chimney heat extraction. Rapidly evacuates rising thermal plumes from the DeepCool AK400 and GPU.',
+        intakeTotalCfm: 104,
+        exhaustTotalCfm: 132,
+        fans: [
+          {
+            id: 'mc5-front-top',
+            name: 'Front Upper Intake Fan (120mm ARGB)',
+            type: 'intake',
+            position: 'front',
+            sizeMm: 120,
+            rpm: 1200,
+            cfm: 52,
+            noiseDb: 22,
+            description: 'Upper intake fan: channels fresh ambient air directly across the DeepCool AK400 CPU cooler, 16GB DDR4 RAM, and Gigabyte B550M VRMs.'
+          },
+          {
+            id: 'mc5-front-bot',
+            name: 'Front Lower Intake Fan (120mm ARGB)',
+            type: 'intake',
+            position: 'front',
+            sizeMm: 120,
+            rpm: 1200,
+            cfm: 52,
+            noiseDb: 22,
+            description: 'Lower intake fan: delivers cool airflow to the GTX 1650 Super dual axial intake fans and lower 450W PSU shroud.'
+          },
+          {
+            id: 'cpu-cooler-fan',
+            name: 'DeepCool AK400 FDB PWM Fan',
+            type: 'intake',
+            position: 'cpu',
+            sizeMm: 120,
+            rpm: 1350,
+            cfm: 66,
+            noiseDb: 24,
+            description: 'Fluid Dynamic Bearing (FDB) 120mm fan driving airflow through the 4-heatpipe matrix fin tower toward the rear exhaust.'
+          },
+          {
+            id: 'mc5-rear',
+            name: 'Rear Exhaust Fan (120mm ARGB)',
+            type: 'exhaust',
+            position: 'rear',
+            sizeMm: 120,
+            rpm: 1200,
+            cfm: 52,
+            noiseDb: 22,
+            description: 'Rapidly exhausts heated air exiting the DeepCool AK400 tower cooler out the back of the chassis.'
+          },
+          {
+            id: 'leo-top-fan-1',
+            name: 'Top Rear Exhaust Fan (Slot #1, 120mm ARGB)',
+            type: 'exhaust',
+            position: 'top',
+            sizeMm: 120,
+            rpm: 1200,
+            cfm: 40,
+            noiseDb: 21,
+            description: 'Primary chimney exhaust: extracts natural convection heat rising directly above the CPU and motherboard VRM.'
+          },
+          {
+            id: 'leo-top-fan-2',
+            name: 'Top Front Exhaust Fan (Slot #2, 120mm ARGB)',
+            type: 'exhaust',
+            position: 'top',
+            sizeMm: 120,
+            rpm: 1200,
+            cfm: 40,
+            noiseDb: 21,
+            description: 'Secondary chimney exhaust: pulls rising warm air above the RAM and upper front intake corridor, accelerating total chamber air exchange.'
+          }
+        ],
+        advantages: [
+          'Full 5-fan chimney array accelerates continuous air exchange, dropping VRM and GPU hotspot temps by up to 6°C',
+          'DeepCool AK400 matrix fin cooler perfectly aligned with the rear exhaust fan for zero thermal turbulence',
+          'Dual front 120mm intake fans deliver dedicated laminar streams to CPU and GPU zones',
+          'Dual top exhaust fans prevent rising GPU warm air from lingering inside the upper chassis ceiling',
+          'Low total system power draw (~200W peak) allows quiet operation at balanced 1,100-1,200 RPM fan speeds'
         ]
       },
       {
@@ -2538,6 +2944,17 @@ export class WorkstationService {
    * @returns SystemVitalsSummary containing core specs.
    */
   public getSystemVitals(): SystemVitalsSummary {
+    if (this.activeRigId() === 'maxcool-mc5') {
+      return {
+        cores: '6 Cores / 12 Threads (Ryzen 5 5600 • 4.40 GHz)',
+        vram: '4 GB GDDR6 (GTX 1650 Super • 192 GB/s)',
+        ram: '16 GB Dual-Channel DDR4-3200 (2x8GB)',
+        storage: '1.5 TB (512GB PCIe 4.0 NVMe + 1TB SATA SSD)',
+        coolingCapacity: '220W TDP (DeepCool AK400 4-Heatpipe)',
+        powerSupply: '450W 80+ Bronze (~200W Peak Load)',
+        chassisVolume: '34.2 Liters (380 x 200 x 450 mm)'
+      };
+    }
     if (this.activeRigId() === 'deepcool-matrexx40') {
       return {
         cores: '6 P-Cores / 12 Threads (i5-12400 • 4.40 GHz)',
@@ -2911,6 +3328,30 @@ export class WorkstationService {
         ]
       },
       {
+        id: 'r5-5600',
+        name: 'AMD Ryzen 5 5600 (Maxcool MC5 Rig)',
+        shortName: 'Ryzen 5 5600',
+        brand: 'AMD',
+        cores: '6C / 12T • 4.40 GHz',
+        baseClock: '3.50 GHz',
+        turboClock: '4.40 GHz Boost',
+        tdpWatts: 65,
+        maxLoadWatts: 76,
+        socket: 'AM4',
+        thermalDifficulty: 'Low',
+        badge: '6C/12T • 32MB L3 Cache • 65W',
+        description: 'Zen 3 Vermeer architecture featuring 6 cores, 12 threads, unified 32MB L3 cache, and PCIe 4.0 on AM4. Consumes only 65W TDP while delivering outstanding single-thread responsiveness for modern web tooling and compilation.',
+        advantages: [
+          'Zen 3 unified 32MB L3 cache completely eliminates cross-CCX latency for swift compilation and coding',
+          'Low 65W TDP package runs cool (<62°C) under DeepCool AK400 even during sustained builds',
+          'PCIe 4.0 support enables full bandwidth for Gen4 NVMe SSDs and graphics'
+        ],
+        disadvantages: [
+          'AM4 socket platform (DDR4 memory generation)',
+          'Lacks integrated GPU (requires discrete GPU like GTX 1650 Super for display output)'
+        ]
+      },
+      {
         id: 'r5-5600x',
         name: 'AMD Ryzen 5 5600X (Zen 3 Alternative)',
         shortName: 'Ryzen 5 5600X',
@@ -2943,6 +3384,34 @@ export class WorkstationService {
    */
     public getCoolerOptions(): Array<CpuCoolerOptionConfig> {
     return [
+      {
+        id: 'ak400',
+        name: 'DeepCool AK400 Performance Cooler (Maxcool Build)',
+        shortName: 'DeepCool AK400',
+        type: 'single-tower',
+        heatpipes: '4x Ø6mm Direct-Touch Copper Heatpipes',
+        fanCount: 1,
+        fanSizeMm: 120,
+        minRpm: 500,
+        maxRpm: 1850,
+        silentRpm: 850,
+        balancedRpm: 1250,
+        turboRpm: 1850,
+        maxCfm: 66.47,
+        maxNoiseDba: 29.0,
+        coolingCapacityTdp: 220,
+        badge: 'Matrix Fin • FDB Fan • 220W TDP',
+        description: 'Signature matrix fin design with decorative checkerboard top cover. High-performance FDB 120mm PWM fan delivers whisper-quiet operation and superior heat transfer.',
+        advantages: [
+          'Fluid Dynamic Bearing (FDB) 120mm PWM fan ensures silent long-life operation under 29 dBA',
+          'Unique matrix fin array improves airflow penetration and accelerates heat dissipation',
+          'Compact asymmetric footprint provides 100% RAM slot clearance on Gigabyte B550M DS3H'
+        ],
+        disadvantages: [
+          'Single-fan design; does not support dual-fan push-pull out of the box',
+          'Direct-touch base requires even thermal paste application across all 4 heatpipes'
+        ]
+      },
       {
         id: 'ag400',
         name: 'DeepCool AG400 Single-Tower (Current Build)',
@@ -3122,6 +3591,36 @@ export class WorkstationService {
         disadvantages: [
           '4GB VRAM is insufficient for running modern local AI LLMs or complex 4K texture viewports',
           'Lacks Tensor cores and RT cores for hardware ray tracing or AI acceleration'
+        ]
+      },
+      {
+        id: 'gtx-1650s',
+        name: 'NVIDIA GeForce GTX 1650 Super 4GB (Maxcool Build)',
+        shortName: 'GTX 1650 Super 4GB',
+        architecture: 'Turing (12nm TU116)',
+        vram: '4 GB GDDR6',
+        vramType: 'GDDR6 (12 Gbps)',
+        busWidth: '128-bit (192 GB/s Bandwidth)',
+        cudaCores: 1280,
+        tdpWatts: 100,
+        fanCount: 2,
+        fanFlowType: 'dual-axial-standard',
+        heatPlumeCfm: 45,
+        powerConnector: '1x 6-pin PCIe',
+        idleWatts: 9,
+        loadWatts: 100,
+        rayTracingCores: 0,
+        tensorCores: 0,
+        badge: '4GB GDDR6 • 1280 Cores • 100W',
+        description: 'Turing TU116 die upgrade with 1,280 CUDA cores and 4GB high-speed GDDR6 memory at 192 GB/s (+50% faster memory throughput vs non-super). Efficient 100W power draw leaves over 240W headroom on 450W PSU.',
+        advantages: [
+          '1,280 CUDA cores deliver ~40% faster compute and rendering performance than regular GTX 1650',
+          'Upgraded GDDR6 memory at 192 GB/s prevents memory bandwidth bottlenecks in 1080p creative work',
+          'Low 100W TDP operates with very low heat output, cooled efficiently by the 5-fan chimney chassis'
+        ],
+        disadvantages: [
+          '4GB VRAM limits loading 7B+ local LLM model weights entirely in GPU memory',
+          'Requires 1x 6-pin auxiliary PCIe power connector'
         ]
       },
       {
@@ -3460,6 +3959,32 @@ export class WorkstationService {
           'Moderate 1.66 mm-H₂O pressure is slightly below dedicated industrial FK120'
         ],
         rigPreset: 'deepcool-matrexx40'
+      },
+      {
+        id: 'maxcool-mc5-fan',
+        name: 'Maxcool Inferno 120mm ARGB Fans (5-Fan Array)',
+        brand: 'Maxcool',
+        minRpm: 600,
+        maxRpm: 1500,
+        silentRpm: 700,
+        balancedRpm: 1100,
+        turboRpm: 1500,
+        maxCfm: 52.0,
+        staticPressureMmH2o: 1.55,
+        maxNoiseDba: 24.5,
+        bearing: 'Hydro Bearing',
+        badge: '5-Fan Array • 2 Intake / 3 Exhaust',
+        description: 'Array of 5 matched 120mm fans configured for chimney extraction: 2 front intake, 1 rear exhaust, and 2 top exhaust fans.',
+        advantages: [
+          'Full 5-fan distribution eliminates hot air dead-zones throughout the entire chassis',
+          'High exhaust throughput (3 exhaust fans) swiftly draws hot air out through rear and top',
+          'Quiet 24.5 dBA noise level at balanced speed profiles'
+        ],
+        disadvantages: [
+          'Slight negative pressure bias requires periodic cleaning of top/front magnetic mesh',
+          'Requires fan splitter or hub for 5 fan headers on Micro-ATX motherboards'
+        ],
+        rigPreset: 'maxcool-mc5'
       }
     ];
   }

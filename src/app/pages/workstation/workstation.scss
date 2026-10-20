@@ -1,5 +1,5 @@
 .workstation-page {
-  @apply pt-28 pb-24 min-h-screen relative z-[1] overflow-hidden;
+  @apply pt-20 sm:pt-28 pb-16 sm:pb-24 min-h-screen relative z-[1] overflow-hidden;
   background-color: transparent;
 
   /* ══════════════════════════════════════════════════════════════
@@ -127,12 +127,12 @@
 }
 
 .workstation-inner {
-  @apply w-full max-w-[1240px] mx-auto px-4 sm:px-6 relative z-10;
+  @apply w-full max-w-[1240px] mx-auto px-3.5 sm:px-6 relative z-10;
 }
 
 /* Top Breadcrumb Bar */
 .top-nav-bar {
-  @apply flex items-center justify-end gap-4 mb-4;
+  @apply flex items-center justify-end gap-4 mb-3 sm:mb-4;
 }
 
 .breadcrumb-trail {
@@ -150,7 +150,7 @@
 
 /* Page Header Card (Cyber CAD Console) */
 .page-header-card {
-  @apply p-6 sm:p-8 rounded-3xl mb-8 relative overflow-hidden;
+  @apply p-4 sm:p-8 rounded-2xl sm:rounded-3xl mb-6 sm:mb-8 relative overflow-hidden;
   background: var(--bg-card);
   border: 1px solid rgba(6, 182, 212, 0.25);
   box-shadow: 0 24px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
@@ -179,14 +179,14 @@
 
   /* Clean Rig Selector Bar */
   .rig-selector-bar {
-    @apply flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-xl mb-5;
+    @apply flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-4 rounded-xl mb-4 sm:mb-5;
     background: linear-gradient(135deg, rgba(4, 10, 24, 0.75) 0%, rgba(2, 6, 18, 0.85) 100%);
     border: 1px solid rgba(6, 182, 212, 0.22);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0 16px rgba(6, 182, 212, 0.03);
     backdrop-filter: blur(12px);
 
     .rig-select-group {
-      @apply flex items-center gap-2.5 flex-wrap sm:flex-nowrap;
+      @apply flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-2.5 w-full sm:w-auto;
 
       .rig-select-label {
         @apply text-xs font-semibold text-text-muted uppercase tracking-wider flex items-center whitespace-nowrap;
@@ -194,7 +194,7 @@
     }
 
     .rig-select-dropdown {
-      @apply appearance-none text-xs sm:text-sm font-medium px-3.5 py-2 pr-9 rounded-xl focus:outline-none cursor-pointer;
+      @apply w-full sm:w-auto appearance-none text-xs sm:text-sm font-medium px-3.5 py-2 pr-9 rounded-xl focus:outline-none cursor-pointer;
       background: linear-gradient(135deg, rgba(8, 16, 36, 0.95) 0%, rgba(4, 9, 22, 0.98) 100%);
       border: 1px solid rgba(6, 182, 212, 0.32);
       color: #e0f2fe;
@@ -220,7 +220,7 @@
     }
 
     .rig-meta-pill {
-      @apply inline-flex items-center gap-2 text-xs text-text-muted font-mono;
+      @apply flex flex-wrap items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-text-muted font-mono;
 
       .sep {
         color: rgba(255, 255, 255, 0.15);
@@ -230,7 +230,7 @@
 
   /* Select Caret Wrapper */
   .select-wrapper {
-    @apply relative inline-flex items-center;
+    @apply relative flex items-center w-full sm:w-auto;
 
     .select-caret {
       @apply absolute right-3 text-[11px] pointer-events-none;
@@ -290,13 +290,13 @@
 
 /* Tabs Navigation Bar (Flight Console HUD) */
 .tabs-nav-bar.tech-nav-bar {
-  @apply flex flex-wrap items-center gap-2 p-1.5 rounded-2xl w-full sm:w-fit;
+  @apply grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-1.5 sm:gap-2 p-1.5 rounded-2xl w-full sm:w-fit;
   background: rgba(2, 6, 16, 0.85);
   border: 1px solid rgba(6, 182, 212, 0.25);
   box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.4);
 
   .tab-btn.tech-tab {
-    @apply inline-flex items-center gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-text-secondary no-underline;
+    @apply flex items-center justify-center sm:justify-start gap-2 sm:gap-2.5 px-3 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-text-secondary no-underline text-center sm:text-left;
     position: relative;
     border: 1px solid transparent;
 

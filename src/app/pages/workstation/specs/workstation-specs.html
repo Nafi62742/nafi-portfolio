@@ -9,7 +9,7 @@
       </div>
       <span class="text-[11px] text-text-muted font-mono">Click to toggle components &amp; live diagnostics</span>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
       @for (rig of rigPresets; track rig.id) {
         <button
           type="button"
@@ -19,7 +19,7 @@
           (click)="selectRig(rig.id)">
           <div class="flex items-center justify-between gap-2 mb-1">
             <div class="flex items-center gap-2">
-              <i class="fa-solid" [ngClass]="rig.id === 'darkflash-leo' ? 'fa-desktop text-cyan-400' : 'fa-microchip text-emerald-400'"></i>
+              <i class="fa-solid" [ngClass]="rig.id === 'darkflash-leo' ? 'fa-desktop text-cyan-400' : (rig.id === 'maxcool-mc5' ? 'fa-wind text-amber-400' : 'fa-microchip text-emerald-400')"></i>
               <span class="text-xs sm:text-sm font-bold text-text-primary">{{ rig.name }}</span>
             </div>
             @if (activeRigId() === rig.id) {
@@ -44,7 +44,7 @@
           Compute Cores
         </span>
         <span class="v-val text-cyan-400">{{ v.cores }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'Intel Core i5-12400 (6P/12T)' : 'Intel Core i5-10400F (6C/12T)' }}</span>
+        <span class="v-sub">{{ currentRig().cpuName.split('(')[0] }}</span>
       </div>
 
       <div class="vital-divider"></div>
@@ -55,7 +55,7 @@
           Dedicated VRAM
         </span>
         <span class="v-val text-emerald-400">{{ v.vram }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'AMD Radeon R7 360 2GB' : 'NVIDIA RTX 3060 12GB' }}</span>
+        <span class="v-sub">{{ currentRig().gpuName.split('(')[0] }}</span>
       </div>
 
       <div class="vital-divider"></div>
@@ -66,7 +66,7 @@
           System Memory
         </span>
         <span class="v-val text-indigo-300">{{ v.ram }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'Corsair LPX DDR4 3200MHz' : 'Dual-Channel DDR4 2666MHz' }}</span>
+        <span class="v-sub">{{ currentRig().ramName }}</span>
       </div>
 
       <div class="vital-divider"></div>
@@ -77,7 +77,7 @@
           Power Capacity
         </span>
         <span class="v-val text-amber-400">{{ v.powerSupply }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'Corsair CV650 650W Bronze' : 'Corsair RM750x 750W Gold' }}</span>
+        <span class="v-sub">{{ currentRig().psuName }}</span>
       </div>
 
       <div class="vital-divider"></div>
@@ -88,7 +88,7 @@
           Cooling Headroom
         </span>
         <span class="v-val text-rose-400">{{ v.coolingCapacity }}</span>
-        <span class="v-sub">{{ activeRigId() === 'deepcool-matrexx40' ? 'MATREXX 40 3FS Triple Fan' : 'DeepCool AG400 Tower' }}</span>
+        <span class="v-sub">{{ currentRig().caseName }}</span>
       </div>
     </div>
   }
@@ -221,36 +221,115 @@
     }
   </div>
 
+  <!-- ========================================================================= -->
+  <!-- DEDICATED HARDWARE TRADE-OFF & ARCHITECTURAL ANALYSIS STUDIO             -->
+  <!-- ========================================================================= -->
+  <div class="tradeoff-studio-deck glass-card mt-10 mb-6">
+    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-4 border-b border-white/10">
+      <div>
+        <div class="flex items-center gap-2 mb-1 flex-wrap">
+          <i class="fa-solid fa-scale-balanced text-cyan-400 text-lg"></i>
+          <h2 class="text-base sm:text-lg font-bold text-text-primary tracking-tight">
+            Hardware Component Trade-off &amp; Architectural Analysis Studio
+          </h2>
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+            ENGINEERING BENCHMARK
+          </span>
+        </div>
+        <p class="text-xs text-text-muted">
+          Comprehensive trade-off studies across processors (Ryzen 5 5600 vs i5-12400 vs i5-10400F), graphics (RTX 3060 vs GTX 1650 Super vs R7 360), heatsinks (AK400 vs AG400 vs PA120), chassis aerodynamics, and power supplies.
+        </p>
+      </div>
+
+      <!-- Category Filter Pills Bar -->
+      <div class="tradeoff-category-pills">
+        <button
+          type="button"
+          class="tradeoff-pill-btn"
+          [class.active]="activeTradeoffCategory() === 'all'"
+          (click)="setTradeoffCategory('all')">
+          <i class="fa-solid fa-layer-group text-xs"></i>
+          <span>All Trade-offs</span>
+        </button>
+        <button
+          type="button"
+          class="tradeoff-pill-btn"
+          [class.active]="activeTradeoffCategory() === 'cpu'"
+          (click)="setTradeoffCategory('cpu')">
+          <i class="fa-solid fa-microchip text-xs"></i>
+          <span>Processors (CPU)</span>
+        </button>
+        <button
+          type="button"
+          class="tradeoff-pill-btn"
+          [class.active]="activeTradeoffCategory() === 'gpu'"
+          (click)="setTradeoffCategory('gpu')">
+          <i class="fa-solid fa-gamepad text-xs"></i>
+          <span>Graphics (GPU)</span>
+        </button>
+        <button
+          type="button"
+          class="tradeoff-pill-btn"
+          [class.active]="activeTradeoffCategory() === 'cooler'"
+          (click)="setTradeoffCategory('cooler')">
+          <i class="fa-solid fa-fan text-xs"></i>
+          <span>CPU Coolers</span>
+        </button>
+        <button
+          type="button"
+          class="tradeoff-pill-btn"
+          [class.active]="activeTradeoffCategory() === 'chassis'"
+          (click)="setTradeoffCategory('chassis')">
+          <i class="fa-solid fa-wind text-xs"></i>
+          <span>Chassis &amp; Flow</span>
+        </button>
+        <button
+          type="button"
+          class="tradeoff-pill-btn"
+          [class.active]="activeTradeoffCategory() === 'psu'"
+          (click)="setTradeoffCategory('psu')">
+          <i class="fa-solid fa-bolt text-xs"></i>
+          <span>Power (PSU)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- HARDWARE COMPARISON MATRICES SECTION -->
   <div class="comparison-section">
 
-    <!-- MATRIX 0: DUAL RIG SHOWDOWN (DARKFLASH LEO vs DEEPCOOL MATREXX 40 3FS) -->
-    <div class="matrix-table-card glass-card">
-      <div class="matrix-header">
-        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-server text-cyan-400 text-lg"></i>
-            <h3 class="text-base font-bold text-text-primary">Desktop Rig Showdown: darkFlash Leo Studio vs DeepCool MATREXX 40 3FS</h3>
+    <!-- MATRIX 0: MULTI RIG SHOWDOWN (DARKFLASH LEO vs DEEPCOOL MATREXX 40 vs MAXCOOL INFERNO MC5) -->
+    @if (activeTradeoffCategory() === 'all' || activeTradeoffCategory() === 'chassis') {
+      <div class="matrix-table-card glass-card">
+        <div class="matrix-header">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-server text-cyan-400 text-lg"></i>
+              <h3 class="text-base font-bold text-text-primary">Desktop Rig Showdown: darkFlash Leo Studio vs DeepCool MATREXX 40 vs Maxcool Inferno MC5</h3>
+            </div>
+            <span class="badge-win font-mono">ACTIVE: {{ activeRigId() === 'maxcool-mc5' ? 'MAXCOOL INFERNO MC5' : (activeRigId() === 'deepcool-matrexx40' ? 'DEEPCOOL MATREXX 40 3FS' : 'DARKFLASH LEO STUDIO') }}</span>
           </div>
-          <span class="badge-win font-mono">ACTIVE: {{ activeRigId() === 'deepcool-matrexx40' ? 'DEEPCOOL MATREXX 40 3FS' : 'DARKFLASH LEO STUDIO' }}</span>
+          <p class="text-xs text-text-muted">
+            Comprehensive physical, aerodynamic, and architectural comparison between the three desktop workstation configurations.
+          </p>
         </div>
-        <p class="text-xs text-text-muted">
-          Comprehensive physical, aerodynamic, and architectural comparison between the two primary desktop workstation configurations.
-        </p>
-      </div>
 
       <div class="matrix-table-wrapper">
         <table class="matrix-table">
           <thead>
             <tr>
-              <th style="width: 20%;">Component / Subsystem</th>
-              <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 40%;">
+              <th style="width: 16%;">Component / Subsystem</th>
+              <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 28%;">
                 <span class="text-cyan-400 font-bold">Rig #1: darkFlash Leo Studio Rig</span>
                 <span class="text-[10px] text-text-muted ml-2 font-normal">(ATX • ML &amp; Dev Studio)</span>
               </th>
-              <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 40%;">
+              <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 28%;">
                 <span class="text-emerald-400 font-bold">Rig #2: DeepCool MATREXX 40 3FS</span>
                 <span class="text-[10px] text-text-muted ml-2 font-normal">(Micro-ATX • High-Airflow Dev Rig)</span>
+              </th>
+              <th [class.highlight-col]="activeRigId() === 'maxcool-mc5'" style="width: 28%;">
+                <span class="text-amber-400 font-bold">Rig #3: Maxcool Inferno MC5</span>
+                <span class="text-[10px] text-text-muted ml-2 font-normal">(Mid-Tower • Zen 3 5-Fan Array)</span>
               </th>
             </tr>
           </thead>
@@ -265,6 +344,10 @@
                 <span class="font-bold text-emerald-300">Modern Agile Web Dev, Microservices, 120Hz IPS High-Refresh Workspace</span>
                 <div class="text-[11px] text-text-muted mt-0.5">High single-core IPC (Alder Lake Golden Cove) + Gen4 NVMe 6,400MB/s I/O throughput.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="font-bold text-amber-300">Modern Web &amp; Microservices Dev, 200Hz IPS Gaming &amp; Esports</span>
+                <div class="text-[11px] text-text-muted mt-0.5">High single-thread Zen 3 IPC + rapid 5-fan chimney thermal extraction for all-day coding.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Processor (CPU)</strong></td>
@@ -277,6 +360,11 @@
                 <span class="font-bold text-emerald-400">Intel Core i5-12400</span>
                 <div class="text-[11px] text-text-muted mt-0.5">6 P-Cores / 12 Threads • 2.50–4.40 GHz • 18MB Smart Cache • 65W/117W Turbo (Alder Lake LGA1700)</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">32MB L3 Cache</span>
+                <span class="font-bold text-amber-400">AMD Ryzen 5 5600</span>
+                <div class="text-[11px] text-text-muted mt-0.5">6 Cores / 12 Threads • 3.50–4.40 GHz • 32MB Unified Cache • 65W TDP (Zen 3 Vermeer AM4)</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Motherboard</strong></td>
@@ -288,6 +376,11 @@
                 <span class="badge-win mr-1">PCIe 4.0 &amp; 2.5GbE</span>
                 <span class="font-bold text-emerald-400">Gigabyte B660M DS3H DDR4</span>
                 <div class="text-[11px] text-text-muted mt-0.5">Intel B660 Chipset • PCIe 4.0 x16 Steel Slot • Dual M.2 PCIe 4.0 x4 • 2.5GbE LAN</div>
+              </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">Wi-Fi + PCIe 4.0</span>
+                <span class="font-bold text-amber-400">Gigabyte B550M DS3H AC WiFi</span>
+                <div class="text-[11px] text-text-muted mt-0.5">AMD B550 • PCIe 4.0 x16 Steel Armor • Dual M.2 • Intel 802.11ac Dual-Band Wi-Fi + BT</div>
               </td>
             </tr>
             <tr>
@@ -302,6 +395,11 @@
                 <span class="font-bold text-emerald-400">16GB (2 × 8GB) Corsair Vengeance LPX DDR4 3200MHz</span>
                 <div class="text-[11px] text-text-muted mt-0.5">XMP 2.0 profile • Low-profile anodized aluminum heat spreader • CL16 low latency.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">1:1 Infinity Fabric</span>
+                <span class="font-bold text-amber-300">16GB (2 × 8GB) DDR4 3200MHz CL16</span>
+                <div class="text-[11px] text-text-muted mt-0.5">Matched 1:1 FCLK 1600MHz ratio • Low-profile aluminum heat spreaders • CL16 low latency.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Primary Storage (OS / Boot)</strong></td>
@@ -314,6 +412,11 @@
                 <span class="font-bold text-emerald-400">Samsung 980 PRO 250GB PCIe 4.0 NVMe M.2</span>
                 <div class="text-[11px] text-text-muted mt-0.5">Samsung Elpis Controller • Sequential Read up to 6,400 MB/s • Nickel-coated thermal control.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">PCIe 4.0 Gen4</span>
+                <span class="font-bold text-amber-400">512GB PCIe 4.0 NVMe M.2 SSD</span>
+                <div class="text-[11px] text-text-muted mt-0.5">Sequential Read up to 5,000 MB/s • Sub-second boot times &amp; instant Git repository indexing.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Secondary Storage (Data Archive)</strong></td>
@@ -324,6 +427,11 @@
               <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
                 <span class="font-bold text-text-primary">2TB 7200 RPM Mechanical HDD</span>
                 <div class="text-[11px] text-text-muted mt-0.5">SATA 6Gb/s • 256MB Cache • High-capacity media &amp; archive storage.</div>
+              </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">Silent Solid State</span>
+                <span class="font-bold text-amber-400">1TB High-Performance SATA SSD</span>
+                <div class="text-[11px] text-text-muted mt-0.5">SATA III 6Gb/s • Up to 550 MB/s • 0.0 dBA completely silent solid-state archive.</div>
               </td>
             </tr>
             <tr>
@@ -338,6 +446,11 @@
                 <span class="font-bold text-rose-400">AMD Radeon R7 360 2GB GDDR5</span>
                 <div class="text-[11px] text-text-muted mt-0.5">100W TDP • 768 Stream Processors • 128-bit bus • 1x 6-Pin PCIe power • Multi-display output.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">Turing NVENC + GDDR6</span>
+                <span class="font-bold text-amber-300">NVIDIA GeForce GTX 1650 Super 4GB</span>
+                <div class="text-[11px] text-text-muted mt-0.5">100W TDP • 1,280 CUDA Cores • 192 GB/s GDDR6 Bandwidth • Dual Axial Fans • Turing NVENC.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Power Supply (PSU)</strong></td>
@@ -349,6 +462,11 @@
               <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
                 <span class="font-bold text-amber-400">Corsair CV650 (650W, 80 Plus Bronze)</span>
                 <div class="text-[11px] text-text-muted mt-0.5">Up to 88% efficiency • 120mm thermally controlled low-noise fan • Compact 125mm casing.</div>
+              </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">Optimal 50% Load Curve</span>
+                <span class="font-bold text-amber-400">450W 80 PLUS Bronze Certified</span>
+                <div class="text-[11px] text-text-muted mt-0.5">~200W Peak System Draw • >240W Safety Headroom • Ultra-quiet 120mm temperature-controlled fan.</div>
               </td>
             </tr>
             <tr>
@@ -362,6 +480,11 @@
                 <span class="font-bold text-emerald-400">DeepCool MATREXX 40 3FS (Micro-ATX)</span>
                 <div class="text-[11px] text-text-muted mt-0.5">400 × 215 × 431 mm • Geometric Mesh Front • Edge-to-edge Tempered Glass.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">High-Airflow Mesh</span>
+                <span class="font-bold text-amber-400">Maxcool Inferno MC5 (Mid-Tower)</span>
+                <div class="text-[11px] text-text-muted mt-0.5">380 × 200 × 450 mm • High-Permeability Front Mesh • Edge-to-edge Tempered Glass.</div>
+              </td>
             </tr>
             <tr>
               <td><strong>Chassis Fans &amp; Aerodynamic CFD</strong></td>
@@ -373,6 +496,11 @@
                 <span class="badge-win mr-1">Strong Positive Pressure</span>
                 <span class="font-bold text-emerald-400">3 × 120mm Tri-Color LED (2 Front Intake + 1 Rear Exhaust)</span>
                 <div class="text-[11px] text-text-muted mt-0.5">104 CFM Intake vs 52 CFM Exhaust (+52 CFM Positive Pressure, completely repels chassis dust).</div>
+              </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">5-Fan Chimney Array</span>
+                <span class="font-bold text-amber-300">5 × 120mm ARGB (2 Front + 1 Rear + 2 Top)</span>
+                <div class="text-[11px] text-text-muted mt-0.5">104 CFM Intake vs 132 CFM Exhaust (-28 CFM Chimney Extraction, rapidly ejects hot air).</div>
               </td>
             </tr>
             <tr>
@@ -387,6 +515,11 @@
                 <span class="font-bold text-emerald-400">ASUS VA249HG 23.8" 120Hz IPS + Dareu A87 Alpha TKL</span>
                 <div class="text-[11px] text-text-muted mt-0.5">1920×1080 IPS 120Hz Eye Care • Dareu A87 Alpha Tenkeyless Mechanical Keyboard.</div>
               </td>
+              <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                <span class="badge-win mr-1">200Hz Ultra-Fast</span>
+                <span class="font-bold text-cyan-400">Gigabyte 25" 200Hz IPS Gaming Monitor</span>
+                <div class="text-[11px] text-text-muted mt-0.5">1920×1080 SuperSpeed IPS • 200Hz (3.33x vs 60Hz) • 1ms MPRT • G-Sync / FreeSync Premium.</div>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -395,410 +528,962 @@
       <div class="comparison-summary-box">
         <i class="fa-solid fa-code-fork text-cyan-400 text-base mt-0.5 flex-shrink-0"></i>
         <div class="text-xs text-text-secondary leading-relaxed">
-          <strong class="text-text-primary">Dual-Station Architecture Summary: </strong>
-          The <span class="text-cyan-300 font-semibold">darkFlash Leo Studio Rig</span> excels in intensive AI/ML workloads, CUDA tensor operations, large RAM datasets, and fluid 200Hz visual refresh on the <span class="text-cyan-300 font-semibold">Gigabyte 25" display</span>.
-          The <span class="text-emerald-300 font-semibold">DeepCool MATREXX 40 3FS Dev Station</span> brings high IPC responsiveness from the 12th-Gen Core i5-12400 (Alder Lake), blazing PCIe 4.0 Samsung 980 PRO read speeds (6,400 MB/s), an exceptional +52 CFM positive pressure dust defense profile, and a fluid 120Hz IPS display paired with a Dareu A87 Alpha mechanical keyboard.
+          <strong class="text-text-primary">Multi-Station Architecture Summary: </strong>
+          The <span class="text-cyan-300 font-semibold">darkFlash Leo Studio Rig</span> excels in intensive AI/ML workloads, CUDA tensor operations, 32GB RAM datasets, and fluid 200Hz visual refresh.
+          The <span class="text-emerald-300 font-semibold">DeepCool MATREXX 40 3FS Dev Station</span> brings high IPC responsiveness from the 12th-Gen Core i5-12400 (Alder Lake), blazing PCIe 4.0 Samsung 980 PRO read speeds (6,400 MB/s), an exceptional +52 CFM positive pressure dust defense profile, and a fluid 120Hz IPS display.
+          The <span class="text-amber-300 font-semibold">Maxcool Inferno MC5 Rig</span> delivers outstanding Zen 3 6C/12T efficiency on the Gigabyte B550M DS3H AC WiFi, powered by a DeepCool AK400 matrix cooler, NVIDIA GTX 1650 Super GDDR6, and a dedicated 5-fan chimney array (2 intake, 3 exhaust) for rapid thermal evacuation.
         </div>
       </div>
     </div>
+    }
 
-    <!-- MATRIX 1: GPU ARCHITECTURAL COMPARISON (RTX 3060 12GB vs GTX 1650 4GB vs AMD Radeon R7 360 2GB) -->
-    <div class="matrix-table-card glass-card">
-      <div class="matrix-header">
-        <div class="flex items-center gap-2 mb-1">
-          <i class="fa-solid fa-code-compare text-emerald-400 text-lg"></i>
-          <h3 class="text-base font-bold text-text-primary">GPU Architectural Showdown: RTX 3060 12GB vs GTX 1650 4GB vs Radeon R7 360 2GB</h3>
-        </div>
-        <p class="text-xs text-text-muted">
-          Evaluating compute density, VRAM capacity for local AI inference, electrical power draw, and chassis thermal discharge.
-        </p>
-      </div>
-
-      <div class="matrix-table-wrapper">
-        <table class="matrix-table">
-          <thead>
-            <tr>
-              <th style="width: 19%;">Metric / Specification</th>
-              <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 27%;">
-                <span class="text-emerald-400">NVIDIA RTX 3060 12GB</span>
-                <div class="text-[10px] text-text-muted mt-0.5">(darkFlash Leo Rig)</div>
-              </th>
-              <th style="width: 27%;">
-                <span class="text-teal-300">NVIDIA GTX 1650 4GB</span>
-                <div class="text-[10px] text-text-muted mt-0.5">(Comparison Profile)</div>
-              </th>
-              <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 27%;">
-                <span class="text-rose-400">AMD Radeon R7 360 2GB</span>
-                <div class="text-[10px] text-text-muted mt-0.5">(MATREXX 40 Rig)</div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Architecture &amp; Die</strong></td>
-              <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
-                <span class="font-bold text-text-primary">Ampere (GA106, 8nm Samsung)</span>
-                <div class="text-[11px] text-text-muted mt-0.5">13.25 Billion Transistors</div>
-              </td>
-              <td>
-                <span class="font-bold text-text-primary">Turing (TU117, 12nm TSMC)</span>
-                <div class="text-[11px] text-text-muted mt-0.5">4.7 Billion Transistors</div>
-              </td>
-              <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
-                <span class="font-bold text-text-primary">GCN 2.0 (Tobago XT, 28nm TSMC)</span>
-                <div class="text-[11px] text-text-muted mt-0.5">2.08 Billion Transistors</div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>VRAM &amp; Bus Width</strong></td>
-              <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
-                <span class="badge-win mr-1">6x VRAM</span>
-                <span class="font-bold text-emerald-400">12 GB GDDR6 • 192-bit (360 GB/s)</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Fits modern 8B parameter neural networks in dedicated memory</div>
-              </td>
-              <td>
-                <span class="badge-compromise mr-1">Constraint</span>
-                <span class="font-bold text-amber-300">4 GB GDDR6 • 128-bit (128 GB/s)</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Severely limited for ML weights; causes system RAM swapping</div>
-              </td>
-              <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
-                <span class="badge-compromise mr-1">Legacy</span>
-                <span class="font-bold text-rose-400">2 GB GDDR5 • 128-bit (104 GB/s)</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Sufficient for 1080p desktop compositing &amp; 120Hz display output</div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Cores &amp; FP32 Compute</strong></td>
-              <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
-                <span class="badge-win mr-1">7.9x vs R7 360</span>
-                <span class="font-bold text-emerald-400">3,584 Cores • 12.74 TFLOPS</span>
-              </td>
-              <td>
-                <span class="font-bold text-text-primary">896 Cores • 2.98 TFLOPS</span>
-              </td>
-              <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
-                <span class="font-bold text-text-primary">768 Stream Cores • 1.61 TFLOPS</span>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Hardware AI &amp; Ray Tracing</strong></td>
-              <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
-                <span class="badge-win mr-1">Accelerated</span>
-                <span class="font-bold text-emerald-400">112 Tensor Cores (Gen 3) + 28 RT Cores</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Full OptiX BVH hardware traversal &amp; FP16 tensor matrix math</div>
-              </td>
-              <td>
-                <span class="badge-compromise mr-1">None</span>
-                <span class="text-text-muted">0 Tensor Cores • 0 RT Cores</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Software emulation only</div>
-              </td>
-              <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
-                <span class="badge-compromise mr-1">None</span>
-                <span class="text-text-muted">0 Tensor Cores • 0 RT Cores</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Legacy rasterization only (DirectX 12_0, Vulkan 1.2)</div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Power Consumption (TDP)</strong></td>
-              <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
-                <span class="font-bold text-amber-300">170 Watts</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Requires 8-pin PCIe auxiliary power cable from Corsair RM750x</div>
-              </td>
-              <td>
-                <span class="badge-win mr-1">Slot-Powered</span>
-                <span class="font-bold text-emerald-400">75 Watts</span>
-                <div class="text-[11px] text-text-muted mt-0.5">100% PCIe slot-powered (No auxiliary PSU cable needed)</div>
-              </td>
-              <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
-                <span class="font-bold text-amber-300">100 Watts</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Requires 1x 6-Pin PCIe auxiliary power cable from Corsair CV650</div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Chassis Thermal Impact</strong></td>
-              <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
-                <span class="font-bold text-amber-300">67°C Sustained Load</span>
-                <div class="text-[11px] text-text-muted mt-0.5">
-                  Triple axial fans exhaust ~170W upward thermal plume into top cavity
-                </div>
-              </td>
-              <td>
-                <span class="badge-win mr-1">Cool Running</span>
-                <span class="font-bold text-emerald-400">58°C Sustained Load</span>
-                <div class="text-[11px] text-text-muted mt-0.5">
-                  Dual axial fans release minimal heat (~75W)
-                </div>
-              </td>
-              <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
-                <span class="font-bold text-amber-300">68°C Sustained Load</span>
-                <div class="text-[11px] text-text-muted mt-0.5">
-                  Single/dual axial fan exhausts ~100W inside MATREXX 40 chamber; swept rearward by +52 CFM positive pressure
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Local AI (Llama 3 8B Q4)</strong></td>
-              <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
-                <span class="badge-win mr-1">18.4 tok/s</span>
-                <span class="font-bold text-emerald-400">Full model + KV cache in VRAM</span>
-              </td>
-              <td>
-                <span class="badge-compromise mr-1">2.1 tok/s</span>
-                <span class="text-rose-400">Out of Memory • Paged to CPU RAM</span>
-              </td>
-              <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
-                <span class="badge-compromise mr-1">N/A</span>
-                <span class="text-rose-400">OOM (2GB VRAM) • Requires CPU-only execution</span>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Blender 4.2 Benchmark</strong></td>
-              <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
-                <span class="badge-win mr-1">58 seconds</span>
-                <span class="font-bold text-emerald-400">Hardware Ray Tracing + AI Denoising</span>
-              </td>
-              <td>
-                <span class="font-bold text-text-primary">312 seconds</span>
-                <div class="text-[11px] text-text-muted mt-0.5">5.4x slower; CUDA legacy rasterization</div>
-              </td>
-              <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
-                <span class="font-bold text-text-primary">620 seconds</span>
-                <div class="text-[11px] text-text-muted mt-0.5">Software / CPU fallback rendering</div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="comparison-summary-box">
-        <i class="fa-solid fa-lightbulb text-cyan-400 text-base mt-0.5 flex-shrink-0"></i>
-        <div class="text-xs text-text-secondary leading-relaxed">
-          <strong class="text-text-primary">Engineering Verdict: </strong>
-          While the <span class="text-emerald-400 font-semibold">RTX 3060 12GB</span> dominates in ML tensor acceleration and VRAM-intensive compute, the <span class="text-rose-400 font-semibold">AMD Radeon R7 360 2GB</span> reliably drives the <span class="text-cyan-300 font-semibold">ASUS VA249HG 120Hz Full HD IPS display</span> for daily engineering, code compilation, and multi-service development with moderate 100W power draw.
-        </div>
-      </div>
-    </div>
-
-    <!-- MATRIX 2: CPU COOLERS & FAN DYNAMICS MATRIX -->
-    <div class="matrix-table-card glass-card">
-      <div class="matrix-header">
-        <div class="flex items-center gap-2 mb-1">
-          <i class="fa-solid fa-fan text-rose-400 text-lg"></i>
-          <h3 class="text-base font-bold text-text-primary">CPU Cooler Thermals, Fan RPM Curves &amp; Acoustics</h3>
-        </div>
-        <p class="text-xs text-text-muted">
-          Evaluating cooling dissipation capacity, PWM fan RPM ranges, and acoustic noise profiles across heatsink architectures.
-        </p>
-      </div>
-
-      <div class="matrix-table-wrapper">
-        <table class="matrix-table">
-          <thead>
-            <tr>
-              <th>Cooler Model</th>
-              <th>Architecture &amp; Heatpipes</th>
-              <th>Cooling Capacity</th>
-              <th>Dynamic Fan RPM Range</th>
-              <th>Acoustic Profile</th>
-              <th>Thermal Equilibrium (i5-10400F)</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (cooler of coolerOptions; track cooler.id) {
-              <tr [class.highlight-col]="cooler.id === 'ag400'">
-                <td>
-                  <div class="font-bold text-text-primary">{{ cooler.name }}</div>
-                  <span class="text-[10px] text-cyan-400 font-semibold">{{ cooler.badge }}</span>
-                </td>
-                <td>
-                  <div class="text-text-secondary">{{ cooler.type | uppercase }}</div>
-                  <div class="text-[11px] text-text-muted mt-0.5">{{ cooler.heatpipes }}</div>
-                </td>
-                <td>
-                  <span class="font-bold text-amber-400">{{ cooler.coolingCapacityTdp }}W TDP</span>
-                </td>
-                <td>
-                  <div class="font-mono text-cyan-400">{{ cooler.minRpm }} - {{ cooler.maxRpm }} RPM</div>
-                  <div class="text-[10px] text-text-muted mt-0.5">
-                    Silent: {{ cooler.silentRpm }} • Balanced: {{ cooler.balancedRpm }} • Turbo: {{ cooler.turboRpm }}
-                  </div>
-                </td>
-                <td>
-                  <div class="font-bold text-indigo-300">{{ cooler.maxNoiseDba }} dB(A)</div>
-                </td>
-                <td>
-                  <div class="text-xs text-text-secondary">{{ cooler.description }}</div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- MATRIX 4: DEEPCOOL MATREXX 40 3FS HARDWARE UPGRADE BLUEPRINT (GPU, RAM & FANS) -->
-    <div class="matrix-table-card glass-card">
-      <div class="matrix-header">
-        <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
-          <div class="flex items-center gap-2">
-            <i class="fa-solid fa-arrow-up-right-dots text-emerald-400 text-lg"></i>
-            <h3 class="text-base font-bold text-text-primary">DeepCool MATREXX 40 3FS: Hardware Upgrade Roadmap (GPU, RAM &amp; Fans)</h3>
+    <!-- MATRIX: CPU ARCHITECTURAL & MULTITHREAD COMPILATION TRADE-OFF -->
+    @if (activeTradeoffCategory() === 'all' || activeTradeoffCategory() === 'cpu') {
+      <div class="matrix-table-card glass-card">
+        <div class="matrix-header">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-microchip text-indigo-400 text-lg"></i>
+              <h3 class="text-base font-bold text-text-primary">CPU Architectural &amp; Compilation Trade-Off: Ryzen 5 5600 vs Core i5-12400 vs Core i5-10400F</h3>
+            </div>
+            <span class="badge-win font-mono">ZEN 3 vs ALDER LAKE vs COMET LAKE</span>
           </div>
-          <span class="badge-win font-mono">B660M LGA1700 • CV650 (650W) COMPATIBLE</span>
+          <p class="text-xs text-text-muted">
+            Evaluating single-thread IPC, 32MB L3 unified cache impact on Rust/TypeScript build times, memory controller gear latency, and thermal headroom.
+          </p>
         </div>
-        <p class="text-xs text-text-muted">
-          Comprehensive component upgrade paths for the DeepCool MATREXX 40 build, evaluating electrical headroom on the Corsair CV650 PSU, PCIe 4.0 bandwidth on Gigabyte B660M DS3H, and thermal aerodynamics.
-        </p>
-      </div>
 
-      <!-- UPGRADE SUBSECTION 1: GRAPHICS CARD (GPU) UPGRADES -->
-      <div class="mb-6">
-        <div class="flex items-center gap-2 mb-3">
-          <i class="fa-solid fa-gamepad text-emerald-400 text-sm"></i>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">1. GPU Upgrade Paths (From AMD Radeon R7 360 2GB)</h4>
-        </div>
         <div class="matrix-table-wrapper">
           <table class="matrix-table">
             <thead>
               <tr>
-                <th style="width: 22%;">GPU Model &amp; Tier</th>
-                <th style="width: 18%;">VRAM &amp; Architecture</th>
-                <th style="width: 15%;">Power &amp; CV650 PSU</th>
-                <th style="width: 20%;">Compute &amp; Performance Leap</th>
-                <th style="width: 25%;">Thermal &amp; MATREXX 40 Synergy</th>
+                <th style="width: 19%;">Specification / Architectural Dimension</th>
+                <th [class.highlight-col]="activeRigId() === 'maxcool-mc5'" style="width: 27%;">
+                  <span class="text-amber-400 font-bold">AMD Ryzen 5 5600</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(Maxcool Inferno MC5 Rig)</div>
+                </th>
+                <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 27%;">
+                  <span class="text-emerald-400 font-bold">Intel Core i5-12400</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(DeepCool MATREXX 40 Rig)</div>
+                </th>
+                <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 27%;">
+                  <span class="text-cyan-400 font-bold">Intel Core i5-10400F</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(darkFlash Leo Studio Rig)</div>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <div class="font-bold text-text-primary">AMD Radeon R7 360 2GB</div>
-                  <span class="badge-compromise text-[10px]">Current Baseline</span>
+                <td><strong>Microarchitecture &amp; Process Node</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">7nm FinFET</span>
+                  <span class="font-bold text-amber-300">Zen 3 Vermeer (TSMC 7nm)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Single 8-core CCX die with 6 active cores • 4.15 Billion Transistors</div>
                 </td>
-                <td>
-                  <div class="font-bold text-rose-400">2 GB GDDR5</div>
-                  <div class="text-[10px] text-text-muted">GCN 2.0 (28nm) • 104 GB/s</div>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-win mr-1">10nm SuperFin</span>
+                  <span class="font-bold text-emerald-400">Alder Lake (Intel 7 / 10nm)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">6 Golden Cove Performance-Cores (H0 stepping, 0 E-cores)</div>
                 </td>
-                <td>
-                  <span class="font-bold text-amber-400">100W TDP</span>
-                  <div class="text-[10px] text-text-muted">1x 6-Pin PCIe Cable</div>
-                </td>
-                <td>
-                  <span class="font-bold text-text-primary">1.61 TFLOPS (768 Cores)</span>
-                  <div class="text-[10px] text-text-muted">1080p Desktop UI, Linux &amp; Esports</div>
-                </td>
-                <td>
-                  <span class="text-text-secondary text-xs">Compact single fan; easily swept by +52 CFM positive pressure.</span>
-                </td>
-              </tr>
-              <tr class="highlight-col">
-                <td>
-                  <div class="font-bold text-emerald-400">AMD Radeon RX 6600 8GB</div>
-                  <span class="badge-win text-[10px]">Best Value Upgrade</span>
-                </td>
-                <td>
-                  <div class="font-bold text-emerald-400">8 GB GDDR6</div>
-                  <div class="text-[10px] text-text-muted">RDNA 2 (7nm) • 32MB Infinity Cache</div>
-                </td>
-                <td>
-                  <span class="font-bold text-emerald-400">132W TDP</span>
-                  <div class="text-[10px] text-text-muted">1x 8-Pin (+518W CV650 Headroom)</div>
-                </td>
-                <td>
-                  <span class="badge-win mr-1">4.5x Rasterization</span>
-                  <div class="font-bold text-emerald-300">8.93 TFLOPS (1,792 Cores)</div>
-                  <div class="text-[10px] text-text-muted">Effortlessly drives ASUS VA249HG 120Hz display at 1080p High/Ultra</div>
-                </td>
-                <td>
-                  <span class="text-text-secondary text-xs">Dual axial fans exhaust 132W into direct rear tunnel. Keeps CPU cooler ambient under 62°C.</span>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-text-primary">Comet Lake (Intel 14nm+++)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Mature 14nm monolithic ring-bus architecture</div>
                 </td>
               </tr>
               <tr>
-                <td>
-                  <div class="font-bold text-cyan-300">NVIDIA GeForce RTX 4060 8GB</div>
-                  <span class="badge-win text-[10px]">AI &amp; DLSS 3 Upgrade</span>
+                <td><strong>Core Topology &amp; Frequencies</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="font-bold text-text-primary">6 Cores / 12 Threads</span>
+                  <div class="font-mono text-cyan-300">3.50 GHz Base • 4.40 GHz Boost</div>
+                  <div class="text-[11px] text-text-muted mt-0.5">Precision Boost 2 fine-grained 25MHz frequency stepping</div>
                 </td>
-                <td>
-                  <div class="font-bold text-cyan-300">8 GB GDDR6</div>
-                  <div class="text-[10px] text-text-muted">Ada Lovelace (5nm) • 24MB L2 Cache</div>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-text-primary">6 P-Cores / 12 Threads</span>
+                  <div class="font-mono text-cyan-300">2.50 GHz Base • 4.40 GHz Turbo</div>
+                  <div class="text-[11px] text-text-muted mt-0.5">4.00 GHz all-core Turbo under sustained compilation</div>
                 </td>
-                <td>
-                  <span class="font-bold text-emerald-400">115W TDP</span>
-                  <div class="text-[10px] text-text-muted">Ultra-Efficient (+535W CV650 Headroom)</div>
-                </td>
-                <td>
-                  <span class="badge-win mr-1">DLSS 3 &amp; Tensor</span>
-                  <div class="font-bold text-cyan-300">15.1 TFLOPS • 96 Tensor Cores</div>
-                  <div class="text-[10px] text-text-muted">Hardware PyTorch AI inference, OptiX 3D rendering, and AV1 video encoding</div>
-                </td>
-                <td>
-                  <span class="text-text-secondary text-xs">Extremely cool running (58°C sustained); minimal heat dissipation inside the Micro-ATX chassis.</span>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-text-primary">6 Cores / 12 Threads</span>
+                  <div class="font-mono text-cyan-300">2.90 GHz Base • 4.30 GHz Turbo</div>
+                  <div class="text-[11px] text-text-muted mt-0.5">4.00 GHz all-core Turbo under sustained development</div>
                 </td>
               </tr>
               <tr>
-                <td>
-                  <div class="font-bold text-indigo-300">Intel Arc A750 8GB</div>
-                  <span class="badge-win text-[10px]">Intel Deep Link Synergy</span>
+                <td><strong>L3 Cache Subsystem &amp; Memory Latency</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">32MB Massive L3</span>
+                  <span class="font-bold text-amber-300">32 MB Unified L3 Cache</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Unified cache eliminates cross-CCX latency; dramatic speedup for LLVM, Rust, C++ compilation and 1% low frame rates
+                  </div>
                 </td>
-                <td>
-                  <div class="font-bold text-indigo-300">8 GB GDDR6</div>
-                  <div class="text-[10px] text-text-muted">Alchemist (6nm) • 256-bit (512 GB/s)</div>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-emerald-400">18 MB Intel Smart Cache</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    + 7.5MB L2 cache (1.25MB per core); high hit rates for web browser tabs &amp; Docker daemon
+                  </div>
                 </td>
-                <td>
-                  <span class="font-bold text-amber-400">225W TDP</span>
-                  <div class="text-[10px] text-text-muted">1x 8-Pin + 1x 6-Pin (Supported by CV650)</div>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-text-primary">12 MB Intel Smart Cache</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Standard 2MB per core L3 cache allocation on LGA1200
+                  </div>
                 </td>
-                <td>
-                  <span class="badge-win mr-1">512 GB/s Bandwidth</span>
-                  <div class="font-bold text-indigo-300">17.2 TFLOPS • 448 XMX AI Engines</div>
-                  <div class="text-[10px] text-text-muted">Hardware Deep Link with Core i5-12400 for dual AV1 encoding &amp; video synthesis</div>
+              </tr>
+              <tr>
+                <td><strong>Memory Controller &amp; Bus Speed</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">1:1 Infinity Fabric</span>
+                  <span class="font-bold text-amber-300">DDR4-3200 (FCLK 1600 MHz)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Low ~64ns memory access latency on Gigabyte B550M DS3H AC WiFi; matched 1:1 FCLK/UCLK ratio
+                  </div>
                 </td>
-                <td>
-                  <span class="text-text-secondary text-xs">Higher heat emission (225W); benefits strongly from adding MATREXX 40 top exhaust fans.</span>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-emerald-400">DDR4-3200 Gear 1 (1:1 IMC)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Corsair Vengeance LPX 3200MHz CL16; native PCIe 4.0/5.0 controller
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-compromise mr-1">B460 Cap</span>
+                  <span class="text-rose-400 font-semibold">DDR4-2666 Cap on B460</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Intel B460 limits memory to 2666MHz; ~72ns memory latency
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Power Envelope &amp; Thermal Load</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">Ultra-Cool 76W Max</span>
+                  <span class="font-bold text-amber-300">65W TDP • 76W Max PPT</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    DeepCool AK400 keeps load thermals &lt;62°C; draws mere ~195W total system power with GTX 1650 Super
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-emerald-400">65W Base • 117W Turbo PL2</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Burst multithread compilation draws up to 117W for ~28 seconds before settling to 65W PL1
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-text-primary">65W TDP • 75W Max Load</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Low continuous thermal dissipation; easily handled by AG400 (&lt;58°C)
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Integrated GPU &amp; Hardware Codecs</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-compromise mr-1">No iGPU</span>
+                  <span class="text-text-muted">Discrete GPU Required</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Requires GTX 1650 Super for display; zero CPU die power wasted on graphics</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-win mr-1">Intel UHD 730</span>
+                  <span class="font-bold text-emerald-400">Intel UHD Graphics 730</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Intel QuickSync hardware video encoder; dual display emergency backup</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-compromise mr-1">No iGPU</span>
+                  <span class="text-text-muted">Discrete GPU Required ('F' SKU)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Requires RTX 3060 for display output</div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Platform Upgrade Path &amp; Motherboard</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">AM4 Ecosystem Value</span>
+                  <span class="font-bold text-amber-300">Gigabyte B550M DS3H AC WiFi</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    PCIe 4.0 x16 Steel Armor, Dual M.2, Intel 802.11ac Wi-Fi + BT; supports Ryzen 7 5700X3D upgrade
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-win mr-1">LGA1700 Next-Gen</span>
+                  <span class="font-bold text-emerald-400">Gigabyte B660M DS3H DDR4</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    PCIe 4.0 x16, Dual PCIe 4.0 M.2, 2.5GbE LAN; supports 13th &amp; 14th Gen Intel Core upgrades
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="text-text-primary">MSI B460M PRO-VDH WiFi</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    PCIe 3.0, Gigabit LAN; LGA1200 end-of-life platform
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
 
-      <!-- UPGRADE SUBSECTION 2: SYSTEM MEMORY (RAM) UPGRADES -->
-      <div class="mb-6">
-        <div class="flex items-center gap-2 mb-3">
-          <i class="fa-solid fa-memory text-indigo-400 text-sm"></i>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">2. System Memory (RAM) Upgrades (Gigabyte B660M DS3H • 4 DIMM Slots)</h4>
+        <div class="comparison-summary-box">
+          <i class="fa-solid fa-code-fork text-cyan-400 text-base mt-0.5 flex-shrink-0"></i>
+          <div class="text-xs text-text-secondary leading-relaxed">
+            <strong class="text-text-primary">CPU Architectural Verdict: </strong>
+            The <span class="text-amber-400 font-semibold">AMD Ryzen 5 5600</span> is an extraordinary efficiency and compilation powerhouse: its massive <span class="text-amber-300 font-semibold">32MB L3 unified cache</span> eliminates memory stalls during heavy project compiles (Rust, Webpack, LLVM) while pulling mere 76W socket peak. The <span class="text-emerald-400 font-semibold">Core i5-12400</span> offers outstanding single-thread Golden Cove IPC and integrated QuickSync transcoding on LGA1700, while the <span class="text-cyan-300 font-semibold">i5-10400F</span> delivers rock-solid, cool-running 6C/12T multithreading on the darkFlash Leo rig.
+          </div>
         </div>
+      </div>
+    }
+
+    <!-- MATRIX 1: GPU ARCHITECTURAL COMPARISON (RTX 3060 12GB vs GTX 1650 SUPER 4GB vs GTX 1650 4GB vs AMD R7 360 2GB) -->
+    @if (activeTradeoffCategory() === 'all' || activeTradeoffCategory() === 'gpu') {
+      <div class="matrix-table-card glass-card">
+        <div class="matrix-header">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-code-compare text-emerald-400 text-lg"></i>
+              <h3 class="text-base font-bold text-text-primary">GPU Architectural Showdown: RTX 3060 12GB vs GTX 1650 Super vs GTX 1650 vs Radeon R7 360</h3>
+            </div>
+            <span class="badge-win font-mono">AMPERE vs TURING TU116 vs TURING TU117 vs GCN 2.0</span>
+          </div>
+          <p class="text-xs text-text-muted">
+            Evaluating compute density, VRAM capacity for local AI inference, electrical power draw, Turing NVENC video encoding, and chassis thermal discharge.
+          </p>
+        </div>
+
         <div class="matrix-table-wrapper">
           <table class="matrix-table">
             <thead>
               <tr>
-                <th style="width: 22%;">Memory Kit &amp; Tier</th>
-                <th style="width: 18%;">DIMM Slot Population</th>
-                <th style="width: 18%;">Frequency &amp; Timings</th>
-                <th style="width: 20%;">Bandwidth &amp; Alder Lake Gear</th>
-                <th style="width: 22%;">Developer Capacity</th>
+                <th style="width: 16%;">Metric / Specification</th>
+                <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 21%;">
+                  <span class="text-emerald-400 font-bold">RTX 3060 12GB</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(darkFlash Leo Rig)</div>
+                </th>
+                <th [class.highlight-col]="activeRigId() === 'maxcool-mc5'" style="width: 21%;">
+                  <span class="text-amber-400 font-bold">GTX 1650 Super 4GB</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(Maxcool MC5 Rig)</div>
+                </th>
+                <th style="width: 21%;">
+                  <span class="text-teal-300 font-bold">GTX 1650 4GB</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(Comparison Profile)</div>
+                </th>
+                <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 21%;">
+                  <span class="text-rose-400 font-bold">Radeon R7 360 2GB</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(MATREXX 40 Rig)</div>
+                </th>
               </tr>
             </thead>
             <tbody>
-              @for (ram of ramOptions; track ram.id) {
-                <tr [class.highlight-col]="ram.id === 'corsair-32gb-3200'">
+              <tr>
+                <td><strong>Architecture &amp; Die</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-text-primary">Ampere (GA106, 8nm Samsung)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">13.25 Billion Transistors</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">Turing TU116</span>
+                  <span class="font-bold text-amber-300">Turing (TU116, 12nm TSMC)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">6.6 Billion Transistors (GTX 1660 Die)</div>
+                </td>
+                <td>
+                  <span class="font-bold text-text-primary">Turing (TU117, 12nm TSMC)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">4.7 Billion Transistors</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-text-primary">GCN 2.0 (Tobago XT, 28nm)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">2.08 Billion Transistors</div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>VRAM &amp; Memory Bus</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">6x VRAM</span>
+                  <span class="font-bold text-emerald-400">12 GB GDDR6 • 192-bit (360 GB/s)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Fits modern 8B parameter neural networks in dedicated memory</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">192 GB/s GDDR6</span>
+                  <span class="font-bold text-amber-300">4 GB GDDR6 • 128-bit (192 GB/s)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">+50% higher bandwidth vs standard non-Super 1650</div>
+                </td>
+                <td>
+                  <span class="badge-compromise mr-1">Constraint</span>
+                  <span class="font-bold text-amber-300">4 GB GDDR6 • 128-bit (128 GB/s)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Severely limited for ML weights; causes system RAM swapping</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-compromise mr-1">Legacy</span>
+                  <span class="font-bold text-rose-400">2 GB GDDR5 • 128-bit (104 GB/s)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Sufficient for 1080p desktop compositing &amp; 120Hz display output</div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Cores &amp; FP32 Compute</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">7.9x vs R7 360</span>
+                  <span class="font-bold text-emerald-400">3,584 Cores • 12.74 TFLOPS</span>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">+43% Cores</span>
+                  <span class="font-bold text-amber-300">1,280 Cores • 4.41 TFLOPS</span>
+                </td>
+                <td>
+                  <span class="font-bold text-text-primary">896 Cores • 2.98 TFLOPS</span>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-text-primary">768 Stream Cores • 1.61 TFLOPS</span>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Hardware AI &amp; Video Encoders</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">Tensor Accelerated</span>
+                  <span class="font-bold text-emerald-400">112 Tensor Cores (Gen 3) + 28 RT Cores</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Full OptiX BVH hardware traversal &amp; FP16 tensor matrix math</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">Turing NVENC</span>
+                  <span class="font-bold text-amber-300">Turing NVENC (TU116)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Flagship Turing hardware encoder; +15% more efficient than Volta/Pascal NVENC</div>
+                </td>
+                <td>
+                  <span class="badge-compromise mr-1">Volta NVENC</span>
+                  <span class="text-text-muted">Volta NVENC (TU117)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Lacks Turing encoder; uses older Volta codec block</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-compromise mr-1">None</span>
+                  <span class="text-text-muted">Legacy AMD VCE</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Legacy rasterization only (DirectX 12_0, Vulkan 1.2)</div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Power Consumption (TDP)</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-amber-300">170 Watts</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Requires 8-pin PCIe auxiliary power cable from Corsair RM750x</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">100W Balanced</span>
+                  <span class="font-bold text-amber-300">100 Watts</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Requires 1x 6-Pin PCIe auxiliary power cable from 450W PSU</div>
+                </td>
+                <td>
+                  <span class="badge-win mr-1">Slot-Powered</span>
+                  <span class="font-bold text-emerald-400">75 Watts</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">100% PCIe slot-powered (No auxiliary PSU cable needed)</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-amber-300">100 Watts</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Requires 1x 6-Pin PCIe auxiliary power cable from Corsair CV650</div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Chassis Thermal Impact</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-amber-300">67°C Sustained Load</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Triple axial fans exhaust ~170W upward thermal plume into top cavity
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">Cool Running</span>
+                  <span class="font-bold text-emerald-400">61°C Sustained Load</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Dual axial fans; heat plume immediately evacuated by Maxcool 5-fan chimney array
+                  </div>
+                </td>
+                <td>
+                  <span class="badge-win mr-1">Lowest Heat</span>
+                  <span class="font-bold text-emerald-400">58°C Sustained Load</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Dual axial fans release minimal heat (~75W)
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-amber-300">68°C Sustained Load</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Single/dual axial fan exhausts ~100W inside MATREXX 40 chamber; swept rearward by +52 CFM positive pressure
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Local AI (Llama 3 8B Q4)</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">18.4 tok/s</span>
+                  <span class="font-bold text-emerald-400">Full model + KV cache in VRAM</span>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-compromise mr-1">3.2 tok/s</span>
+                  <span class="text-amber-300">Partial Offload (4GB VRAM) • Paged to DDR4</span>
+                </td>
+                <td>
+                  <span class="badge-compromise mr-1">2.1 tok/s</span>
+                  <span class="text-rose-400">Out of Memory • Paged to CPU RAM</span>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-compromise mr-1">N/A</span>
+                  <span class="text-rose-400">OOM (2GB VRAM) • Requires CPU-only execution</span>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Blender 4.2 Benchmark</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">58 seconds</span>
+                  <span class="font-bold text-emerald-400">Hardware Ray Tracing + AI Denoising</span>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">218 seconds</span>
+                  <span class="font-bold text-amber-300">CUDA acceleration (43% faster than vanilla 1650)</span>
+                </td>
+                <td>
+                  <span class="font-bold text-text-primary">312 seconds</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">5.4x slower; CUDA legacy rasterization</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-text-primary">620 seconds</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Software / CPU fallback rendering</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="comparison-summary-box">
+          <i class="fa-solid fa-lightbulb text-cyan-400 text-base mt-0.5 flex-shrink-0"></i>
+          <div class="text-xs text-text-secondary leading-relaxed">
+            <strong class="text-text-primary">GPU Engineering Verdict: </strong>
+            While the <span class="text-emerald-400 font-semibold">RTX 3060 12GB</span> dominates in local AI tensor acceleration with 12GB dedicated VRAM, the <span class="text-amber-400 font-semibold">NVIDIA GTX 1650 Super 4GB</span> delivers outstanding 1080p creative and video encoding performance thanks to its full Turing NVENC encoder and 192 GB/s GDDR6 bandwidth at just 100W TDP on the Maxcool build. Meanwhile, the <span class="text-rose-400 font-semibold">AMD Radeon R7 360 2GB</span> smoothly powers the 120Hz IPS display on the MATREXX 40 station.
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- MATRIX 2: CPU COOLERS & FAN DYNAMICS MATRIX -->
+    @if (activeTradeoffCategory() === 'all' || activeTradeoffCategory() === 'cooler') {
+      <div class="matrix-table-card glass-card">
+        <div class="matrix-header">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-fan text-rose-400 text-lg"></i>
+              <h3 class="text-base font-bold text-text-primary">CPU Cooler Thermals, Fan RPM Curves &amp; Acoustics</h3>
+            </div>
+            <span class="badge-win font-mono">DEEPCOOL AK400 vs AG400 vs PA120 vs INTEL STOCK</span>
+          </div>
+          <p class="text-xs text-text-muted">
+            Evaluating cooling dissipation capacity, matrix fin arrays vs offset heatpipes, PWM fan RPM ranges, and acoustic noise profiles across heatsink architectures.
+          </p>
+        </div>
+
+        <div class="matrix-table-wrapper">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Cooler Model</th>
+                <th>Architecture &amp; Heatpipes</th>
+                <th>Cooling Capacity</th>
+                <th>Dynamic Fan RPM Range</th>
+                <th>Acoustic Profile</th>
+                <th>Thermal Equilibrium &amp; Clearance</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (cooler of coolerOptions; track cooler.id) {
+                <tr [class.highlight-col]="cooler.id === 'ak400' || cooler.id === 'ag400'">
                   <td>
-                    <div class="font-bold text-text-primary">{{ ram.name.split('(')[0] }}</div>
-                    <span class="text-[10px] text-cyan-400 font-semibold">{{ ram.badge }}</span>
+                    <div class="font-bold text-text-primary">{{ cooler.name }}</div>
+                    <span class="text-[10px] text-cyan-400 font-semibold">{{ cooler.badge }}</span>
                   </td>
                   <td>
-                    <div class="text-xs text-text-primary font-semibold">{{ ram.configuration }}</div>
+                    <div class="text-text-secondary">{{ cooler.type | uppercase }}</div>
+                    <div class="text-[11px] text-text-muted mt-0.5">{{ cooler.heatpipes }}</div>
                   </td>
                   <td>
-                    <div class="font-mono text-cyan-400 font-bold">{{ ram.speedMhz }} MHz</div>
-                    <div class="text-[10px] text-text-muted mt-0.5">{{ ram.timing }} • {{ ram.voltage }}V</div>
+                    <span class="font-bold text-amber-400">{{ cooler.coolingCapacityTdp }}W TDP</span>
                   </td>
                   <td>
-                    <span class="font-bold text-emerald-400">{{ ram.maxBandwidthGbps }} GB/s</span>
-                    <div class="text-[10px] text-text-muted mt-0.5">Dual-Channel Gear 1 1:1 Controller</div>
+                    <div class="font-mono text-cyan-400">{{ cooler.minRpm }} - {{ cooler.maxRpm }} RPM</div>
+                    <div class="text-[10px] text-text-muted mt-0.5">
+                      Silent: {{ cooler.silentRpm }} • Balanced: {{ cooler.balancedRpm }} • Turbo: {{ cooler.turboRpm }}
+                    </div>
                   </td>
                   <td>
-                    <div class="text-xs text-text-secondary">{{ ram.dockerCapacity }}</div>
-                    <div class="text-[10px] text-text-muted mt-0.5">{{ ram.description }}</div>
+                    <div class="font-bold text-indigo-300">{{ cooler.maxNoiseDba }} dB(A)</div>
+                  </td>
+                  <td>
+                    <div class="text-xs text-text-secondary">{{ cooler.description }}</div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <div class="comparison-summary-box">
+          <i class="fa-solid fa-fan text-rose-400 text-base mt-0.5 flex-shrink-0"></i>
+          <div class="text-xs text-text-secondary leading-relaxed">
+            <strong class="text-text-primary">Heatsink Engineering Verdict: </strong>
+            The <span class="text-cyan-300 font-semibold">DeepCool AK400</span> on the Maxcool MC5 build features an advanced matrix fin array with a premium checkerboard top cover and FDB PWM fan, providing whisper-quiet (&lt;29 dB(A)) heat dissipation with 100% RAM clearance. The <span class="text-emerald-400 font-semibold">DeepCool AG400</span> provides high-static pressure (75.89 CFM) offset direct-touch cooling on the darkFlash Leo and MATREXX 40 stations, while dual-tower designs like the <span class="text-amber-400 font-semibold">Peerless Assassin 120</span> offer up to 260W TDP headroom for heavier multi-threaded workstations.
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- MATRIX 4: DEEPCOOL MATREXX 40 3FS HARDWARE UPGRADE BLUEPRINT (GPU, RAM & FANS) -->
+    @if (activeTradeoffCategory() === 'all' || activeTradeoffCategory() === 'gpu') {
+      <div class="matrix-table-card glass-card">
+        <div class="matrix-header">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-arrow-up-right-dots text-emerald-400 text-lg"></i>
+              <h3 class="text-base font-bold text-text-primary">DeepCool MATREXX 40 3FS: Hardware Upgrade Roadmap (GPU, RAM &amp; Fans)</h3>
+            </div>
+            <span class="badge-win font-mono">B660M LGA1700 • CV650 (650W) COMPATIBLE</span>
+          </div>
+          <p class="text-xs text-text-muted">
+            Comprehensive component upgrade paths for the DeepCool MATREXX 40 build, evaluating electrical headroom on the Corsair CV650 PSU, PCIe 4.0 bandwidth on Gigabyte B660M DS3H, and thermal aerodynamics.
+          </p>
+        </div>
+
+        <!-- UPGRADE SUBSECTION 1: GRAPHICS CARD (GPU) UPGRADES -->
+        <div class="mb-6">
+          <div class="flex items-center gap-2 mb-3">
+            <i class="fa-solid fa-gamepad text-emerald-400 text-sm"></i>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">1. GPU Upgrade Paths (From AMD Radeon R7 360 2GB)</h4>
+          </div>
+          <div class="matrix-table-wrapper">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th style="width: 22%;">GPU Model &amp; Tier</th>
+                  <th style="width: 18%;">VRAM &amp; Architecture</th>
+                  <th style="width: 15%;">Power &amp; CV650 PSU</th>
+                  <th style="width: 20%;">Compute &amp; Performance Leap</th>
+                  <th style="width: 25%;">Thermal &amp; MATREXX 40 Synergy</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="font-bold text-text-primary">AMD Radeon R7 360 2GB</div>
+                    <span class="badge-compromise text-[10px]">Current Baseline</span>
+                  </td>
+                  <td>
+                    <div class="font-bold text-rose-400">2 GB GDDR5</div>
+                    <div class="text-[10px] text-text-muted">GCN 2.0 (28nm) • 104 GB/s</div>
+                  </td>
+                  <td>
+                    <span class="font-bold text-amber-400">100W TDP</span>
+                    <div class="text-[10px] text-text-muted">1x 6-Pin PCIe Cable</div>
+                  </td>
+                  <td>
+                    <span class="font-bold text-text-primary">1.61 TFLOPS (768 Cores)</span>
+                    <div class="text-[10px] text-text-muted">1080p Desktop UI, Linux &amp; Esports</div>
+                  </td>
+                  <td>
+                    <span class="text-text-secondary text-xs">Compact single fan; easily swept by +52 CFM positive pressure.</span>
+                  </td>
+                </tr>
+                <tr class="highlight-col">
+                  <td>
+                    <div class="font-bold text-emerald-400">AMD Radeon RX 6600 8GB</div>
+                    <span class="badge-win text-[10px]">Best Value Upgrade</span>
+                  </td>
+                  <td>
+                    <div class="font-bold text-emerald-400">8 GB GDDR6</div>
+                    <div class="text-[10px] text-text-muted">RDNA 2 (7nm) • 32MB Infinity Cache</div>
+                  </td>
+                  <td>
+                    <span class="font-bold text-emerald-400">132W TDP</span>
+                    <div class="text-[10px] text-text-muted">1x 8-Pin (+518W CV650 Headroom)</div>
+                  </td>
+                  <td>
+                    <span class="badge-win mr-1">4.5x Rasterization</span>
+                    <div class="font-bold text-emerald-300">8.93 TFLOPS (1,792 Cores)</div>
+                    <div class="text-[10px] text-text-muted">Effortlessly drives ASUS VA249HG 120Hz display at 1080p High/Ultra</div>
+                  </td>
+                  <td>
+                    <span class="text-text-secondary text-xs">Dual axial fans exhaust 132W into direct rear tunnel. Keeps CPU cooler ambient under 62°C.</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="font-bold text-cyan-300">NVIDIA GeForce RTX 4060 8GB</div>
+                    <span class="badge-win text-[10px]">AI &amp; DLSS 3 Upgrade</span>
+                  </td>
+                  <td>
+                    <div class="font-bold text-cyan-300">8 GB GDDR6</div>
+                    <div class="text-[10px] text-text-muted">Ada Lovelace (5nm) • 24MB L2 Cache</div>
+                  </td>
+                  <td>
+                    <span class="font-bold text-emerald-400">115W TDP</span>
+                    <div class="text-[10px] text-text-muted">Ultra-Efficient (+535W CV650 Headroom)</div>
+                  </td>
+                  <td>
+                    <span class="badge-win mr-1">DLSS 3 &amp; Tensor</span>
+                    <div class="font-bold text-cyan-300">15.1 TFLOPS • 96 Tensor Cores</div>
+                    <div class="text-[10px] text-text-muted">Hardware PyTorch AI inference, OptiX 3D rendering, and AV1 video encoding</div>
+                  </td>
+                  <td>
+                    <span class="text-text-secondary text-xs">Extremely cool running (58°C sustained); minimal heat dissipation inside the Micro-ATX chassis.</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="font-bold text-indigo-300">Intel Arc A750 8GB</div>
+                    <span class="badge-win text-[10px]">Intel Deep Link Synergy</span>
+                  </td>
+                  <td>
+                    <div class="font-bold text-indigo-300">8 GB GDDR6</div>
+                    <div class="text-[10px] text-text-muted">Alchemist (6nm) • 256-bit (512 GB/s)</div>
+                  </td>
+                  <td>
+                    <span class="font-bold text-amber-400">225W TDP</span>
+                    <div class="text-[10px] text-text-muted">1x 8-Pin + 1x 6-Pin (Supported by CV650)</div>
+                  </td>
+                  <td>
+                    <span class="badge-win mr-1">512 GB/s Bandwidth</span>
+                    <div class="font-bold text-indigo-300">17.2 TFLOPS • 448 XMX AI Engines</div>
+                    <div class="text-[10px] text-text-muted">Hardware Deep Link with Core i5-12400 for dual AV1 encoding &amp; video synthesis</div>
+                  </td>
+                  <td>
+                    <span class="text-text-secondary text-xs">Higher heat emission (225W); benefits strongly from adding MATREXX 40 top exhaust fans.</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- UPGRADE SUBSECTION 2: SYSTEM MEMORY (RAM) UPGRADES -->
+        <div class="mb-6">
+          <div class="flex items-center gap-2 mb-3">
+            <i class="fa-solid fa-memory text-indigo-400 text-sm"></i>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">2. System Memory (RAM) Upgrades (Gigabyte B660M DS3H • 4 DIMM Slots)</h4>
+          </div>
+          <div class="matrix-table-wrapper">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th style="width: 22%;">Memory Kit &amp; Tier</th>
+                  <th style="width: 18%;">DIMM Slot Population</th>
+                  <th style="width: 18%;">Frequency &amp; Timings</th>
+                  <th style="width: 20%;">Bandwidth &amp; Alder Lake Gear</th>
+                  <th style="width: 22%;">Developer Capacity</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (ram of ramOptions; track ram.id) {
+                  <tr [class.highlight-col]="ram.id === 'corsair-32gb-3200'">
+                    <td>
+                      <div class="font-bold text-text-primary">{{ ram.name.split('(')[0] }}</div>
+                      <span class="text-[10px] text-cyan-400 font-semibold">{{ ram.badge }}</span>
+                    </td>
+                    <td>
+                      <div class="text-xs text-text-primary font-semibold">{{ ram.configuration }}</div>
+                    </td>
+                    <td>
+                      <div class="font-mono text-cyan-400 font-bold">{{ ram.speedMhz }} MHz</div>
+                      <div class="text-[10px] text-text-muted mt-0.5">{{ ram.timing }} • {{ ram.voltage }}V</div>
+                    </td>
+                    <td>
+                      <span class="font-bold text-emerald-400">{{ ram.maxBandwidthGbps }} GB/s</span>
+                      <div class="text-[10px] text-text-muted mt-0.5">Dual-Channel Gear 1 1:1 Controller</div>
+                    </td>
+                    <td>
+                      <div class="text-xs text-text-secondary">{{ ram.dockerCapacity }}</div>
+                      <div class="text-[10px] text-text-muted mt-0.5">{{ ram.description }}</div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- UPGRADE SUBSECTION 3: CASE FAN & AIRFLOW DYNAMICS UPGRADES -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <i class="fa-solid fa-fan text-cyan-400 text-sm"></i>
+            <h4 class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">3. Chassis Fan &amp; Airflow Upgrades (DeepCool MATREXX 40 3FS Mounts)</h4>
+          </div>
+          <div class="matrix-table-wrapper">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th style="width: 22%;">Fan Configuration / Model</th>
+                  <th style="width: 16%;">Active Fan Count</th>
+                  <th style="width: 20%;">CFM Balance &amp; Static Pressure</th>
+                  <th style="width: 18%;">Chassis Pressure Dynamic</th>
+                  <th style="width: 24%;">Thermal &amp; Dust Impact</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="font-bold text-text-primary">Stock 3FS Tri-Color Array</div>
+                    <span class="badge-win text-[10px]">Pre-installed Factory</span>
+                  </td>
+                  <td>
+                    <div class="font-semibold text-text-primary">3 × 120mm Fans</div>
+                    <div class="text-[10px] text-text-muted">2 Front Intake + 1 Rear Exhaust</div>
+                  </td>
+                  <td>
+                    <div class="font-mono text-cyan-400">104 CFM In vs 52 CFM Out</div>
+                    <div class="text-[10px] text-text-muted">1.63 mmH₂O Static Pressure</div>
+                  </td>
+                  <td>
+                    <span class="badge-win font-bold">+52 CFM Positive Pressure</span>
+                  </td>
+                  <td>
+                    <span class="text-text-secondary text-xs">Strong positive pressure creates zero dust accumulation through unfiltered seams.</span>
+                  </td>
+                </tr>
+                <tr class="highlight-col">
+                  <td>
+                    <div class="font-bold text-emerald-400">5-Fan Full Velocity Array</div>
+                    <span class="badge-win text-[10px]">Max Aerodynamic Flow</span>
+                  </td>
+                  <td>
+                    <div class="font-semibold text-emerald-300">5 × 120mm Fans (+2 Top Installed)</div>
+                    <div class="text-[10px] text-text-muted">2 Front In + 1 Rear Out + 2 Top Out</div>
+                  </td>
+                  <td>
+                    <div class="font-mono text-emerald-400">104 CFM In vs 145 CFM Out</div>
+                    <div class="text-[10px] text-text-muted">Dual Top Magnetic Mounts Populated</div>
+                  </td>
+                  <td>
+                    <span class="badge-compromise font-bold">Neutral / Active Chimney Flow</span>
+                  </td>
+                  <td>
+                    <span class="text-text-secondary text-xs">Evacuates GPU thermal plume immediately through top mesh; reduces VRM &amp; CPU temp by ~4.5°C.</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="font-bold text-indigo-300">DeepCool FK120 FDB High-Pressure</div>
+                    <span class="badge-win text-[10px]">High Static Pressure</span>
+                  </td>
+                  <td>
+                    <div class="font-semibold text-text-primary">3 or 5 × 120mm Fans</div>
+                    <div class="text-[10px] text-text-muted">Fluid Dynamic Bearing (1850 RPM)</div>
+                  </td>
+                  <td>
+                    <div class="font-mono text-indigo-400">68.99 CFM per fan • 2.19 mmH₂O</div>
+                    <div class="text-[10px] text-text-muted">+30% Pressure Through Geometric Mesh</div>
+                  </td>
+                  <td>
+                    <span class="badge-win font-bold">+65 CFM Positive Pressure</span>
+                  </td>
+                  <td>
+                    <span class="text-text-secondary text-xs">Shock-absorbing rubber corners with FDB bearing reduce case vibrational harmonics to &lt;28 dB(A).</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="comparison-summary-box mt-6">
+          <i class="fa-solid fa-wrench text-emerald-400 text-base mt-0.5 flex-shrink-0"></i>
+          <div class="text-xs text-text-secondary leading-relaxed">
+            <strong class="text-text-primary">Engineering Upgrade Verdict: </strong>
+            The DeepCool MATREXX 40 3FS offers outstanding upgrade scalability. Swapping the legacy R7 360 for an <span class="text-emerald-400 font-semibold">AMD Radeon RX 6600 8GB</span> (132W) or <span class="text-cyan-300 font-semibold">RTX 4060 8GB</span> (115W) unlocks full 1080p 120Hz performance on the ASUS VA249HG monitor while remaining comfortably within the 650W Corsair CV650 power budget. Expanding RAM to <span class="text-emerald-400 font-semibold">32GB (2×16GB) DDR4</span> utilizes the B660M's 4 DIMM slots for zero-swap multitasking, and adding two 120mm exhaust fans to the top magnetic mounts transforms the chassis into a 5-fan high-velocity aerodynamic wind tunnel.
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- MATRIX: CHASSIS AERODYNAMICS, CHIMNEY EXTRACTION & DUST DEFENSE TRADE-OFF -->
+    @if (activeTradeoffCategory() === 'all' || activeTradeoffCategory() === 'chassis') {
+      <div class="matrix-table-card glass-card">
+        <div class="matrix-header">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-wind text-cyan-400 text-lg"></i>
+              <h3 class="text-base font-bold text-text-primary">Chassis Aerodynamics &amp; Dust Defense: Maxcool MC5 vs MATREXX 40 vs darkFlash Leo</h3>
+            </div>
+            <span class="badge-win font-mono">5-FAN CHIMNEY vs POSITIVE PRESSURE vs ATX TUNNEL</span>
+          </div>
+          <p class="text-xs text-text-muted">
+            Comparative analysis of thermodynamic convection, negative chimney exhaust vs positive dust repulsion, and chamber thermal equilibrium.
+          </p>
+        </div>
+
+        <div class="matrix-table-wrapper">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th style="width: 19%;">Aerodynamic Dimension</th>
+                <th [class.highlight-col]="activeRigId() === 'maxcool-mc5'" style="width: 27%;">
+                  <span class="text-amber-400 font-bold">Maxcool Inferno MC5</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(5-Fan Chimney Array)</div>
+                </th>
+                <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 27%;">
+                  <span class="text-emerald-400 font-bold">DeepCool MATREXX 40 3FS</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(3-Fan Positive Pressure)</div>
+                </th>
+                <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 27%;">
+                  <span class="text-cyan-400 font-bold">darkFlash Leo Studio</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(4-Fan Balanced ATX)</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Chassis Form Factor &amp; Volume</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="font-bold text-text-primary">Mid-Tower ATX (34.2 Liters)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">380 × 200 × 450 mm • High-Permeability Front Mesh • Edge-to-Edge Tempered Glass</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-win mr-1">Compact Desk Footprint</span>
+                  <span class="font-bold text-emerald-400">Micro-ATX (37.0 Liters)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">400 × 215 × 431 mm • Geometric Perforated Mesh • Removable Top Magnetic Filter</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-text-primary">Mid-Tower ATX (45.3 Liters)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">370 × 200 × 440 mm • Tinted Front Glass with Dual-Side Air Vents • Top Magnetic Filter</div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Fan Population &amp; Dynamic Flow</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">5 Active Fans</span>
+                  <span class="font-bold text-amber-300">5 × 120mm Fans</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">2 Front Intake (104 CFM) + 1 Rear (44 CFM) + 2 Top Exhaust (88 CFM)</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-emerald-400">3 × 120mm Tri-Color Fans</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">2 Front Intake (104 CFM) + 1 Rear Exhaust (52 CFM)</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-cyan-300">4 × 120mm darkFlash CL6</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">3 Front Intake (144 CFM) + 1 Rear Exhaust (133 CFM)</div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Pressure Differential &amp; Dust Ingress</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-compromise mr-1">-28 CFM Chimney</span>
+                  <span class="font-bold text-amber-400">Negative / Chimney Draft</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Draws micro-dust through unsealed joints over time; demands monthly front mesh wiping
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-win mr-1">+52 CFM Positive</span>
+                  <span class="font-bold text-emerald-400">Strong Positive Pressure</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    100% dust repulsion; forced airflow escapes outward through unsealed seams, keeping interior pristine
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">+11 CFM Equilibrium</span>
+                  <span class="font-bold text-cyan-400">Balanced Positive Pressure</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Steady positive pressure prevents dust infiltration; dedicated airflow channel to lower PSU shroud
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Hot-Air Evacuation Speed</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">Fastest Evacuation</span>
+                  <span class="font-bold text-amber-300">Ultra-Fast Convection Ejection</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Dual top exhaust fans immediately pull the GPU thermal plume (100W) out before it reaches the CPU
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="text-emerald-400 font-semibold">Linear Wind Tunnel</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Front fans sweep directly across RAM and CPU tower; GPU heat slowly rises toward passive top mesh
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="text-cyan-300 font-semibold">Rear &amp; PSU Channel</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Front Fan #3 feeds lower PSU shroud; upper fans exhaust through rear and passive top filter
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Acoustic Footprint &amp; Noise</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="font-mono text-cyan-300">24.5 - 31.0 dB(A)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">5 low-RPM fans run at balanced 950-1200 RPM for quiet operation</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-win mr-1">Quiet 28 dB(A)</span>
+                  <span class="font-mono text-emerald-400">22.0 - 28.0 dB(A)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Tri-Color hydraulic bearing fans emit gentle studio ambient noise</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-mono text-cyan-300">23.0 - 29.5 dB(A)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Quiet hydraulic bearing CL6 fans with PWM speed profile control</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="comparison-summary-box">
+          <i class="fa-solid fa-wind text-cyan-400 text-base mt-0.5 flex-shrink-0"></i>
+          <div class="text-xs text-text-secondary leading-relaxed">
+            <strong class="text-text-primary">Aerodynamic Trade-Off Verdict: </strong>
+            The <span class="text-amber-400 font-semibold">Maxcool Inferno MC5 5-fan chimney array</span> delivers superior GPU thermal evacuation: hot air from the GTX 1650 Super never recirculates inside the case, keeping the Ryzen 5 5600 and motherboard VRMs running 4°C-5°C cooler. Conversely, the <span class="text-emerald-400 font-semibold">DeepCool MATREXX 40 3FS</span> prioritizes clean-room maintenance: its +52 CFM positive pressure repels all dust ingress through case seams, making it ideal for low-maintenance developer workstations.
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- MATRIX 3: CHASSIS FAN AERODYNAMICS MATRIX -->
+    @if (activeTradeoffCategory() === 'all' || activeTradeoffCategory() === 'chassis') {
+      <div class="matrix-table-card glass-card">
+        <div class="matrix-header">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-fan text-cyan-400 text-lg"></i>
+              <h3 class="text-base font-bold text-text-primary">Chassis Fan Aerodynamics &amp; Static Pressure</h3>
+            </div>
+            <span class="badge-win font-mono">CFM vs STATIC PRESSURE vs NOISE</span>
+          </div>
+          <p class="text-xs text-text-muted">
+            Comparing darkFlash CL6 factory fans against high static-pressure Arctic P12 and Noctua NF-A12x25.
+          </p>
+        </div>
+
+        <div class="matrix-table-wrapper">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Fan Model</th>
+                <th>Speed Range (PWM)</th>
+                <th>Max Airflow (CFM)</th>
+                <th>Static Pressure</th>
+                <th>Bearing &amp; Durability</th>
+                <th>Max Noise</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (fan of fanModelOptions; track fan.id) {
+                <tr [class.highlight-col]="fan.id === 'cl6-argb'">
+                  <td>
+                    <div class="font-bold text-text-primary">{{ fan.name }}</div>
+                    <span class="text-[10px] text-cyan-400 font-semibold">{{ fan.badge }}</span>
+                  </td>
+                  <td>
+                    <div class="font-mono text-cyan-400">{{ fan.minRpm }} - {{ fan.maxRpm }} RPM</div>
+                    <div class="text-[10px] text-text-muted mt-0.5">Balanced: {{ fan.balancedRpm }} RPM</div>
+                  </td>
+                  <td>
+                    <span class="font-bold text-text-primary">{{ fan.maxCfm }} CFM</span>
+                  </td>
+                  <td>
+                    <span class="font-bold text-emerald-400">{{ fan.staticPressureMmH2o }} mmH2O</span>
+                  </td>
+                  <td>
+                    <div class="text-text-secondary">{{ fan.bearing }}</div>
+                  </td>
+                  <td>
+                    <div class="font-bold text-indigo-300">{{ fan.maxNoiseDba }} dB(A)</div>
                   </td>
                 </tr>
               }
@@ -806,153 +1491,145 @@
           </table>
         </div>
       </div>
+    }
 
-      <!-- UPGRADE SUBSECTION 3: CASE FAN & AIRFLOW DYNAMICS UPGRADES -->
-      <div>
-        <div class="flex items-center gap-2 mb-3">
-          <i class="fa-solid fa-fan text-cyan-400 text-sm"></i>
-          <h4 class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">3. Chassis Fan &amp; Airflow Upgrades (DeepCool MATREXX 40 3FS Mounts)</h4>
+    <!-- MATRIX: POWER SUPPLY (PSU) ELECTRICAL EFFICIENCY & HEADROOM TRADE-OFF -->
+    @if (activeTradeoffCategory() === 'all' || activeTradeoffCategory() === 'psu') {
+      <div class="matrix-table-card glass-card">
+        <div class="matrix-header">
+          <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+            <div class="flex items-center gap-2">
+              <i class="fa-solid fa-bolt text-amber-400 text-lg"></i>
+              <h3 class="text-base font-bold text-text-primary">Power Supply (PSU) Efficiency, Load Curves &amp; Upgrade Headroom</h3>
+            </div>
+            <span class="badge-win font-mono">450W BRONZE vs CV650 (650W) vs RM750x (750W GOLD)</span>
+          </div>
+          <p class="text-xs text-text-muted">
+            Analyzing electrical load curve sweet spots (50% efficiency apex), active system peak wattage, modular cable management, and future upgrade headroom.
+          </p>
         </div>
+
         <div class="matrix-table-wrapper">
           <table class="matrix-table">
             <thead>
               <tr>
-                <th style="width: 22%;">Fan Configuration / Model</th>
-                <th style="width: 16%;">Active Fan Count</th>
-                <th style="width: 20%;">CFM Balance &amp; Static Pressure</th>
-                <th style="width: 18%;">Chassis Pressure Dynamic</th>
-                <th style="width: 24%;">Thermal &amp; Dust Impact</th>
+                <th style="width: 19%;">PSU Specification / Metric</th>
+                <th [class.highlight-col]="activeRigId() === 'maxcool-mc5'" style="width: 27%;">
+                  <span class="text-amber-400 font-bold">450W 80 PLUS Bronze</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(Maxcool Inferno MC5 Rig)</div>
+                </th>
+                <th [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'" style="width: 27%;">
+                  <span class="text-emerald-400 font-bold">Corsair CV650 (650W)</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(DeepCool MATREXX 40 Rig)</div>
+                </th>
+                <th [class.highlight-col]="activeRigId() === 'darkflash-leo'" style="width: 27%;">
+                  <span class="text-cyan-400 font-bold">Corsair RM750x (750W)</span>
+                  <div class="text-[10px] text-text-muted mt-0.5">(darkFlash Leo Studio Rig)</div>
+                </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>
-                  <div class="font-bold text-text-primary">Stock 3FS Tri-Color Array</div>
-                  <span class="badge-win text-[10px]">Pre-installed Factory</span>
+                <td><strong>Rated Output &amp; 80+ Efficiency</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="font-bold text-text-primary">450 Watts Continuous</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">80 PLUS Bronze Certified • Up to 85% electrical efficiency</div>
                 </td>
-                <td>
-                  <div class="font-semibold text-text-primary">3 × 120mm Fans</div>
-                  <div class="text-[10px] text-text-muted">2 Front Intake + 1 Rear Exhaust</div>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-emerald-400">650 Watts Continuous</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">80 PLUS Bronze Certified • Up to 88% electrical efficiency</div>
                 </td>
-                <td>
-                  <div class="font-mono text-cyan-400">104 CFM In vs 52 CFM Out</div>
-                  <div class="text-[10px] text-text-muted">1.63 mmH₂O Static Pressure</div>
-                </td>
-                <td>
-                  <span class="badge-win font-bold">+52 CFM Positive Pressure</span>
-                </td>
-                <td>
-                  <span class="text-text-secondary text-xs">Strong positive pressure creates zero dust accumulation through unfiltered seams.</span>
-                </td>
-              </tr>
-              <tr class="highlight-col">
-                <td>
-                  <div class="font-bold text-emerald-400">5-Fan Full Velocity Array</div>
-                  <span class="badge-win text-[10px]">Max Aerodynamic Flow</span>
-                </td>
-                <td>
-                  <div class="font-semibold text-emerald-300">5 × 120mm Fans (+2 Top Installed)</div>
-                  <div class="text-[10px] text-text-muted">2 Front In + 1 Rear Out + 2 Top Out</div>
-                </td>
-                <td>
-                  <div class="font-mono text-emerald-400">104 CFM In vs 145 CFM Out</div>
-                  <div class="text-[10px] text-text-muted">Dual Top Magnetic Mounts Populated</div>
-                </td>
-                <td>
-                  <span class="badge-compromise font-bold">Neutral / Active Chimney Flow</span>
-                </td>
-                <td>
-                  <span class="text-text-secondary text-xs">Evacuates GPU thermal plume immediately through top mesh; reduces VRM &amp; CPU temp by ~4.5°C.</span>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">80+ Gold Efficiency</span>
+                  <span class="font-bold text-cyan-300">750 Watts Continuous</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">80 PLUS Gold Certified • >90% electrical efficiency • Japanese 105°C caps</div>
                 </td>
               </tr>
               <tr>
-                <td>
-                  <div class="font-bold text-indigo-300">DeepCool FK120 FDB High-Pressure</div>
-                  <span class="badge-win text-[10px]">High Static Pressure</span>
+                <td><strong>Active Rig Peak Power Draw</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">Lowest Power Draw</span>
+                  <span class="font-bold text-amber-300">~195 Watts Peak</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Ryzen 5 5600 (76W) + GTX 1650 Super (100W) + SSDs/Fans (19W)</div>
                 </td>
-                <td>
-                  <div class="font-semibold text-text-primary">3 or 5 × 120mm Fans</div>
-                  <div class="text-[10px] text-text-muted">Fluid Dynamic Bearing (1850 RPM)</div>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-emerald-400">~185 Watts Peak</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Core i5-12400 (65W/117W) + R7 360 (100W) + Samsung 980 PRO (18W)</div>
                 </td>
-                <td>
-                  <div class="font-mono text-indigo-400">68.99 CFM per fan • 2.19 mmH₂O</div>
-                  <div class="text-[10px] text-text-muted">+30% Pressure Through Geometric Mesh</div>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="font-bold text-cyan-300">~280 Watts Peak</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Core i5-10400F (75W) + RTX 3060 (170W) + 32GB RAM + SSDs (35W)</div>
                 </td>
-                <td>
-                  <span class="badge-win font-bold">+65 CFM Positive Pressure</span>
+              </tr>
+              <tr>
+                <td><strong>Load Curve Efficiency Sweet Spot</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="badge-win mr-1">43.3% Sweet Spot</span>
+                  <span class="font-bold text-amber-300">Directly at Peak 50% Efficiency Curve</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Power supplies achieve maximum efficiency and minimum waste heat at 40-50% load; optimal sizing
+                  </div>
                 </td>
-                <td>
-                  <span class="text-text-secondary text-xs">Shock-absorbing rubber corners with FDB bearing reduce case vibrational harmonics to &lt;28 dB(A).</span>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-bold text-emerald-400">28.5% Load (Under-utilized)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Loads into optimal 50% curve only when upgrading to RX 6600 (132W) or RTX 4060 (115W)
+                  </div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">37.3% Load</span>
+                  <span class="font-bold text-cyan-300">Near-Optimal Curve + Gold Efficiency</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">
+                    Generates almost zero waste heat; runs in passive Zero-RPM mode during standard coding
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Safety Margin &amp; Headroom</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="font-bold text-amber-300">+255 Watts Reserve (56.7%)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">More than double the active peak draw; completely safe transient handling</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="badge-win mr-1">+465W Reserve</span>
+                  <span class="font-bold text-emerald-400">+465 Watts Reserve (71.5%)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Enormous safety cushion for future high-TDP GPU upgrades</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">+470W Reserve</span>
+                  <span class="font-bold text-cyan-300">+470 Watts Reserve (62.7%)</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Absorbs 250W+ transient microsecond spikes from Ampere architecture with zero ripple</div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Cable Architecture &amp; Acoustic Profile</strong></td>
+                <td [class.highlight-col]="activeRigId() === 'maxcool-mc5'">
+                  <span class="font-semibold text-text-primary">Non-Modular Fixed Cables</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Tucked neatly in lower Maxcool PSU shroud; ultra-quiet 120mm fan (&lt;20 dBA)</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'deepcool-matrexx40'">
+                  <span class="font-semibold text-text-primary">Non-Modular Sleeved Black</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Thermally controlled 120mm sleeve bearing fan (&lt;22 dBA) • Compact 125mm length</div>
+                </td>
+                <td [class.highlight-col]="activeRigId() === 'darkflash-leo'">
+                  <span class="badge-win mr-1">Zero RPM Silent Mode</span>
+                  <span class="font-bold text-cyan-300">Fully Modular Flat Black Cables</span>
+                  <div class="text-[11px] text-text-muted mt-0.5">Zero RPM fan mode stays 100% inaudible (0.0 dBA) below 300W load</div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
 
-      <div class="comparison-summary-box mt-6">
-        <i class="fa-solid fa-wrench text-emerald-400 text-base mt-0.5 flex-shrink-0"></i>
-        <div class="text-xs text-text-secondary leading-relaxed">
-          <strong class="text-text-primary">Engineering Upgrade Verdict: </strong>
-          The DeepCool MATREXX 40 3FS offers outstanding upgrade scalability. Swapping the legacy R7 360 for an <span class="text-emerald-400 font-semibold">AMD Radeon RX 6600 8GB</span> (132W) or <span class="text-cyan-300 font-semibold">RTX 4060 8GB</span> (115W) unlocks full 1080p 120Hz performance on the ASUS VA249HG monitor while remaining comfortably within the 650W Corsair CV650 power budget. Expanding RAM to <span class="text-emerald-400 font-semibold">32GB (2×16GB) DDR4</span> utilizes the B660M's 4 DIMM slots for zero-swap multitasking, and adding two 120mm exhaust fans to the top magnetic mounts transforms the chassis into a 5-fan high-velocity aerodynamic wind tunnel.
+        <div class="comparison-summary-box">
+          <i class="fa-solid fa-bolt text-amber-400 text-base mt-0.5 flex-shrink-0"></i>
+          <div class="text-xs text-text-secondary leading-relaxed">
+            <strong class="text-text-primary">Power Delivery Verdict: </strong>
+            The <span class="text-amber-400 font-semibold">450W 80 PLUS Bronze PSU</span> on the Maxcool build is an engineering lesson in optimal load sizing: because the Ryzen 5 5600 + GTX 1650 Super combo peaks at ~195W, the PSU operates squarely at ~43% load—the highest point on the 80+ efficiency curve with +255W of safety reserve. The <span class="text-emerald-400 font-semibold">Corsair CV650</span> provides huge upgrade runway for 200W+ graphics cards on the MATREXX 40 station, while the <span class="text-cyan-300 font-semibold">Corsair RM750x Gold</span> offers elite Japanese capacitor reliability, modular cable cleanliness, and 0.0 dBA silent operation during web development.
+          </div>
         </div>
       </div>
-    </div>
-
-
-    <!-- MATRIX 3: CHASSIS FAN AERODYNAMICS MATRIX -->
-    <div class="matrix-table-card glass-card">
-      <div class="matrix-header">
-        <div class="flex items-center gap-2 mb-1">
-          <i class="fa-solid fa-wind text-cyan-400 text-lg"></i>
-          <h3 class="text-base font-bold text-text-primary">Chassis Fan Aerodynamics &amp; Static Pressure</h3>
-        </div>
-        <p class="text-xs text-text-muted">
-          Comparing darkFlash CL6 factory fans against high static-pressure Arctic P12 and Noctua NF-A12x25.
-        </p>
-      </div>
-
-      <div class="matrix-table-wrapper">
-        <table class="matrix-table">
-          <thead>
-            <tr>
-              <th>Fan Model</th>
-              <th>Speed Range (PWM)</th>
-              <th>Max Airflow (CFM)</th>
-              <th>Static Pressure</th>
-              <th>Bearing &amp; Durability</th>
-              <th>Max Noise</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (fan of fanModelOptions; track fan.id) {
-              <tr [class.highlight-col]="fan.id === 'cl6-argb'">
-                <td>
-                  <div class="font-bold text-text-primary">{{ fan.name }}</div>
-                  <span class="text-[10px] text-cyan-400 font-semibold">{{ fan.badge }}</span>
-                </td>
-                <td>
-                  <div class="font-mono text-cyan-400">{{ fan.minRpm }} - {{ fan.maxRpm }} RPM</div>
-                  <div class="text-[10px] text-text-muted mt-0.5">Balanced: {{ fan.balancedRpm }} RPM</div>
-                </td>
-                <td>
-                  <span class="font-bold text-text-primary">{{ fan.maxCfm }} CFM</span>
-                </td>
-                <td>
-                  <span class="font-bold text-emerald-400">{{ fan.staticPressureMmH2o }} mmH2O</span>
-                </td>
-                <td>
-                  <div class="text-text-secondary">{{ fan.bearing }}</div>
-                </td>
-                <td>
-                  <div class="font-bold text-indigo-300">{{ fan.maxNoiseDba }} dB(A)</div>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
+    }
 
   </div>
 
@@ -1039,18 +1716,5 @@
       </div>
     </div>
   }
-
-  <!-- SUBPAGE FOOTER NAVIGATION BANNER -->
-  <div class="subpage-next-banner glass-card mt-10">
-    <div class="next-info">
-      <span class="text-xs font-semibold text-text-muted uppercase tracking-wider">Next Section</span>
-      <h4 class="text-base font-bold text-text-primary mt-0.5">Thermodynamics &amp; Fluid Dynamics Deep Dive</h4>
-      <p class="text-xs text-text-secondary mt-1">Learn why positive pressure prevents internal dust accumulation and how linear wind tunnels maximize CPU boost stability.</p>
-    </div>
-    <a routerLink="/workstation/pressure" class="btn-next-step pulse-glow">
-      <span>Read Pressure Dynamics</span>
-      <i class="fa-solid fa-arrow-right ml-2"></i>
-    </a>
-  </div>
 
 </section>

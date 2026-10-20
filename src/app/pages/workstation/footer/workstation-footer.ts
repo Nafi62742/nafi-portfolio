@@ -1,19 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
-import { WORKSTATION_I18N, WorkstationI18n } from '../i18n/workstation.i18n';
 import { WorkstationService } from '@services/workstation.service';
 
 /**
  * Dedicated footer component for the Workstation module.
- * Provides active desktop node summary, navigation link back to main portfolio,
- * and engineering laboratory telemetry copyright.
+ * Provides active desktop node summary and engineering laboratory telemetry copyright.
  */
 @Component({
   selector: 'app-workstation-footer',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule],
   templateUrl: './workstation-footer.html',
   styleUrl: './workstation-footer.scss'
 })
@@ -26,7 +23,4 @@ export class WorkstationFooterComponent {
 
   /** Active rig profile configuration. */
   public readonly currentRig = this.ws.currentRigProfile;
-
-  /** Translation labels. */
-  public readonly labels: WorkstationI18n = WORKSTATION_I18N;
 }
