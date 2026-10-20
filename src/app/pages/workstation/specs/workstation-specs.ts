@@ -66,6 +66,17 @@ export class WorkstationSpecsComponent {
   /** Currently selected filter category. */
   public readonly activeFilter = signal<'all' | 'compute' | 'gpu' | 'cooling' | 'power' | 'storage'>('all');
 
+  /** Currently selected category in the Trade-Off Analysis Studio. */
+  public readonly activeTradeoffCategory = signal<'all' | 'cpu' | 'gpu' | 'cooler' | 'chassis' | 'psu'>('all');
+
+  /** Dynamic hardware trade-off and safety analysis from WorkstationService. */
+  public readonly activeCustomizationAnalysis = this.ws.activeCustomizationAnalysis;
+
+  /** Sets category in the Trade-Off Analysis Studio. */
+  public setTradeoffCategory(category: 'all' | 'cpu' | 'gpu' | 'cooler' | 'chassis' | 'psu'): void {
+    this.activeTradeoffCategory.set(category);
+  }
+
   /** Currently open modal component for deep inspection, or null when closed. */
   public readonly modalComponent = signal<WorkstationComponentSpec | null>(null);
 

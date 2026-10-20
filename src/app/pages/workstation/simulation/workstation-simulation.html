@@ -1710,15 +1710,15 @@
               </svg>
             </div>
 
-            <!-- SIMULATION BOTTOM: HARDWARE CHANGING OPTIONS & INLINE TELEMETRY -->
+            <!-- SIMULATION BOTTOM: AIRFLOW HARDWARE COMPONENT SELECTION & TELEMETRY -->
             <div class="sim-bottom-deck">
-              <!-- Hardware Changing Options Header -->
+              <!-- Airflow Hardware Component Selection Header -->
               <div class="sim-options-header">
                 <div class="flex items-center gap-2">
-                  <i class="fa-solid fa-sliders text-cyan-400 text-xs"></i>
-                  <span class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">Hardware Component Customizer</span>
+                  <i class="fa-solid fa-wind text-cyan-400 text-xs"></i>
+                  <span class="text-xs font-bold uppercase tracking-wider text-text-primary font-mono">Airflow Hardware Configuration</span>
                 </div>
-                <span class="text-[11px] text-text-muted">Real-time dynamic impact on airflow CFM, thermals &amp; acoustics</span>
+                <span class="text-[11px] text-text-muted">Switch components to observe real-time airflow CFM, velocity &amp; thermal dissipation</span>
               </div>
 
               <!-- 4-Column Dropdowns Grid -->
@@ -2155,92 +2155,6 @@
         </div>
 
 
-        <!-- ═══════════════════════════════════════════════════════════════ -->
-        <!-- DYNAMIC CUSTOMIZATION & AIRFLOW TRADE-OFF MATRIX (PROS & CONS)  -->
-        <!-- ═══════════════════════════════════════════════════════════════ -->
-        <div class="tradeoff-matrix-deck glass-card mb-8">
-          <div class="matrix-header">
-            <div class="flex items-center gap-2.5 flex-wrap">
-              <i class="fa-solid fa-scale-balanced text-cyan-400 text-sm"></i>
-              <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-text-primary font-mono m-0">
-                Aerodynamic &amp; Hardware Customization Trade-off Matrix
-              </h3>
-              <span class="matrix-live-pill">
-                <span class="live-pulse-dot"></span>
-                LIVE SIMULATION TELEMETRY
-              </span>
-            </div>
-
-            <!-- Telemetry strip -->
-            <div class="matrix-telemetry-summary">
-              <span class="telemetry-pill">
-                <i class="fa-solid fa-wind text-cyan-400"></i>
-                <span>{{ activeCustomizationAnalysis().pressureState }}</span>
-              </span>
-              <span class="telemetry-pill">
-                <i class="fa-solid fa-microchip text-indigo-400"></i>
-                <span>CPU ~{{ activeCustomizationAnalysis().estimatedCpuLoadTemp }}</span>
-              </span>
-              <span class="telemetry-pill">
-                <i class="fa-solid fa-gamepad text-emerald-400"></i>
-                <span>GPU ~{{ activeCustomizationAnalysis().estimatedGpuLoadTemp }}</span>
-              </span>
-              <span class="telemetry-pill">
-                <i class="fa-solid fa-bolt text-amber-400"></i>
-                <span>{{ activeCustomizationAnalysis().totalSystemTdpWatts }}W TDP ({{ activeCustomizationAnalysis().psuSafetyMarginWatts }}W Margin)</span>
-              </span>
-              <span class="telemetry-pill">
-                <i class="fa-solid fa-volume-low text-purple-400"></i>
-                <span>{{ activeCustomizationAnalysis().acousticRatingDba }} dBA ({{ activeCustomizationAnalysis().acousticCategory }})</span>
-              </span>
-            </div>
-          </div>
-
-          <!-- Pros vs Cons 2-Column Split -->
-          <div class="matrix-grid">
-            <!-- ADVANTAGES (PROS) -->
-            <div class="matrix-box pros-column">
-              <div class="column-header text-emerald-400">
-                <i class="fa-solid fa-circle-check"></i>
-                <span>Configured System Advantages (Pros)</span>
-              </div>
-              <ul class="matrix-list">
-                @for (adv of activeCustomizationAnalysis().keyAdvantages; track adv) {
-                  <li class="matrix-list-item pro-item">
-                    <i class="fa-solid fa-check text-emerald-400 text-xs mt-1 flex-shrink-0"></i>
-                    <span>{{ adv }}</span>
-                  </li>
-                }
-              </ul>
-            </div>
-
-            <!-- DISADVANTAGES & CONSIDERATIONS (CONS) -->
-            <div class="matrix-box cons-column">
-              <div class="column-header text-amber-400">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                <span>Engineering Considerations &amp; Trade-offs (Cons)</span>
-              </div>
-              <ul class="matrix-list">
-                @for (dis of activeCustomizationAnalysis().keyDisadvantages; track dis) {
-                  <li class="matrix-list-item con-item">
-                    <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xs mt-1 flex-shrink-0"></i>
-                    <span>{{ dis }}</span>
-                  </li>
-                }
-              </ul>
-            </div>
-          </div>
-
-          <!-- Dynamic Thermal Guidance Bar -->
-          <div class="matrix-guidance-bar">
-            <i class="fa-solid fa-lightbulb text-amber-400 text-sm flex-shrink-0 mt-0.5"></i>
-            <div class="text-xs">
-              <strong class="text-cyan-300 font-mono">Thermodynamic Verdict: </strong>
-              <span class="text-text-secondary">{{ activeCustomizationAnalysis().thermalTip }}</span>
-            </div>
-          </div>
-        </div>
-
 
         <!-- ============================================================= -->
         <!-- COMPREHENSIVE ACTIVE CONDITION REPORT & THERMAL ANALYSIS CARD -->
@@ -2331,54 +2245,21 @@
               <p class="callout-content">{{ currentConditionReport().gpuUpwardFlowBehavior }}</p>
             </div>
 
-            <!-- Advantages vs Disadvantages 2-Column Comparison -->
-            <div class="pros-cons-grid">
-              <!-- Advantages (Pros) -->
-              <div class="pros-box">
-                <span class="box-title">
-                  <i class="fa-solid fa-circle-check text-emerald-400 mr-2"></i>
-                  Aerodynamic &amp; Engineering Advantages:
-                </span>
-                <ul class="flex flex-col gap-2">
-                  @for (adv of currentConditionReport().advantages; track adv) {
-                    <li>
-                      <i class="fa-solid fa-check text-emerald-400 text-xs mr-2 mt-0.5 flex-shrink-0"></i>
-                      <span>{{ adv }}</span>
-                    </li>
-                  }
-                </ul>
-              </div>
-
-              <!-- Disadvantages (Cons & Trade-offs) -->
-              <div class="cons-box">
-                <span class="box-title">
-                  <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-2"></i>
-                  Engineering Trade-offs &amp; Caveats:
-                </span>
-                <ul class="flex flex-col gap-2">
-                  @for (dis of currentConditionReport().disadvantages; track dis) {
-                    <li>
-                      <i class="fa-solid fa-triangle-exclamation text-amber-400 text-xs mr-2 mt-0.5 flex-shrink-0"></i>
-                      <span>{{ dis }}</span>
-                    </li>
-                  }
-                </ul>
+            <!-- Real-Time Airflow Aerodynamic Takeaway Strip -->
+            <div class="airflow-aerodynamic-summary-strip">
+              <div class="flex items-center gap-3 p-3.5 rounded-xl bg-cyan-950/20 border border-cyan-500/20">
+                <div class="w-8 h-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 flex-shrink-0">
+                  <i class="fa-solid fa-circle-info text-sm"></i>
+                </div>
+                <div>
+                  <span class="text-xs font-bold text-text-primary block">Hardware Architectural Trade-off Study</span>
+                  <p class="text-[11px] text-text-muted mt-0.5">Component architectural trade-offs (Ryzen 5 5600 vs i5-12400, RTX 3060 vs GTX 1650 Super, AK400 thermals) are studied in the Hardware Specs section.</p>
+                </div>
               </div>
             </div>
 
-            <!-- Footer: Recommended Computing Workloads & Thermal Tip -->
-            <div class="condition-footer">
-              <div class="flex flex-col gap-1.5">
-                <span class="text-xs font-semibold text-text-muted">Recommended Workload Scenarios:</span>
-                <div class="usecases-row">
-                  @for (useCase of currentConditionReport().recommendedUseCases; track useCase) {
-                    <span class="usecase-tag">
-                      <i class="fa-solid fa-check-double text-cyan-400 mr-1 text-[10px]"></i>
-                      {{ useCase }}
-                    </span>
-                  }
-                </div>
-              </div>
+            <!-- Footer: Thermal Tip -->
+            <div class="condition-footer mt-4">
 
               <div class="pro-tip-box">
                 <i class="fa-solid fa-lightbulb text-amber-400 mt-0.5 flex-shrink-0"></i>
@@ -2393,16 +2274,3 @@
         </div>
 
       </section>
-
-        <!-- SUBPAGE FOOTER NAVIGATION BANNER -->
-        <div class="subpage-next-banner glass-card mt-8">
-          <div class="next-info">
-            <span class="text-xs font-semibold text-text-muted uppercase tracking-wider">Next Section</span>
-            <h4 class="text-base font-bold text-text-primary mt-0.5">Component Matrix &amp; Hardware Specifications</h4>
-            <p class="text-xs text-text-secondary mt-1">Explore detailed architectural specs, VRM power phases, memory timings, and developer workload suitability.</p>
-          </div>
-          <a routerLink="/workstation/specs" class="btn-next-step pulse-glow">
-            <span>View Hardware Specs</span>
-            <i class="fa-solid fa-arrow-right ml-2"></i>
-          </a>
-        </div>

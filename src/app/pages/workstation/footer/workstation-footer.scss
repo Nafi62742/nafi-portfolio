@@ -22,25 +22,6 @@
   @apply flex flex-col items-center md:items-start;
 }
 
-.ws-footer-actions {
-  @apply flex items-center gap-3;
-}
-
-.ws-footer-return-btn {
-  @apply inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold no-underline transition-all duration-200 cursor-pointer;
-  background: rgba(6, 182, 212, 0.08);
-  border: 1px solid rgba(6, 182, 212, 0.25);
-  color: #38bdf8;
-
-  &:hover {
-    background: rgba(6, 182, 212, 0.16);
-    border-color: rgba(6, 182, 212, 0.55);
-    color: #e0f2fe;
-    transform: translateY(-1px);
-    box-shadow: 0 0 16px rgba(6, 182, 212, 0.2);
-  }
-}
-
 .ws-footer-bottom {
   @apply flex items-center justify-center;
 }

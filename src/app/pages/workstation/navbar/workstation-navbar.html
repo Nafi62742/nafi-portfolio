@@ -8,40 +8,8 @@
       </a>
     </div>
 
-    <!-- CENTER: Dedicated Workstation Subpage Tabs -->
-    <nav class="ws-tabs-nav hidden lg:flex" aria-label="Workstation Navigation">
-      @for (tab of tabs; track tab.id) {
-        <a
-          [routerLink]="tab.route"
-          routerLinkActive="active"
-          class="ws-tab-btn"
-          [id]="'ws-tab-' + tab.id">
-          <i [class]="'fa-solid ' + tab.icon + ' ' + tab.color + ' text-xs'"></i>
-          <span>{{ tab.label }}</span>
-        </a>
-      }
-    </nav>
-
-    <!-- RIGHT: Rig Selector Dropdown, Staged Mods, Theme Toggle & Mobile Hamburger -->
+    <!-- RIGHT: Staged Mods, Theme Toggle & Mobile Hamburger -->
     <div class="ws-right-group">
-      <!-- Quick Rig Selector Dropdown (Desktop) -->
-      <div class="ws-rig-dropdown-wrap hidden xl:flex">
-        <label for="ws-nav-rig-select" class="sr-only">Active PC Rig</label>
-        <div class="select-wrapper">
-          <select
-            id="ws-nav-rig-select"
-            class="ws-nav-rig-select"
-            [value]="ws.activeRigId()"
-            (change)="onRigSelect($event)"
-            title="Active Desktop Rig">
-            @for (rig of rigPresets; track rig.id) {
-              <option [value]="rig.id">{{ rig.name }}</option>
-            }
-          </select>
-          <i class="fa-solid fa-chevron-down select-caret"></i>
-        </div>
-      </div>
-
       <!-- Staged modifications alert pill (if any) -->
       @if (ws.hasAnyPendingChange()) {
         <button
@@ -90,23 +58,6 @@
     [class.ws-mobile-closed]="!menuOpen()"
     [class.ws-mobile-open]="menuOpen()">
     
-    <!-- Mobile Rig Switcher Dropdown -->
-    <div class="ws-mobile-rig-group mb-3">
-      <label for="ws-mobile-rig-select" class="text-[10px] font-mono font-bold uppercase tracking-wider text-text-muted px-1 mb-1.5 block">ACTIVE RIG PRESET</label>
-      <div class="select-wrapper w-full">
-        <select
-          id="ws-mobile-rig-select"
-          class="ws-mobile-rig-select w-full"
-          [value]="ws.activeRigId()"
-          (change)="onRigSelect($event); toggleMenu()">
-          @for (rig of rigPresets; track rig.id) {
-            <option [value]="rig.id">{{ rig.name }}</option>
-          }
-        </select>
-        <i class="fa-solid fa-chevron-down select-caret"></i>
-      </div>
-    </div>
-
     <!-- Mobile Subpage Tabs -->
     <ul class="ws-mobile-links-list">
       @for (tab of tabs; track tab.id; let i = $index) {

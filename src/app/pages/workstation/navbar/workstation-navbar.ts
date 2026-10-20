@@ -2,15 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { WORKSTATION_I18N, WorkstationI18n } from '../i18n/workstation.i18n';
-import { PcRigPresetId } from '@models/workstation.models';
+import { WORKSTATION_I18N } from '../i18n/workstation.i18n';
 import { ThemeService } from '@services/theme.service';
 import { WorkstationService } from '@services/workstation.service';
 
 /**
  * Dedicated navigation bar for the Workstation module.
- * Features technical CAD branding, route-linked tabs, rig profile switcher dropdown,
- * staged modifications quick-apply, and theme toggle.
+ * Features technical CAD branding, route-linked tabs, staged modifications quick-apply,
+ * and theme toggle.
  */
 @Component({
   selector: 'app-workstation-navbar',
@@ -26,14 +25,8 @@ export class WorkstationNavbarComponent {
   /** Workstation telemetry and state service. */
   public readonly ws = inject(WorkstationService);
 
-  /** Available PC Rig Presets. */
-  public readonly rigPresets = this.ws.getRigPresets();
-
   /** Theme service for light/dark mode toggling. */
   public readonly theme = inject(ThemeService);
-
-  /** Translation labels. */
-  public readonly labels: WorkstationI18n = WORKSTATION_I18N;
 
   /** Workstation subpage tab definitions. */
   public readonly tabs = [
@@ -42,23 +35,6 @@ export class WorkstationNavbarComponent {
     { id: 'pressure', route: '/workstation/pressure', label: WORKSTATION_I18N.pressure_tab, icon: 'fa-gauge-high', color: 'text-emerald-400' },
     { id: 'benchmarks', route: '/workstation/benchmarks', label: WORKSTATION_I18N.benchmarks_tab, icon: 'fa-chart-line', color: 'text-amber-400' }
   ];
-
-  /**
-   * Switches the active PC rig preset.
-   */
-  public selectRig(presetId: PcRigPresetId): void {
-    this.ws.selectRigPreset(presetId);
-  }
-
-  /**
-   * Handles dropdown change event for active PC rig preset.
-   */
-  public onRigSelect(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    if (target?.value) {
-      this.selectRig(target.value as PcRigPresetId);
-    }
-  }
 
   /**
    * Applies all staged hardware and fan modifications.
