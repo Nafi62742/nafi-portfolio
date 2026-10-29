@@ -23,19 +23,52 @@
     }
   </nav>
 
-  <!-- Minimal Right Actions -->
+  <!-- Right Actions: R-007 Hood Trigger + Multi-Theme Switcher + Resume -->
   <div class="site-header__actions">
-    <span class="status-dot" title="Available for new opportunities"></span>
-
     <button
       type="button"
-      class="theme-btn"
-      (click)="theme.toggle()"
-      id="btn-theme-toggle"
-      [attr.aria-label]="theme.isDark ? 'Switch to Deep Night mode' : 'Switch to Split Blueprint mode'"
-      [title]="theme.isDark ? 'Switch to Full Night Mode' : 'Switch to Split Blueprint Mode'">
-      <i class="fa-solid" [class.fa-moon]="theme.isDark" [class.fa-circle-half-stroke]="!theme.isDark"></i>
+      class="hood-btn"
+      data-cursor="POP HOOD"
+      (click)="replayHoodSplash()"
+      title="Pop the R 007 Car Hood Splash">
+      <i class="fa-solid fa-car-side"></i>
+      <span>R 007</span>
     </button>
+
+    <!-- Multi-Theme Bluish Switcher -->
+    <div class="theme-switcher">
+      <button
+        type="button"
+        class="theme-btn"
+        id="btn-theme-toggle"
+        data-cursor="THEME"
+        [attr.aria-expanded]="themeMenuOpen()"
+        (click)="toggleThemeMenu()"
+        [title]="'Theme: ' + theme.currentPreset.name">
+        <span class="theme-btn__swatch" [style.background]="theme.currentPreset.swatch"></span>
+        <span class="theme-btn__label">{{ theme.currentPreset.shortLabel }}</span>
+        <i class="fa-solid fa-chevron-down theme-btn__caret"></i>
+      </button>
+
+      @if (themeMenuOpen()) {
+        <div class="theme-popover" role="menu" aria-label="Select Bluish Theme">
+          @for (preset of theme.presets; track preset.id) {
+            <button
+              type="button"
+              role="menuitem"
+              class="theme-popover__item"
+              [class.is-active]="theme.theme === preset.id"
+              (click)="selectTheme(preset.id)">
+              <span class="theme-popover__dot" [style.background]="preset.swatch"></span>
+              <span class="theme-popover__name">{{ preset.name }}</span>
+              @if (theme.theme === preset.id) {
+                <i class="fa-solid fa-check"></i>
+              }
+            </button>
+          }
+        </div>
+      }
+    </div>
 
     <a
       href="assets/docs/Nafi_Ahmed_Resume.pdf"
@@ -80,6 +113,10 @@
   </nav>
 
   <div class="site-menu__foot">
+    <button type="button" class="button" (click)="replayHoodSplash()">
+      <span>POP R 007 HOOD</span>
+      <span class="arrow">↗</span>
+    </button>
     <a
       href="assets/docs/Nafi_Ahmed_Resume.pdf"
       target="_blank"

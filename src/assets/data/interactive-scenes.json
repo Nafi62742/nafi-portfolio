@@ -1,0 +1,88 @@
+{
+  "version": "1.0.0",
+  "theme": "bluish-r007",
+  "splash": {
+    "emblem": "R 007",
+    "model": "R-007 TWIN-TURBO ARCHITECTURE",
+    "stages": [
+      { "progress": 0,   "status": "IGNITION SEQUENCE ARMED // R-007" },
+      { "progress": 30,  "status": "UNLOCKING HOOD LATCHES..." },
+      { "progress": 65,  "status": "OPENING R-007 HOOD // ENGINE BAY EXPOSED" },
+      { "progress": 90,  "status": "TWIN-TURBO FULL-STACK ENGINE AT 8,500 RPM" },
+      { "progress": 100, "status": "SYSTEMS ONLINE // ENTERING PORTFOLIO" }
+    ],
+    "telemetry": [
+      { "label": "CHASSIS", "value": "R-007 BLUEPRINT" },
+      { "label": "ENGINE",  "value": "V8 FULL-STACK + AI" },
+      { "label": "BOOST",   "value": "2.4 BAR // CLOUD" },
+      { "label": "STATUS",  "value": "READY TO RACE" }
+    ]
+  },
+  "scenes": {
+    "skyline": {
+      "id": "skyline",
+      "viewBox": "0 0 1440 220",
+      "buildings": [
+        { "x": 20,   "y": 90,  "w": 75,  "h": 130, "windows": 6 },
+        { "x": 105,  "y": 55,  "w": 95,  "h": 165, "windows": 9 },
+        { "x": 215,  "y": 110, "w": 65,  "h": 110, "windows": 4 },
+        { "x": 295,  "y": 40,  "w": 110, "h": 180, "windows": 12 },
+        { "x": 420,  "y": 75,  "w": 85,  "h": 145, "windows": 8 },
+        { "x": 520,  "y": 30,  "w": 120, "h": 190, "windows": 14 },
+        { "x": 655,  "y": 85,  "w": 80,  "h": 135, "windows": 6 },
+        { "x": 750,  "y": 50,  "w": 105, "h": 170, "windows": 10 },
+        { "x": 870,  "y": 95,  "w": 70,  "h": 125, "windows": 6 },
+        { "x": 955,  "y": 35,  "w": 115, "h": 185, "windows": 12 },
+        { "x": 1085, "y": 70,  "w": 90,  "h": 150, "windows": 8 },
+        { "x": 1190, "y": 45,  "w": 100, "h": 175, "windows": 10 },
+        { "x": 1305, "y": 80,  "w": 110, "h": 140, "windows": 8 }
+      ]
+    },
+    "factory": {
+      "id": "factory",
+      "gears": [
+        { "cx": 140, "cy": 110, "r": 52, "teeth": 12, "speed": "18s", "reverse": false },
+        { "cx": 232, "cy": 145, "r": 36, "teeth": 8,  "speed": "12s", "reverse": true },
+        { "cx": 880, "cy": 95,  "r": 64, "teeth": 14, "speed": "24s", "reverse": false },
+        { "cx": 985, "cy": 140, "r": 40, "teeth": 10, "speed": "15s", "reverse": true }
+      ],
+      "pistons": [
+        { "x": 420, "delay": "0s" },
+        { "x": 490, "delay": "0.3s" },
+        { "x": 560, "delay": "0.6s" },
+        { "x": 630, "delay": "0.9s" }
+      ]
+    },
+    "engineHotspots": [
+      {
+        "id": "turbo-left",
+        "x": 145,
+        "y": 175,
+        "label": "TWIN-TURBO FRONTEND",
+        "detail": "Angular 20 · Flutter · Zoneless 60fps UI Rendering"
+      },
+      {
+        "id": "v8-core",
+        "x": 260,
+        "y": 195,
+        "label": "V8 CORE ENGINE",
+        "detail": "Node.js · FastAPI · TypeScript · Microservices"
+      },
+      {
+        "id": "turbo-right",
+        "x": 375,
+        "y": 175,
+        "label": "CLOUD BOOST MANIFOLD",
+        "detail": "AWS EC2 · S3 · Lambda · Docker · CI/CD Pipelines"
+      },
+      {
+        "id": "ecu-ai",
+        "x": 260,
+        "y": 120,
+        "label": "R-007 AI / ML ECU",
+        "detail": "PyTorch · YOLOv9 · Data Engineering · IEEE/Springer"
+      }
+    ]
+  }
+}
+

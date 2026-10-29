@@ -8,32 +8,123 @@
   </div>
 
   <div class="player__grid">
-    <!-- Left Column: Spotlight Pedestal + Architectural Pillars + Ethos -->
+    <!-- Left Column: Interactive R-007 Car Hood & Engine Bay Inspector + Pillars -->
     <div class="player__stage-col reveal delay-1">
-      <div class="player__stage">
+      <div class="player__stage" [class.is-hood-open]="stageHoodOpen()">
         <div class="player__spotlight" aria-hidden="true"></div>
 
-        <svg class="player__figure" viewBox="0 0 360 440" aria-hidden="true">
-          <defs>
-            <radialGradient id="ped-glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.55" />
-              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
-            </radialGradient>
-          </defs>
-          <!-- Pedestal -->
-          <ellipse cx="180" cy="392" rx="135" ry="26" fill="url(#ped-glow)" />
-          <ellipse cx="180" cy="384" rx="108" ry="15" fill="#0e182b" stroke="#38bdf8" stroke-width="1.5" />
-          <ellipse cx="180" cy="376" rx="88" ry="11" fill="#070d19" stroke="#2563eb" stroke-width="1.2" />
+        <!-- Stage Top Bar -->
+        <div class="player__stage-bar">
+          <span class="text-mono">CHASSIS // R 007 INSPECTOR</span>
+          <button
+            type="button"
+            class="player__hood-toggle"
+            data-cursor="POP HOOD"
+            (click)="toggleStageHood()">
+            <i class="fa-solid" [class.fa-Lock-open]="stageHoodOpen()" [class.fa-car]="!stageHoodOpen()"></i>
+            <span>{{ stageHoodOpen() ? 'CLOSE R 007 HOOD' : 'POP R 007 HOOD' }}</span>
+          </button>
+        </div>
 
-          <!-- Geometric Hooded Developer -->
-          <path d="M85 376 L112 230 L150 202 L210 202 L248 230 L275 376 Z" fill="#2563eb" />
-          <path d="M180 202 L248 230 L275 376 L180 376 Z" fill="#1d4ed8" />
-          <path d="M132 182 L152 84 L180 66 L208 84 L228 182 L180 206 Z" fill="#2563eb" />
-          <path d="M150 112 L180 96 L210 112 L202 184 L180 194 L158 184 Z" fill="#070d19" />
-          <polygon points="160,145 176,145 173,152 161,151" fill="#eef4fb" />
-          <polygon points="200,145 184,145 187,152 199,151" fill="#38bdf8" />
-          <line x1="180" y1="66" x2="180" y2="376" stroke="#38bdf8" stroke-width="1.2" stroke-dasharray="4 4" />
-        </svg>
+        <!-- Interactive SVG: Pedestal + R-007 Car Hood + JSON Engine Hotspots -->
+        <div class="player__inspector">
+          <svg class="player__figure" viewBox="0 0 520 380">
+            <defs>
+              <radialGradient id="ped-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.5" />
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              </radialGradient>
+            </defs>
+
+            <!-- Glowing Spotlight Pedestal -->
+            <ellipse cx="260" cy="340" rx="210" ry="32" fill="url(#ped-glow)" />
+            <ellipse cx="260" cy="332" rx="175" ry="18" fill="#0e182b" stroke="#38bdf8" stroke-width="1.5" />
+            <ellipse cx="260" cy="324" rx="145" ry="12" fill="#070d19" stroke="#2563eb" stroke-width="1.2" />
+
+            <!-- Sports Car Front Bay Silhouette on Pedestal -->
+            <path
+              d="M115 62 L405 62 L438 165 L420 305 L100 305 L82 165 Z"
+              fill="#070d19"
+              stroke="#2563eb"
+              stroke-width="2" />
+
+            <!-- Headlights -->
+            <polygon points="104,288 165,298 160,310 98,300" fill="#38bdf8" />
+            <polygon points="416,288 355,298 360,310 422,300" fill="#38bdf8" />
+
+            <!-- Exposed V8 Twin-Turbo Engine Block -->
+            <rect x="135" y="88" width="250" height="192" rx="8" fill="#040811" stroke="#1e3a8a" stroke-width="2" />
+            <!-- Left & Right Turbochargers -->
+            <circle cx="170" cy="175" r="28" fill="#0b1426" stroke="#38bdf8" stroke-width="2" />
+            <circle cx="170" cy="175" r="10" fill="#2563eb" />
+            <circle cx="350" cy="175" r="28" fill="#0b1426" stroke="#38bdf8" stroke-width="2" />
+            <circle cx="350" cy="175" r="10" fill="#2563eb" />
+
+            <!-- Center V8 Intake Plenum -->
+            <rect x="218" y="104" width="84" height="156" rx="6" fill="#0e182b" stroke="#38bdf8" stroke-width="2" />
+            <line x1="218" y1="142" x2="302" y2="142" stroke="#2563eb" stroke-width="3" />
+            <line x1="218" y1="178" x2="302" y2="178" stroke="#2563eb" stroke-width="3" />
+            <line x1="218" y1="214" x2="302" y2="214" stroke="#2563eb" stroke-width="3" />
+            <text x="260" y="168" text-anchor="middle" fill="#eef4fb" font-family="Archivo, sans-serif" font-weight="800" font-size="14">R 007</text>
+            <text x="260" y="198" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-weight="700" font-size="9">V8 TWIN-TURBO</text>
+
+            <!-- Pivoting Car Hood Overlay (Lifts when stageHoodOpen() is true) -->
+            <g class="player__hood-lid" [class.is-open]="stageHoodOpen()">
+              <path
+                d="M122 72 L398 72 L426 168 L410 296 L110 296 L94 168 Z"
+                fill="#0c182e"
+                stroke="#38bdf8"
+                stroke-width="2.2" />
+              <rect x="236" y="74" width="48" height="220" fill="#2563eb" fill-opacity="0.25" />
+              <polygon
+                points="260,115 335,148 320,235 260,258 200,235 185,148"
+                fill="#050a14"
+                stroke="#38bdf8"
+                stroke-width="2" />
+              <text x="260" y="182" text-anchor="middle" fill="#eef4fb" font-family="Archivo, sans-serif" font-weight="900" font-size="44" letter-spacing="3">R</text>
+              <rect x="218" y="192" width="84" height="3" fill="#2563eb" />
+              <text x="260" y="226" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-weight="800" font-size="28" letter-spacing="5">007</text>
+            </g>
+
+            <!-- Interactive JSON Engine Hotspots (Visible when hood is open) -->
+            @if (stageHoodOpen()) {
+              @for (spot of hotspots(); track spot.id) {
+                <g
+                  class="player__hotspot"
+                  [class.is-active]="activeHotspotId() === spot.id"
+                  role="button"
+                  tabindex="0"
+                  [attr.aria-label]="spot.label"
+                  (click)="selectHotspot(spot.id)"
+                  (keydown.enter)="selectHotspot(spot.id)">
+                  <circle [attr.cx]="spot.x" [attr.cy]="spot.y" r="16" class="player__hotspot-pulse" />
+                  <circle [attr.cx]="spot.x" [attr.cy]="spot.y" r="8" class="player__hotspot-dot" />
+                </g>
+              }
+            }
+          </svg>
+        </div>
+
+        <!-- JSON Hotspot Telemetry Readout Box -->
+        @if (activeHotspot(); as spot) {
+          <div class="player__telemetry">
+            <div class="player__telemetry-tabs">
+              @for (h of hotspots(); track h.id; let idx = $index) {
+                <button
+                  type="button"
+                  class="player__telemetry-tab"
+                  [class.is-active]="activeHotspotId() === h.id"
+                  (click)="selectHotspot(h.id)">
+                  0{{ idx + 1 }} · {{ h.label.split(' ')[0] }}
+                </button>
+              }
+            </div>
+            <div class="player__telemetry-body">
+              <span class="player__telemetry-title">{{ spot.label }}</span>
+              <p class="player__telemetry-detail">{{ spot.detail }}</p>
+            </div>
+          </div>
+        }
 
         <div class="player__quote">
           <i class="fa-solid fa-quote-left"></i>
@@ -62,7 +153,7 @@
       </div>
     </div>
 
-    <!-- Right Column: Player 1 Dossier Card (Warm Paper with Hazard Stripe) -->
+    <!-- Right Column: Player 1 Dossier Card (Ice Blueprint Surface with Hazard Stripe) -->
     <article class="player__card reveal delay-2">
       <div class="player__hazard" aria-hidden="true"></div>
 
@@ -134,6 +225,10 @@
         <button (click)="scrollToContact()" class="button" type="button">
           <span>Get in Touch</span>
           <span class="arrow">↘</span>
+        </button>
+        <button (click)="sceneService.triggerSplashReplay()" class="button" type="button">
+          <span>Replay R 007 Splash</span>
+          <span class="arrow">↺</span>
         </button>
       </div>
     </article>

@@ -110,6 +110,66 @@
   --scrollbar-thumb-hover: var(--amber);
 }
 
+/* Preset 3: "Cyan Overdrive R-007" ('cyber') — Deep Obsidian Navy with Electric Cyan & Azure */
+[data-theme="cyber"] {
+  --bg:           #060d1b;
+  --bg-2:         #0b162c;
+  --bg-3:         #112140;
+  --ink:          #eef6ff;
+  --ink-2:        #9cc2ec;
+  --ink-3:        #648bb8;
+  --line:         rgba(0, 240, 255, 0.18);
+  --line-2:       rgba(0, 240, 255, 0.07);
+  --paper-line:   #17325e;
+
+  --night:        #030710;
+  --night-2:      #081122;
+  --night-3:      #0f1f3c;
+  --night-ink:    #eef6ff;
+  --night-line:   rgba(0, 240, 255, 0.18);
+  --night-line-2: rgba(0, 240, 255, 0.07);
+  --dim:          #6c97c7;
+
+  --red:          #0284c7;
+  --red-ink:      #38bdf8;
+  --rose:         #67e8f9;
+  --amber:        #00f0ff;
+  --gold:         #38bdf8;
+  --online:       #10b981;
+  --success:      #10b981;
+  --error-night:  #38bdf8;
+}
+
+/* Preset 4: "Glacier Daylight Blueprint" ('glacier') — Crisp Glacier White-Blue & Royal Navy */
+[data-theme="glacier"] {
+  --bg:           #f6faff;
+  --bg-2:         #eaf3fd;
+  --bg-3:         #d8e8fa;
+  --ink:          #081b33;
+  --ink-2:        #1e3a5f;
+  --ink-3:        #4c6b94;
+  --line:         rgba(8, 27, 51, 0.15);
+  --line-2:       rgba(8, 27, 51, 0.06);
+  --paper-line:   #b4cef0;
+
+  --night:        #0d213f;
+  --night-2:      #142e54;
+  --night-3:      #1d3e6e;
+  --night-ink:    #f6faff;
+  --night-line:   rgba(186, 230, 253, 0.2);
+  --night-line-2: rgba(186, 230, 253, 0.08);
+  --dim:          #93b8e0;
+
+  --red:          #0284c7;
+  --red-ink:      #0369a1;
+  --rose:         #38bdf8;
+  --amber:        #38bdf8;
+  --gold:         #0284c7;
+  --online:       #10b981;
+  --success:      #059669;
+  --error-night:  #38bdf8;
+}
+
 /* Night Section Scope (`[data-night]`) — always midnight navy surface */
 [data-night] {
   background-color: var(--night);
@@ -718,5 +778,87 @@ app-starfield,
 @media (max-width: 1180px) {
   .rail {
     display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CUSTOM INTERACTIVE CURSOR (.cursor — devinthehood.com pattern)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9990;
+  pointer-events: none;
+  transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0);
+  transition: transform 55ms linear, opacity 200ms ease;
+
+  &__dot {
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber);
+  }
+
+  &__ring {
+    position: absolute;
+    top: -18px;
+    left: -18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(56, 189, 248, 0.55);
+    background: rgba(37, 99, 235, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 220ms var(--ease), height 220ms var(--ease), top 220ms var(--ease), left 220ms var(--ease), background-color 220ms var(--ease), border-color 220ms var(--ease);
+  }
+
+  &__label {
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #050a14;
+    white-space: nowrap;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 180ms var(--ease), transform 180ms var(--ease);
+  }
+
+  &.is-hover .cursor__ring {
+    top: -26px;
+    left: -26px;
+    width: 52px;
+    height: 52px;
+    border-color: var(--amber);
+    background: rgba(56, 189, 248, 0.18);
+  }
+
+  &.has-label .cursor__ring {
+    top: -34px;
+    left: -34px;
+    width: 68px;
+    height: 68px;
+    background: var(--amber);
+    border-color: var(--amber);
+  }
+
+  &.has-label .cursor__label {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (hover: none), (pointer: coarse), (max-width: 900px) {
+  .cursor {
+    display: none !important;
   }
 }

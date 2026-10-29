@@ -1,0 +1,297 @@
+@if (sceneService.splashOpen()) {
+  <div
+    class="loader"
+    [class.is-hood-open]="hoodPopped()"
+    [class.is-exiting]="isExiting()"
+    role="dialog"
+    aria-modal="true"
+    aria-label="R 007 Ignition Splash Screen">
+
+    <!-- Top Blueprint Header Bar -->
+    <header class="loader__top">
+      <div class="loader__brand">
+        <span class="loader__dot"></span>
+        <span class="loader__code">NAFI.DEV // {{ sceneService.config().splash.model }}</span>
+      </div>
+      <div class="loader__rpm">
+        <span>TELEMETRY:</span>
+        <strong>{{ rpmValue() }} RPM</strong>
+      </div>
+    </header>
+
+    <!-- Center Interactive Car Hood & Exposed Engine Stage -->
+    <div class="loader__stage">
+      <div
+        class="hood-car"
+        [class.is-open]="hoodPopped()"
+        role="button"
+        tabindex="0"
+        aria-label="Click to pop open the R 007 car hood"
+        (click)="popHoodNow()"
+        (keydown.enter)="popHoodNow()">
+
+        <!-- 1. CHASSIS & EXPOSED V8 TWIN-TURBO ENGINE BAY (Revealed when hood opens) -->
+        <svg class="hood-car__engine-svg" viewBox="0 0 600 440" aria-hidden="true">
+          <defs>
+            <radialGradient id="engine-core-glow" cx="50%" cy="52%" r="48%">
+              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.42" />
+              <stop offset="55%" stop-color="#2563eb" stop-opacity="0.18" />
+              <stop offset="100%" stop-color="#050a14" stop-opacity="0" />
+            </radialGradient>
+            <linearGradient id="chassis-metal" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0e182b" />
+              <stop offset="50%" stop-color="#070d19" />
+              <stop offset="100%" stop-color="#172642" />
+            </linearGradient>
+            <linearGradient id="cobalt-rail" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#2563eb" />
+              <stop offset="50%" stop-color="#38bdf8" />
+              <stop offset="100%" stop-color="#2563eb" />
+            </linearGradient>
+          </defs>
+
+          <!-- Outer Sports Car Front Fenders & Windshield Cowl -->
+          <path
+            d="M95 55 L505 55 L555 180 L535 375 L465 415 L135 415 L65 375 L45 180 Z"
+            fill="url(#chassis-metal)"
+            stroke="#38bdf8"
+            stroke-width="2" />
+
+          <!-- Front Aerodynamic Splitter & Grille -->
+          <path
+            d="M140 412 L460 412 L438 430 L162 430 Z"
+            fill="#2563eb"
+            stroke="#38bdf8"
+            stroke-width="1.5" />
+
+          <!-- Left & Right LED Cyber Headlights -->
+          <g class="hood-car__headlights">
+            <polygon points="68,358 148,376 142,396 62,380" fill="#38bdf8" />
+            <polygon points="75,363 140,378 136,390 72,376" fill="#eef4fb" />
+            <polygon points="532,358 452,376 458,396 538,380" fill="#38bdf8" />
+            <polygon points="525,363 460,378 464,390 528,376" fill="#eef4fb" />
+          </g>
+
+          <!-- Recessed Engine Bay Cavity -->
+          <path
+            d="M128 84 L472 84 L504 195 L482 355 L118 355 L96 195 Z"
+            fill="#040811"
+            stroke="#1e3a8a"
+            stroke-width="2.5" />
+
+          <!-- Ambient Cyan Glow inside Engine Bay -->
+          <ellipse cx="300" cy="220" rx="185" ry="130" fill="url(#engine-core-glow)" />
+
+          <!-- Strut Tower Brace Bar -->
+          <path
+            d="M115 135 L230 112 L370 112 L485 135"
+            fill="none"
+            stroke="url(#cobalt-rail)"
+            stroke-width="7"
+            stroke-linecap="round" />
+
+          <!-- Intercooler Charge Pipes -->
+          <path
+            d="M170 185 C170 130, 240 130, 260 165"
+            fill="none"
+            stroke="#38bdf8"
+            stroke-width="9"
+            stroke-opacity="0.7" />
+          <path
+            d="M430 185 C430 130, 360 130, 340 165"
+            fill="none"
+            stroke="#38bdf8"
+            stroke-width="9"
+            stroke-opacity="0.7" />
+
+          <!-- LEFT TWIN-TURBO CHARGER -->
+          <g transform="translate(170, 200)">
+            <circle cx="0" cy="0" r="38" fill="#0b1426" stroke="#38bdf8" stroke-width="2.5" />
+            <circle cx="0" cy="0" r="29" fill="#050a14" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5 3" />
+            <g class="engine__turbo">
+              <line x1="-24" y1="0" x2="24" y2="0" stroke="#38bdf8" stroke-width="2.5" />
+              <line x1="0" y1="-24" x2="0" y2="24" stroke="#38bdf8" stroke-width="2.5" />
+              <line x1="-17" y1="-17" x2="17" y2="17" stroke="#60a5fa" stroke-width="2" />
+              <line x1="17" y1="-17" x2="-17" y2="17" stroke="#60a5fa" stroke-width="2" />
+              <circle cx="0" cy="0" r="8" fill="#2563eb" stroke="#eef4fb" stroke-width="1.5" />
+            </g>
+            <text x="0" y="54" text-anchor="middle" fill="#7dd3fc" font-family="monospace" font-size="9" letter-spacing="1.5">TURBO L // UI</text>
+          </g>
+
+          <!-- RIGHT TWIN-TURBO CHARGER -->
+          <g transform="translate(430, 200)">
+            <circle cx="0" cy="0" r="38" fill="#0b1426" stroke="#38bdf8" stroke-width="2.5" />
+            <circle cx="0" cy="0" r="29" fill="#050a14" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5 3" />
+            <g class="engine__turbo engine__turbo--reverse">
+              <line x1="-24" y1="0" x2="24" y2="0" stroke="#38bdf8" stroke-width="2.5" />
+              <line x1="0" y1="-24" x2="0" y2="24" stroke="#38bdf8" stroke-width="2.5" />
+              <line x1="-17" y1="-17" x2="17" y2="17" stroke="#60a5fa" stroke-width="2" />
+              <line x1="17" y1="-17" x2="-17" y2="17" stroke="#60a5fa" stroke-width="2" />
+              <circle cx="0" cy="0" r="8" fill="#2563eb" stroke="#eef4fb" stroke-width="1.5" />
+            </g>
+            <text x="0" y="54" text-anchor="middle" fill="#7dd3fc" font-family="monospace" font-size="9" letter-spacing="1.5">TURBO R // AWS</text>
+          </g>
+
+          <!-- CENTER V8 ENGINE BLOCK & INTAKE MANIFOLD -->
+          <g transform="translate(300, 225)">
+            <!-- Left & Right Cylinder Banks (8 Firing Pistons) -->
+            <rect x="-78" y="-75" width="28" height="150" rx="4" fill="#0e182b" stroke="#2563eb" stroke-width="1.5" />
+            <rect x="50" y="-75" width="28" height="150" rx="4" fill="#0e182b" stroke="#2563eb" stroke-width="1.5" />
+
+            <!-- Firing Ignition Coils Left -->
+            <rect class="engine__coil engine__coil--1" x="-72" y="-65" width="16" height="22" rx="2" fill="#38bdf8" />
+            <rect class="engine__coil engine__coil--2" x="-72" y="-32" width="16" height="22" rx="2" fill="#38bdf8" />
+            <rect class="engine__coil engine__coil--3" x="-72" y="1"   width="16" height="22" rx="2" fill="#38bdf8" />
+            <rect class="engine__coil engine__coil--4" x="-72" y="34"  width="16" height="22" rx="2" fill="#38bdf8" />
+
+            <!-- Firing Ignition Coils Right -->
+            <rect class="engine__coil engine__coil--2" x="56" y="-65" width="16" height="22" rx="2" fill="#38bdf8" />
+            <rect class="engine__coil engine__coil--4" x="56" y="-32" width="16" height="22" rx="2" fill="#38bdf8" />
+            <rect class="engine__coil engine__coil--1" x="56" y="1"   width="16" height="22" rx="2" fill="#38bdf8" />
+            <rect class="engine__coil engine__coil--3" x="56" y="34"  width="16" height="22" rx="2" fill="#38bdf8" />
+
+            <!-- Center V8 Carbon & Cobalt Plenum -->
+            <rect x="-44" y="-82" width="88" height="164" rx="8" fill="#070d19" stroke="#38bdf8" stroke-width="2" />
+            <!-- Intake Runners -->
+            <line x1="-44" y1="-50" x2="44" y2="-50" stroke="#1e3a8a" stroke-width="4" />
+            <line x1="-44" y1="-18" x2="44" y2="-18" stroke="#1e3a8a" stroke-width="4" />
+            <line x1="-44" y1="18"  x2="44" y2="18"  stroke="#1e3a8a" stroke-width="4" />
+            <line x1="-44" y1="50"  x2="44" y2="50"  stroke="#1e3a8a" stroke-width="4" />
+
+            <!-- Center Engine Emblem -->
+            <rect x="-32" y="-26" width="64" height="52" rx="4" fill="#2563eb" stroke="#eef4fb" stroke-width="1.2" />
+            <text x="0" y="-4" text-anchor="middle" fill="#eef4fb" font-family="Archivo, sans-serif" font-weight="800" font-size="14" letter-spacing="1.5">R 007</text>
+            <text x="0" y="14" text-anchor="middle" fill="#bae6fd" font-family="monospace" font-weight="700" font-size="8.5" letter-spacing="1.2">V8 ENGINE</text>
+          </g>
+
+          <!-- Front Radiator Core -->
+          <rect x="175" y="328" width="250" height="18" rx="3" fill="#0e182b" stroke="#38bdf8" stroke-width="1.2" />
+        </svg>
+
+        <!-- 2. 3D PIVOTING CAR HOOD WITH CAPITAL "R" AND "007" EMBLEM -->
+        <div class="hood-car__lid">
+          <svg class="hood-car__lid-svg" viewBox="0 0 600 440" aria-hidden="true">
+            <defs>
+              <linearGradient id="hood-paint" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#10203d" />
+                <stop offset="48%" stop-color="#091326" />
+                <stop offset="100%" stop-color="#172d56" />
+              </linearGradient>
+              <linearGradient id="hood-stripe" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#2563eb" />
+                <stop offset="100%" stop-color="#38bdf8" />
+              </linearGradient>
+            </defs>
+
+            <!-- Sculpted Car Hood Panel -->
+            <path
+              d="M118 76 L482 76 L512 198 L490 364 L110 364 L88 198 Z"
+              fill="url(#hood-paint)"
+              stroke="#38bdf8"
+              stroke-width="2.5" />
+
+            <!-- Center Racing Stripe -->
+            <rect x="272" y="78" width="56" height="284" fill="url(#hood-stripe)" fill-opacity="0.22" />
+            <line x1="272" y1="78" x2="272" y2="362" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.6" />
+            <line x1="328" y1="78" x2="328" y2="362" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.6" />
+
+            <!-- Aerodynamic Hood Power-Dome Lines & Louvers -->
+            <path d="M148 92 L185 345" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.45" />
+            <path d="M452 92 L415 345" stroke="#38bdf8" stroke-width="1.2" stroke-opacity="0.45" />
+
+            <!-- Left & Right Heat Extractor Vents -->
+            <g stroke="#38bdf8" stroke-width="2" stroke-opacity="0.65">
+              <line x1="145" y1="145" x2="195" y2="155" />
+              <line x1="142" y1="162" x2="192" y2="172" />
+              <line x1="139" y1="179" x2="189" y2="189" />
+
+              <line x1="455" y1="145" x2="405" y2="155" />
+              <line x1="458" y1="162" x2="408" y2="172" />
+              <line x1="461" y1="179" x2="411" y2="189" />
+            </g>
+
+            <!-- CAPITAL "R" AND "007" CREST ON THE HOOD -->
+            <g transform="translate(300, 218)">
+              <!-- Outer Hexagonal Shield -->
+              <polygon
+                points="0,-92 115,-48 95,68 0,98 -95,68 -115,-48"
+                fill="#070d19"
+                fill-opacity="0.92"
+                stroke="#38bdf8"
+                stroke-width="2.5" />
+              <polygon
+                points="0,-82 103,-42 85,60 0,88 -85,60 -103,-42"
+                fill="none"
+                stroke="#2563eb"
+                stroke-width="1.2"
+                stroke-dasharray="6 4" />
+
+              <!-- Capital "R" -->
+              <text
+                x="0"
+                y="-8"
+                text-anchor="middle"
+                fill="#eef4fb"
+                font-family="Archivo, sans-serif"
+                font-weight="900"
+                font-size="68"
+                letter-spacing="4">R</text>
+
+              <!-- Divider Accent Bar -->
+              <rect x="-58" y="6" width="116" height="4" fill="#2563eb" />
+              <rect x="-24" y="6" width="48" height="4" fill="#38bdf8" />
+
+              <!-- "007" Stencil -->
+              <text
+                x="0"
+                y="54"
+                text-anchor="middle"
+                fill="#38bdf8"
+                font-family="JetBrains Mono, monospace"
+                font-weight="800"
+                font-size="42"
+                letter-spacing="7">007</text>
+            </g>
+
+            <!-- Hood Latch Pins at Front Edge -->
+            <circle cx="195" cy="342" r="7" fill="#070d19" stroke="#38bdf8" stroke-width="2" />
+            <circle cx="405" cy="342" r="7" fill="#070d19" stroke="#38bdf8" stroke-width="2" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Interactive Hint Pill -->
+      <div class="loader__controls">
+        <button type="button" class="loader__action-btn" (click)="popHoodNow()">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>{{ hoodPopped() ? 'R-007 ENGINE BAY EXPOSED' : 'POP R-007 HOOD' }}</span>
+        </button>
+        <button type="button" class="loader__skip-btn" (click)="dismissSplash()">
+          <span>ENTER PORTFOLIO</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom Telemetry & Progress Bar (devinthehood loader style + JSON telemetry) -->
+    <footer class="loader__foot">
+      <div class="loader__telemetry">
+        @for (item of sceneService.config().splash.telemetry; track item.label) {
+          <div class="loader__stat">
+            <span>{{ item.label }}</span>
+            <strong>{{ item.value }}</strong>
+          </div>
+        }
+      </div>
+
+      <div class="loader__bar-row">
+        <span class="loader__status">{{ currentStatus() }}</span>
+        <span class="loader__pct">{{ progress() }}%</span>
+      </div>
+      <div class="loader__track">
+        <span class="loader__fill" [style.width.%]="progress()"></span>
+      </div>
+    </footer>
+  </div>
+}
+

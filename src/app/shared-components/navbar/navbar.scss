@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1.25rem;
   padding: 0 var(--gutter);
   background: rgba(7, 13, 25, 0.88);
   color: #edf4fc;
@@ -57,13 +57,13 @@
 .site-nav {
   display: flex;
   align-items: center;
-  gap: clamp(0.85rem, 1.8vw, 1.75rem);
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
 
   &__link {
     position: relative;
     padding: 0.35rem 0;
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: rgba(237, 244, 252, 0.72);
@@ -101,33 +101,114 @@
 .site-header__actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.55rem;
   flex-shrink: 0;
 }
 
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--online);
-  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+.hood-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 32px;
+  padding: 0 0.65rem;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(37, 99, 235, 0.14);
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background-color 200ms var(--ease), color 200ms var(--ease), border-color 200ms var(--ease);
+
+  &:hover {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #050a14;
+  }
+}
+
+.theme-switcher {
+  position: relative;
 }
 
 .theme-btn {
-  width: 34px;
-  height: 34px;
+  height: 32px;
+  padding: 0 0.65rem;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.42rem;
   border: 1px solid var(--night-line);
-  color: rgba(237, 244, 252, 0.85);
-  font-size: 0.82rem;
+  background: rgba(14, 24, 43, 0.7);
+  color: rgba(237, 244, 252, 0.9);
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
   transition: border-color 200ms var(--ease), color 200ms var(--ease), background-color 200ms var(--ease);
+
+  &__swatch {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  &__caret {
+    font-size: 0.55rem;
+    opacity: 0.7;
+  }
 
   &:hover {
     border-color: var(--amber);
     color: var(--amber);
-    background: rgba(56, 189, 248, 0.08);
+  }
+}
+
+.theme-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 230px;
+  background: #070d19;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 20px 44px -16px rgba(0, 0, 0, 0.85);
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  z-index: 140;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(237, 244, 252, 0.8);
+    text-align: left;
+    transition: background-color 180ms var(--ease), color 180ms var(--ease);
+
+    &:hover,
+    &.is-active {
+      background: rgba(37, 99, 235, 0.22);
+      color: #edf4fc;
+    }
+
+    i {
+      margin-left: auto;
+      color: var(--amber);
+    }
+  }
+
+  &__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
   }
 }
 
@@ -135,12 +216,13 @@
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.45rem 0.85rem;
+  height: 32px;
+  padding: 0 0.8rem;
   border: 1px solid var(--red);
   background: var(--red);
   color: #edf4fc;
   font-family: var(--mono);
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -155,8 +237,8 @@
 
 .menu-toggle {
   display: none;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   align-items: center;
   justify-content: center;
   border: 1px solid var(--night-line);
@@ -250,10 +332,13 @@
 
   &__foot {
     padding-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1120px) {
   .site-nav,
   .header-resume {
     display: none;

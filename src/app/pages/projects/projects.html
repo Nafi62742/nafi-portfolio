@@ -1,4 +1,4 @@
-<section class="street" aria-label="Projects — The Street">
+<section class="street" [class.is-lamps-lit]="lampsLit()" aria-label="Projects — The Street">
   <!-- Section Header -->
   <div class="street__head reveal">
     <div>
@@ -8,8 +8,8 @@
     <p class="street__sub">{{ t.t('projects.subtitle') }}</p>
   </div>
 
-  <!-- District Filter Bar -->
-  <div class="work-filter reveal delay-1" role="toolbar" aria-label="Filter projects by category">
+  <!-- District Filter & Interactive Street Controls Bar -->
+  <div class="work-filter reveal delay-1" role="toolbar" aria-label="Filter and view controls">
     <div class="work-filter__group">
       <button
         type="button"
@@ -34,179 +34,289 @@
       </button>
     </div>
 
-    <p class="work-filter__count">
-      <span>{{ filteredProjects.length }}</span> SHOPS OPEN ON THE STREET
-    </p>
+    <div class="work-filter__right">
+      <button
+        type="button"
+        class="work-filter__btn"
+        [class.is-active]="lampsLit()"
+        data-cursor="LAMPS"
+        (click)="toggleLamps()">
+        <i class="fa-solid fa-lightbulb"></i>
+        <span>{{ lampsLit() ? 'Streetlights: ON' : 'Streetlights: OFF' }}</span>
+      </button>
+
+      <div class="work-filter__modes">
+        <button
+          type="button"
+          class="work-filter__btn"
+          [class.is-active]="viewMode() === 'street'"
+          (click)="setViewMode('street')">
+          <i class="fa-solid fa-road"></i> Boulevard
+        </button>
+        <button
+          type="button"
+          class="work-filter__btn"
+          [class.is-active]="viewMode() === 'grid'"
+          (click)="setViewMode('grid')">
+          <i class="fa-solid fa-table-cells-large"></i> Grid ({{ filteredProjects.length }})
+        </button>
+      </div>
+    </div>
   </div>
 
-  <!-- Architectural Storefront Grid -->
-  <div class="street__grid">
-    @for (project of filteredProjects; track project.name; let i = $index) {
-      <article
-        class="shop reveal"
-        [class.shop--ink]="(i % 4) === 0"
-        [class.shop--red]="(i % 4) === 1"
-        [class.shop--stone]="(i % 4) === 2"
-        [class.shop--brick]="(i % 4) === 3"
-        [style.--project-accent]="project.color"
-        tabindex="0"
-        role="button"
-        (click)="navigateToProject(project)"
-        (keydown.enter)="navigateToProject(project)">
+  <!-- Interactive Animated JSON Skyline Scene (devinthehood .street__sky) -->
+  <div class="street__stage">
+    <div class="street__sky" aria-hidden="true">
+      <div class="street__sun"></div>
+      <div class="street__cloud street__cloud--1"></div>
+      <div class="street__cloud street__cloud--2"></div>
+      <div class="street__cloud street__cloud--3"></div>
 
-        <!-- 1. Roof Cornice & Upper Windows -->
-        <div class="shop__upper" aria-hidden="true">
-          <div class="shop__windows-up">
-            <i></i><i></i><i></i>
-          </div>
-          <span class="shop__lot-code">LOT // {{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
+      <svg class="street__skyline" [attr.viewBox]="sceneService.config().scenes.skyline.viewBox" preserveAspectRatio="none">
+        @for (b of skylineBuildings(); track b.x) {
+          <g class="street__bldg">
+            <rect [attr.x]="b.x" [attr.y]="b.y" [attr.width]="b.w" [attr.height]="b.h" />
+            <line
+              [attr.x1]="b.x + 12"
+              [attr.y1]="b.y + 16"
+              [attr.x2]="b.x + b.w - 12"
+              [attr.y2]="b.y + 16"
+              class="street__bldg-win" />
+            <line
+              [attr.x1]="b.x + 12"
+              [attr.y1]="b.y + 34"
+              [attr.x2]="b.x + b.w - 12"
+              [attr.y2]="b.y + 34"
+              class="street__bldg-win" />
+          </g>
+        }
+      </svg>
+    </div>
+
+    <!-- Boulevard Stroll Navigation Controls (when in 'street' mode) -->
+    @if (viewMode() === 'street') {
+      <div class="street__nav">
+        <span class="text-mono">STROLL THE BOULEVARD // {{ filteredProjects.length }} OPEN STOREFRONTS</span>
+        <div class="street__nav-btns">
+          <button type="button" class="street__nav-btn" data-cursor="PREV" (click)="strollStreet(-1)" aria-label="Scroll Street Left">
+            ← WALK WEST
+          </button>
+          <button type="button" class="street__nav-btn" data-cursor="NEXT" (click)="strollStreet(1)" aria-label="Scroll Street Right">
+            WALK EAST →
+          </button>
         </div>
-
-        <!-- 2. Storefront Signboard -->
-        <header class="shop__sign">
-          <span class="shop__num">{{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
-          <div class="shop__sign-titles">
-            <h3 class="shop__title">{{ project.name }}</h3>
-            @if (project.shortRole) {
-              <span class="shop__role">{{ project.shortRole }}</span>
-            }
-          </div>
-          <span class="shop__badge" [class.is-office]="project.category === 'office'">
-            {{ project.category === 'office' ? t.t('projects.badge_office') : t.t('projects.badge_personal') }}
-          </span>
-        </header>
-
-        <!-- 3. Striped Awning -->
-        <div class="shop__awning" aria-hidden="true"></div>
-
-        <!-- 4. Storefront Window & 3D Swinging Door -->
-        <div class="shop__front">
-          <div class="shop__window">
-            @if (project.screenshots && project.screenshots.length > 0) {
-              <img
-                [src]="project.screenshots[0]"
-                [alt]="project.name + ' preview'"
-                class="shop__preview-img"
-                loading="lazy" />
-            } @else {
-              <div class="shop__blueprint">
-                <div class="shop__icon-emblem" [style.borderColor]="project.color">
-                  <i class="fa-solid" [ngClass]="project.icon" [style.color]="project.color"></i>
-                </div>
-                <span class="shop__blueprint-tag">{{ project.tech[0] }} · {{ project.tech[1] || 'SYSTEM' }}</span>
-              </div>
-            }
-
-            <!-- Floating External Links -->
-            @if (project.github || project.link || project.playstore || project.appstore || project.youtube) {
-              <div class="shop__quick-links">
-                @if (project.github) {
-                  <a
-                    [href]="project.github"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="GitHub"
-                    title="GitHub Repository"
-                    (click)="$event.stopPropagation()"
-                    class="shop__qbtn">
-                    <i class="fa-brands fa-github"></i>
-                  </a>
-                }
-                @if (project.playstore) {
-                  <a
-                    [href]="project.playstore"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Play Store"
-                    title="Google Play Store"
-                    (click)="$event.stopPropagation()"
-                    class="shop__qbtn">
-                    <i class="fa-brands fa-google-play"></i>
-                  </a>
-                }
-                @if (project.appstore) {
-                  <a
-                    [href]="project.appstore"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="App Store"
-                    title="Apple App Store"
-                    (click)="$event.stopPropagation()"
-                    class="shop__qbtn">
-                    <i class="fa-brands fa-apple"></i>
-                  </a>
-                }
-                @if (project.youtube) {
-                  <a
-                    [href]="project.youtube"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="YouTube Demo"
-                    title="Watch Video Demo"
-                    (click)="$event.stopPropagation()"
-                    class="shop__qbtn">
-                    <i class="fa-brands fa-youtube"></i>
-                  </a>
-                }
-                @if (project.link) {
-                  <a
-                    [href]="project.link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Live Site"
-                    title="Open Live Project"
-                    (click)="$event.stopPropagation()"
-                    class="shop__qbtn">
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  </a>
-                }
-              </div>
-            }
-          </div>
-
-          <!-- 3D Swinging Door with Easter-Egg Cat on First Shop -->
-          <div class="shop__doorway" aria-hidden="true">
-            @if (i === 0) {
-              <svg class="shop__cat" viewBox="0 0 28 24">
-                <path d="M5 22 L5 10 L9 4 L12 9 L16 9 L19 4 L23 10 L23 22 Z" fill="#0b192c" />
-                <circle cx="10.5" cy="13" r="1.4" fill="#38bdf8" />
-                <circle cx="17.5" cy="13" r="1.4" fill="#38bdf8" />
-              </svg>
-            }
-            <div class="shop__door">
-              <span class="shop__door-glass"></span>
-              <span class="shop__door-knob"></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 5. Sidewalk Curb -->
-        <div class="shop__sidewalk" aria-hidden="true"></div>
-
-        <!-- 6. Storefront Plate: Description, Tech Badges & Details Link -->
-        <div class="shop__plate">
-          <p class="shop__desc">{{ project.description }}</p>
-
-          <footer class="shop__foot">
-            <div class="shop__tags">
-              @for (tech of project.tech.slice(0, 3); track tech) {
-                <span class="pill">{{ tech }}</span>
-              }
-              @if (project.tech.length > 3) {
-                <span class="pill">+{{ project.tech.length - 3 }}</span>
-              }
-            </div>
-
-            <a
-              [routerLink]="['/project', getSlug(project.name)]"
-              (click)="$event.stopPropagation()"
-              class="shop__enter">
-              <span>{{ t.t('projects.see_details') }}</span>
-              <span class="arrow">→</span>
-            </a>
-          </footer>
-        </div>
-      </article>
+      </div>
     }
+
+    <!-- Storefronts Container: Horizontal Boulevard OR Multi-Column Grid -->
+    <div
+      #streetViewport
+      [class.street__viewport]="viewMode() === 'street'"
+      [class.street__grid]="viewMode() === 'grid'">
+
+      @for (project of filteredProjects; track project.name; let i = $index) {
+        <article
+          class="shop"
+          [class.shop--ink]="(i % 4) === 0"
+          [class.shop--red]="(i % 4) === 1"
+          [class.shop--stone]="(i % 4) === 2"
+          [class.shop--brick]="(i % 4) === 3"
+          [style.--project-accent]="project.color"
+          data-cursor="ENTER SHOP"
+          tabindex="0"
+          role="button"
+          (click)="navigateToProject(project)"
+          (keydown.enter)="navigateToProject(project)">
+
+          <!-- 1. Roof Cornice & Upper Windows -->
+          <div class="shop__upper" aria-hidden="true">
+            <div class="shop__windows-up">
+              <i></i><i></i><i></i>
+            </div>
+            <span class="shop__lot-code">LOT // {{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
+          </div>
+
+          <!-- 2. Storefront Signboard -->
+          <header class="shop__sign">
+            <span class="shop__num">{{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
+            <div class="shop__sign-titles">
+              <h3 class="shop__title">{{ project.name }}</h3>
+              @if (project.shortRole) {
+                <span class="shop__role">{{ project.shortRole }}</span>
+              }
+            </div>
+            <span class="shop__badge" [class.is-office]="project.category === 'office'">
+              {{ project.category === 'office' ? t.t('projects.badge_office') : t.t('projects.badge_personal') }}
+            </span>
+          </header>
+
+          <!-- 3. Striped Awning -->
+          <div class="shop__awning" aria-hidden="true"></div>
+
+          <!-- 4. Storefront Window & 3D Swinging Door -->
+          <div class="shop__front">
+            <div class="shop__window">
+              @if (project.screenshots && project.screenshots.length > 0) {
+                <img
+                  [src]="project.screenshots[0]"
+                  [alt]="project.name + ' preview'"
+                  class="shop__preview-img"
+                  loading="lazy" />
+              } @else {
+                <div class="shop__blueprint">
+                  <div class="shop__icon-emblem" [style.borderColor]="project.color">
+                    <i class="fa-solid" [ngClass]="project.icon" [style.color]="project.color"></i>
+                  </div>
+                  <span class="shop__blueprint-tag">{{ project.tech[0] }} · {{ project.tech[1] || 'SYSTEM' }}</span>
+                </div>
+              }
+
+              <!-- Floating External Links -->
+              @if (project.github || project.link || project.playstore || project.appstore || project.youtube) {
+                <div class="shop__quick-links">
+                  @if (project.github) {
+                    <a
+                      [href]="project.github"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="GitHub"
+                      title="GitHub Repository"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-brands fa-github"></i>
+                    </a>
+                  }
+                  @if (project.playstore) {
+                    <a
+                      [href]="project.playstore"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Play Store"
+                      title="Google Play Store"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-brands fa-google-play"></i>
+                    </a>
+                  }
+                  @if (project.appstore) {
+                    <a
+                      [href]="project.appstore"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="App Store"
+                      title="Apple App Store"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-brands fa-apple"></i>
+                    </a>
+                  }
+                  @if (project.youtube) {
+                    <a
+                      [href]="project.youtube"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="YouTube Demo"
+                      title="Watch Video Demo"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-brands fa-youtube"></i>
+                    </a>
+                  }
+                  @if (project.link) {
+                    <a
+                      [href]="project.link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Live Site"
+                      title="Open Live Project"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                  }
+                </div>
+              }
+            </div>
+
+            <!-- 3D Swinging Door with Easter-Egg Cat on First Shop -->
+            <div class="shop__doorway" aria-hidden="true">
+              @if (i === 0) {
+                <svg class="shop__cat" viewBox="0 0 28 24">
+                  <path d="M5 22 L5 10 L9 4 L12 9 L16 9 L19 4 L23 10 L23 22 Z" fill="#0b192c" />
+                  <circle cx="10.5" cy="13" r="1.4" fill="#38bdf8" />
+                  <circle cx="17.5" cy="13" r="1.4" fill="#38bdf8" />
+                </svg>
+              }
+              <div class="shop__door">
+                <span class="shop__door-glass"></span>
+                <span class="shop__door-knob"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Sidewalk Curb -->
+          <div class="shop__sidewalk" aria-hidden="true"></div>
+
+          <!-- 6. Storefront Plate: Description, Tech Badges & Details Link -->
+          <div class="shop__plate">
+            <p class="shop__desc">{{ project.description }}</p>
+
+            <footer class="shop__foot">
+              <div class="shop__tags">
+                @for (tech of project.tech.slice(0, 3); track tech) {
+                  <span class="pill">{{ tech }}</span>
+                }
+                @if (project.tech.length > 3) {
+                  <span class="pill">+{{ project.tech.length - 3 }}</span>
+                }
+              </div>
+
+              <a
+                [routerLink]="['/project', getSlug(project.name)]"
+                (click)="$event.stopPropagation()"
+                class="shop__enter">
+                <span>{{ t.t('projects.see_details') }}</span>
+                <span class="arrow">→</span>
+              </a>
+            </footer>
+          </div>
+        </article>
+
+        <!-- Streetlamp between storefronts in Boulevard mode (devinthehood .street__lamp) -->
+        @if (viewMode() === 'street') {
+          <div
+            class="street__lamp"
+            role="button"
+            tabindex="0"
+            aria-label="Toggle Streetlamp"
+            (click)="toggleLamps()"
+            (keydown.enter)="toggleLamps()">
+            <span class="street__lamp-head"></span>
+            <span class="street__lamp-glow"></span>
+            <span class="street__lamp-pole"></span>
+            <span class="street__lamp-base"></span>
+          </div>
+        }
+      }
+
+      <!-- End of Boulevard Signpost (devinthehood .street__end) -->
+      @if (viewMode() === 'street') {
+        <div class="street__end">
+          <div class="street__end-sign">
+            <span class="street__end-kicker">END OF THE STREET</span>
+            <strong class="street__end-title">NEXT: RUNMATE SPOTLIGHT ↓</strong>
+          </div>
+          <span class="street__end-post"></span>
+        </div>
+      }
+    </div>
+
+    <!-- Boulevard Asphalt & Crosswalk Road Strip -->
+    <div class="street__ground" aria-hidden="true">
+      <div class="street__curb"></div>
+      <div class="street__road">
+        <span class="street__lane"></span>
+      </div>
+    </div>
   </div>
 </section>

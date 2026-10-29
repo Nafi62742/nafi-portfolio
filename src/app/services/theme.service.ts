@@ -1,47 +1,109 @@
 import { Injectable, signal } from '@angular/core';
 
-/** Union type representing the supported themes. */
-export type Theme = 'dark' | 'light';
+/** Union type representing the supported bluish themes. */
+export type Theme = 'dark' | 'light' | 'cyber' | 'glacier';
+
+/** Metadata for a theme preset shown in the navbar theme switcher. */
+export interface ThemePreset {
+  id: Theme;
+  name: string;
+  shortLabel: string;
+  swatch: string;
+  icon: string;
+}
 
 /**
- * Service that manages the application's light/dark theme.
+ * Service that manages the application's multi-theme bluish design presets.
  * Persists the user's preference to localStorage.
  */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
+  /** Available bluish theme presets. */
+  public readonly presets: Array<ThemePreset> = [
+    {
+      id: 'dark',
+      name: 'Arctic Split (Front × Back)',
+      shortLabel: 'SPLIT',
+      swatch: '#2563eb',
+      icon: 'fa-circle-half-stroke'
+    },
+    {
+      id: 'light',
+      name: 'Deep Sapphire Night',
+      shortLabel: 'SAPPHIRE',
+      swatch: '#38bdf8',
+      icon: 'fa-moon'
+    },
+    {
+      id: 'cyber',
+      name: 'Cyan Overdrive R-007',
+      shortLabel: 'CYBER',
+      swatch: '#00f0ff',
+      icon: 'fa-bolt'
+    },
+    {
+      id: 'glacier',
+      name: 'Glacier Daylight Blueprint',
+      shortLabel: 'GLACIER',
+      swatch: '#0284c7',
+      icon: 'fa-sun'
+    }
+  ];
+
   private readonly _theme = signal<Theme>('dark');
 
   /**
    * Returns the current theme value.
    *
-   * @returns The current active theme ('light' or 'dark')
+   * @returns The current active theme
    */
-  get theme(): Theme { return this._theme(); }
-
-  /**
-   * Returns true when the current theme is dark.
-   *
-   * @returns True if the active theme is 'dark', false otherwise
-   */
-  get isDark(): boolean { return this._theme() === 'dark'; }
-
-  /**
-   * Toggles between light and dark themes and persists the selection.
-   */
-  public toggle(): void {
-    const next: Theme = this._theme() === 'dark' ? 'light' : 'dark';
-    this._theme.set(next);
-    document.documentElement.setAttribute('data-theme', next);
-    localStorage.setItem('portfolio-theme', next);
+  public get theme(): Theme {
+    return this._theme();
   }
 
   /**
-   * Initialises the theme from localStorage or defaults to dark mode.
+   * Returns the active ThemePreset object.
    */
-  public init(): void {
-    const saved: Theme | null = localStorage.getItem('portfolio-theme') as Theme | null;
-    const theme: Theme = saved ?? 'dark';
+  public get currentPreset(): ThemePreset {
+    return this.presets.find((p: ThemePreset) => p.id === this._theme()) ?? this.presets[0];
+  }
+
+  /**
+   * Returns true when the current theme is the default split ('dark') or cyber mode.
+   *
+   * @returns True if the active theme is 'dark', false otherwise
+   */
+  public get isDark(): boolean {
+    return this._theme() === 'dark' || this._theme() === 'cyber';
+  }
+
+  /**
+   * Cycles to the next bluish theme preset and persists the selection.
+   */
+  public toggle(): void {
+    const idx: number = this.presets.findIndex((p: ThemePreset) => p.id === this._theme());
+    const nextPreset: ThemePreset = this.presets[(idx + 1) % this.presets.length];
+    this.setTheme(nextPreset.id);
+  }
+
+  /**
+   * Sets a specific theme preset by ID and persists it to localStorage.
+   *
+   * @param theme - The theme ID to activate
+   */
+  public setTheme(theme: Theme): void {
     this._theme.set(theme);
     document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio-theme', theme);
+  }
+
+  /**
+   * Initialises the theme from localStorage or defaults to Arctic Split ('dark').
+   */
+  public init(): void {
+    const saved: string | null = localStorage.getItem('portfolio-theme');
+    const validIds: Array<Theme> = ['dark', 'light', 'cyber', 'glacier'];
+    const theme: Theme = validIds.includes(saved as Theme) ? (saved as Theme) : 'dark';
+    this.setTheme(theme);
   }
 }

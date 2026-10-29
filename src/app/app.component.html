@@ -1,4 +1,19 @@
 @if (!isWorkstation()) {
+  <app-splash-screen></app-splash-screen>
+
+  <div
+    class="cursor"
+    [class.is-hover]="cursorHover()"
+    [class.has-label]="cursorLabel().length > 0"
+    [style.--cx.px]="cursorX()"
+    [style.--cy.px]="cursorY()"
+    aria-hidden="true">
+    <span class="cursor__dot"></span>
+    <span class="cursor__ring">
+      <span class="cursor__label">{{ cursorLabel() }}</span>
+    </span>
+  </div>
+
   <div class="paper-grain" aria-hidden="true"></div>
   <div class="grid-lines" aria-hidden="true">
     <span></span>

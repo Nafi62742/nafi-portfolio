@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 
 import { Experience } from '@models/portfolio.models';
+import { FactoryGear, FactoryPiston, InteractiveSceneService } from '@services/interactive-scene.service';
 import { PortfolioService } from '@services/portfolio.service';
 import { TranslateService } from '@services/translate.service';
 
 /**
- * Experience section component displaying professional work history,
- * highlighting the career progression and transition from Intern to Full-time Software Developer.
+ * Experience section component styled as the interactive "The Factory"
+ * assembly line from devinthehood.com, complete with JSON-driven rotating gears,
+ * hydraulic press stamping, conveyor belt rollers, and raw/shipped crate inspection.
  */
 @Component({
   selector: 'app-experience',
@@ -20,15 +22,48 @@ export class ExperienceComponent {
   /** All experience entries loaded from the portfolio service. */
   public readonly experiences: Array<Experience>;
 
-  /**
-   * @param portfolio - Portfolio data service providing experience entries
-   * @param t - Translation service for i18n labels
-   */
+  /** Whether the hydraulic press is currently mid-stamp animation. */
+  public readonly isPressing = signal<boolean>(false);
+
+  /** Whether crates are displayed in Raw Blueprint Wireframe mode vs Shipped mode. */
+  public readonly isRawBlueprint = signal<boolean>(false);
+
+  /** Number of conveyor belt rollers to render. */
+  public readonly rollers: Array<number> = Array.from({ length: 18 }, (_, i) => i);
+
   private readonly portfolio: PortfolioService = inject(PortfolioService);
   public readonly t: TranslateService = inject(TranslateService);
+  public readonly sceneService: InteractiveSceneService = inject(InteractiveSceneService);
+
+  /** Rotating factory gears loaded from assets/data/interactive-scenes.json. */
+  public readonly gears = computed<Array<FactoryGear>>(() =>
+    this.sceneService.config().scenes.factory.gears
+  );
+
+  /** Animated factory pistons loaded from assets/data/interactive-scenes.json. */
+  public readonly pistons = computed<Array<FactoryPiston>>(() =>
+    this.sceneService.config().scenes.factory.pistons
+  );
 
   constructor() {
     this.experiences = this.portfolio.getExperiences();
+  }
+
+  /**
+   * Cycles the hydraulic press down and toggles/stamps the crates between
+   * Raw Wireframe and Shipped Production state.
+   */
+  public cycleHydraulicPress(): void {
+    if (this.isPressing()) {
+      return;
+    }
+    this.isPressing.set(true);
+    setTimeout(() => {
+      this.isRawBlueprint.update((v: boolean) => !v);
+    }, 260);
+    setTimeout(() => {
+      this.isPressing.set(false);
+    }, 620);
   }
 
   /**

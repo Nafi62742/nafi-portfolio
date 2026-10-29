@@ -7,42 +7,128 @@
     <p class="factory__sub">{{ t.t('experience.subtitle') }}</p>
   </div>
 
-  <!-- Career Evolution Conveyor Banner -->
-  <div class="factory__banner reveal delay-1">
-    <div class="factory__banner-left">
-      <div class="factory__emblem">
-        <i class="fa-solid fa-industry"></i>
+  <!-- Interactive Factory Stage: JSON Gears + Hydraulic Press + Conveyor Belt (devinthehood .factory__stage) -->
+  <div class="factory__machine-stage reveal delay-1">
+    <!-- JSON-Driven Animated Factory Gears & Pistons Backdrop -->
+    <svg class="factory__backdrop-svg" viewBox="0 0 1140 210" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <!-- Gantry Girder -->
+      <line x1="0" y1="22" x2="1140" y2="22" stroke="#1e3a8a" stroke-width="8" />
+      <line x1="0" y1="22" x2="1140" y2="22" stroke="#38bdf8" stroke-width="2" stroke-dasharray="14 10" />
+
+      <!-- JSON Rotating Gears -->
+      @for (gear of gears(); track gear.cx) {
+        <g
+          class="factory__gear"
+          [class.is-reverse]="gear.reverse"
+          [style.--gear-speed]="gear.speed"
+          [style.transform-origin]="gear.cx + 'px ' + gear.cy + 'px'">
+          <circle
+            [attr.cx]="gear.cx"
+            [attr.cy]="gear.cy"
+            [attr.r]="gear.r"
+            fill="none"
+            stroke="#2563eb"
+            stroke-width="10"
+            stroke-dasharray="10 7" />
+          <circle
+            [attr.cx]="gear.cx"
+            [attr.cy]="gear.cy"
+            [attr.r]="gear.r - 12"
+            fill="#070d19"
+            stroke="#38bdf8"
+            stroke-width="2" />
+          <circle [attr.cx]="gear.cx" [attr.cy]="gear.cy" r="8" fill="#38bdf8" />
+        </g>
+      }
+
+      <!-- JSON Animated Vertical Pistons -->
+      @for (piston of pistons(); track piston.x) {
+        <g class="factory__piston" [style.animation-delay]="piston.delay">
+          <rect [attr.x]="piston.x - 6" y="24" width="12" height="75" fill="#1e3a8a" />
+          <rect [attr.x]="piston.x - 18" y="92" width="36" height="22" rx="3" fill="#2563eb" stroke="#38bdf8" stroke-width="1.5" />
+        </g>
+      }
+    </svg>
+
+    <!-- Interactive Hydraulic Press Unit (devinthehood .factory__press) -->
+    <div
+      class="factory__press"
+      [class.is-pressing]="isPressing()"
+      role="button"
+      tabindex="0"
+      data-cursor="STAMP"
+      aria-label="Activate Hydraulic Press"
+      (click)="cycleHydraulicPress()"
+      (keydown.enter)="cycleHydraulicPress()">
+      <div class="press__wheels" aria-hidden="true"><i></i><i></i></div>
+      <div class="press__body">
+        <span class="press__gauge"></span>
+        <span class="press__code">PRESS // R-007</span>
       </div>
-      <div>
-        <div class="factory__banner-title-row">
-          <h3 class="text-title">CAREER EVOLUTION</h3>
-          <span class="factory__loc">
-            <i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh
-          </span>
-        </div>
-        <p class="factory__conveyor">
-          <span>Project Developer (2021)</span>
-          <span class="factory__arrow">→</span>
-          <span>{{ t.t('experience.internship') }} (2023)</span>
-          <span class="factory__arrow">→</span>
-          <strong class="factory__current">{{ t.t('experience.fulltime') }} Developer ({{ t.t('experience.present') }})</strong>
-        </p>
+      <div class="press__rod"></div>
+      <div class="press__head">
+        <span>{{ isRawBlueprint() ? 'RAW WIREFRAME' : 'STAMP // SHIPPED' }}</span>
       </div>
     </div>
 
-    <div class="factory__tenure">
-      <span class="factory__tenure-label">{{ t.t('experience.total_tenure') }}</span>
-      <strong class="factory__tenure-val">
-        Jan 2021 — {{ t.t('experience.present') }}
-        <em>({{ getTotalTenure() }})</em>
-      </strong>
+    <!-- Career Evolution & Hydraulic Control Strip -->
+    <div class="factory__banner">
+      <div class="factory__banner-left">
+        <div class="factory__emblem">
+          <i class="fa-solid fa-industry"></i>
+        </div>
+        <div>
+          <div class="factory__banner-title-row">
+            <h3 class="text-title">CAREER EVOLUTION</h3>
+            <span class="factory__loc">
+              <i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh
+            </span>
+          </div>
+          <p class="factory__conveyor">
+            <span>Project Developer (2021)</span>
+            <span class="factory__arrow">→</span>
+            <span>{{ t.t('experience.internship') }} (2023)</span>
+            <span class="factory__arrow">→</span>
+            <strong class="factory__current">{{ t.t('experience.fulltime') }} Developer ({{ t.t('experience.present') }})</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="factory__banner-right">
+        <button
+          type="button"
+          class="factory__stamp-btn"
+          data-cursor="STAMP"
+          (click)="cycleHydraulicPress()">
+          <i class="fa-solid fa-hammer"></i>
+          <span>{{ isRawBlueprint() ? 'STAMP TO SHIPPED VIEW' : 'INSPECT RAW WIREFRAME' }}</span>
+        </button>
+
+        <div class="factory__tenure">
+          <span class="factory__tenure-label">{{ t.t('experience.total_tenure') }}</span>
+          <strong class="factory__tenure-val">
+            Jan 2021 — {{ t.t('experience.present') }}
+            <em>({{ getTotalTenure() }})</em>
+          </strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated Conveyor Belt Rollers (devinthehood .belt) -->
+    <div class="belt" aria-hidden="true">
+      <div class="belt__track"></div>
+      <div class="belt__rollers">
+        @for (r of rollers; track r) {
+          <i></i>
+        }
+      </div>
     </div>
   </div>
 
   <!-- Industrial Crate Timeline -->
-  <div class="factory__line">
+  <div class="factory__line" [class.is-raw-mode]="isRawBlueprint()">
     @for (exp of experiences; track exp; let i = $index) {
-      <article class="crate reveal" [class.is-active]="!exp.endDate">
+      <article class="crate reveal" [class.is-active]="!exp.endDate" [class.is-raw]="isRawBlueprint()">
         <!-- Diagonal Hazard Tape -->
         <div class="crate__tape" aria-hidden="true"></div>
 
@@ -62,9 +148,14 @@
             <strong>· {{ calculateDuration(exp.startDate, exp.endDate) }}</strong>
           </div>
 
-          <span class="crate__stamp" [class.is-live]="!exp.endDate">
-            {{ !exp.endDate ? t.t('experience.present') : 'SHIPPED' }}
-          </span>
+          <button
+            type="button"
+            class="crate__stamp"
+            [class.is-live]="!exp.endDate"
+            data-cursor="STAMP"
+            (click)="cycleHydraulicPress()">
+            {{ isRawBlueprint() ? 'RAW // SPEC' : (!exp.endDate ? t.t('experience.present') : 'SHIPPED') }}
+          </button>
         </header>
 
         <!-- Crate Main Content -->

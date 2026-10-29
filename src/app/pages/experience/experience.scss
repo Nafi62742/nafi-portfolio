@@ -1,3 +1,18 @@
+@keyframes spinGear {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pumpPiston {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(18px); }
+}
+
+@keyframes spinRoller {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
 .factory {
   position: relative;
   z-index: 2;
@@ -24,6 +39,116 @@
     color: var(--dim);
   }
 
+  /* Interactive Machine Stage (.factory__machine-stage) */
+  &__machine-stage {
+    position: relative;
+    border: 1px solid var(--night-line);
+    background: #050a14;
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+  }
+
+  &__backdrop-svg {
+    width: 100%;
+    height: 175px;
+    display: block;
+    background: radial-gradient(ellipse at 50% 0%, rgba(37, 99, 235, 0.18), transparent 70%);
+    border-bottom: 1px solid var(--night-line);
+  }
+
+  &__gear {
+    animation: spinGear var(--gear-speed, 16s) linear infinite;
+
+    &.is-reverse {
+      animation-direction: reverse;
+    }
+  }
+
+  &__piston {
+    animation: pumpPiston 1.6s ease-in-out infinite;
+  }
+
+  /* Interactive Hydraulic Press (.factory__press — devinthehood pattern) */
+  &__press {
+    position: absolute;
+    top: 12px;
+    right: 6%;
+    width: 148px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    z-index: 4;
+
+    .press__wheels {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 14px;
+
+      i {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid var(--amber);
+        background: #070d19;
+      }
+    }
+
+    .press__body {
+      width: 100%;
+      padding: 0.35rem 0.5rem;
+      background: #0e182b;
+      border: 1.5px solid var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      color: #edf4fc;
+    }
+
+    .press__gauge {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--online);
+      box-shadow: 0 0 8px var(--online);
+    }
+
+    .press__rod {
+      width: 16px;
+      height: 26px;
+      background: repeating-linear-gradient(
+        180deg,
+        #38bdf8 0 4px,
+        #0e182b 4px 8px
+      );
+      border-left: 1px solid var(--amber);
+      border-right: 1px solid var(--amber);
+      transition: height 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .press__head {
+      width: 132px;
+      padding: 0.3rem 0.45rem;
+      background: var(--red);
+      border: 1.5px solid var(--amber);
+      color: #edf4fc;
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-align: center;
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.45);
+    }
+
+    &.is-pressing .press__rod {
+      height: 76px;
+    }
+  }
+
   /* Career Evolution Banner */
   &__banner {
     display: flex;
@@ -31,10 +156,36 @@
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding: 1.4rem 1.75rem;
-    border: 1px solid var(--night-line);
+    padding: 1.35rem 1.75rem;
     background: var(--night-2);
-    margin-bottom: 2.5rem;
+  }
+
+  &__banner-right {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  &__stamp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 0.95rem;
+    border: 1px solid var(--amber);
+    background: rgba(56, 189, 248, 0.12);
+    color: var(--amber);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: background-color 200ms var(--ease), color 200ms var(--ease);
+
+    &:hover {
+      background: var(--amber);
+      color: #050a14;
+    }
   }
 
   &__banner-left {
@@ -398,9 +549,69 @@
     flex-wrap: wrap;
     gap: 0.45rem;
   }
+
+  /* Raw Blueprint Wireframe Mode when stamped via Hydraulic Press */
+  &.is-raw {
+    border: 1.5px dashed var(--amber);
+    background:
+      linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+      linear-gradient(0deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px) 0 0 / 24px 24px,
+      #040915;
+
+    .crate__top {
+      background: rgba(37, 99, 235, 0.14);
+      border-bottom-style: dashed;
+    }
+
+    .crate__tape {
+      background: repeating-linear-gradient(
+        -45deg,
+        #38bdf8 0 10px,
+        #040915 10px 20px
+      );
+    }
+  }
+}
+
+/* Conveyor Belt & Spinning Rollers (.belt — devinthehood pattern) */
+.belt {
+  border-top: 2px solid #1e3a8a;
+  background: #040811;
+  padding: 0.45rem 1rem;
+
+  &__track {
+    height: 3px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--amber) 0 18px,
+      transparent 18px 32px
+    );
+    margin-bottom: 0.35rem;
+  }
+
+  &__rollers {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    i {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid #2563eb;
+      border-top-color: #38bdf8;
+      display: inline-block;
+      animation: spinRoller 2.2s linear infinite;
+    }
+  }
 }
 
 @media (max-width: 768px) {
+  .factory__press {
+    display: none;
+  }
+
   .factory__tenure {
     align-items: flex-start;
     width: 100%;

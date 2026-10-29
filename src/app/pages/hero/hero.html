@@ -1,5 +1,9 @@
-<section class="split" aria-label="Hero — Two Sides">
-  <!-- LEFT HALF: FRONT / WEB & MOBILE (Warm Paper) -->
+<section
+  class="split"
+  [style.--split-ratio.%]="splitRatio()"
+  aria-label="Hero — Two Sides">
+
+  <!-- LEFT HALF: FRONT / WEB & MOBILE (Ice Blueprint) -->
   <div class="split__half split__half--front">
     <div class="split__top">
       <span class="split__tag">01 / CLIENT · WEB &amp; MOBILE</span>
@@ -15,7 +19,7 @@
         </div>
         <div class="browser__body">
           <div class="b-hero">
-            <span class="b-kicker">SHIPPED INTERFACES</span>
+            <span class="b-kicker">SHIPPED INTERFACES // FRONT</span>
             <div class="b-title">WEB &amp; MOBILE</div>
             <div class="b-bars"><i></i><i></i></div>
           </div>
@@ -108,7 +112,7 @@
     </div>
   </div>
 
-  <!-- RIGHT HALF: BACK / CLOUD, DATA & AI (Industrial Night) -->
+  <!-- RIGHT HALF: BACK / CLOUD, DATA & AI (Midnight Navy) -->
   <div class="split__half split__half--back" data-night>
     <div class="split__top">
       <span class="split__tag">02 / SERVER · CLOUD &amp; DATA</span>
@@ -120,7 +124,7 @@
       <div class="terminal split__terminal">
         <div class="terminal__bar">
           <i></i><i></i><i></i>
-          <span>nafi&#64;hood: ~/production</span>
+          <span>nafi&#64;r007: ~/production</span>
         </div>
         <div class="terminal__body">
           <div><span class="p">$</span> <span class="c">whoami --verbose</span></div>
@@ -145,19 +149,24 @@
         </div>
         <div class="rack-unit">
           <span class="rack-unit__leds"><i></i><i></i><i></i></span>
-          <span class="rack-unit__label">RUNMATE ENGINE // LIVE TELEMETRY</span>
+          <span class="rack-unit__label">R-007 ENGINE // LIVE TELEMETRY</span>
           <span class="rack-unit__stat">60 FPS</span>
         </div>
+      </div>
+
+      <!-- devinthehood Story Caption Block -->
+      <div class="split__story">
+        <p>"Every product has two sides — the front you touch and the engine room that keeps it breathing. Most developers pick a side. <strong>This one popped the R 007 hood.</strong>"</p>
       </div>
     </div>
 
     <!-- Action Console on Right Bottom -->
     <div class="split__actions">
-      <button type="button" class="button button--amber" (click)="scrollToProjects()">
+      <button type="button" class="button button--amber" data-cursor="STREET" (click)="scrollToProjects()">
         <span>{{ t.t("hero.cta_projects") }}</span>
         <span class="arrow">→</span>
       </button>
-      <button type="button" class="button" (click)="scrollToContact()">
+      <button type="button" class="button" data-cursor="SIGNAL" (click)="scrollToContact()">
         <span>{{ t.t("hero.cta_contact") }}</span>
         <span class="arrow">↘</span>
       </button>
@@ -172,16 +181,20 @@
     </div>
   </div>
 
-  <!-- CENTER SPLIT SEAM & GEOMETRIC HOODED CHARACTER + HEX BANNER -->
+  <!-- CENTER SPLIT SEAM & INTERACTIVE GEOMETRIC HOODED CHARACTER + HEX BANNER -->
   <div class="split__seam" aria-hidden="true"></div>
 
   <div class="split__center">
-    <!-- Split Geometric Hooded Developer SVG (Left Solid Red/Ink, Right Amber Wireframe) -->
+    <!-- Split Geometric Hooded Developer SVG (Dynamic clip-path synced with splitRatio) -->
     <div class="split__character" aria-hidden="true">
       <svg class="hoodie" viewBox="0 0 500 620">
         <defs>
-          <clipPath id="hero-clip-left"><rect x="0" y="0" width="250" height="620" /></clipPath>
-          <clipPath id="hero-clip-right"><rect x="250" y="0" width="250" height="620" /></clipPath>
+          <clipPath id="hero-clip-left">
+            <rect x="0" y="0" [attr.width]="svgSplitX()" height="620" />
+          </clipPath>
+          <clipPath id="hero-clip-right">
+            <rect [attr.x]="svgSplitX()" y="0" [attr.width]="500 - svgSplitX()" height="620" />
+          </clipPath>
           <pattern id="hero-scanlines" width="6" height="6" patternUnits="userSpaceOnUse">
             <line x1="0" y1="0" x2="6" y2="0" stroke="#38bdf8" stroke-width="0.6" stroke-opacity="0.35" />
           </pattern>
@@ -196,6 +209,8 @@
           <path d="M170 118 L250 88 L215 170 L148 220 Z" fill="#3b82f6" />
           <path d="M180 155 L250 132 L250 315 L195 292 Z" fill="#0b192c" />
           <polygon points="210,225 242,225 236,236 212,235" fill="#eef4fb" />
+          <!-- R 007 Badge on Chest -->
+          <text x="200" y="450" text-anchor="middle" fill="#eef4fb" font-family="Archivo, sans-serif" font-weight="800" font-size="20">R</text>
         </g>
         <!-- Right Half (Night / Back Cyan Wireframe) -->
         <g clip-path="url(#hero-clip-right)">
@@ -222,28 +237,64 @@
             <circle cx="305" cy="292" r="2.5" />
           </g>
           <polygon points="290,225 258,225 264,236 288,235" fill="#38bdf8" />
+          <text x="305" y="450" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-weight="800" font-size="18">007</text>
         </g>
-        <!-- Center Seam Line -->
-        <line x1="250" y1="60" x2="250" y2="600" stroke="#edf4fc" stroke-width="1.5" stroke-dasharray="4 4" />
+        <!-- Dynamic Seam Line -->
+        <line [attr.x1]="svgSplitX()" y1="60" [attr.x2]="svgSplitX()" y2="600" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5 4" />
       </svg>
     </div>
 
-    <!-- FRONT vs BACK Hex Banner -->
+    <!-- Interactive FRONT vs BACK Hex Banner (Click to shift split!) -->
     <div class="split__banner">
-      <div class="split__hex split__hex--front">
+      <button
+        type="button"
+        class="split__hex split__hex--front"
+        [class.is-selected]="splitRatio() > 52"
+        data-cursor="FRONT"
+        (click)="setSplit(64)">
         <span class="split__hex-sub">CLIENT SIDE</span>
         <span class="split__hex-word">FRONT</span>
-      </div>
-      <span class="split__vs">×</span>
-      <div class="split__hex split__hex--back">
+      </button>
+      <button
+        type="button"
+        class="split__vs"
+        data-cursor="50:50"
+        title="Reset 50/50 Split"
+        (click)="setSplit(50)">
+        ×
+      </button>
+      <button
+        type="button"
+        class="split__hex split__hex--back"
+        [class.is-selected]="splitRatio() < 48"
+        data-cursor="BACK"
+        (click)="setSplit(36)">
         <span class="split__hex-sub">CLOUD &amp; DATA</span>
         <span class="split__hex-word">BACK</span>
-      </div>
+      </button>
     </div>
 
-    <button type="button" class="split__scroll" (click)="scroll.scrollTo('about')">
-      <span>SCROLL TO INSPECT</span>
-      <span class="split__scroll-arrow">↓</span>
-    </button>
+    <!-- Interactive Split Scrubber Slider -->
+    <div class="split__scrubber">
+      <input
+        type="range"
+        min="30"
+        max="70"
+        [value]="splitRatio()"
+        aria-label="Adjust Front vs Back Split Ratio"
+        (input)="onSplitInput($event)" />
+      <span class="split__scrubber-label">DRAG SEAM // {{ splitRatio() }}% FRONT · {{ 100 - splitRatio() }}% BACK</span>
+    </div>
+
+    <div class="split__center-btns">
+      <button type="button" class="split__scroll" data-cursor="INSPECT" (click)="scroll.scrollTo('about')">
+        <span>UNDER THE HOOD</span>
+        <span class="split__scroll-arrow">↓</span>
+      </button>
+      <button type="button" class="split__scroll split__scroll--hood" data-cursor="POP HOOD" (click)="sceneService.triggerSplashReplay()">
+        <i class="fa-solid fa-car-side"></i>
+        <span>POP R 007 HOOD</span>
+      </button>
+    </div>
   </div>
 </section>

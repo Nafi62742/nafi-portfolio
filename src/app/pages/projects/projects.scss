@@ -1,3 +1,9 @@
+@keyframes driftCloud {
+  0%   { transform: translateX(-12%); }
+  50%  { transform: translateX(12%); }
+  100% { transform: translateX(-12%); }
+}
+
 .street {
   position: relative;
   z-index: 2;
@@ -25,11 +31,254 @@
     color: var(--ink-3);
   }
 
+  &__stage {
+    position: relative;
+    margin-top: 1.75rem;
+    border: 1px solid var(--ink);
+    background: var(--bg-2);
+    overflow: hidden;
+  }
+
+  /* Animated JSON Skyline Backdrop (.street__sky) */
+  &__sky {
+    position: relative;
+    height: 165px;
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.14) 0%, transparent 100%);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  &__sun {
+    position: absolute;
+    top: 22px;
+    right: 9%;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--amber) 0%, var(--red) 100%);
+    opacity: 0.85;
+    box-shadow: 0 0 36px rgba(56, 189, 248, 0.55);
+  }
+
+  &__cloud {
+    position: absolute;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.16);
+    border: 1px solid var(--line);
+    animation: driftCloud 22s ease-in-out infinite;
+
+    &--1 { top: 28px; left: 12%; width: 120px; }
+    &--2 { top: 52px; left: 42%; width: 165px; animation-duration: 28s; animation-direction: reverse; }
+    &--3 { top: 34px; left: 68%; width: 95px;  animation-duration: 19s; }
+  }
+
+  &__skyline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 135px;
+  }
+
+  &__bldg {
+    rect {
+      fill: rgba(11, 25, 44, 0.11);
+      stroke: var(--line);
+      stroke-width: 1;
+    }
+
+    &-win {
+      stroke: var(--amber);
+      stroke-width: 2;
+      stroke-dasharray: 6 6;
+      opacity: 0.65;
+    }
+  }
+
+  /* Boulevard Navigation Bar */
+  &__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink-3);
+  }
+
+  &__nav-btns {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  &__nav-btn {
+    padding: 0.4rem 0.85rem;
+    border: 1px solid var(--ink);
+    background: var(--bg-2);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    transition: background-color 180ms var(--ease), color 180ms var(--ease);
+
+    &:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: #edf4fc;
+    }
+  }
+
+  /* Horizontal Boulevard Track (.street__viewport) */
+  &__viewport {
+    display: flex;
+    align-items: stretch;
+    gap: 1.25rem;
+    padding: 1.75rem 1.5rem 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: thin;
+
+    .shop {
+      flex: 0 0 380px;
+      scroll-snap-align: start;
+    }
+  }
+
+  /* Multi-Column Grid View (.street__grid) */
   &__grid {
-    margin-top: 2.75rem;
+    padding: 1.75rem 1.5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 2.25rem 1.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem 1.5rem;
+  }
+
+  /* Interactive Streetlamp between Shops (.street__lamp) */
+  &__lamp {
+    flex: 0 0 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    cursor: pointer;
+    padding-bottom: 0.25rem;
+
+    &-head {
+      width: 24px;
+      height: 10px;
+      background: #0b192c;
+      border: 1px solid var(--amber);
+      border-radius: 4px 4px 0 0;
+      z-index: 2;
+    }
+
+    &-glow {
+      width: 58px;
+      height: 140px;
+      background: linear-gradient(180deg, rgba(56, 189, 248, 0.38), transparent);
+      clip-path: polygon(32% 0%, 68% 0%, 100% 100%, 0% 100%);
+      position: absolute;
+      top: 46px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 280ms var(--ease);
+    }
+
+    &-pole {
+      width: 4px;
+      height: 260px;
+      background: var(--ink);
+    }
+
+    &-base {
+      width: 22px;
+      height: 12px;
+      background: var(--ink);
+    }
+  }
+
+  &.is-lamps-lit .street__lamp-glow {
+    opacity: 1;
+  }
+
+  /* End of Boulevard Signpost (.street__end) */
+  &__end {
+    flex: 0 0 210px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 0.5rem;
+
+    &-sign {
+      padding: 0.85rem 1rem;
+      border: 2px solid var(--ink);
+      background: var(--red);
+      color: #edf4fc;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      text-align: center;
+    }
+
+    &-kicker {
+      font-family: var(--mono);
+      font-size: 0.52rem;
+      letter-spacing: 0.16em;
+      color: var(--amber);
+    }
+
+    &-title {
+      font-family: var(--font);
+      font-variation-settings: "wdth" 120, "wght" 800;
+      font-size: 0.82rem;
+    }
+
+    &-post {
+      width: 6px;
+      height: 140px;
+      background: var(--ink);
+    }
+  }
+
+  /* Ground Curb & Asphalt Road (.street__ground) */
+  &__ground {
+    border-top: 2px solid var(--ink);
+  }
+
+  &__curb {
+    height: 10px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--red) 0 32px,
+      var(--bg-3) 32px 64px
+    );
+    border-bottom: 1px solid var(--ink);
+  }
+
+  &__road {
+    height: 28px;
+    background: #070d19;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+  }
+
+  &__lane {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--amber) 0 28px,
+      transparent 28px 56px
+    );
+    opacity: 0.7;
   }
 }
 
@@ -45,13 +294,19 @@
   border: 1px solid var(--ink);
   background: var(--bg-2);
 
-  &__group {
+  &__group,
+  &__right,
+  &__modes {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 0.5rem;
   }
 
   &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     padding: 0.45rem 0.9rem;
     border: 1px solid var(--line);
     background: var(--bg);
@@ -71,20 +326,7 @@
     &.is-active {
       background: var(--red);
       border-color: var(--red);
-      color: #f4f1ea;
-    }
-  }
-
-  &__count {
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-
-    span {
-      color: var(--red);
-      font-weight: 700;
+      color: #edf4fc;
     }
   }
 }
