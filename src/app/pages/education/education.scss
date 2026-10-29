@@ -43,6 +43,7 @@
     justify-content: space-between;
     padding: 0.75rem 1.15rem;
     border: 1px solid var(--night-line);
+    border-radius: 10px;
     background: var(--night-2);
     color: var(--amber);
   }
@@ -56,6 +57,8 @@
 
 .cred-card {
   border: 1px solid var(--night-line);
+  border-radius: 12px;
+  overflow: hidden;
   background: #0b0d11;
   transition: border-color 220ms var(--ease);
 

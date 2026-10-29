@@ -217,18 +217,21 @@
     </div>
   </div>
 
-  <!-- 4. Horizontally Scrollable Feature Strip & Category Tabs (devinthehood strip style) -->
-  <div class="rm-features reveal delay-3">
-    <!-- Top Feature Strip Control Bar -->
-    <div class="rm-features__bar">
-      <div class="rm-features__bar-left">
-        <span class="rm-features__hint text-mono">
-          <i></i> SCROLL FEATURES SIDEWAYS · WHEEL OR DRAG ({{ filteredFeatures.length }} MODULES)
-        </span>
-      </div>
+  <!-- 4. Sticky Vertical-to-Horizontal Scrollable Feature Strip & Category Tabs -->
+  <div
+    #featuresRunway
+    class="rm-features-runway"
+    [style.height.px]="featuresRunwayHeightPx()">
+    <div #featuresSticky class="rm-features reveal delay-3">
+      <!-- Top Feature Strip Control Bar -->
+      <div class="rm-features__bar">
+        <div class="rm-features__bar-left">
+          <span class="rm-features__hint text-mono">
+            <i></i> SCROLL DOWN OR DRAG TO INSPECT ALL {{ filteredFeatures.length }} MODULES ({{ featureScrollPct() }}%)
+          </span>
+        </div>
 
-      <div class="rm-features__scrubber">
-        @if (featureViewMode() === 'strip') {
+        <div class="rm-features__scrubber">
           <input
             type="range"
             min="0"
@@ -236,130 +239,111 @@
             [value]="featureScrollPct()"
             aria-label="Scrub horizontally through RunMate features"
             (input)="onFeatureScrub($event)" />
-        }
-      </div>
+        </div>
 
-      <div class="rm-features__bar-btns">
-        @if (featureViewMode() === 'strip') {
+        <div class="rm-features__bar-btns">
           <button type="button" class="rm-features__nav-btn" data-cursor="PREV" (click)="scrollFeatures(-1)">
             ← SCROLL LEFT
           </button>
           <button type="button" class="rm-features__nav-btn" data-cursor="NEXT" (click)="scrollFeatures(1)">
             SCROLL RIGHT →
           </button>
-        }
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs (including All 16 Features tab) -->
+      <div class="rm-features__tabs" role="tablist">
         <button
           type="button"
-          class="rm-features__nav-btn"
-          [class.is-active]="featureViewMode() === 'strip'"
-          (click)="featureViewMode.set('strip')">
-          <i class="fa-solid fa-arrows-left-right"></i> Horizontal
+          role="tab"
+          class="rm-features__tab"
+          [class.is-active]="activeTab() === 'all'"
+          (click)="setTab('all')">
+          <span class="rm-features__tab-idx">00</span>
+          <i class="fa-solid fa-layer-group"></i>
+          <span>All Features ({{ runmateData.features.length }})</span>
         </button>
+
         <button
           type="button"
-          class="rm-features__nav-btn"
-          [class.is-active]="featureViewMode() === 'grid'"
-          (click)="featureViewMode.set('grid')">
-          <i class="fa-solid fa-table-cells-large"></i> Grid
+          role="tab"
+          class="rm-features__tab"
+          [class.is-active]="activeTab() === 'runners'"
+          (click)="setTab('runners')">
+          <span class="rm-features__tab-idx">01</span>
+          <i class="fa-solid fa-person-running"></i>
+          <span>{{ t.t('runmate.tab_runners') }}</span>
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          class="rm-features__tab"
+          [class.is-active]="activeTab() === 'races'"
+          (click)="setTab('races')">
+          <span class="rm-features__tab-idx">02</span>
+          <i class="fa-solid fa-flag-checkered"></i>
+          <span>{{ t.t('runmate.tab_races') }}</span>
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          class="rm-features__tab"
+          [class.is-active]="activeTab() === 'organizers'"
+          (click)="setTab('organizers')">
+          <span class="rm-features__tab-idx">03</span>
+          <i class="fa-solid fa-desktop"></i>
+          <span>{{ t.t('runmate.tab_organizers') }}</span>
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          class="rm-features__tab"
+          [class.is-active]="activeTab() === 'tech'"
+          (click)="setTab('tech')">
+          <span class="rm-features__tab-idx">04</span>
+          <i class="fa-solid fa-microchip"></i>
+          <span>{{ t.t('runmate.tab_tech') }}</span>
         </button>
       </div>
-    </div>
 
-    <!-- Category Filter Tabs (including All 16 Features tab) -->
-    <div class="rm-features__tabs" role="tablist">
-      <button
-        type="button"
-        role="tab"
-        class="rm-features__tab"
-        [class.is-active]="activeTab() === 'all'"
-        (click)="setTab('all')">
-        <span class="rm-features__tab-idx">00</span>
-        <i class="fa-solid fa-layer-group"></i>
-        <span>All Features ({{ runmateData.features.length }})</span>
-      </button>
+      <!-- Horizontal Scrollable Features Track -->
+      <div
+        #featuresViewport
+        class="rm-features__strip"
+        [class.is-dragging]="isDraggingFeatures()"
+        (scroll)="onFeaturesScroll()"
+        (wheel)="onFeaturesWheel($event)"
+        (mousedown)="onFeaturesDragStart($event)">
 
-      <button
-        type="button"
-        role="tab"
-        class="rm-features__tab"
-        [class.is-active]="activeTab() === 'runners'"
-        (click)="setTab('runners')">
-        <span class="rm-features__tab-idx">01</span>
-        <i class="fa-solid fa-person-running"></i>
-        <span>{{ t.t('runmate.tab_runners') }}</span>
-      </button>
-
-      <button
-        type="button"
-        role="tab"
-        class="rm-features__tab"
-        [class.is-active]="activeTab() === 'races'"
-        (click)="setTab('races')">
-        <span class="rm-features__tab-idx">02</span>
-        <i class="fa-solid fa-flag-checkered"></i>
-        <span>{{ t.t('runmate.tab_races') }}</span>
-      </button>
-
-      <button
-        type="button"
-        role="tab"
-        class="rm-features__tab"
-        [class.is-active]="activeTab() === 'organizers'"
-        (click)="setTab('organizers')">
-        <span class="rm-features__tab-idx">03</span>
-        <i class="fa-solid fa-desktop"></i>
-        <span>{{ t.t('runmate.tab_organizers') }}</span>
-      </button>
-
-      <button
-        type="button"
-        role="tab"
-        class="rm-features__tab"
-        [class.is-active]="activeTab() === 'tech'"
-        (click)="setTab('tech')">
-        <span class="rm-features__tab-idx">04</span>
-        <i class="fa-solid fa-microchip"></i>
-        <span>{{ t.t('runmate.tab_tech') }}</span>
-      </button>
-    </div>
-
-    <!-- Horizontal Scrollable Features Track OR Multi-Column Grid -->
-    <div
-      #featuresViewport
-      [class.rm-features__strip]="featureViewMode() === 'strip'"
-      [class.rm-features__grid]="featureViewMode() === 'grid'"
-      [class.is-dragging]="isDraggingFeatures()"
-      (scroll)="onFeaturesScroll()"
-      (wheel)="onFeaturesWheel($event)"
-      (mousedown)="onFeaturesDragStart($event)">
-
-      @for (feature of filteredFeatures; track feature.title; let fIdx = $index) {
-        <article class="rm-fcard" data-cursor="DRAG ↔">
-          <div class="rm-fcard__top">
-            <span class="rm-fcard__num">{{ (fIdx + 1) < 10 ? '0' + (fIdx + 1) : (fIdx + 1) }}</span>
-            <i class="fa-solid" [ngClass]="feature.icon"></i>
-            @if (feature.badge) {
-              <span class="rm-fcard__badge">{{ feature.badge }}</span>
-            }
-          </div>
-          <h4 class="rm-fcard__title text-title">{{ feature.title }}</h4>
-          <p class="rm-fcard__desc">{{ feature.description }}</p>
-          @if (feature.tags && feature.tags.length > 0) {
-            <div class="rm-fcard__tags">
-              @for (tag of feature.tags; track tag) {
-                <span class="pill pill--night">{{ tag }}</span>
+        @for (feature of filteredFeatures; track feature.title; let fIdx = $index) {
+          <article class="rm-fcard" data-cursor="DRAG ↔">
+            <div class="rm-fcard__top">
+              <span class="rm-fcard__num">{{ (fIdx + 1) < 10 ? '0' + (fIdx + 1) : (fIdx + 1) }}</span>
+              <i class="fa-solid" [ngClass]="feature.icon"></i>
+              @if (feature.badge) {
+                <span class="rm-fcard__badge">{{ feature.badge }}</span>
               }
             </div>
-          }
-        </article>
-      }
-    </div>
+            <h4 class="rm-fcard__title text-title">{{ feature.title }}</h4>
+            <p class="rm-fcard__desc">{{ feature.description }}</p>
+            @if (feature.tags && feature.tags.length > 0) {
+              <div class="rm-fcard__tags">
+                @for (tag of feature.tags; track tag) {
+                  <span class="pill pill--night">{{ tag }}</span>
+                }
+              </div>
+            }
+          </article>
+        }
+      </div>
 
-    @if (featureViewMode() === 'strip') {
       <div class="rm-features__progress" aria-hidden="true">
         <span class="rm-features__progress-fill" [style.width.%]="featureScrollPct()"></span>
       </div>
-    }
+    </div>
   </div>
 
   <!-- 5. Unified Tech Stack & Team Collaboration Crate -->

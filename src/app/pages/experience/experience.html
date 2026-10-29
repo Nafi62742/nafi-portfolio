@@ -1,268 +1,350 @@
-<section class="factory" data-night aria-label="Experience — The Factory">
-  <div class="factory__head reveal">
-    <div>
-      <p class="kicker">04 — {{ t.t('experience.section_label') }} // THE FACTORY</p>
-      <h2 class="chapter-title">BEHIND THE SHOPS, <em>{{ t.t('experience.title') }}.</em></h2>
-    </div>
-    <div class="factory__head-right">
-      <p class="factory__sub">{{ t.t('experience.subtitle') }}</p>
-      <p class="factory__strip-hint text-mono">
-        <i></i>
-        <span>CONVEYOR BELT · SCROLL SIDEWAYS OR DRAG</span>
-      </p>
-    </div>
-  </div>
+<section
+  #factorySection
+  class="factory"
+  data-night
+  [style.height.px]="runwayHeightPx()"
+  aria-label="Experience — The Factory">
 
-  <!-- Interactive Factory Stage: JSON Gears + Hydraulic Press + Conveyor Belt (devinthehood .factory__stage) -->
-  <div class="factory__machine-stage reveal delay-1">
-    <!-- JSON-Driven Animated Factory Gears & Pistons Backdrop -->
-    <svg class="factory__backdrop-svg" viewBox="0 0 1140 210" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <!-- Gantry Girder -->
-      <line x1="0" y1="22" x2="1140" y2="22" stroke="#1e3a8a" stroke-width="8" />
-      <line x1="0" y1="22" x2="1140" y2="22" stroke="#38bdf8" stroke-width="2" stroke-dasharray="14 10" />
-
-      <!-- JSON Rotating Gears -->
-      @for (gear of gears(); track gear.cx) {
-        <g
-          class="factory__gear"
-          [class.is-reverse]="gear.reverse"
-          [style.--gear-speed]="gear.speed"
-          [style.transform-origin]="gear.cx + 'px ' + gear.cy + 'px'">
-          <circle
-            [attr.cx]="gear.cx"
-            [attr.cy]="gear.cy"
-            [attr.r]="gear.r"
-            fill="none"
-            stroke="#2563eb"
-            stroke-width="10"
-            stroke-dasharray="10 7" />
-          <circle
-            [attr.cx]="gear.cx"
-            [attr.cy]="gear.cy"
-            [attr.r]="gear.r - 12"
-            fill="#070d19"
-            stroke="#38bdf8"
-            stroke-width="2" />
-          <circle [attr.cx]="gear.cx" [attr.cy]="gear.cy" r="8" fill="#38bdf8" />
-        </g>
-      }
-
-      <!-- JSON Animated Vertical Pistons -->
-      @for (piston of pistons(); track piston.x) {
-        <g class="factory__piston" [style.animation-delay]="piston.delay">
-          <rect [attr.x]="piston.x - 6" y="24" width="12" height="75" fill="#1e3a8a" />
-          <rect [attr.x]="piston.x - 18" y="92" width="36" height="22" rx="3" fill="#2563eb" stroke="#38bdf8" stroke-width="1.5" />
-        </g>
-      }
-    </svg>
-
-    <!-- Interactive Hydraulic Press Unit (devinthehood .factory__press) -->
-    <div
-      class="factory__press"
-      [class.is-pressing]="isPressing()"
-      role="button"
-      tabindex="0"
-      data-cursor="STAMP"
-      aria-label="Activate Hydraulic Press"
-      (click)="cycleHydraulicPress()"
-      (keydown.enter)="cycleHydraulicPress()">
-      <div class="press__wheels" aria-hidden="true"><i></i><i></i></div>
-      <div class="press__body">
-        <span class="press__gauge"></span>
-        <span class="press__code">PRESS // R-007</span>
+  <div #factorySticky class="factory__sticky">
+    <div class="factory__head reveal">
+      <div>
+        <p class="kicker">04 — {{ t.t('experience.section_label') }} // THE FACTORY</p>
+        <h2 class="chapter-title">BEHIND THE SHOPS, <em>{{ t.t('experience.title') }}.</em></h2>
       </div>
-      <div class="press__rod"></div>
-      <div class="press__head">
-        <span>{{ isRawBlueprint() ? 'RAW WIREFRAME' : 'STAMP // SHIPPED' }}</span>
-      </div>
-    </div>
-
-    <!-- Career Evolution & Hydraulic Control Strip -->
-    <div class="factory__banner">
-      <div class="factory__banner-left">
-        <div class="factory__emblem">
-          <i class="fa-solid fa-industry"></i>
-        </div>
-        <div>
-          <div class="factory__banner-title-row">
-            <h3 class="text-title">CAREER EVOLUTION</h3>
-            <span class="factory__loc">
-              <i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh
-            </span>
-          </div>
-          <p class="factory__conveyor">
-            <span>Project Developer (2021)</span>
-            <span class="factory__arrow">→</span>
-            <span>{{ t.t('experience.internship') }} (2023)</span>
-            <span class="factory__arrow">→</span>
-            <strong class="factory__current">{{ t.t('experience.fulltime') }} Developer ({{ t.t('experience.present') }})</strong>
+      <div class="factory__head-right">
+        <p class="factory__sub">{{ t.t('experience.subtitle') }}</p>
+        <div class="factory__head-badges">
+          <span class="factory__shipped-counter text-mono">
+            <b>{{ shippedCount() < 10 ? '0' + shippedCount() : shippedCount() }}</b> / {{ totalBeltItems() < 10 ? '0' + totalBeltItems() : totalBeltItems() }} SHIPPED
+          </span>
+          <p class="factory__strip-hint text-mono">
+            <i></i>
+            <span>CONVEYOR BELT · SCROLL DOWN OR DRAG</span>
           </p>
         </div>
       </div>
-
-      <div class="factory__banner-right">
-        <button
-          type="button"
-          class="factory__stamp-btn"
-          data-cursor="STAMP"
-          (click)="cycleHydraulicPress()">
-          <i class="fa-solid fa-hammer"></i>
-          <span>{{ isRawBlueprint() ? 'STAMP TO SHIPPED' : 'RAW WIREFRAME' }}</span>
-        </button>
-
-        @if (layoutMode() === 'belt') {
-          <button type="button" class="factory__nav-btn" (click)="scrollBelt(-1)">← PREV</button>
-          <button type="button" class="factory__nav-btn" (click)="scrollBelt(1)">NEXT →</button>
-        }
-
-        <button
-          type="button"
-          class="factory__nav-btn"
-          [class.is-active]="layoutMode() === 'belt'"
-          (click)="layoutMode.set(layoutMode() === 'belt' ? 'stack' : 'belt')">
-          <i class="fa-solid" [class.fa-arrows-left-right]="layoutMode() === 'belt'" [class.fa-bars]="layoutMode() === 'stack'"></i>
-          <span>{{ layoutMode() === 'belt' ? 'Conveyor Strip' : 'Vertical Stack' }}</span>
-        </button>
-
-        <div class="factory__tenure">
-          <span class="factory__tenure-label">{{ t.t('experience.total_tenure') }}</span>
-          <strong class="factory__tenure-val">
-            Jan 2021 — {{ t.t('experience.present') }}
-            <em>({{ getTotalTenure() }})</em>
-          </strong>
-        </div>
-      </div>
     </div>
 
-    <!-- Horizontal Conveyor Belt Crates Track OR Vertical Timeline -->
-    <div
-      #beltViewport
-      [class.factory__belt-viewport]="layoutMode() === 'belt'"
-      [class.factory__line]="layoutMode() === 'stack'"
-      [class.is-dragging]="isDraggingBelt()"
-      [class.is-raw-mode]="isRawBlueprint()"
-      (scroll)="onBeltScroll()"
-      (wheel)="onBeltWheel($event)"
-      (mousedown)="onBeltDragStart($event)">
+    <!-- Interactive Factory Stage: JSON Gears + Hydraulic Press + Conveyor Belt (devinthehood .factory__stage) -->
+    <div class="factory__machine-stage reveal delay-1">
+      <!-- JSON-Driven Animated Factory Gears, Industrial Silos & Pistons Backdrop -->
+      <svg class="factory__backdrop-svg" viewBox="0 0 1140 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <!-- Factory Wall Industrial Window Grid (devinthehood factory-wall) -->
+        <g opacity="0.28">
+          <rect x="40" y="28" width="160" height="145" rx="6" fill="#0e182b" stroke="#1e3a8a" />
+          <rect x="640" y="28" width="160" height="145" rx="6" fill="#0e182b" stroke="#1e3a8a" />
+        </g>
 
-      @for (exp of experiences; track exp; let i = $index) {
-        <article class="crate" [class.is-active]="!exp.endDate" [class.is-raw]="isRawBlueprint()" data-cursor="DRAG ↔">
-          <!-- Diagonal Hazard Tape -->
-          <div class="crate__tape" aria-hidden="true"></div>
+        <!-- Overhead Gantry Girder -->
+        <line x1="0" y1="22" x2="1140" y2="22" stroke="#1e3a8a" stroke-width="8" />
+        <line x1="0" y1="22" x2="1140" y2="22" stroke="#38bdf8" stroke-width="2" stroke-dasharray="14 10" />
 
-          <!-- Crate Top Meta Bar -->
-          <header class="crate__top">
-            <div class="crate__station">
-              <span class="crate__idx">STATION 0{{ i + 1 }}</span>
-              <span class="crate__type">
-                <i class="fa-solid"
-                  [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-laptop-code')"></i>
-                {{ t.t('experience.' + exp.type) }}
+        <!-- JSON Rotating Gears -->
+        @for (gear of gears(); track gear.cx) {
+          <g
+            class="factory__gear"
+            [class.is-reverse]="gear.reverse"
+            [style.--gear-speed]="gear.speed"
+            [style.transform-origin]="gear.cx + 'px ' + gear.cy + 'px'">
+            <circle
+              [attr.cx]="gear.cx"
+              [attr.cy]="gear.cy"
+              [attr.r]="gear.r"
+              fill="none"
+              stroke="#0284c7"
+              stroke-width="10"
+              stroke-dasharray="10 7" />
+            <circle
+              [attr.cx]="gear.cx"
+              [attr.cy]="gear.cy"
+              [attr.r]="gear.r - 12"
+              fill="#070d19"
+              stroke="#38bdf8"
+              stroke-width="2" />
+            <circle [attr.cx]="gear.cx" [attr.cy]="gear.cy" r="8" fill="#38bdf8" />
+          </g>
+        }
+
+        <!-- JSON Animated Vertical Pistons -->
+        @for (piston of pistons(); track piston.x) {
+          <g class="factory__piston" [style.animation-delay]="piston.delay">
+            <rect [attr.x]="piston.x - 6" y="24" width="12" height="75" fill="#1e3a8a" />
+            <rect [attr.x]="piston.x - 18" y="92" width="36" height="22" rx="4" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+          </g>
+        }
+      </svg>
+
+      <!-- Interactive Hydraulic Press Unit with 18-Spark Burst (devinthehood .factory__press) -->
+      <div
+        class="factory__press"
+        [class.is-pressing]="isPressing()"
+        role="button"
+        tabindex="0"
+        data-cursor="STAMP"
+        aria-label="Activate Hydraulic Press"
+        (click)="cycleHydraulicPress()"
+        (keydown.enter)="cycleHydraulicPress()">
+        <div class="press__wheels" aria-hidden="true"><i></i><i></i></div>
+        <div class="press__body">
+          <span class="press__gauge"></span>
+          <span class="press__code">PRESS // R-007</span>
+        </div>
+        <div class="press__rod"></div>
+        <div class="press__head">
+          <span>{{ isRawBlueprint() ? 'RAW WIREFRAME' : 'STAMP // SHIPPED' }}</span>
+        </div>
+
+        <!-- 18-Particle Spark Burst when Press Stamps (devinthehood factory__spark) -->
+        @for (spark of sparks(); track spark.id) {
+          <span
+            class="factory__spark"
+            [style.--tx.px]="spark.tx"
+            [style.--ty.px]="spark.ty"></span>
+        }
+      </div>
+
+      <!-- Career Evolution & Hydraulic Control Strip -->
+      <div class="factory__banner">
+        <div class="factory__banner-left">
+          <div class="factory__emblem">
+            <i class="fa-solid fa-industry"></i>
+          </div>
+          <div>
+            <div class="factory__banner-title-row">
+              <h3 class="text-title">CAREER EVOLUTION &amp; OPEN-SOURCE BELT</h3>
+              <span class="factory__loc">
+                <i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh
               </span>
             </div>
+            <p class="factory__conveyor">
+              <span>Project Developer (2021)</span>
+              <span class="factory__arrow">→</span>
+              <span>{{ t.t('experience.internship') }} (2023)</span>
+              <span class="factory__arrow">→</span>
+              <strong class="factory__current">{{ t.t('experience.fulltime') }} Developer ({{ t.t('experience.present') }})</strong>
+            </p>
+          </div>
+        </div>
 
-            <div class="crate__period">
-              <span>{{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}</span>
-              <strong>· {{ calculateDuration(exp.startDate, exp.endDate) }}</strong>
-            </div>
+        <div class="factory__banner-right">
+          <button
+            type="button"
+            class="factory__stamp-btn"
+            data-cursor="STAMP"
+            (click)="cycleHydraulicPress()">
+            <i class="fa-solid fa-hammer"></i>
+            <span>{{ isRawBlueprint() ? 'STAMP TO SHIPPED' : 'RAW WIREFRAME' }}</span>
+          </button>
 
-            <button
-              type="button"
-              class="crate__stamp"
-              [class.is-live]="!exp.endDate"
-              data-cursor="STAMP"
-              (click)="cycleHydraulicPress()">
-              {{ isRawBlueprint() ? 'RAW // SPEC' : (!exp.endDate ? t.t('experience.present') : 'SHIPPED') }}
-            </button>
-          </header>
+          @if (layoutMode() === 'belt') {
+            <button type="button" class="factory__nav-btn" (click)="scrollBelt(-1)">← PREV</button>
+            <button type="button" class="factory__nav-btn" (click)="scrollBelt(1)">NEXT →</button>
+          }
 
-          <!-- Crate Main Content -->
-          <div class="crate__body">
-            <div class="crate__identity">
-              <div class="crate__icon-box">
-                <i class="fa-solid" [ngClass]="exp.icon"></i>
+          <button
+            type="button"
+            class="factory__nav-btn"
+            [class.is-active]="layoutMode() === 'belt'"
+            (click)="toggleLayoutMode()">
+            <i class="fa-solid" [class.fa-arrows-left-right]="layoutMode() === 'belt'" [class.fa-bars]="layoutMode() === 'stack'"></i>
+            <span>{{ layoutMode() === 'belt' ? 'Conveyor Strip' : 'Vertical Stack' }}</span>
+          </button>
+
+          <div class="factory__tenure">
+            <span class="factory__tenure-label">{{ t.t('experience.total_tenure') }}</span>
+            <strong class="factory__tenure-val">
+              Jan 2021 — {{ t.t('experience.present') }}
+              <em>({{ getTotalTenure() }})</em>
+            </strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Horizontal Conveyor Belt Crates Track OR Vertical Timeline -->
+      <div
+        #beltViewport
+        [class.factory__belt-viewport]="layoutMode() === 'belt'"
+        [class.factory__line]="layoutMode() === 'stack'"
+        [class.is-dragging]="isDraggingBelt()"
+        [class.is-raw-mode]="isRawBlueprint()"
+        (scroll)="onBeltScroll()"
+        (wheel)="onBeltWheel($event)"
+        (mousedown)="onBeltDragStart($event)">
+
+        @for (exp of experiences; track exp; let i = $index) {
+          <article class="crate" [class.is-active]="!exp.endDate" [class.is-raw]="isRawBlueprint()" data-cursor="DRAG ↔">
+            <!-- Diagonal Hazard Tape -->
+            <div class="crate__tape" aria-hidden="true"></div>
+
+            <!-- Crate Top Meta Bar -->
+            <header class="crate__top">
+              <div class="crate__station">
+                <span class="crate__idx">STATION 0{{ i + 1 }}</span>
+                <span class="crate__type">
+                  <i class="fa-solid"
+                    [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-laptop-code')"></i>
+                  {{ t.t('experience.' + exp.type) }}
+                </span>
               </div>
+
+              <div class="crate__period">
+                <span>{{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}</span>
+                <strong>· {{ calculateDuration(exp.startDate, exp.endDate) }}</strong>
+              </div>
+
+              <button
+                type="button"
+                class="crate__stamp"
+                [class.is-live]="!exp.endDate"
+                data-cursor="STAMP"
+                (click)="cycleHydraulicPress()">
+                {{ isRawBlueprint() ? 'RAW // SPEC' : (!exp.endDate ? '★ ' + t.t('experience.present') : 'SHIPPED') }}
+              </button>
+            </header>
+
+            <!-- Crate Main Content -->
+            <div class="crate__body">
+              <div class="crate__identity">
+                <div class="crate__icon-box">
+                  <i class="fa-solid" [ngClass]="exp.icon"></i>
+                </div>
+                <div>
+                  <h3 class="crate__role text-title">{{ exp.role }}</h3>
+                  <p class="crate__company">
+                    <i class="fa-solid fa-building"></i>
+                    <span>{{ exp.company }}</span>
+                    <span class="crate__dot">·</span>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>{{ exp.location }}</span>
+                  </p>
+                </div>
+              </div>
+
+              <ul class="crate__bullets">
+                @for (bullet of exp.bullets; track bullet; let bIdx = $index) {
+                  <li>
+                    <span class="crate__bullet-num">0{{ bIdx + 1 }}</span>
+                    <span>{{ bullet }}</span>
+                  </li>
+                }
+              </ul>
+
+              <footer class="crate__foot">
+                <span class="text-mono">DEPLOYED STACK:</span>
+                <div class="crate__pills">
+                  @for (tech of exp.tech; track tech) {
+                    <span class="pill pill--night">{{ tech }}</span>
+                  }
+                </div>
+              </footer>
+            </div>
+          </article>
+
+          <!-- Milestone Bridge 1: Joined XORGeek (After Index 0) -->
+          @if (i === 0) {
+            <div class="factory__bridge">
+              <div class="factory__bridge-rail" aria-hidden="true"></div>
+              <div class="factory__bridge-card">
+                <div class="factory__bridge-meta">
+                  <span class="factory__bridge-tag">
+                    <i class="fa-solid fa-right-to-bracket"></i> ENTERPRISE MILESTONE
+                  </span>
+                  <span class="text-mono">Jun 2023 · Joined XORGeek</span>
+                </div>
+                <h4 class="factory__bridge-title">{{ t.t('experience.joined_xorgeek_title') }}</h4>
+                <p class="factory__bridge-desc">{{ t.t('experience.joined_xorgeek_desc') }}</p>
+              </div>
+            </div>
+          }
+
+          <!-- Milestone Bridge 2: Fast-Track Promotion (After Index 1) -->
+          @if (i === 1) {
+            <div class="factory__bridge is-promo">
+              <div class="factory__bridge-rail" aria-hidden="true"></div>
+              <div class="factory__bridge-card">
+                <div class="factory__bridge-meta">
+                  <span class="factory__bridge-tag">
+                    <i class="fa-solid fa-bolt-lightning"></i> FAST-TRACK PROMOTION
+                  </span>
+                  <span class="text-mono">Aug 2023 · Promoted in 2 mos</span>
+                </div>
+                <h4 class="factory__bridge-title">{{ t.t('experience.promotion_title') }}</h4>
+                <p class="factory__bridge-desc">{{ t.t('experience.promotion_desc') }}</p>
+              </div>
+            </div>
+          }
+        }
+
+        <!-- Open-Source GitHub Crates on the Belt (devinthehood #the-factory crates) -->
+        @for (repo of githubCrates; track repo.repo; let rIdx = $index) {
+          <a
+            class="crate crate--repo"
+            [class.is-raw]="isRawBlueprint()"
+            [class.is-active]="repo.legendary"
+            [href]="repo.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="GITHUB ↗">
+            <div class="crate__tape" aria-hidden="true"></div>
+            <header class="crate__top">
+              <div class="crate__station">
+                <span class="crate__idx">CRATE 0{{ rIdx + 1 }}</span>
+                <span class="crate__type">
+                  <i class="fa-brands fa-github"></i> Nafi62742 /
+                </span>
+              </div>
+              <span class="crate__stamp" [class.is-live]="repo.legendary">
+                {{ isRawBlueprint() ? '&lt;/&gt; RAW' : (repo.legendary ? '★ LEGENDARY' : 'SHIPPED') }}
+              </span>
+            </header>
+
+            <div class="crate__body">
               <div>
-                <h3 class="crate__role text-title">{{ exp.role }}</h3>
+                <h3 class="crate__role text-title">{{ repo.repo }}</h3>
                 <p class="crate__company">
-                  <i class="fa-solid fa-building"></i>
-                  <span>{{ exp.company }}</span>
+                  <i class="fa-solid fa-code-branch"></i>
+                  <span>{{ repo.version }}</span>
                   <span class="crate__dot">·</span>
-                  <i class="fa-solid fa-location-dot"></i>
-                  <span>{{ exp.location }}</span>
+                  <span>OPEN SOURCE REPOSITORY</span>
                 </p>
               </div>
+              <p class="crate__repo-desc">{{ repo.description }}</p>
+              <footer class="crate__foot">
+                <span class="pill pill--night">{{ repo.tech }}</span>
+                <span class="crate__repo-link text-mono">MIT · GITHUB ↗</span>
+              </footer>
             </div>
-
-            <ul class="crate__bullets">
-              @for (bullet of exp.bullets; track bullet; let bIdx = $index) {
-                <li>
-                  <span class="crate__bullet-num">0{{ bIdx + 1 }}</span>
-                  <span>{{ bullet }}</span>
-                </li>
-              }
-            </ul>
-
-            <footer class="crate__foot">
-              <span class="text-mono">DEPLOYED STACK:</span>
-              <div class="crate__pills">
-                @for (tech of exp.tech; track tech) {
-                  <span class="pill pill--night">{{ tech }}</span>
-                }
-              </div>
-            </footer>
-          </div>
-        </article>
-
-        <!-- Milestone Bridge 1: Joined XORGeek (After Index 0) -->
-        @if (i === 0) {
-          <div class="factory__bridge">
-            <div class="factory__bridge-rail" aria-hidden="true"></div>
-            <div class="factory__bridge-card">
-              <div class="factory__bridge-meta">
-                <span class="factory__bridge-tag">
-                  <i class="fa-solid fa-right-to-bracket"></i> ENTERPRISE MILESTONE
-                </span>
-                <span class="text-mono">Jun 2023 · Joined XORGeek</span>
-              </div>
-              <h4 class="factory__bridge-title">{{ t.t('experience.joined_xorgeek_title') }}</h4>
-              <p class="factory__bridge-desc">{{ t.t('experience.joined_xorgeek_desc') }}</p>
-            </div>
-          </div>
+          </a>
         }
 
-        <!-- Milestone Bridge 2: Fast-Track Promotion (After Index 1) -->
-        @if (i === 1) {
-          <div class="factory__bridge is-promo">
-            <div class="factory__bridge-rail" aria-hidden="true"></div>
-            <div class="factory__bridge-card">
-              <div class="factory__bridge-meta">
-                <span class="factory__bridge-tag">
-                  <i class="fa-solid fa-bolt-lightning"></i> FAST-TRACK PROMOTION
-                </span>
-                <span class="text-mono">Aug 2023 · Promoted in 2 mos</span>
-              </div>
-              <h4 class="factory__bridge-title">{{ t.t('experience.promotion_title') }}</h4>
-              <p class="factory__bridge-desc">{{ t.t('experience.promotion_desc') }}</p>
-            </div>
+        <!-- End of Belt GitHub Dock Signpost (devinthehood .factory__dock) -->
+        <a
+          class="factory__dock"
+          href="https://github.com/Nafi62742"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-cursor="GITHUB ↗">
+          <span class="factory__dock-count text-mono">ALL REPOSITORIES · RACER007</span>
+          <div class="factory__dock-board">
+            <i class="fa-brands fa-github"></i>
+            <span>ALL ON GITHUB ↗</span>
           </div>
-        }
-      }
-    </div>
-
-    <!-- Animated Conveyor Belt Rollers + Progress Bar Underneath Crates (devinthehood .belt) -->
-    <div class="belt" aria-hidden="true">
-      <div class="belt__track"></div>
-      <div class="belt__rollers">
-        @for (r of rollers; track r) {
-          <i></i>
-        }
+          <span class="factory__dock-pole" aria-hidden="true"></span>
+        </a>
       </div>
-      @if (layoutMode() === 'belt') {
+
+      <!-- Moving Conveyor Belt Rollers + Progress Strip (devinthehood .belt__rollers) -->
+      <div class="belt" aria-hidden="true">
+        <div class="belt__track"></div>
+        <div class="belt__rollers">
+          @for (r of rollers; track r) {
+            <i></i>
+          }
+        </div>
         <div class="belt__progress">
           <span class="belt__progress-fill" [style.width.%]="beltScrollPct()"></span>
         </div>
-      }
+      </div>
     </div>
   </div>
 </section>

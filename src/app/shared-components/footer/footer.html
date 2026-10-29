@@ -14,17 +14,14 @@
     </p>
   </div>
 
-  <div class="site-footer__links">
-    <a href="mailto:nafiahmed003@gmail.com">nafiahmed003&#64;gmail.com</a>
-    <a href="https://github.com/Nafi62742" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-    <a href="https://www.linkedin.com/in/nafi-ahmed/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
-    <button type="button" class="site-footer__top" (click)="scroll.scrollTo('hero')">
-      Back to top ↑
-    </button>
-  </div>
-
   <div class="site-footer__meta">
     <span>© {{ year }} Nafi Ahmed. {{ t.t('footer.rights') }}</span>
     <span class="site-footer__dual">FRONT × BACK // WEB · MOBILE · CLOUD · DATA</span>
+  </div>
+
+  <div class="site-footer__actions">
+    <button type="button" class="site-footer__top" (click)="scroll.scrollTo('hero')">
+      Back to top ↑
+    </button>
   </div>
 </footer>

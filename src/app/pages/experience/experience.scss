@@ -13,11 +13,27 @@
   to   { transform: rotate(360deg); }
 }
 
+@keyframes flySpark {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 0px), var(--ty, -60px)) scale(0.15);
+    opacity: 0;
+  }
+}
+
 .factory {
   position: relative;
   z-index: 2;
-  padding: clamp(5rem, 8vw, 7.5rem) var(--gutter);
   border-bottom: 1px solid var(--night-line);
+
+  &__sticky {
+    position: sticky;
+    top: 68px;
+    padding: clamp(2.5rem, 4.5vw, 4.25rem) var(--gutter);
+  }
 
   &__head {
     display: flex;
@@ -25,9 +41,9 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 1.5rem;
-    padding-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--night-line);
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem;
   }
 
   &__head-right {
@@ -35,6 +51,25 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 0.65rem;
+  }
+
+  &__head-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  &__shipped-counter {
+    padding: 0.32rem 0.7rem;
+    border-radius: 8px;
+    background: rgba(2, 132, 199, 0.2);
+    border: 1px solid var(--amber);
+    color: #edf4fc;
+
+    b {
+      color: var(--amber);
+    }
   }
 
   &__sub {
@@ -51,7 +86,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.3rem 0.65rem;
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
     border: 1px solid var(--amber);
     background: rgba(56, 189, 248, 0.1);
     color: var(--amber);
@@ -77,16 +113,17 @@
   &__machine-stage {
     position: relative;
     border: 1px solid var(--night-line);
+    border-radius: 14px;
     background: #050a14;
-    margin-bottom: 2.5rem;
     overflow: hidden;
+    box-shadow: 0 26px 56px -28px rgba(0, 0, 0, 0.75);
   }
 
   &__backdrop-svg {
     width: 100%;
-    height: 175px;
+    height: 155px;
     display: block;
-    background: radial-gradient(ellipse at 50% 0%, rgba(37, 99, 235, 0.18), transparent 70%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(2, 132, 199, 0.22), transparent 70%);
     border-bottom: 1px solid var(--night-line);
   }
 
@@ -105,7 +142,7 @@
   /* Interactive Hydraulic Press (.factory__press — devinthehood pattern) */
   &__press {
     position: absolute;
-    top: 12px;
+    top: 10px;
     right: 6%;
     width: 148px;
     display: flex;
@@ -131,7 +168,8 @@
 
     .press__body {
       width: 100%;
-      padding: 0.35rem 0.5rem;
+      padding: 0.35rem 0.55rem;
+      border-radius: 6px;
       background: #0e182b;
       border: 1.5px solid var(--amber);
       display: flex;
@@ -153,7 +191,7 @@
 
     .press__rod {
       width: 16px;
-      height: 26px;
+      height: 24px;
       background: repeating-linear-gradient(
         180deg,
         #38bdf8 0 4px,
@@ -166,7 +204,8 @@
 
     .press__head {
       width: 132px;
-      padding: 0.3rem 0.45rem;
+      padding: 0.32rem 0.5rem;
+      border-radius: 6px;
       background: var(--red);
       border: 1.5px solid var(--amber);
       color: #edf4fc;
@@ -175,12 +214,25 @@
       font-weight: 700;
       letter-spacing: 0.14em;
       text-align: center;
-      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.45);
+      box-shadow: 0 10px 24px rgba(2, 132, 199, 0.45);
     }
 
     &.is-pressing .press__rod {
-      height: 76px;
+      height: 72px;
     }
+  }
+
+  &__spark {
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--amber);
+    box-shadow: 0 0 10px var(--amber), 0 0 20px var(--red);
+    pointer-events: none;
+    animation: flySpark 680ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   /* Career Evolution Banner */
@@ -189,8 +241,8 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
-    padding: 1.35rem 1.75rem;
+    gap: 1.25rem;
+    padding: 1.15rem 1.5rem;
     background: var(--night-2);
   }
 
@@ -198,7 +250,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.65rem;
   }
 
   &__stamp-btn,
@@ -206,8 +258,9 @@
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    padding: 0.55rem 0.9rem;
+    padding: 0.5rem 0.9rem;
     border: 1px solid var(--night-line);
+    border-radius: 8px;
     background: var(--night);
     color: #edf4fc;
     font-family: var(--mono);
@@ -244,10 +297,11 @@
   }
 
   &__emblem {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
+    border-radius: 10px;
     background: var(--amber);
-    color: #0f1217;
+    color: #081b33;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -262,8 +316,8 @@
     gap: 0.85rem;
 
     h3 {
-      font-size: 1.25rem;
-      color: #f4f1ea;
+      font-size: 1.15rem;
+      color: #f6faff;
     }
   }
 
@@ -280,13 +334,13 @@
   }
 
   &__conveyor {
-    margin-top: 0.35rem;
+    margin-top: 0.3rem;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.55rem;
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--dim);
@@ -304,15 +358,16 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.25rem;
-    padding: 0.65rem 1rem;
+    gap: 0.2rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 8px;
     border: 1px solid rgba(56, 189, 248, 0.35);
     background: rgba(56, 189, 248, 0.06);
   }
 
   &__tenure-label {
     font-family: var(--mono);
-    font-size: 0.58rem;
+    font-size: 0.56rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--dim);
@@ -320,10 +375,10 @@
 
   &__tenure-val {
     font-family: var(--mono);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #f4f1ea;
+    color: #f6faff;
 
     em {
       font-style: normal;
@@ -336,10 +391,9 @@
   &__belt-viewport {
     display: flex;
     align-items: stretch;
-    gap: 1.5rem;
-    padding: 1.75rem 1.5rem;
+    gap: 1.35rem;
+    padding: 1.5rem 1.5rem;
     overflow-x: auto;
-    scroll-snap-type: x proximity;
     scrollbar-width: thin;
     cursor: grab;
     user-select: none;
@@ -347,16 +401,18 @@
 
     &.is-dragging {
       cursor: grabbing;
-      scroll-snap-type: none;
     }
 
     .crate {
-      flex: 0 0 min(640px, 86vw);
-      scroll-snap-align: start;
+      flex: 0 0 min(610px, 84vw);
+    }
+
+    .crate--repo {
+      flex: 0 0 min(380px, 78vw);
     }
 
     .factory__bridge {
-      flex: 0 0 340px;
+      flex: 0 0 320px;
       padding-left: 0;
       display: flex;
       align-items: center;
@@ -377,9 +433,53 @@
   &__line {
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
-    padding: 1.75rem 1.5rem;
+    gap: 1.5rem;
+    padding: 1.5rem;
     border-top: 1px solid var(--night-line);
+  }
+
+  /* End of Belt GitHub Dock (.factory__dock — devinthehood pattern) */
+  &__dock {
+    flex: 0 0 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 0.5rem;
+    gap: 0.45rem;
+
+    &-count {
+      color: var(--amber);
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
+    }
+
+    &-board {
+      padding: 0.9rem 1.15rem;
+      border-radius: 10px;
+      border: 2px solid var(--amber);
+      background: var(--red);
+      color: #f6faff;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--font);
+      font-variation-settings: "wdth" 120, "wght" 800;
+      font-size: 0.85rem;
+      transition: transform 220ms var(--ease), background-color 220ms var(--ease);
+    }
+
+    &:hover &-board {
+      transform: translateY(-4px);
+      background: var(--amber);
+      color: #050a14;
+    }
+
+    &-pole {
+      width: 6px;
+      height: 120px;
+      background: var(--night-3);
+    }
   }
 
   /* Progression Bridges */
@@ -402,13 +502,14 @@
 
     &-card {
       border: 1px dashed rgba(56, 189, 248, 0.45);
+      border-radius: 12px;
       background: rgba(14, 24, 43, 0.65);
-      padding: 1.15rem 1.5rem;
+      padding: 1.15rem 1.4rem;
     }
 
     &.is-promo .factory__bridge-card {
       border-color: var(--red);
-      background: linear-gradient(90deg, rgba(37, 99, 235, 0.16), rgba(14, 24, 43, 0.7));
+      background: linear-gradient(90deg, rgba(2, 132, 199, 0.18), rgba(14, 24, 43, 0.75));
     }
 
     &-meta {
@@ -434,7 +535,7 @@
     }
 
     &.is-promo .factory__bridge-tag {
-      color: var(--red);
+      color: var(--amber);
     }
 
     &-title {
@@ -442,13 +543,13 @@
       font-variation-settings: "wdth" 118, "wght" 760;
       font-size: 1.05rem;
       text-transform: uppercase;
-      color: #f4f1ea;
+      color: #f6faff;
     }
 
     &-desc {
       margin-top: 0.35rem;
       font-size: 0.88rem;
-      color: rgba(244, 241, 234, 0.75);
+      color: rgba(246, 250, 255, 0.78);
       max-width: 78ch;
     }
   }
@@ -456,13 +557,21 @@
 
 .crate {
   border: 1px solid var(--night-line);
-  background: #0b0d11;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #081122;
   position: relative;
-  transition: border-color 240ms var(--ease);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 240ms var(--ease), transform 240ms var(--ease);
 
   &:hover,
   &.is-active {
-    border-color: rgba(255, 181, 71, 0.5);
+    border-color: rgba(56, 189, 248, 0.55);
+  }
+
+  &--repo:hover {
+    transform: translateY(-4px);
   }
 
   &__tape {
@@ -470,7 +579,7 @@
     background: repeating-linear-gradient(
       -45deg,
       var(--amber) 0 10px,
-      #0b0d11 10px 20px
+      #081122 10px 20px
     );
   }
 
@@ -487,8 +596,8 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 1.5rem;
+    gap: 0.85rem;
+    padding: 0.85rem 1.35rem;
     border-bottom: 1px solid var(--night-line);
     background: var(--night-2);
   }
@@ -496,7 +605,7 @@
   &__station {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
+    gap: 0.75rem;
   }
 
   &__idx {
@@ -512,15 +621,16 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.2rem 0.55rem;
+    border-radius: 6px;
     border: 1px solid var(--night-line);
     font-family: var(--mono);
     font-size: 0.6rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: #f4f1ea;
+    color: #f6faff;
 
     i {
-      color: var(--red);
+      color: var(--amber);
     }
   }
 
@@ -539,27 +649,30 @@
 
   &__stamp {
     padding: 0.22rem 0.6rem;
+    border-radius: 6px;
     border: 1.5px solid var(--amber);
     color: var(--amber);
     font-family: var(--mono);
     font-size: 0.6rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     transform: rotate(-2deg);
 
     &.is-live {
       border-color: var(--online);
       color: #4ade80;
-      background: rgba(31, 158, 82, 0.12);
+      background: rgba(16, 185, 129, 0.12);
     }
   }
 
   &__body {
-    padding: 1.65rem 1.5rem;
+    padding: 1.35rem 1.4rem;
     display: flex;
     flex-direction: column;
-    gap: 1.35rem;
+    justify-content: space-between;
+    flex: 1;
+    gap: 1.15rem;
   }
 
   &__identity {
@@ -571,6 +684,7 @@
   &__icon-box {
     width: 44px;
     height: 44px;
+    border-radius: 10px;
     border: 1px solid var(--night-line);
     background: var(--night-2);
     color: var(--amber);
@@ -582,8 +696,8 @@
   }
 
   &__role {
-    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
-    color: #f4f1ea;
+    font-size: clamp(1.2rem, 2vw, 1.65rem);
+    color: #f6faff;
   }
 
   &__company {
@@ -593,29 +707,40 @@
     align-items: center;
     gap: 0.45rem;
     font-family: var(--mono);
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--dim);
 
     i {
-      color: var(--red);
+      color: var(--amber);
     }
+  }
+
+  &__repo-desc {
+    font-size: 0.92rem;
+    color: rgba(246, 250, 255, 0.84);
+    line-height: 1.6;
+  }
+
+  &__repo-link {
+    color: var(--amber);
+    margin-left: auto;
   }
 
   &__bullets {
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: 0.55rem;
     padding-left: 0.25rem;
 
     li {
       display: grid;
       grid-template-columns: 2rem 1fr;
       align-items: baseline;
-      font-size: 0.92rem;
-      color: rgba(244, 241, 234, 0.85);
-      line-height: 1.6;
+      font-size: 0.9rem;
+      color: rgba(246, 250, 255, 0.86);
+      line-height: 1.55;
     }
   }
 
@@ -630,8 +755,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem;
-    padding-top: 1.1rem;
+    gap: 0.65rem;
+    padding-top: 0.95rem;
     border-top: 1px solid var(--night-line);
     color: var(--dim);
   }
@@ -639,7 +764,7 @@
   &__pills {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
+    gap: 0.4rem;
   }
 
   /* Raw Blueprint Wireframe Mode when stamped via Hydraulic Press */
@@ -651,7 +776,7 @@
       #040915;
 
     .crate__top {
-      background: rgba(37, 99, 235, 0.14);
+      background: rgba(2, 132, 199, 0.14);
       border-bottom-style: dashed;
     }
 
@@ -691,7 +816,7 @@
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      border: 2px solid #2563eb;
+      border: 2px solid #0284c7;
       border-top-color: #38bdf8;
       display: inline-block;
       animation: spinRoller 2.2s linear infinite;
@@ -700,8 +825,9 @@
 
   &__progress {
     margin-top: 0.45rem;
-    height: 3px;
+    height: 4px;
     width: 100%;
+    border-radius: 999px;
     background: rgba(148, 197, 255, 0.14);
     overflow: hidden;
 
@@ -715,6 +841,11 @@
 }
 
 @media (max-width: 768px) {
+  .factory__sticky {
+    position: relative;
+    top: 0;
+  }
+
   .factory__press {
     display: none;
   }

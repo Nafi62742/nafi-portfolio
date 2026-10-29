@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   ViewChild,
   computed,
   inject,
@@ -14,10 +16,28 @@ import { FactoryGear, FactoryPiston, InteractiveSceneService } from '@services/i
 import { PortfolioService } from '@services/portfolio.service';
 import { TranslateService } from '@services/translate.service';
 
+/** Open-source GitHub crate item displayed on the Factory conveyor belt (devinthehood pattern). */
+export interface FactoryRepoCrate {
+  repo: string;
+  version: string;
+  description: string;
+  tech: string;
+  url: string;
+  legendary?: boolean;
+}
+
+/** Spark particle emitted when the hydraulic press stamps a crate. */
+export interface PressSpark {
+  id: number;
+  tx: number;
+  ty: number;
+}
+
 /**
  * Experience section component styled as the interactive horizontal-scrolling
- * "The Factory" conveyor belt from devinthehood.com, complete with JSON-driven
- * rotating gears, hydraulic press stamping, conveyor belt rollers, and wheel/drag scroll.
+ * "The Factory" conveyor belt from devinthehood.com, complete with sticky
+ * vertical-to-horizontal scroll lock, rotating gears, hydraulic press with
+ * 18-spark burst, open-source GitHub crates, and spinning conveyor rollers.
  */
 @Component({
   selector: 'app-experience',
@@ -26,11 +46,60 @@ import { TranslateService } from '@services/translate.service';
   templateUrl: './experience.html',
   styleUrl: './experience.scss'
 })
-export class ExperienceComponent {
+export class ExperienceComponent implements AfterViewInit, OnDestroy {
   @ViewChild('beltViewport') public beltViewport?: ElementRef<HTMLElement>;
+  @ViewChild('factorySection') public factorySection?: ElementRef<HTMLElement>;
+  @ViewChild('factorySticky') public factorySticky?: ElementRef<HTMLElement>;
 
   /** All experience entries loaded from the portfolio service. */
   public readonly experiences: Array<Experience>;
+
+  /** Open-source GitHub repositories shipped on the conveyor belt (devinthehood crate pattern). */
+  public readonly githubCrates: Array<FactoryRepoCrate> = [
+    {
+      repo: 'reminder_app',
+      version: 'RemindLy · v2.0',
+      description: '100% offline Flutter reminder, daily routine drag-and-drop & workout tracker with SQLite.',
+      tech: 'Flutter · Dart · SQLite',
+      url: 'https://github.com/Nafi62742/reminder_app',
+      legendary: true
+    },
+    {
+      repo: 'Nearest-Location',
+      version: 'Geo-Engine · v1.4',
+      description: 'Haversine coordinate-based proximity ranking engine built in Flutter & Dart.',
+      tech: 'Flutter · Dart · Algorithms',
+      url: 'https://github.com/Nafi62742/Nearest-Location'
+    },
+    {
+      repo: 'Getfund',
+      version: 'Crowdfund · v1.2',
+      description: 'Entrepreneur pitch & crowdfunding investment platform on ASP.NET MVC and SQL Server.',
+      tech: 'C# · .NET MVC · SQL Server',
+      url: 'https://github.com/Nafi62742/Getfund'
+    },
+    {
+      repo: 'School-Management-System',
+      version: 'Academic · v1.5',
+      description: 'Role-based academic administration, grading, and timetable platform backed by SQL Server.',
+      tech: 'Java · MS SQL Server',
+      url: 'https://github.com/Nafi62742/School-Management-System'
+    },
+    {
+      repo: 'Flour_To_Pastry',
+      version: 'Storefront · v1.1',
+      description: 'Full-stack e-commerce bakery catalog, cart, and order management platform.',
+      tech: 'PHP · MySQL · HTML/CSS',
+      url: 'https://github.com/Nafi62742/Flour_To_Pastry'
+    },
+    {
+      repo: 'Voice-record-and-player',
+      version: 'Audio SDK · v1.0',
+      description: 'Offline native Android voice capture and playback engine using MediaRecorder APIs.',
+      tech: 'Java · Android SDK',
+      url: 'https://github.com/Nafi62742/Voice-record-and-player'
+    }
+  ];
 
   /** Whether the hydraulic press is currently mid-stamp animation. */
   public readonly isPressing = signal<boolean>(false);
@@ -47,11 +116,20 @@ export class ExperienceComponent {
   /** Whether the user is click-dragging the conveyor belt. */
   public readonly isDraggingBelt = signal<boolean>(false);
 
+  /** Sticky scroll runway height in pixels when in horizontal belt mode. */
+  public readonly runwayHeightPx = signal<number | null>(null);
+
+  /** Active 18-spark burst particles emitted by the hydraulic press (devinthehood Yt pattern). */
+  public readonly sparks = signal<Array<PressSpark>>([]);
+
   /** Number of conveyor belt rollers to render. */
-  public readonly rollers: Array<number> = Array.from({ length: 24 }, (_, i) => i);
+  public readonly rollers: Array<number> = Array.from({ length: 28 }, (_, i) => i);
 
   private dragStartX = 0;
   private dragStartScrollLeft = 0;
+  private syncingFromWindowScroll = false;
+  private lastAutoStampZone = -1;
+  private resizeTimer?: ReturnType<typeof setTimeout>;
 
   private readonly portfolio: PortfolioService = inject(PortfolioService);
   public readonly t: TranslateService = inject(TranslateService);
@@ -67,22 +145,62 @@ export class ExperienceComponent {
     this.sceneService.config().scenes.factory.pistons
   );
 
+  /** Total crates on the belt (career stations + GitHub open-source crates). */
+  public readonly totalBeltItems = computed<number>(
+    () => this.experiences.length + this.githubCrates.length
+  );
+
+  /** Number of crates shipped based on belt scroll progress (devinthehood data-shipped counter). */
+  public readonly shippedCount = computed<number>(() => {
+    const total = this.totalBeltItems();
+    const pct = this.beltScrollPct();
+    return Math.min(total, Math.max(1, Math.round((pct / 100) * (total - 1)) + 1));
+  });
+
   constructor() {
     this.experiences = this.portfolio.getExperiences();
   }
 
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.recalculateRunway();
+      this.onWindowScroll();
+    }, 140);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.resizeTimer) {
+      clearTimeout(this.resizeTimer);
+    }
+  }
+
   /**
-   * Cycles the hydraulic press down and toggles/stamps the crates between
-   * Raw Wireframe and Shipped Production state.
+   * Switches between horizontal Conveyor Belt and Vertical Stack modes.
    */
-  public cycleHydraulicPress(): void {
+  public toggleLayoutMode(): void {
+    this.layoutMode.update((m) => (m === 'belt' ? 'stack' : 'belt'));
+    setTimeout(() => {
+      this.recalculateRunway();
+      this.onWindowScroll();
+    }, 40);
+  }
+
+  /**
+   * Cycles the hydraulic press down, emits an 18-spark burst, and toggles/stamps
+   * the crates between Raw Wireframe and Shipped Production state.
+   */
+  public cycleHydraulicPress(toggleRaw = true): void {
     if (this.isPressing()) {
       return;
     }
     this.isPressing.set(true);
-    setTimeout(() => {
-      this.isRawBlueprint.update((v: boolean) => !v);
-    }, 260);
+    this.emitSparkBurst();
+
+    if (toggleRaw) {
+      setTimeout(() => {
+        this.isRawBlueprint.update((v: boolean) => !v);
+      }, 240);
+    }
     setTimeout(() => {
       this.isPressing.set(false);
     }, 620);
@@ -96,19 +214,82 @@ export class ExperienceComponent {
     if (!el) {
       return;
     }
-    el.scrollBy({ left: direction * 520, behavior: 'smooth' });
+    const delta = direction * 520;
+    if (this.runwayHeightPx() !== null && this.factorySection?.nativeElement) {
+      window.scrollBy({ top: delta, behavior: 'smooth' });
+    } else {
+      el.scrollBy({ left: delta, behavior: 'smooth' });
+    }
+  }
+
+  @HostListener('window:resize')
+  public onWindowResize(): void {
+    if (this.resizeTimer) {
+      clearTimeout(this.resizeTimer);
+    }
+    this.resizeTimer = setTimeout(() => {
+      this.recalculateRunway();
+      this.onWindowScroll();
+    }, 100);
+  }
+
+  /**
+   * Syncs vertical window scroll inside `.factory` into horizontal `scrollLeft`
+   * so scrolling down scrolls the entire factory belt before advancing to the next section.
+   */
+  @HostListener('window:scroll')
+  public onWindowScroll(): void {
+    if (this.layoutMode() !== 'belt' || this.runwayHeightPx() === null) {
+      return;
+    }
+    const sectionEl = this.factorySection?.nativeElement;
+    const stickyEl = this.factorySticky?.nativeElement;
+    const viewportEl = this.beltViewport?.nativeElement;
+    if (!sectionEl || !stickyEl || !viewportEl) {
+      return;
+    }
+
+    const maxScroll = Math.max(0, viewportEl.scrollWidth - viewportEl.clientWidth);
+    if (maxScroll <= 0) {
+      return;
+    }
+
+    const rect = sectionEl.getBoundingClientRect();
+    const stickyOffset = 68;
+    const runwayTravel = Math.max(1, sectionEl.offsetHeight - stickyEl.offsetHeight);
+    const rawScrolled = stickyOffset - rect.top;
+    const clampedScrolled = Math.min(runwayTravel, Math.max(0, rawScrolled));
+    const progressRatio = clampedScrolled / runwayTravel;
+    const pct = Math.min(100, Math.max(0, Math.round(progressRatio * 100)));
+
+    this.syncingFromWindowScroll = true;
+    viewportEl.scrollLeft = progressRatio * maxScroll;
+    this.beltScrollPct.set(pct);
+
+    // Auto-stamp hydraulic press with sparks at key conveyor checkpoints (20%, 50%, 80%)
+    const zone = Math.floor(pct / 25);
+    if (zone > 0 && zone !== this.lastAutoStampZone) {
+      this.lastAutoStampZone = zone;
+      this.cycleHydraulicPress(false);
+    }
+
+    setTimeout(() => {
+      this.syncingFromWindowScroll = false;
+    }, 0);
   }
 
   /**
    * Updates `beltScrollPct` when the horizontal conveyor belt scrolls.
    */
   public onBeltScroll(): void {
+    if (this.syncingFromWindowScroll) {
+      return;
+    }
     this.updateBeltScrollPct();
   }
 
   /**
-   * Converts vertical mouse-wheel scrolling over the conveyor belt into smooth
-   * horizontal scrolling, releasing to page scroll at the start/end boundaries.
+   * Converts mouse-wheel scrolling over the conveyor belt into smooth horizontal progress.
    */
   public onBeltWheel(event: WheelEvent): void {
     if (this.layoutMode() !== 'belt') {
@@ -118,13 +299,23 @@ export class ExperienceComponent {
     if (!el) {
       return;
     }
-    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-      return;
-    }
     const maxScroll: number = el.scrollWidth - el.clientWidth;
     if (maxScroll <= 0) {
       return;
     }
+
+    if (this.runwayHeightPx() !== null) {
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+        const atStart: boolean = el.scrollLeft <= 2;
+        const atEnd: boolean = el.scrollLeft >= maxScroll - 2;
+        if ((event.deltaX < 0 && !atStart) || (event.deltaX > 0 && !atEnd)) {
+          event.preventDefault();
+          window.scrollBy({ top: event.deltaX, behavior: 'auto' });
+        }
+      }
+      return;
+    }
+
     const atStart: boolean = el.scrollLeft <= 2;
     const atEnd: boolean = el.scrollLeft >= maxScroll - 2;
 
@@ -161,8 +352,14 @@ export class ExperienceComponent {
       return;
     }
     const deltaX: number = event.pageX - this.dragStartX;
-    el.scrollLeft = this.dragStartScrollLeft - deltaX * 1.25;
-    this.updateBeltScrollPct();
+    const targetLeft = this.dragStartScrollLeft - deltaX * 1.25;
+    if (this.runwayHeightPx() !== null && this.factorySection?.nativeElement) {
+      const sectionTop = this.factorySection.nativeElement.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: Math.max(0, sectionTop - 68 + targetLeft), behavior: 'auto' });
+    } else {
+      el.scrollLeft = targetLeft;
+      this.updateBeltScrollPct();
+    }
   }
 
   @HostListener('window:mouseup')
@@ -209,6 +406,43 @@ export class ExperienceComponent {
     }
     const earliestRole: Experience = this.experiences[this.experiences.length - 1];
     return this.calculateDuration(earliestRole.startDate, null);
+  }
+
+  /**
+   * Emits 18 radial spark particles from the hydraulic press head (devinthehood Yt pattern).
+   */
+  private emitSparkBurst(): void {
+    const generated: Array<PressSpark> = Array.from({ length: 18 }, (_, i) => {
+      const angle = (Math.PI * i) / 17;
+      const dist = 50 + ((i * 23) % 75);
+      return {
+        id: i,
+        tx: Math.round(-Math.cos(angle) * dist),
+        ty: Math.round(-Math.sin(angle) * dist * 0.75)
+      };
+    });
+    this.sparks.set(generated);
+    setTimeout(() => {
+      this.sparks.set([]);
+    }, 750);
+  }
+
+  private recalculateRunway(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const viewportEl = this.beltViewport?.nativeElement;
+    const stickyEl = this.factorySticky?.nativeElement;
+    if (!viewportEl || !stickyEl || this.layoutMode() !== 'belt' || window.innerWidth <= 768) {
+      this.runwayHeightPx.set(null);
+      return;
+    }
+    const maxScroll = Math.max(0, viewportEl.scrollWidth - viewportEl.clientWidth);
+    if (maxScroll <= 20) {
+      this.runwayHeightPx.set(null);
+      return;
+    }
+    this.runwayHeightPx.set(stickyEl.offsetHeight + maxScroll);
   }
 
   /**

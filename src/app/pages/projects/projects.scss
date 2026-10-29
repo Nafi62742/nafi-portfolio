@@ -4,13 +4,23 @@
   100% { transform: translateX(-12%); }
 }
 
+@keyframes pulseExhaust {
+  0%, 100% { transform: scaleX(0.85); opacity: 0.75; }
+  50%      { transform: scaleX(1.3);  opacity: 1; }
+}
+
 .street {
   position: relative;
   z-index: 2;
   background: var(--bg);
   color: var(--ink);
-  padding: clamp(5rem, 8vw, 7.5rem) var(--gutter);
   border-bottom: 1px solid var(--line);
+
+  &__sticky {
+    position: sticky;
+    top: 68px;
+    padding: clamp(2.5rem, 4.5vw, 4.25rem) var(--gutter);
+  }
 
   &__head {
     display: flex;
@@ -18,7 +28,7 @@
     align-items: flex-end;
     justify-content: space-between;
     gap: 1.5rem;
-    padding-bottom: 2.25rem;
+    padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--line);
   }
 
@@ -41,58 +51,87 @@
 
   &__stage {
     position: relative;
-    margin-top: 1.75rem;
+    margin-top: 1.25rem;
     border: 1px solid var(--ink);
+    border-radius: 14px;
     background: var(--bg-2);
     overflow: hidden;
+    box-shadow: 0 22px 48px -26px rgba(8, 27, 51, 0.22);
   }
 
-  /* Animated JSON Skyline Backdrop (.street__sky) */
+  /* Animated JSON Skyline + R-007 Sports Car Backdrop (.street__sky) */
   &__sky {
     position: relative;
-    height: 165px;
-    background: linear-gradient(180deg, rgba(37, 99, 235, 0.14) 0%, transparent 100%);
+    height: 185px;
+    background: linear-gradient(180deg, rgba(2, 132, 199, 0.16) 0%, rgba(234, 243, 253, 0.4) 82%, rgba(8, 27, 51, 0.12) 100%);
     border-bottom: 1px solid var(--line);
     overflow: hidden;
   }
 
+  &__car-hud {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 8px;
+    background: rgba(8, 27, 51, 0.86);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    color: #f6faff;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    backdrop-filter: blur(6px);
+
+    &-tag {
+      padding: 0.12rem 0.45rem;
+      border-radius: 5px;
+      background: var(--red);
+      color: #f6faff;
+      font-weight: 700;
+    }
+  }
+
   &__sun {
     position: absolute;
-    top: 22px;
+    top: 20px;
     right: 9%;
-    width: 54px;
-    height: 54px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     background: radial-gradient(circle, var(--amber) 0%, var(--red) 100%);
-    opacity: 0.85;
-    box-shadow: 0 0 36px rgba(56, 189, 248, 0.55);
+    opacity: 0.88;
+    box-shadow: 0 0 36px rgba(56, 189, 248, 0.6);
   }
 
   &__cloud {
     position: absolute;
     height: 14px;
     border-radius: 999px;
-    background: rgba(37, 99, 235, 0.16);
+    background: rgba(2, 132, 199, 0.16);
     border: 1px solid var(--line);
     animation: driftCloud 22s ease-in-out infinite;
 
-    &--1 { top: 28px; left: 12%; width: 120px; }
-    &--2 { top: 52px; left: 42%; width: 165px; animation-duration: 28s; animation-direction: reverse; }
-    &--3 { top: 34px; left: 68%; width: 95px;  animation-duration: 19s; }
+    &--1 { top: 26px; left: 14%; width: 120px; }
+    &--2 { top: 48px; left: 42%; width: 165px; animation-duration: 28s; animation-direction: reverse; }
+    &--3 { top: 32px; left: 68%; width: 95px;  animation-duration: 19s; }
   }
 
   &__skyline {
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0;
+    bottom: 22px;
     width: 100%;
     height: 135px;
+    z-index: 1;
   }
 
   &__bldg {
     rect {
-      fill: rgba(11, 25, 44, 0.11);
+      fill: rgba(8, 27, 51, 0.11);
       stroke: var(--line);
       stroke-width: 1;
     }
@@ -101,8 +140,151 @@
       stroke: var(--amber);
       stroke-width: 2;
       stroke-dasharray: 6 6;
-      opacity: 0.65;
+      opacity: 0.7;
     }
+  }
+
+  /* Skyline Highway Strip for the Sports Car */
+  &__sky-highway {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 24px;
+    background: linear-gradient(180deg, #0d213f 0%, #071224 100%);
+    border-top: 2px solid var(--red);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+
+    &-dashes {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(56, 189, 248, 0.75) 0 24px,
+        transparent 24px 48px
+      );
+    }
+  }
+
+  /* Scroll-Driven JSON Sports Car (Right-Side Profile / Right Door View) */
+  &__car-cruiser {
+    position: absolute;
+    bottom: 4px;
+    width: clamp(190px, 21vw, 255px);
+    z-index: 4;
+    pointer-events: none;
+    transition: left 90ms linear, transform 180ms var(--ease);
+    filter: drop-shadow(0 8px 16px rgba(3, 7, 16, 0.45));
+
+    &.is-moving {
+      transform: translateY(-1px) rotate(-0.4deg);
+
+      .street__car-flame {
+        opacity: 1;
+        animation: pulseExhaust 180ms ease-in-out infinite;
+      }
+    }
+  }
+
+  &__car-svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  &__car-body {
+    stroke: #38bdf8;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  &__car-glass {
+    stroke: #7dd3fc;
+    stroke-width: 1.4;
+  }
+
+  &__car-door {
+    fill: rgba(2, 132, 199, 0.18);
+    stroke: #38bdf8;
+    stroke-width: 1.5;
+    stroke-dasharray: 180 4;
+  }
+
+  &__car-intake {
+    fill: #050d1a;
+    stroke: #0284c7;
+    stroke-width: 1.2;
+  }
+
+  &__car-wing,
+  &__car-splitter {
+    fill: #071224;
+    stroke: #38bdf8;
+    stroke-width: 1.4;
+  }
+
+  &__car-door-emblem {
+    font-family: var(--font);
+    font-variation-settings: "wdth" 125, "wght" 900;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    fill: #f6faff;
+  }
+
+  &__car-door-sub {
+    font-family: var(--mono);
+    font-size: 6.5px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    fill: #38bdf8;
+  }
+
+  &__car-headlight {
+    fill: #e0f2fe;
+    stroke: #38bdf8;
+    stroke-width: 1.2;
+    filter: drop-shadow(0 0 6px #38bdf8);
+  }
+
+  &__car-taillight {
+    fill: #38bdf8;
+    stroke: #0284c7;
+    stroke-width: 1;
+    filter: drop-shadow(0 0 6px #0284c7);
+  }
+
+  &__car-flame {
+    fill: #0284c7;
+    opacity: 0.45;
+    transform-origin: 18px 74px;
+
+    &--inner {
+      fill: #38bdf8;
+    }
+  }
+
+  &__car-beam {
+    opacity: 0.85;
+  }
+
+  &__car-tire {
+    fill: #060d1b;
+    stroke: #1e3a5f;
+    stroke-width: 3;
+  }
+
+  &__car-rim {
+    fill: #0b192c;
+    stroke: #38bdf8;
+    stroke-width: 1.8;
+  }
+
+  &__car-spoke {
+    stroke: #93c5fd;
+    stroke-width: 1.8;
   }
 
   /* Boulevard Navigation Bar */
@@ -125,7 +307,8 @@
   }
 
   &__shop-counter {
-    padding: 0.25rem 0.55rem;
+    padding: 0.28rem 0.65rem;
+    border-radius: 6px;
     background: var(--red);
     color: #edf4fc;
     font-family: var(--mono);
@@ -153,15 +336,16 @@
   }
 
   &__nav-btn {
-    padding: 0.4rem 0.85rem;
+    padding: 0.42rem 0.9rem;
     border: 1px solid var(--ink);
+    border-radius: 8px;
     background: var(--bg-2);
     font-family: var(--mono);
     font-size: 0.62rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     color: var(--ink);
-    transition: background-color 180ms var(--ease), color 180ms var(--ease);
+    transition: background-color 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease);
 
     &:hover {
       background: var(--red);
@@ -175,30 +359,19 @@
     display: flex;
     align-items: stretch;
     gap: 1.35rem;
-    padding: 1.85rem 1.5rem 1.35rem;
+    padding: 1.65rem 1.5rem 1.25rem;
     overflow-x: auto;
-    scroll-snap-type: x proximity;
     scrollbar-width: thin;
     cursor: grab;
     user-select: none;
 
     &.is-dragging {
       cursor: grabbing;
-      scroll-snap-type: none;
     }
 
     .shop {
-      flex: 0 0 390px;
-      scroll-snap-align: start;
+      flex: 0 0 385px;
     }
-  }
-
-  /* Multi-Column Grid View (.street__grid) */
-  &__grid {
-    padding: 1.75rem 1.5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem 1.5rem;
   }
 
   /* Interactive Streetlamp between Shops (.street__lamp) */
@@ -217,7 +390,7 @@
       height: 10px;
       background: #0b192c;
       border: 1px solid var(--amber);
-      border-radius: 4px 4px 0 0;
+      border-radius: 6px 6px 2px 2px;
       z-index: 2;
     }
 
@@ -235,13 +408,14 @@
 
     &-pole {
       width: 4px;
-      height: 260px;
+      height: 250px;
       background: var(--ink);
     }
 
     &-base {
       width: 22px;
       height: 12px;
+      border-radius: 4px 4px 0 0;
       background: var(--ink);
     }
   }
@@ -258,16 +432,23 @@
     align-items: center;
     justify-content: flex-end;
     padding-bottom: 0.5rem;
+    cursor: pointer;
 
     &-sign {
       padding: 0.85rem 1rem;
       border: 2px solid var(--ink);
+      border-radius: 10px;
       background: var(--red);
       color: #edf4fc;
       display: flex;
       flex-direction: column;
       gap: 0.25rem;
       text-align: center;
+      transition: transform 220ms var(--ease);
+    }
+
+    &:hover &-sign {
+      transform: translateY(-4px);
     }
 
     &-kicker {
@@ -306,7 +487,7 @@
   }
 
   &__road {
-    height: 28px;
+    height: 26px;
     background: #070d19;
     display: flex;
     align-items: center;
@@ -326,7 +507,7 @@
   }
 
   &__progress {
-    height: 4px;
+    height: 5px;
     width: 100%;
     background: rgba(11, 25, 44, 0.25);
     overflow: hidden;
@@ -344,9 +525,10 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.3rem 0.65rem;
+  padding: 0.32rem 0.7rem;
   border: 1px solid var(--red);
-  background: rgba(37, 99, 235, 0.08);
+  border-radius: 999px;
+  background: rgba(2, 132, 199, 0.08);
   color: var(--red);
 
   i {
@@ -366,21 +548,21 @@
   }
 }
 
-/* Filter Bar (inspired by devinthehood.com/work) */
+/* Filter Bar */
 .work-filter {
-  margin-top: 1.75rem;
+  margin-top: 1.25rem;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.9rem 1.25rem;
+  padding: 0.8rem 1.15rem;
   border: 1px solid var(--ink);
+  border-radius: 12px;
   background: var(--bg-2);
 
   &__group,
-  &__right,
-  &__modes {
+  &__right {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -393,6 +575,7 @@
     gap: 0.4rem;
     padding: 0.45rem 0.9rem;
     border: 1px solid var(--line);
+    border-radius: 8px;
     background: var(--bg);
     font-family: var(--mono);
     font-size: 0.65rem;
@@ -415,16 +598,18 @@
   }
 }
 
-/* Architectural Storefront Card (.shop) */
+/* Architectural Storefront Card (.shop) — Slightly Rounded */
 .shop {
   --facade: #0b192c;
   --facade-ink: #edf4fc;
-  --awning-a: #2563eb;
-  --awning-b: #eef4fb;
+  --awning-a: #0284c7;
+  --awning-b: #f6faff;
 
   display: flex;
   flex-direction: column;
   border: 1px solid var(--ink);
+  border-radius: 12px;
+  overflow: hidden;
   background: var(--bg);
   cursor: pointer;
   transition: transform 280ms var(--ease), box-shadow 280ms var(--ease);
@@ -432,34 +617,34 @@
   &--ink {
     --facade: #0b192c;
     --facade-ink: #edf4fc;
-    --awning-a: #2563eb;
-    --awning-b: #eef4fb;
+    --awning-a: #0284c7;
+    --awning-b: #f6faff;
   }
 
   &--red {
-    --facade: #1d4ed8;
+    --facade: #0369a1;
     --facade-ink: #edf4fc;
     --awning-a: #0b192c;
     --awning-b: #38bdf8;
   }
 
   &--stone {
-    --facade: #172642;
+    --facade: #142e54;
     --facade-ink: #edf4fc;
     --awning-a: #0284c7;
-    --awning-b: #eef4fb;
+    --awning-b: #f6faff;
   }
 
   &--brick {
-    --facade: #1e3a8a;
+    --facade: #1d3e6e;
     --facade-ink: #edf4fc;
-    --awning-a: #2563eb;
-    --awning-b: #d2e1f1;
+    --awning-a: #0284c7;
+    --awning-b: #d8e8fa;
   }
 
   &:hover {
     transform: translateY(-6px);
-    box-shadow: 0 26px 50px -22px rgba(22, 19, 15, 0.35);
+    box-shadow: 0 26px 50px -22px rgba(8, 27, 51, 0.35);
 
     .shop__door {
       transform: rotateY(-28deg);
@@ -492,6 +677,7 @@
     i {
       width: 12px;
       height: 8px;
+      border-radius: 2px;
       border: 1px solid var(--ink);
       background: var(--bg);
       display: inline-block;
@@ -503,6 +689,19 @@
     font-size: 0.56rem;
     letter-spacing: 0.16em;
     color: var(--ink-3);
+  }
+
+  &__priority-tag {
+    margin-left: auto;
+    margin-right: 0.55rem;
+    padding: 0.14rem 0.45rem;
+    border-radius: 5px;
+    background: var(--red);
+    color: #f0f7ff;
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
   }
 
   /* 2. Storefront Signboard */
@@ -523,7 +722,8 @@
     letter-spacing: 0.14em;
     color: var(--amber);
     padding: 0.2rem 0.45rem;
-    border: 1px solid rgba(255, 181, 71, 0.4);
+    border-radius: 6px;
+    border: 1px solid rgba(56, 189, 248, 0.4);
   }
 
   &__sign-titles {
@@ -538,7 +738,7 @@
     font-size: 1.05rem;
     text-transform: uppercase;
     letter-spacing: -0.01em;
-    color: #f4f1ea;
+    color: #f6faff;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -549,7 +749,7 @@
     font-size: 0.56rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgba(244, 241, 234, 0.7);
+    color: rgba(246, 250, 255, 0.72);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -560,14 +760,15 @@
     font-size: 0.55rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding: 0.22rem 0.5rem;
-    background: rgba(244, 241, 234, 0.12);
-    color: #f4f1ea;
-    border: 1px solid rgba(244, 241, 234, 0.24);
+    padding: 0.22rem 0.55rem;
+    border-radius: 6px;
+    background: rgba(246, 250, 255, 0.12);
+    color: #f6faff;
+    border: 1px solid rgba(246, 250, 255, 0.24);
 
     &.is-office {
       background: var(--amber);
-      color: #0f1217;
+      color: #081b33;
       border-color: var(--amber);
       font-weight: 600;
     }
@@ -583,15 +784,15 @@
     );
     border-top: 1px solid var(--ink);
     border-bottom: 2px solid var(--ink);
-    box-shadow: 0 5px 10px -4px rgba(22, 19, 15, 0.35);
+    box-shadow: 0 5px 10px -4px rgba(8, 27, 51, 0.35);
   }
 
   /* 4. Storefront Window & Doorway */
   &__front {
     display: grid;
     grid-template-columns: 1fr 78px;
-    height: 176px;
-    background: #12151c;
+    height: 172px;
+    background: #0d213f;
     border-bottom: 2px solid var(--ink);
   }
 
@@ -599,7 +800,7 @@
     position: relative;
     overflow: hidden;
     border-right: 2px solid var(--ink);
-    background: radial-gradient(ellipse at 50% 30%, rgba(255, 181, 71, 0.14), #0f1217 75%);
+    background: radial-gradient(ellipse at 50% 30%, rgba(56, 189, 248, 0.16), #081529 75%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -629,8 +830,9 @@
   &__icon-emblem {
     width: 56px;
     height: 56px;
+    border-radius: 12px;
     border: 1.5px solid var(--amber);
-    background: rgba(244, 241, 234, 0.04);
+    background: rgba(246, 250, 255, 0.05);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -642,7 +844,7 @@
     font-size: 0.58rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(244, 241, 234, 0.72);
+    color: rgba(246, 250, 255, 0.72);
   }
 
   &__quick-links {
@@ -657,9 +859,10 @@
   &__qbtn {
     width: 28px;
     height: 28px;
-    background: rgba(15, 18, 23, 0.88);
-    border: 1px solid rgba(244, 241, 234, 0.25);
-    color: #f4f1ea;
+    border-radius: 6px;
+    background: rgba(8, 21, 41, 0.88);
+    border: 1px solid rgba(246, 250, 255, 0.25);
+    color: #f6faff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -669,7 +872,7 @@
     &:hover {
       background: var(--red);
       border-color: var(--red);
-      color: #f4f1ea;
+      color: #f6faff;
     }
   }
 
@@ -677,7 +880,7 @@
   &__doorway {
     position: relative;
     perspective: 420px;
-    background: #090b0f;
+    background: #06101f;
     padding: 0.45rem 0.45rem 0;
     display: flex;
     align-items: stretch;
@@ -688,8 +891,8 @@
     bottom: 2px;
     right: 10px;
     width: 24px;
-    height: 20px;
-    opacity: 0.75;
+    height: 26px;
+    opacity: 0.82;
     transition: transform 280ms var(--ease), opacity 280ms var(--ease);
     z-index: 0;
   }
@@ -699,8 +902,9 @@
     z-index: 1;
     width: 100%;
     background: var(--facade);
-    border: 1px solid rgba(244, 241, 234, 0.25);
+    border: 1px solid rgba(246, 250, 255, 0.25);
     border-bottom: 0;
+    border-radius: 6px 6px 0 0;
     padding: 0.45rem;
     display: flex;
     flex-direction: column;
@@ -711,8 +915,9 @@
 
   &__door-glass {
     height: 55%;
-    border: 1px solid rgba(244, 241, 234, 0.28);
-    background: linear-gradient(135deg, rgba(255, 181, 71, 0.25), rgba(15, 18, 23, 0.85));
+    border-radius: 4px;
+    border: 1px solid rgba(246, 250, 255, 0.28);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(8, 21, 41, 0.85));
   }
 
   &__door-knob {
@@ -737,12 +942,12 @@
 
   /* 6. Description & Footer Plate */
   &__plate {
-    padding: 1.15rem 1.15rem 1.25rem;
+    padding: 1.1rem 1.15rem 1.2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex: 1;
-    gap: 1rem;
+    gap: 0.9rem;
   }
 
   &__desc {
@@ -793,8 +998,9 @@
   }
 }
 
-@media (max-width: 640px) {
-  .street__grid {
-    grid-template-columns: 1fr;
+@media (max-width: 768px) {
+  .street__sticky {
+    position: relative;
+    top: 0;
   }
 }

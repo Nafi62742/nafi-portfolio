@@ -21,6 +21,32 @@ export interface SkylineBuilding {
   windows: number;
 }
 
+/** Wheel geometry for the right-side sports car SVG scene. */
+export interface SportsCarWheel {
+  cx: number;
+  cy: number;
+  r: number;
+  rimR: number;
+}
+
+/** Right-side sports car geometry defined in interactive-scenes.json. */
+export interface SportsCarScene {
+  id: string;
+  viewBox: string;
+  bodyPath: string;
+  roofGlassPath: string;
+  rightDoorPath: string;
+  sideIntakePath: string;
+  spoilerPath: string;
+  splitterPath: string;
+  headlightPath: string;
+  taillightPath: string;
+  doorEmblem: string;
+  doorSubLabel: string;
+  rearWheel: SportsCarWheel;
+  frontWheel: SportsCarWheel;
+}
+
 /** Factory gear item defined in interactive-scenes.json. */
 export interface FactoryGear {
   cx: number;
@@ -46,6 +72,44 @@ export interface EngineHotspot {
   detail: string;
 }
 
+/** Relay node in the JSON-driven Contact Signal animation. */
+export interface ContactRelayNode {
+  id: string;
+  x: number;
+  y: number;
+  code: string;
+  label: string;
+  sub: string;
+}
+
+/** Star item in the JSON-driven Contact Signal skyline. */
+export interface ContactStar {
+  cx: number;
+  cy: number;
+  r: number;
+  delay: string;
+}
+
+/** Contact section JSON-driven interactive animation scene. */
+export interface ContactSignalScene {
+  id: string;
+  relayViewBox: string;
+  skylineViewBox: string;
+  emblem: string;
+  subLabel: string;
+  orbitPath: string;
+  nodes: Array<ContactRelayNode>;
+  stars: Array<ContactStar>;
+  tower: {
+    x: number;
+    y: number;
+    beamPolygon: string;
+    emblemCx: number;
+    emblemCy: number;
+  };
+  buildings: Array<SkylineBuilding>;
+}
+
 /** Full schema of assets/data/interactive-scenes.json. */
 export interface InteractiveScenesConfig {
   version: string;
@@ -62,18 +126,20 @@ export interface InteractiveScenesConfig {
       viewBox: string;
       buildings: Array<SkylineBuilding>;
     };
+    sportsCar: SportsCarScene;
     factory: {
       id: string;
       gears: Array<FactoryGear>;
       pistons: Array<FactoryPiston>;
     };
     engineHotspots: Array<EngineHotspot>;
+    contactSignal: ContactSignalScene;
   };
 }
 
 /** Default embedded fallback matching assets/data/interactive-scenes.json for 0ms splash render. */
 const DEFAULT_SCENES_CONFIG: InteractiveScenesConfig = {
-  version: '1.0.0',
+  version: '2.0.0',
   theme: 'bluish-r007',
   splash: {
     emblem: 'R 007',
@@ -111,6 +177,22 @@ const DEFAULT_SCENES_CONFIG: InteractiveScenesConfig = {
         { x: 1190, y: 45,  w: 100, h: 175, windows: 10 },
         { x: 1305, y: 80,  w: 110, h: 140, windows: 8 }
       ]
+    },
+    sportsCar: {
+      id: 'r007-gt-side',
+      viewBox: '0 0 360 120',
+      bodyPath: 'M 26 84 L 16 74 L 22 50 L 58 46 L 106 22 L 192 20 L 252 44 L 322 52 L 342 68 L 346 82 L 320 86 L 300 86 A 27 27 0 0 0 242 86 L 124 86 A 27 27 0 0 0 66 86 L 26 86 Z',
+      roofGlassPath: 'M 112 26 L 188 24 L 240 44 L 116 45 Z',
+      rightDoorPath: 'M 130 46 L 228 46 L 232 80 L 126 80 Z',
+      sideIntakePath: 'M 134 54 L 166 50 L 156 75 L 130 73 Z',
+      spoilerPath: 'M 20 50 L 8 30 L 34 30 L 36 48 Z',
+      splitterPath: 'M 318 82 L 350 82 L 346 88 L 314 88 Z',
+      headlightPath: 'M 304 54 L 338 62 L 332 69 L 300 62 Z',
+      taillightPath: 'M 16 54 L 30 54 L 28 65 L 16 65 Z',
+      doorEmblem: 'R 007',
+      doorSubLabel: 'NAFI // GT',
+      rearWheel:  { cx: 95,  cy: 84, r: 23, rimR: 15 },
+      frontWheel: { cx: 271, cy: 84, r: 23, rimR: 15 }
     },
     factory: {
       id: 'factory',
@@ -156,7 +238,45 @@ const DEFAULT_SCENES_CONFIG: InteractiveScenesConfig = {
         label: 'R-007 AI / ML ECU',
         detail: 'PyTorch · YOLOv9 · Data Engineering · IEEE/Springer'
       }
-    ]
+    ],
+    contactSignal: {
+      id: 'contact-r007-uplink',
+      relayViewBox: '0 0 600 130',
+      skylineViewBox: '0 0 600 180',
+      emblem: 'R-007',
+      subLabel: 'DHAKA // LIVE UPLINK',
+      orbitPath: 'M 58 68 Q 300 12 542 68',
+      nodes: [
+        { id: 'client', x: 58,  y: 68, code: '01', label: 'CLIENT FORM',   sub: 'JSON PAYLOAD' },
+        { id: 'edge',   x: 218, y: 42, code: '02', label: 'R-007 GATEWAY', sub: 'TLS 1.3 EDGE' },
+        { id: 'cloud',  x: 382, y: 42, code: '03', label: 'WEB3FORMS API', sub: 'REST DISPATCH' },
+        { id: 'inbox',  x: 542, y: 68, code: '04', label: 'NAFI INBOX',    sub: 'DHAKA // READY' }
+      ],
+      stars: [
+        { cx: 48,  cy: 26, r: 1.4, delay: '0s' },
+        { cx: 124, cy: 18, r: 1.8, delay: '0.6s' },
+        { cx: 210, cy: 32, r: 1.3, delay: '1.2s' },
+        { cx: 295, cy: 16, r: 1.6, delay: '0.3s' },
+        { cx: 362, cy: 28, r: 1.4, delay: '0.9s' },
+        { cx: 528, cy: 22, r: 1.8, delay: '1.5s' },
+        { cx: 576, cy: 38, r: 1.2, delay: '0.4s' }
+      ],
+      tower: {
+        x: 152,
+        y: 80,
+        beamPolygon: '152,138 395,12 520,58',
+        emblemCx: 452,
+        emblemCy: 36
+      },
+      buildings: [
+        { x: 20,  y: 118, w: 68, h: 62, windows: 4 },
+        { x: 108, y: 96,  w: 84, h: 84, windows: 6 },
+        { x: 210, y: 124, w: 76, h: 56, windows: 4 },
+        { x: 304, y: 106, w: 92, h: 74, windows: 6 },
+        { x: 414, y: 128, w: 74, h: 52, windows: 4 },
+        { x: 504, y: 112, w: 78, h: 68, windows: 6 }
+      ]
+    }
   }
 };
 
@@ -200,18 +320,24 @@ export class InteractiveSceneService {
   }
 
   /**
-   * Re-opens and replays the R 007 car hood opening splash screen.
-   */
-  public triggerSplashReplay(): void {
-    this.splashOpen.set(true);
-    this.splashRunId.update((n: number) => n + 1);
-  }
-
-  /**
-   * Dismisses the R 007 splash screen into the portfolio.
+   * Dismisses the R 007 car hood splash screen.
    */
   public closeSplash(): void {
     this.splashOpen.set(false);
   }
-}
 
+  /**
+   * Re-opens and replays the R 007 car hood opening splash animation on demand.
+   */
+  public replaySplash(): void {
+    this.splashRunId.update((n: number) => n + 1);
+    this.splashOpen.set(true);
+  }
+
+  /**
+   * Alias for `replaySplash()` triggered by the navbar, hero, and about buttons.
+   */
+  public triggerSplashReplay(): void {
+    this.replaySplash();
+  }
+}

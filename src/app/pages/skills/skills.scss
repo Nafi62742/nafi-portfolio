@@ -123,6 +123,8 @@
 
   &__stage {
     border: 1px solid var(--night-line);
+    border-radius: 14px;
+    overflow: hidden;
     background: radial-gradient(ellipse at 100% 0%, rgba(56, 189, 248, 0.14), transparent 65%), #050a14;
     padding: 1.75rem;
   }
@@ -214,6 +216,8 @@
   /* Complete 6-Domain Matrix */
   &__matrix {
     border: 1px solid var(--night-line);
+    border-radius: 14px;
+    overflow: hidden;
     background: var(--night-2);
   }
 

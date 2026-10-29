@@ -81,13 +81,129 @@
       </form>
     </div>
 
-    <!-- RIGHT HALF: LIVE PAYLOAD TERMINAL & DIRECT CHANNELS (Industrial Night) -->
+    <!-- RIGHT HALF: JSON-DRIVEN PACKET UPLINK + LIVE PAYLOAD TERMINAL (Industrial Night) -->
     <div class="console__back" data-night>
       <div class="console__back-top reveal">
         <span class="text-mono">02 / SERVER · LIVE REQUEST PAYLOAD</span>
         <span class="console__online">
-          <i></i> ENDPOINT READY
+          <i></i> ENDPOINT READY · {{ payloadBytes }} BYTES
         </span>
+      </div>
+
+      <!-- JSON-Driven R-007 Packet Uplink & Telemetry Visualizer -->
+      <div
+        class="console__uplink reveal delay-1"
+        [class.is-pinging]="pingingUplink() || sending()"
+        [class.is-delivered]="success()">
+        <div class="console__uplink-bar">
+          <span class="text-mono">
+            <i class="fa-solid fa-satellite-dish"></i>
+            {{ contactScene().subLabel }} // STAGE 0{{ activeRelayStage }} / 04
+          </span>
+          <button
+            type="button"
+            class="console__ping-btn text-mono"
+            data-cursor="PING"
+            (click)="triggerUplinkPing()">
+            <i class="fa-solid fa-bolt"></i>
+            PING UPLINK
+          </button>
+        </div>
+
+        <svg
+          class="console__uplink-svg"
+          [attr.viewBox]="contactScene().relayViewBox"
+          preserveAspectRatio="xMidYMid meet"
+          aria-label="JSON-driven R-007 live packet relay animation">
+          <defs>
+            <linearGradient id="r007RelayArc" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35" />
+              <stop offset="50%" stop-color="#0284c7" stop-opacity="0.95" />
+              <stop offset="100%" stop-color="#34d399" stop-opacity="0.85" />
+            </linearGradient>
+          </defs>
+
+          <!-- Dashed Carrier Arc from interactive-scenes.json -->
+          <path
+            [attr.d]="contactScene().orbitPath"
+            fill="none"
+            stroke="rgba(56, 189, 248, 0.22)"
+            stroke-width="1.5"
+            stroke-dasharray="5 5" />
+
+          <!-- Direct Node-to-Node Circuit Lines -->
+          @for (node of contactScene().nodes; track node.id; let idx = $index) {
+            @if (idx < contactScene().nodes.length - 1) {
+              <line
+                [attr.x1]="node.x"
+                [attr.y1]="node.y"
+                [attr.x2]="contactScene().nodes[idx + 1].x"
+                [attr.y2]="contactScene().nodes[idx + 1].y"
+                class="console__uplink-link"
+                [class.is-energized]="activeRelayStage > idx + 1" />
+            }
+          }
+
+          <!-- Animated Data Packets Travelling Along JSON Orbit Path -->
+          <circle r="4.5" class="console__packet console__packet--primary">
+            <animateMotion
+              [attr.dur]="(sending() || pingingUplink()) ? '0.85s' : '2.6s'"
+              repeatCount="indefinite"
+              [attr.path]="contactScene().orbitPath" />
+          </circle>
+          <circle r="3" class="console__packet console__packet--secondary">
+            <animateMotion
+              [attr.dur]="(sending() || pingingUplink()) ? '0.85s' : '2.6s'"
+              begin="1.3s"
+              repeatCount="indefinite"
+              [attr.path]="contactScene().orbitPath" />
+          </circle>
+
+          <!-- Interactive Relay Nodes from interactive-scenes.json -->
+          @for (node of contactScene().nodes; track node.id; let idx = $index) {
+            <g
+              class="console__node"
+              [class.is-lit]="activeRelayStage >= idx + 1"
+              [class.is-selected]="activeNodeIdx() === idx"
+              role="button"
+              tabindex="0"
+              [attr.aria-label]="node.label + ' — ' + node.sub"
+              (click)="selectRelayNode(idx)"
+              (keydown.enter)="selectRelayNode(idx)">
+              <circle
+                [attr.cx]="node.x"
+                [attr.cy]="node.y"
+                r="18"
+                class="console__node-halo" />
+              <circle
+                [attr.cx]="node.x"
+                [attr.cy]="node.y"
+                r="11"
+                class="console__node-core" />
+              <text
+                [attr.x]="node.x"
+                [attr.y]="node.y + 3.5"
+                text-anchor="middle"
+                class="console__node-code">
+                {{ node.code }}
+              </text>
+              <text
+                [attr.x]="node.x"
+                [attr.y]="node.y + 32"
+                text-anchor="middle"
+                class="console__node-label">
+                {{ node.label }}
+              </text>
+              <text
+                [attr.x]="node.x"
+                [attr.y]="node.y + 44"
+                text-anchor="middle"
+                class="console__node-sub">
+                {{ node.sub }}
+              </text>
+            </g>
+          }
+        </svg>
       </div>
 
       <!-- Live Reactive Terminal -->
@@ -105,12 +221,17 @@
           <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">"email"</span>: <span class="v">"{{ email || 'you@domain.com' }}"</span>,</div>
           <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">"message"</span>: <span class="v">"{{ message || 'Tell me about your project...' }}"</span></div>
           <div>&nbsp;&nbsp;<span class="c">&#125;'</span></div>
+          @if (terminalEasterEgg; as egg) {
+            <div>
+              <span [class.ok]="egg.type === 'ok'" [class.err]="egg.type === 'err'">{{ egg.text }}</span>
+            </div>
+          }
           @if (sending()) {
             <div><span class="p">&gt;</span> <span class="m">Dispatching packet...</span></div>
           } @else if (success()) {
             <div><span class="ok">✓ HTTP/2 200 OK — Message delivered to Nafi.</span></div>
           } @else {
-            <div><span class="m"># Waiting for form input...</span></div>
+            <div><span class="m"># Waiting for form input... (try typing "hire nafi" or "git blame")</span></div>
           }
         </div>
       </div>
@@ -166,13 +287,111 @@
     </div>
   </div>
 
-  <!-- FINALE BANNER: BOTH SIDES -->
-  <div class="finale" aria-hidden="true">
+  <!-- FINALE BANNER: BOTH SIDES + ROOFTOP R-007 SIGNAL -->
+  <div class="finale">
     <div class="finale__half finale__half--front">
-      <span class="text-mono">FRONT // INTERFACES &amp; MOBILE</span>
+      <div class="finale__top-row">
+        <span class="text-mono">FRONT // INTERFACES &amp; MOBILE</span>
+        <button
+          type="button"
+          class="finale__signal-btn text-mono"
+          [class.is-lit]="signalLit()"
+          data-cursor="SIGNAL"
+          (click)="toggleSignal()">
+          <i class="fa-solid fa-bolt"></i>
+          {{ signalLit() ? 'R-007 SIGNAL: LIT' : 'R-007 SIGNAL: OFF' }}
+        </button>
+      </div>
       <p class="finale__word text-display">LET'S BUILD</p>
     </div>
-    <div class="finale__half finale__half--back" data-night>
+    <div class="finale__half finale__half--back" data-night [class.is-signal-lit]="signalLit()">
+      <!-- JSON-Driven Interactive Rooftop Searchlight SVG (scenes.contactSignal) -->
+      <svg
+        class="finale__skyline"
+        [attr.viewBox]="contactScene().skylineViewBox"
+        preserveAspectRatio="xMidYMax slice"
+        aria-hidden="true">
+        <defs>
+          <linearGradient id="r007BeamGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.52" />
+            <stop offset="70%" stop-color="#0284c7" stop-opacity="0.18" />
+            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+
+        <!-- JSON-Driven Twinkling Night Stars -->
+        @for (star of contactScene().stars; track star.cx) {
+          <circle
+            [attr.cx]="star.cx"
+            [attr.cy]="star.cy"
+            [attr.r]="star.r"
+            class="finale__star"
+            [style.animation-delay]="star.delay" />
+        }
+
+        <!-- Searchlight Cone & Sky Emblem from interactive-scenes.json -->
+        <g class="finale__beam" [class.is-lit]="signalLit()">
+          <polygon [attr.points]="contactScene().tower.beamPolygon" fill="url(#r007BeamGrad)" />
+          <ellipse
+            [attr.cx]="contactScene().tower.emblemCx"
+            [attr.cy]="contactScene().tower.emblemCy"
+            rx="58"
+            ry="24"
+            fill="rgba(56, 189, 248, 0.2)"
+            stroke="rgba(56, 189, 248, 0.55)"
+            stroke-width="1.5"
+            [attr.transform]="'rotate(-12 ' + contactScene().tower.emblemCx + ' ' + contactScene().tower.emblemCy + ')'" />
+          <text
+            [attr.x]="contactScene().tower.emblemCx"
+            [attr.y]="contactScene().tower.emblemCy + 5"
+            text-anchor="middle"
+            fill="#e0f2fe"
+            font-size="13"
+            font-weight="800"
+            font-family="JetBrains Mono, monospace"
+            letter-spacing="2"
+            [attr.transform]="'rotate(-12 ' + contactScene().tower.emblemCx + ' ' + contactScene().tower.emblemCy + ')'">
+            {{ contactScene().emblem }}
+          </text>
+        </g>
+
+        <!-- JSON-Driven Skyline Silhouettes -->
+        @for (b of contactScene().buildings; track b.x) {
+          <rect
+            [attr.x]="b.x"
+            [attr.y]="b.y"
+            [attr.width]="b.w"
+            [attr.height]="b.h"
+            rx="3"
+            fill="#071122"
+            stroke="rgba(56,189,248,0.22)" />
+        }
+
+        <!-- Searchlight Projector Tower -->
+        <g
+          class="finale__tower"
+          role="button"
+          tabindex="0"
+          aria-label="Toggle R-007 rooftop searchlight"
+          (click)="toggleSignal()"
+          (keydown.enter)="toggleSignal()">
+          <line
+            [attr.x1]="contactScene().tower.x - 6"
+            [attr.y1]="contactScene().tower.y + 16"
+            [attr.x2]="contactScene().tower.x"
+            [attr.y2]="contactScene().tower.y + 2"
+            stroke="#38bdf8"
+            stroke-width="2.5" />
+          <circle
+            [attr.cx]="contactScene().tower.x"
+            [attr.cy]="contactScene().tower.y"
+            r="6"
+            fill="#0284c7"
+            stroke="#e0f2fe"
+            stroke-width="1.5" />
+        </g>
+      </svg>
+
       <span class="text-mono">BACK // CLOUD, DATA &amp; AI</span>
       <p class="finale__word text-display">THE <em>WHOLE</em> THING.</p>
     </div>

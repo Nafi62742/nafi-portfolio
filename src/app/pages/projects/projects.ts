@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
+  OnDestroy,
   ViewChild,
   computed,
   inject,
@@ -11,14 +13,19 @@ import {
 import { Router, RouterLink } from '@angular/router';
 
 import { Project } from '@models/portfolio.models';
-import { InteractiveSceneService, SkylineBuilding } from '@services/interactive-scene.service';
+import {
+  InteractiveSceneService,
+  SkylineBuilding,
+  SportsCarScene
+} from '@services/interactive-scene.service';
 import { PortfolioService } from '@services/portfolio.service';
 import { TranslateService } from '@services/translate.service';
 
 /**
  * Projects section component styled as the interactive horizontal-scrolling
- * "The Street" boulevard from devinthehood.com, supporting wheel-to-horizontal
- * scroll, click-and-drag scrolling, skyline parallax, streetlamps, and grid view.
+ * "The Street" boulevard from devinthehood.com, featuring a sticky vertical-to-horizontal
+ * scroll runway lock, a JSON-driven right-side R-007 sports car driving across the
+ * skyline with spinning wheels, and slightly rounded storefront cards.
  */
 @Component({
   selector: 'app-projects',
@@ -27,9 +34,10 @@ import { TranslateService } from '@services/translate.service';
   templateUrl: './projects.html',
   styleUrl: './projects.scss'
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('streetViewport') public streetViewport?: ElementRef<HTMLElement>;
   @ViewChild('streetSection') public streetSection?: ElementRef<HTMLElement>;
+  @ViewChild('streetSticky') public streetSticky?: ElementRef<HTMLElement>;
 
   /** All projects loaded from the portfolio service. */
   public readonly projects: Array<Project>;
@@ -46,9 +54,17 @@ export class ProjectsComponent {
   /** Whether the user is currently click-dragging the horizontal boulevard. */
   public readonly isDragging = signal<boolean>(false);
 
+  /** Total height (in px) of the sticky scroll runway so vertical scroll drives horizontal scroll. */
+  public readonly runwayHeightPx = signal<number | null>(null);
+
+  /** Shop index (0..N-1) where the daily Easter-egg cat sits by the door (devinthehood pattern). */
+  public readonly catShopIdx = signal<number>(0);
+
   private dragStartX = 0;
   private dragStartScrollLeft = 0;
   private hasDragged = false;
+  private syncingFromWindowScroll = false;
+  private resizeTimer?: ReturnType<typeof setTimeout>;
 
   private readonly portfolio = inject(PortfolioService);
   public readonly t = inject(TranslateService);
@@ -59,6 +75,32 @@ export class ProjectsComponent {
   public readonly skylineBuildings = computed<Array<SkylineBuilding>>(() =>
     this.sceneService.config().scenes.skyline.buildings
   );
+
+  /** Right-side sports car geometry loaded from assets/data/interactive-scenes.json. */
+  public readonly sportsCar = computed<SportsCarScene>(() =>
+    this.sceneService.config().scenes.sportsCar
+  );
+
+  /** Wheel rotation angle in degrees driven by horizontal scroll progress. */
+  public readonly carWheelDeg = computed<number>(() => Math.round(this.scrollPct() * 18));
+
+  /** Simulated KM/H speed readout based on horizontal scroll progress. */
+  public readonly carSpeedKmh = computed<number>(() => {
+    const pct = this.scrollPct();
+    if (pct <= 0 || pct >= 100) {
+      return 0;
+    }
+    return Math.min(312, 68 + Math.round(pct * 2.2));
+  });
+
+  /** Simulated 6-speed sequential gearbox readout based on scroll progress. */
+  public readonly currentGear = computed<string>(() => {
+    const pct = this.scrollPct();
+    if (pct <= 0) {
+      return 'N';
+    }
+    return String(Math.min(6, Math.floor(pct / 17) + 1));
+  });
 
   /** Current active shop number (1..N) based on horizontal scroll progress. */
   public readonly currentShopIndex = computed<number>(() => {
@@ -75,6 +117,21 @@ export class ProjectsComponent {
 
   constructor() {
     this.projects = this.portfolio.getProjects();
+    const daySeed = Math.floor(Date.now() / 86400000);
+    this.catShopIdx.set(this.projects.length > 0 ? daySeed % this.projects.length : 0);
+  }
+
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.recalculateRunway();
+      this.onWindowScroll();
+    }, 120);
+  }
+
+  public ngOnDestroy(): void {
+    if (this.resizeTimer) {
+      clearTimeout(this.resizeTimer);
+    }
   }
 
   /**
@@ -97,12 +154,9 @@ export class ProjectsComponent {
   public setFilter(filter: 'all' | 'office' | 'personal'): void {
     this.activeFilter = filter;
     setTimeout(() => {
-      const el = this.streetViewport?.nativeElement;
-      if (el) {
-        el.scrollLeft = 0;
-        this.updateScrollPct();
-      }
-    }, 20);
+      this.recalculateRunway();
+      this.scrollToStreetStart();
+    }, 30);
   }
 
   /**
@@ -120,7 +174,12 @@ export class ProjectsComponent {
     if (!el) {
       return;
     }
-    el.scrollTo({ left: 0, behavior: 'smooth' });
+    if (this.runwayHeightPx() !== null && this.streetSection?.nativeElement) {
+      const sectionTop = this.streetSection.nativeElement.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: Math.max(0, sectionTop - 68), behavior: 'smooth' });
+    } else {
+      el.scrollTo({ left: 0, behavior: 'smooth' });
+    }
   }
 
   /**
@@ -133,20 +192,75 @@ export class ProjectsComponent {
     if (!el) {
       return;
     }
-    el.scrollBy({ left: direction * 460, behavior: 'smooth' });
+    const delta = direction * 440;
+    if (this.runwayHeightPx() !== null && this.streetSection?.nativeElement) {
+      window.scrollBy({ top: delta, behavior: 'smooth' });
+    } else {
+      el.scrollBy({ left: delta, behavior: 'smooth' });
+    }
   }
 
   /**
-   * Updates `scrollPct` whenever the horizontal boulevard scrolls.
+   * Recalculates the vertical sticky runway height so vertical page scrolling
+   * drives the entire horizontal boulevard from 0% to 100% before unpinning.
+   */
+  @HostListener('window:resize')
+  public onWindowResize(): void {
+    if (this.resizeTimer) {
+      clearTimeout(this.resizeTimer);
+    }
+    this.resizeTimer = setTimeout(() => {
+      this.recalculateRunway();
+      this.onWindowScroll();
+    }, 100);
+  }
+
+  /**
+   * Syncs vertical window scroll inside `.street` into horizontal `scrollLeft`
+   * so the user scrolls through the entire street horizontally before reaching the next section.
+   */
+  @HostListener('window:scroll')
+  public onWindowScroll(): void {
+    const sectionEl = this.streetSection?.nativeElement;
+    const stickyEl = this.streetSticky?.nativeElement;
+    const viewportEl = this.streetViewport?.nativeElement;
+    if (!sectionEl || !stickyEl || !viewportEl || this.runwayHeightPx() === null) {
+      return;
+    }
+
+    const maxScroll = Math.max(0, viewportEl.scrollWidth - viewportEl.clientWidth);
+    if (maxScroll <= 0) {
+      return;
+    }
+
+    const rect = sectionEl.getBoundingClientRect();
+    const stickyOffset = 68;
+    const runwayTravel = Math.max(1, sectionEl.offsetHeight - stickyEl.offsetHeight);
+    const rawScrolled = stickyOffset - rect.top;
+    const clampedScrolled = Math.min(runwayTravel, Math.max(0, rawScrolled));
+    const progressRatio = clampedScrolled / runwayTravel;
+
+    this.syncingFromWindowScroll = true;
+    viewportEl.scrollLeft = progressRatio * maxScroll;
+    this.scrollPct.set(Math.min(100, Math.max(0, Math.round(progressRatio * 100))));
+    setTimeout(() => {
+      this.syncingFromWindowScroll = false;
+    }, 0);
+  }
+
+  /**
+   * Updates `scrollPct` whenever the horizontal boulevard scrolls directly.
    */
   public onViewportScroll(): void {
+    if (this.syncingFromWindowScroll) {
+      return;
+    }
     this.updateScrollPct();
   }
 
   /**
-   * Converts vertical mouse-wheel scrolling over the boulevard into smooth
-   * horizontal scrolling (just like devinthehood.com's #the-street), releasing
-   * smoothly to vertical page scroll once the start or end of the street is reached.
+   * Converts vertical or horizontal mouse-wheel scrolling over the boulevard into
+   * smooth progress along the sticky runway (or horizontal scroll on mobile).
    */
   public onViewportWheel(event: WheelEvent): void {
     const el = this.streetViewport?.nativeElement;
@@ -154,13 +268,21 @@ export class ProjectsComponent {
       return;
     }
 
-    // If user is already scrolling horizontally via trackpad, let native horizontal scroll run
-    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+    const maxScroll: number = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) {
       return;
     }
 
-    const maxScroll: number = el.scrollWidth - el.clientWidth;
-    if (maxScroll <= 0) {
+    // If sticky runway is active, translate horizontal trackpad swipe into vertical window scroll
+    if (this.runwayHeightPx() !== null) {
+      if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+        const atStart: boolean = el.scrollLeft <= 2;
+        const atEnd: boolean = el.scrollLeft >= maxScroll - 2;
+        if ((event.deltaX < 0 && !atStart) || (event.deltaX > 0 && !atEnd)) {
+          event.preventDefault();
+          window.scrollBy({ top: event.deltaX, behavior: 'auto' });
+        }
+      }
       return;
     }
 
@@ -207,8 +329,14 @@ export class ProjectsComponent {
     if (Math.abs(deltaX) > 6) {
       this.hasDragged = true;
     }
-    el.scrollLeft = this.dragStartScrollLeft - deltaX * 1.3;
-    this.updateScrollPct();
+    const targetLeft = this.dragStartScrollLeft - deltaX * 1.3;
+    if (this.runwayHeightPx() !== null && this.streetSection?.nativeElement) {
+      const sectionTop = this.streetSection.nativeElement.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: Math.max(0, sectionTop - 68 + targetLeft), behavior: 'auto' });
+    } else {
+      el.scrollLeft = targetLeft;
+      this.updateScrollPct();
+    }
   }
 
   /**
@@ -232,8 +360,15 @@ export class ProjectsComponent {
     }
     const pct: number = Number(input.value);
     const maxScroll: number = el.scrollWidth - el.clientWidth;
-    el.scrollLeft = (pct / 100) * maxScroll;
-    this.scrollPct.set(pct);
+    const targetLeft = (pct / 100) * maxScroll;
+
+    if (this.runwayHeightPx() !== null && this.streetSection?.nativeElement) {
+      const sectionTop = this.streetSection.nativeElement.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: Math.max(0, sectionTop - 68 + targetLeft), behavior: 'auto' });
+    } else {
+      el.scrollLeft = targetLeft;
+      this.scrollPct.set(pct);
+    }
   }
 
   /**
@@ -252,24 +387,42 @@ export class ProjectsComponent {
   /**
    * Converts a project name to a URL-safe slug.
    *
-   * @param name - The project name to slugify
-   * @returns A lowercase, hyphenated slug string
+   * @param name - The project name
+   * @returns URL-safe slug string
    */
   public getSlug(name: string): string {
     return name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   }
 
   /**
-   * Navigates to the detail page for the given project (ignoring accidental drag releases).
+   * Navigates to the detail page for the given project (ignoring drag release).
    *
-   * @param project - The project to navigate to
+   * @param project - The project to view
    */
   public navigateToProject(project: Project): void {
     if (this.hasDragged) {
       this.hasDragged = false;
       return;
     }
-    this.router.navigate(['/project', this.getSlug(project.name)]);
+    void this.router.navigate(['/project', this.getSlug(project.name)]);
+  }
+
+  private recalculateRunway(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const viewportEl = this.streetViewport?.nativeElement;
+    const stickyEl = this.streetSticky?.nativeElement;
+    if (!viewportEl || !stickyEl || window.innerWidth <= 768) {
+      this.runwayHeightPx.set(null);
+      return;
+    }
+    const maxScroll = Math.max(0, viewportEl.scrollWidth - viewportEl.clientWidth);
+    if (maxScroll <= 20) {
+      this.runwayHeightPx.set(null);
+      return;
+    }
+    this.runwayHeightPx.set(stickyEl.offsetHeight + maxScroll);
   }
 
   private updateScrollPct(): void {
@@ -283,6 +436,6 @@ export class ProjectsComponent {
       return;
     }
     const pct: number = Math.round((el.scrollLeft / maxScroll) * 100);
-    this.scrollPct.set(Math.max(0, Math.min(100, pct)));
+    this.scrollPct.set(Math.min(100, Math.max(0, pct)));
   }
 }

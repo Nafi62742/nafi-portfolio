@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
@@ -16,8 +17,8 @@ import { TranslateService } from '@services/translate.service';
 
 /**
  * Featured showcase component for the RunMate marathon & GPS running ecosystem.
- * Includes an interactive animated device mockup slider, horizontal scrollable
- * feature strip (devinthehood style), and official store download action badges.
+ * Includes an interactive animated device mockup slider, sticky vertical-to-horizontal
+ * scrollable feature strip (devinthehood style), and official store download action badges.
  */
 @Component({
   selector: 'app-runmate',
@@ -26,7 +27,9 @@ import { TranslateService } from '@services/translate.service';
   templateUrl: './runmate.html',
   styleUrl: './runmate.scss'
 })
-export class RunmateComponent implements OnInit, OnDestroy {
+export class RunmateComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('featuresRunway') public featuresRunway?: ElementRef<HTMLElement>;
+  @ViewChild('featuresSticky') public featuresSticky?: ElementRef<HTMLElement>;
   @ViewChild('featuresViewport') public featuresViewport?: ElementRef<HTMLElement>;
   @ViewChild('slidesViewport') public slidesViewport?: ElementRef<HTMLElement>;
 
@@ -45,11 +48,11 @@ export class RunmateComponent implements OnInit, OnDestroy {
   /** Signal tracking currently selected feature tab ('all' defaults to all features on the horizontal strip). */
   public readonly activeTab = signal<'all' | 'runners' | 'races' | 'organizers' | 'tech'>('all');
 
-  /** Layout mode for features: 'strip' (horizontal scrollable strip) or 'grid'. */
-  public readonly featureViewMode = signal<'strip' | 'grid'>('strip');
-
   /** Horizontal scroll progress (0..100) for the features strip. */
   public readonly featureScrollPct = signal<number>(0);
+
+  /** Dynamic runway height (px) for vertical-to-horizontal sticky scroll lock. */
+  public readonly featuresRunwayHeightPx = signal<number | null>(null);
 
   /** Whether the user is currently dragging the horizontal features strip. */
   public readonly isDraggingFeatures = signal<boolean>(false);
@@ -65,6 +68,7 @@ export class RunmateComponent implements OnInit, OnDestroy {
 
   private dragStartX = 0;
   private dragStartScrollLeft = 0;
+  private resizeObserver: ResizeObserver | null = null;
 
   /**
    * Global keyboard listener to close lightbox on Escape.
@@ -86,10 +90,48 @@ export class RunmateComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Measures the horizontal features strip after view initialization.
+   */
+  public ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.recalculateRunway();
+      this.syncHorizontalFromVerticalScroll();
+    }, 80);
+
+    if (typeof ResizeObserver !== 'undefined' && this.featuresViewport?.nativeElement) {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.recalculateRunway();
+        this.syncHorizontalFromVerticalScroll();
+      });
+      this.resizeObserver.observe(this.featuresViewport.nativeElement);
+    }
+  }
+
+  /**
    * Cleans up running timers on component destruction.
    */
   public ngOnDestroy(): void {
     this.stopAutoPlay();
+    this.resizeObserver?.disconnect();
+  }
+
+  /**
+   * Synchronizes the horizontal features strip with vertical page scrolling.
+   */
+  @HostListener('window:scroll')
+  public onWindowScroll(): void {
+    if (!this.isDraggingFeatures()) {
+      this.syncHorizontalFromVerticalScroll();
+    }
+  }
+
+  /**
+   * Recalculates the sticky runway height when the viewport resizes.
+   */
+  @HostListener('window:resize')
+  public onWindowResize(): void {
+    this.recalculateRunway();
+    this.syncHorizontalFromVerticalScroll();
   }
 
   /**
@@ -132,7 +174,8 @@ export class RunmateComponent implements OnInit, OnDestroy {
         el.scrollLeft = 0;
         this.updateFeatureScrollPct();
       }
-    }, 20);
+      this.recalculateRunway();
+    }, 30);
   }
 
   /**
@@ -145,7 +188,12 @@ export class RunmateComponent implements OnInit, OnDestroy {
     if (!el) {
       return;
     }
-    el.scrollBy({ left: direction * 380, behavior: 'smooth' });
+    const maxScroll: number = Math.max(1, el.scrollWidth - el.clientWidth);
+    const targetScrollLeft: number = Math.max(0, Math.min(maxScroll, el.scrollLeft + direction * 380));
+    const ratio: number = targetScrollLeft / maxScroll;
+    if (!this.scrollWindowToFeatureRatio(ratio)) {
+      el.scrollBy({ left: direction * 380, behavior: 'smooth' });
+    }
   }
 
   /**
@@ -156,31 +204,17 @@ export class RunmateComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Converts vertical mouse-wheel scrolling over the features strip into smooth
-   * horizontal scrolling, releasing to page scroll at the start/end boundaries.
+   * Converts horizontal trackpad scrolling over the features strip into vertical page scroll
+   * so the sticky runway stays synchronized.
    */
   public onFeaturesWheel(event: WheelEvent): void {
-    if (this.featureViewMode() !== 'strip') {
-      return;
-    }
     const el = this.featuresViewport?.nativeElement;
     if (!el) {
       return;
     }
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-      return;
-    }
-    const maxScroll: number = el.scrollWidth - el.clientWidth;
-    if (maxScroll <= 0) {
-      return;
-    }
-    const atStart: boolean = el.scrollLeft <= 2;
-    const atEnd: boolean = el.scrollLeft >= maxScroll - 2;
-
-    if ((event.deltaY < 0 && !atStart) || (event.deltaY > 0 && !atEnd)) {
       event.preventDefault();
-      el.scrollLeft += event.deltaY * 1.15;
-      this.updateFeatureScrollPct();
+      window.scrollBy({ top: event.deltaX, behavior: 'auto' });
     }
   }
 
@@ -213,7 +247,7 @@ export class RunmateComponent implements OnInit, OnDestroy {
    * Starts click-and-drag scrolling on the horizontal features strip.
    */
   public onFeaturesDragStart(event: MouseEvent): void {
-    if (this.featureViewMode() !== 'strip' || event.button !== 0) {
+    if (event.button !== 0) {
       return;
     }
     const el = this.featuresViewport?.nativeElement;
@@ -257,8 +291,10 @@ export class RunmateComponent implements OnInit, OnDestroy {
     }
     const pct: number = Number(input.value);
     const maxScroll: number = el.scrollWidth - el.clientWidth;
-    el.scrollLeft = (pct / 100) * maxScroll;
+    const ratio: number = Math.max(0, Math.min(1, pct / 100));
+    el.scrollLeft = ratio * maxScroll;
     this.featureScrollPct.set(pct);
+    this.scrollWindowToFeatureRatio(ratio);
   }
 
   /**
@@ -383,5 +419,69 @@ export class RunmateComponent implements OnInit, OnDestroy {
     }
     const pct: number = Math.round((el.scrollLeft / maxScroll) * 100);
     this.featureScrollPct.set(Math.max(0, Math.min(100, pct)));
+  }
+
+  private recalculateRunway(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    const stickyEl = this.featuresSticky?.nativeElement;
+    const viewportEl = this.featuresViewport?.nativeElement;
+    if (!stickyEl || !viewportEl) {
+      return;
+    }
+    if (window.innerWidth <= 900) {
+      this.featuresRunwayHeightPx.set(null);
+      return;
+    }
+    const maxScroll: number = Math.max(0, viewportEl.scrollWidth - viewportEl.clientWidth);
+    const stickyHeight: number = Math.max(stickyEl.offsetHeight, 440);
+    this.featuresRunwayHeightPx.set(Math.round(stickyHeight + maxScroll * 0.95));
+  }
+
+  private syncHorizontalFromVerticalScroll(): void {
+    if (typeof window === 'undefined' || window.innerWidth <= 900) {
+      return;
+    }
+    const runwayEl = this.featuresRunway?.nativeElement;
+    const stickyEl = this.featuresSticky?.nativeElement;
+    const viewportEl = this.featuresViewport?.nativeElement;
+    if (!runwayEl || !stickyEl || !viewportEl) {
+      return;
+    }
+    const maxScroll: number = viewportEl.scrollWidth - viewportEl.clientWidth;
+    if (maxScroll <= 0) {
+      return;
+    }
+    const rect: DOMRect = runwayEl.getBoundingClientRect();
+    const stickyOffsetTop = 88;
+    const travel: number = runwayEl.offsetHeight - stickyEl.offsetHeight;
+    if (travel <= 10) {
+      return;
+    }
+    const scrolledInto: number = stickyOffsetTop - rect.top;
+    const ratio: number = Math.max(0, Math.min(1, scrolledInto / travel));
+    viewportEl.scrollLeft = ratio * maxScroll;
+    this.featureScrollPct.set(Math.round(ratio * 100));
+  }
+
+  private scrollWindowToFeatureRatio(ratio: number): boolean {
+    if (typeof window === 'undefined' || window.innerWidth <= 900) {
+      return false;
+    }
+    const runwayEl = this.featuresRunway?.nativeElement;
+    const stickyEl = this.featuresSticky?.nativeElement;
+    if (!runwayEl || !stickyEl) {
+      return false;
+    }
+    const travel: number = runwayEl.offsetHeight - stickyEl.offsetHeight;
+    if (travel <= 10) {
+      return false;
+    }
+    const stickyOffsetTop = 88;
+    const runwayTop: number = window.scrollY + runwayEl.getBoundingClientRect().top - stickyOffsetTop;
+    const targetY: number = runwayTop + Math.max(0, Math.min(1, ratio)) * travel;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+    return true;
   }
 }

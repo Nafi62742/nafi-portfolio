@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { ContactSignalScene, InteractiveSceneService } from '@services/interactive-scene.service';
 import { TranslateService } from '@services/translate.service';
 
 /** Shape of a single contact info row (email, phone, location). */
@@ -53,6 +54,15 @@ export class ContactComponent {
   /** True for 2.5 seconds after the email is copied to clipboard. */
   public readonly copied = signal<boolean>(false);
 
+  /** Whether the finale rooftop R-007 searchlight signal beam is lit. */
+  public readonly signalLit = signal<boolean>(true);
+
+  /** Currently inspected relay node index in the JSON-driven uplink animation. */
+  public readonly activeNodeIdx = signal<number>(0);
+
+  /** True briefly when a test ping packet is fired across the JSON relay circuit. */
+  public readonly pingingUplink = signal<boolean>(false);
+
   /** Contact detail rows displayed alongside the form. */
   public readonly contactInfo: Array<ContactInfoItem> = [
     { icon: 'fa-envelope',     label: 'Email',    value: 'nafiahmed318@gmail.com', href: 'https://mail.google.com/mail/?view=cm&fs=1&to=nafiahmed318@gmail.com' },
@@ -68,6 +78,97 @@ export class ContactComponent {
   ];
 
   public readonly t = inject(TranslateService);
+  public readonly sceneService = inject(InteractiveSceneService);
+
+  /** JSON-driven Contact Signal & Relay animation scene from assets/data/interactive-scenes.json. */
+  public readonly contactScene = computed<ContactSignalScene>(
+    () => this.sceneService.config().scenes.contactSignal
+  );
+
+  /**
+   * Toggles the rooftop R-007 searchlight beam in the finale skyline.
+   */
+  public toggleSignal(): void {
+    this.signalLit.update((v: boolean) => !v);
+  }
+
+  /**
+   * Selects a relay node in the JSON-driven packet visualizer and triggers a test ping.
+   */
+  public selectRelayNode(index: number): void {
+    this.activeNodeIdx.set(index);
+    this.triggerUplinkPing();
+  }
+
+  /**
+   * Fires an animated test packet burst across the JSON-defined relay nodes.
+   */
+  public triggerUplinkPing(): void {
+    this.pingingUplink.set(true);
+    setTimeout(() => {
+      this.pingingUplink.set(false);
+    }, 1100);
+  }
+
+  /**
+   * Computes live JSON payload size in bytes as the user fills in the contact form.
+   */
+  public get payloadBytes(): number {
+    const base = 112;
+    const n: number = (this.name ?? '').length;
+    const e: number = (this.email ?? '').length;
+    const m: number = (this.message ?? '').length;
+    return base + n + e + m;
+  }
+
+  /**
+   * Computes form completion stage (1..4) to light up the JSON relay nodes progressively.
+   */
+  public get activeRelayStage(): number {
+    if (this.success()) {
+      return 4;
+    }
+    if (this.sending() || this.pingingUplink()) {
+      return 4;
+    }
+    let stage = 1;
+    if (this.name && this.name.trim().length > 0) {
+      stage = 2;
+    }
+    if (this.email && this.email.trim().length > 0) {
+      stage = 3;
+    }
+    if (this.message && this.message.trim().length > 0) {
+      stage = 4;
+    }
+    return stage;
+  }
+
+  /**
+   * Evaluates live terminal Easter-egg responses (devinthehood style) based on message input.
+   */
+  public get terminalEasterEgg(): { type: 'ok' | 'err'; text: string } | null {
+    const raw: string = `${this.name ?? ''} ${this.message ?? ''}`.trim();
+    if (!raw) {
+      return null;
+    }
+    if (/\bsudo make me a sandwich\b/i.test(raw)) {
+      return { type: 'ok', text: '> Okay. 🥪' };
+    }
+    if (/\bmake me a sandwich\b/i.test(raw)) {
+      return { type: 'err', text: '! What? Make it yourself.' };
+    }
+    if (/\brm -rf \/(?!\S)/.test(raw)) {
+      return { type: 'err', text: '! rm: refusing to remove the whole hood. Nice try.' };
+    }
+    if (/\bgit blame\b/i.test(raw)) {
+      return { type: 'ok', text: '> It was the intern. There is no intern.' };
+    }
+    if (/\b(?:hire|hired)\b.*\b(?:nafi|racer|racer007)\b|\b(?:nafi|racer|racer007)\b.*\bhire/i.test(raw)) {
+      return { type: 'ok', text: '> Wise choice. Press Send.' };
+    }
+    return null;
+  }
 
   /**
    * Copies the provided email address to the clipboard and opens the default mail client.

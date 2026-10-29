@@ -40,6 +40,7 @@
   &__stage {
     position: relative;
     border: 1px solid var(--night-line);
+    border-radius: 14px;
     background: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.16), transparent 70%), #050a14;
     padding: 1.25rem 1.25rem 1.5rem;
     display: flex;
@@ -153,6 +154,8 @@
     width: 100%;
     margin-top: 0.75rem;
     border: 1px solid var(--night-line);
+    border-radius: 10px;
+    overflow: hidden;
     background: rgba(14, 24, 43, 0.85);
   }
 
@@ -225,6 +228,8 @@
   /* Core Architectural Pillars */
   &__pillars {
     border: 1px solid var(--night-line);
+    border-radius: 12px;
+    overflow: hidden;
     background: var(--night-2);
   }
 
@@ -302,6 +307,8 @@
     background: var(--bg);
     color: var(--ink);
     border: 1px solid var(--ink);
+    border-radius: 14px;
+    overflow: hidden;
     box-shadow: 0 32px 70px -28px rgba(0, 0, 0, 0.75);
     position: relative;
 
