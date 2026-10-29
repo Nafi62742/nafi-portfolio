@@ -1,7 +1,9 @@
 <section
   class="split"
   [style.--split-ratio.%]="splitRatio()"
-  aria-label="Hero — Two Sides">
+  aria-label="Hero — Two Sides"
+  (pointermove)="onHeroPointerMove($event)"
+  (pointerleave)="onHeroPointerLeave()">
 
   <!-- LEFT HALF: FRONT / WEB & MOBILE (Ice Blueprint) -->
   <div class="split__half split__half--front">
@@ -182,12 +184,21 @@
     </div>
   </div>
 
-  <!-- CENTER SPLIT SEAM & INTERACTIVE GEOMETRIC HOODED CHARACTER + HEX BANNER -->
+  <!-- CENTER SPLIT SEAM & ANIMATED GEOMETRIC HOODED DEVELOPER + HEX BANNER -->
   <div class="split__seam" aria-hidden="true"></div>
 
   <div class="split__center">
-    <!-- Split Geometric Hooded Developer SVG (Dynamic clip-path synced with splitRatio) -->
-    <div class="split__character" aria-hidden="true">
+    <!-- Animated Split Geometric Hooded Developer SVG (Breathing, Cursor-Tracking Gaze, Wireframe Data Flow & Scanner) -->
+    <div
+      class="split__character"
+      [class.is-energized]="hoodieEnergized()"
+      role="button"
+      tabindex="0"
+      data-cursor="SHIFT"
+      aria-label="Interactive R-007 Hooded Developer — Click to shift Front and Back perspective"
+      (click)="pulseHoodie()"
+      (keydown.enter)="pulseHoodie()">
+
       <svg class="hoodie" viewBox="0 0 500 620">
         <defs>
           <clipPath id="hero-clip-left">
@@ -197,51 +208,214 @@
             <rect [attr.x]="svgSplitX()" y="0" [attr.width]="500 - svgSplitX()" height="620" />
           </clipPath>
           <pattern id="hero-scanlines" width="6" height="6" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="6" y2="0" stroke="#38bdf8" stroke-width="0.6" stroke-opacity="0.35" />
+            <line x1="0" y1="0" x2="6" y2="0" stroke="#38bdf8" stroke-width="0.65" stroke-opacity="0.38" />
           </pattern>
+          <linearGradient id="hood-scan-beam" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
+            <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+          </linearGradient>
+          <radialGradient id="hood-aura-glow" cx="50%" cy="42%" r="46%">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.32" />
+            <stop offset="60%" stop-color="#2563eb" stop-opacity="0.1" />
+            <stop offset="100%" stop-color="#050a14" stop-opacity="0" />
+          </radialGradient>
         </defs>
-        <!-- Left Half (Blueprint / Front Cobalt) -->
+
+        <!-- Ambient Pulsing Cyber Halo Behind Hooded Figure -->
+        <circle class="hoodie__halo" cx="250" cy="240" r="165" fill="url(#hood-aura-glow)" />
+        <circle class="hoodie__ring" cx="250" cy="240" r="142" fill="none" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6 10" opacity="0.4" />
+
+        <!-- ============================================================ -->
+        <!-- LEFT HALF: FRONT / CLIENT SIDE (Low-Poly Shimmer & UI Shards) -->
+        <!-- ============================================================ -->
         <g clip-path="url(#hero-clip-left)">
-          <path d="M55 585 L95 360 L150 322 L250 335 L250 585 Z" fill="#2563eb" />
-          <path d="M95 360 L150 322 L192 415 L120 460 Z" fill="#1d4ed8" />
-          <path d="M150 322 L222 395 L250 395 L250 335 Z" fill="#0b192c" />
-          <path d="M210 385 L250 585 L180 585 Z" fill="#1e40af" />
-          <path d="M135 280 L170 118 L250 88 L250 338 L175 322 Z" fill="#2563eb" />
-          <path d="M170 118 L250 88 L215 170 L148 220 Z" fill="#3b82f6" />
-          <path d="M180 155 L250 132 L250 315 L195 292 Z" fill="#0b192c" />
-          <polygon points="210,225 242,225 236,236 212,235" fill="#eef4fb" />
-          <!-- R 007 Badge on Chest -->
-          <text x="200" y="450" text-anchor="middle" fill="#eef4fb" font-family="Archivo, sans-serif" font-weight="800" font-size="20">R</text>
+          <!-- Floating Low-Poly Code / UI Shards (Left Side) -->
+          <g class="hoodie__shard hoodie__shard--1">
+            <polygon points="72,175 96,162 104,188 78,196" fill="#3b82f6" fill-opacity="0.25" stroke="#2563eb" stroke-width="1.2" />
+            <text x="88" y="183" text-anchor="middle" fill="#1d4ed8" font-family="JetBrains Mono, monospace" font-weight="700" font-size="11">&lt;/&gt;</text>
+          </g>
+          <g class="hoodie__shard hoodie__shard--2">
+            <polygon points="54,305 84,295 88,320 58,326" fill="#2563eb" fill-opacity="0.18" stroke="#2563eb" stroke-width="1.2" />
+            <text x="71" y="315" text-anchor="middle" fill="#1e40af" font-family="JetBrains Mono, monospace" font-weight="700" font-size="10">UI</text>
+          </g>
+
+          <!-- Breathing & Counter-Parallax Torso Group -->
+          <g class="hoodie__body">
+            <g [style.transform]="torsoTransform()">
+              <!-- Main Jacket Torso Base -->
+              <path class="hoodie__facet hoodie__facet--1" d="M55 585 L95 360 L150 322 L250 335 L250 585 Z" fill="#2563eb" />
+              <!-- Left Shoulder Low-Poly Facets -->
+              <path class="hoodie__facet hoodie__facet--2" d="M95 360 L150 322 L192 415 L120 460 Z" fill="#1d4ed8" />
+              <path class="hoodie__facet hoodie__facet--3" d="M55 585 L95 360 L120 460 L92 585 Z" fill="#1e40af" />
+              <path class="hoodie__facet hoodie__facet--4" d="M120 460 L192 415 L180 585 L92 585 Z" fill="#2563eb" />
+              <!-- Collar V-Neck Shadow -->
+              <path d="M150 322 L222 395 L250 395 L250 335 Z" fill="#0b192c" />
+              <!-- Center Chest Zip Panel -->
+              <path class="hoodie__facet hoodie__facet--5" d="M210 385 L250 585 L180 585 Z" fill="#1e3a8a" />
+
+              <!-- Left Swaying Hoodie Drawstring Cord & Glowing Aglet -->
+              <g class="hoodie__cord">
+                <path d="M198 338 Q 190 402 196 456" fill="none" stroke="#93c5fd" stroke-width="3" stroke-linecap="round" />
+                <rect x="193" y="452" width="6" height="14" rx="2" fill="#38bdf8" />
+              </g>
+
+              <!-- Glowing Circuit Trace & "R" Chest Emblem -->
+              <polyline points="142,505 174,475 202,475" fill="none" stroke="#93c5fd" stroke-width="1.5" stroke-opacity="0.7" />
+              <circle cx="142" cy="505" r="3" fill="#93c5fd" />
+              <text x="212" y="454" text-anchor="middle" fill="#eef4fb" font-family="Archivo, sans-serif" font-weight="900" font-size="22">R</text>
+            </g>
+
+            <!-- Cursor-Tilting Hood Cowl & Visor Eyes (Left Half) -->
+            <g class="hoodie__head" [style.transform]="headTransform()">
+              <!-- Outer Sculpted Low-Poly Hood Cowl -->
+              <path class="hoodie__facet hoodie__facet--2" d="M135 280 L170 118 L250 84 L250 338 L175 322 Z" fill="#2563eb" />
+              <path class="hoodie__facet hoodie__facet--6" d="M170 118 L250 84 L215 168 L148 220 Z" fill="#3b82f6" />
+              <path class="hoodie__facet hoodie__facet--1" d="M135 280 L148 220 L195 292 L175 322 Z" fill="#1d4ed8" />
+
+              <!-- Deep Hood Inner Shadow Void -->
+              <path d="M178 152 L250 128 L250 315 L194 292 Z" fill="#07101f" stroke="#60a5fa" stroke-width="1" stroke-opacity="0.45" />
+
+              <!-- Cursor-Tracking & Blinking Left Cyber Eye -->
+              <g [style.transform]="eyeTransform()">
+                <g class="hoodie__eye">
+                  <polygon points="206,222 242,224 236,236 209,234" fill="#eef4fb" />
+                  <polygon points="210,224 240,225 235,233 212,232" fill="#38bdf8" opacity="0.55" />
+                </g>
+              </g>
+            </g>
+          </g>
         </g>
-        <!-- Right Half (Night / Back Cyan Wireframe) -->
+
+        <!-- ============================================================ -->
+        <!-- RIGHT HALF: BACK / SERVER & AI (Live Wireframe + Scanner)    -->
+        <!-- ============================================================ -->
         <g clip-path="url(#hero-clip-right)">
-          <path d="M445 585 L405 360 L350 322 L250 335 L250 585 Z" fill="url(#hero-scanlines)" stroke="#38bdf8" stroke-width="1.5" />
-          <path d="M365 280 L330 118 L250 88 L250 338 L325 322 Z" fill="url(#hero-scanlines)" stroke="#38bdf8" stroke-width="1.5" />
-          <path d="M320 155 L250 132 L250 315 L305 292 Z" fill="#050a14" stroke="#38bdf8" stroke-width="1.2" />
-          <g stroke="#38bdf8" stroke-width="0.9" stroke-opacity="0.7" fill="none">
-            <line x1="250" y1="88" x2="330" y2="118" />
-            <line x1="250" y1="132" x2="365" y2="280" />
-            <line x1="330" y1="118" x2="305" y2="292" />
-            <line x1="325" y1="322" x2="405" y2="360" />
-            <line x1="250" y1="335" x2="405" y2="360" />
-            <line x1="350" y1="322" x2="445" y2="585" />
-            <line x1="250" y1="395" x2="405" y2="360" />
-            <line x1="250" y1="395" x2="380" y2="585" />
-            <line x1="250" y1="490" x2="445" y2="585" />
+          <!-- Floating Backend Telemetry Nodes (Right Side) -->
+          <g class="hoodie__shard hoodie__shard--3">
+            <polygon points="418,165 446,154 452,180 422,188" fill="#0b192c" stroke="#38bdf8" stroke-width="1.2" />
+            <text x="435" y="175" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-weight="700" font-size="9.5">AWS</text>
           </g>
-          <g fill="#38bdf8">
-            <circle cx="330" cy="118" r="3" />
-            <circle cx="365" cy="280" r="3" />
-            <circle cx="325" cy="322" r="3" />
-            <circle cx="405" cy="360" r="3" />
-            <circle cx="350" cy="322" r="3" />
-            <circle cx="305" cy="292" r="2.5" />
+          <g class="hoodie__shard hoodie__shard--4">
+            <polygon points="426,298 456,288 462,314 430,320" fill="#0b192c" stroke="#38bdf8" stroke-width="1.2" />
+            <text x="444" y="308" text-anchor="middle" fill="#7dd3fc" font-family="JetBrains Mono, monospace" font-weight="700" font-size="9.5">AI</text>
           </g>
-          <polygon points="290,225 258,225 264,236 288,235" fill="#38bdf8" />
-          <text x="305" y="450" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-weight="800" font-size="18">007</text>
+
+          <!-- Breathing & Counter-Parallax Torso Group (Right Wireframe) -->
+          <g class="hoodie__body">
+            <g [style.transform]="torsoTransform()">
+              <!-- Scanline Torso Shell -->
+              <path d="M445 585 L405 360 L350 322 L250 335 L250 585 Z" fill="url(#hero-scanlines)" stroke="#38bdf8" stroke-width="1.5" />
+
+              <!-- Base Wireframe Mesh Triangulation -->
+              <g stroke="#38bdf8" stroke-width="0.9" stroke-opacity="0.45" fill="none">
+                <line x1="325" y1="322" x2="405" y2="360" />
+                <line x1="250" y1="335" x2="405" y2="360" />
+                <line x1="350" y1="322" x2="445" y2="585" />
+                <line x1="250" y1="395" x2="405" y2="360" />
+                <line x1="250" y1="395" x2="380" y2="585" />
+                <line x1="250" y1="490" x2="445" y2="585" />
+                <line x1="350" y1="322" x2="312" y2="445" />
+                <line x1="312" y1="445" x2="405" y2="360" />
+                <line x1="312" y1="445" x2="380" y2="585" />
+              </g>
+
+              <!-- Animated Data-Flow Streams Travelling Along Wireframe Edges -->
+              <g class="hoodie__wire-flow" stroke="#7dd3fc" stroke-width="1.6" fill="none">
+                <line x1="250" y1="335" x2="405" y2="360" />
+                <line x1="405" y1="360" x2="312" y2="445" />
+                <line x1="312" y1="445" x2="380" y2="585" />
+                <line x1="350" y1="322" x2="445" y2="585" />
+              </g>
+
+              <!-- Right Swaying Wireframe Drawstring Cord -->
+              <g class="hoodie__cord hoodie__cord--right">
+                <path d="M302 338 Q 310 402 304 456" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4 3" />
+                <rect x="301" y="452" width="6" height="14" rx="2" fill="#050a14" stroke="#38bdf8" stroke-width="1.4" />
+              </g>
+
+              <!-- Pulsing Vertex Constellation Nodes -->
+              <g class="hoodie__nodes" fill="#38bdf8">
+                <circle class="hoodie__node hoodie__node--1" cx="325" cy="322" r="3.5" />
+                <circle class="hoodie__node hoodie__node--2" cx="405" cy="360" r="4" />
+                <circle class="hoodie__node hoodie__node--3" cx="350" cy="322" r="3.5" />
+                <circle class="hoodie__node hoodie__node--4" cx="312" cy="445" r="3.5" />
+                <circle class="hoodie__node hoodie__node--1" cx="380" cy="540" r="3" />
+              </g>
+
+              <!-- "007" Stencil Emblem on Right Chest -->
+              <text x="306" y="454" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-weight="800" font-size="19" letter-spacing="2">007</text>
+            </g>
+
+            <!-- Cursor-Tilting Wireframe Hood Cowl & Visor Eye (Right Half) -->
+            <g class="hoodie__head" [style.transform]="headTransform()">
+              <path d="M365 280 L330 118 L250 84 L250 338 L325 322 Z" fill="url(#hero-scanlines)" stroke="#38bdf8" stroke-width="1.5" />
+
+              <!-- Head Wireframe Mesh Lines -->
+              <g stroke="#38bdf8" stroke-width="0.95" stroke-opacity="0.55" fill="none">
+                <line x1="250" y1="84"  x2="330" y2="118" />
+                <line x1="250" y1="128" x2="365" y2="280" />
+                <line x1="330" y1="118" x2="306" y2="292" />
+                <line x1="285" y1="168" x2="365" y2="280" />
+              </g>
+
+              <!-- Animated Data Flow on Hood Cowl -->
+              <g class="hoodie__wire-flow" stroke="#7dd3fc" stroke-width="1.6" fill="none">
+                <line x1="250" y1="84"  x2="330" y2="118" />
+                <line x1="330" y1="118" x2="365" y2="280" />
+              </g>
+
+              <!-- Deep Hood Inner Void (Right Half) -->
+              <path d="M322 152 L250 128 L250 315 L306 292 Z" fill="#050a14" stroke="#38bdf8" stroke-width="1.3" />
+
+              <!-- Hood Vertex Nodes -->
+              <circle class="hoodie__node hoodie__node--2" cx="330" cy="118" r="3.5" fill="#38bdf8" />
+              <circle class="hoodie__node hoodie__node--4" cx="365" cy="280" r="3.5" fill="#38bdf8" />
+              <circle class="hoodie__node hoodie__node--1" cx="306" cy="292" r="2.8" fill="#38bdf8" />
+
+              <!-- Cursor-Tracking & Blinking Right Cyber Eye -->
+              <g [style.transform]="eyeTransform()">
+                <g class="hoodie__eye">
+                  <polygon points="294,222 258,224 264,236 291,234" fill="#38bdf8" />
+                  <polygon points="290,224 260,225 265,232 288,231" fill="#e0f2fe" opacity="0.85" />
+                </g>
+              </g>
+            </g>
+
+            <!-- Sweeping Vertical Holographic Laser Scanner Bar across Right Half -->
+            <rect
+              class="hoodie__scan-beam"
+              x="250"
+              y="80"
+              width="210"
+              height="28"
+              fill="url(#hood-scan-beam)" />
+          </g>
         </g>
-        <!-- Dynamic Seam Line -->
-        <line [attr.x1]="svgSplitX()" y1="60" [attr.x2]="svgSplitX()" y2="600" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5 4" />
+
+        <!-- ============================================================ -->
+        <!-- DYNAMIC ENERGY SPLIT SEAM LINE & TRAVELLING SPARKS           -->
+        <!-- ============================================================ -->
+        <line
+          class="hoodie__seam-glow"
+          [attr.x1]="svgSplitX()"
+          y1="56"
+          [attr.x2]="svgSplitX()"
+          y2="594"
+          stroke="#38bdf8"
+          stroke-width="4"
+          stroke-opacity="0.28" />
+        <line
+          class="hoodie__seam-line"
+          [attr.x1]="svgSplitX()"
+          y1="56"
+          [attr.x2]="svgSplitX()"
+          y2="594"
+          stroke="#38bdf8"
+          stroke-width="2"
+          stroke-dasharray="8 6" />
+        <circle [attr.cx]="svgSplitX()" cy="84"  r="4" fill="#38bdf8" />
+        <circle [attr.cx]="svgSplitX()" cy="585" r="4" fill="#38bdf8" />
       </svg>
     </div>
 
