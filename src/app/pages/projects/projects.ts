@@ -115,6 +115,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   /** Parallax X offset in pixels for the sun/moon orb. */
   public readonly sunParallaxX = computed<number>(() => -Math.round(this.scrollPct() * 0.45));
 
+  private resizeObserver: ResizeObserver | null = null;
+
   constructor() {
     this.projects = this.portfolio.getProjects();
     const daySeed = Math.floor(Date.now() / 86400000);
@@ -125,13 +127,27 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.recalculateRunway();
       this.onWindowScroll();
-    }, 120);
+    }, 100);
+
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.recalculateRunway();
+        this.onWindowScroll();
+      });
+      if (this.streetViewport?.nativeElement) {
+        this.resizeObserver.observe(this.streetViewport.nativeElement);
+      }
+      if (this.streetSticky?.nativeElement) {
+        this.resizeObserver.observe(this.streetSticky.nativeElement);
+      }
+    }
   }
 
   public ngOnDestroy(): void {
     if (this.resizeTimer) {
       clearTimeout(this.resizeTimer);
     }
+    this.resizeObserver?.disconnect();
   }
 
   /**

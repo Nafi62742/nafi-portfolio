@@ -1,12 +1,10 @@
 <section
-  #streetSection
   class="street"
   [class.is-lamps-lit]="lampsLit()"
-  [style.height.px]="runwayHeightPx()"
   aria-label="Projects — The Street">
 
-  <div #streetSticky class="street__sticky">
-    <!-- Section Header -->
+  <!-- Section Header & District Filter (scrolls normally into view before the sticky stage locks) -->
+  <div class="street__intro">
     <div class="street__head reveal">
       <div>
         <p class="kicker">05 — {{ t.t('projects.section_label') }} // THE STREET</p>
@@ -59,9 +57,16 @@
         </button>
       </div>
     </div>
+  </div>
 
-    <!-- Interactive Animated JSON Skyline + R-007 Right-Side Sports Car Scene -->
-    <div class="street__stage">
+  <!-- Sticky Runway: Locks when the Animated R-007 Sports Car Sky + Project List Below Fill the Screen -->
+  <div
+    #streetSection
+    class="street__runway"
+    [style.height.px]="runwayHeightPx()">
+    <div #streetSticky class="street__sticky">
+      <!-- Interactive Animated JSON Skyline + R-007 Right-Side Sports Car Scene + Horizontal Project List -->
+      <div class="street__stage">
       <div class="street__sky" aria-hidden="true">
         <!-- Live Telemetry HUD Badge -->
         <div class="street__car-hud text-mono">
@@ -458,6 +463,7 @@
         <div class="street__progress">
           <span class="street__progress-fill" [style.width.%]="scrollPct()"></span>
         </div>
+      </div>
       </div>
     </div>
   </div>

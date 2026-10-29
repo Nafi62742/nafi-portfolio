@@ -1,11 +1,9 @@
 <section
-  #factorySection
   class="factory"
   data-night
-  [style.height.px]="runwayHeightPx()"
   aria-label="Experience — The Factory">
 
-  <div #factorySticky class="factory__sticky">
+  <div class="factory__intro">
     <div class="factory__head reveal">
       <div>
         <p class="kicker">04 — {{ t.t('experience.section_label') }} // THE FACTORY</p>
@@ -24,9 +22,16 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Interactive Factory Stage: JSON Gears + Hydraulic Press + Conveyor Belt (devinthehood .factory__stage) -->
-    <div class="factory__machine-stage reveal delay-1">
+  <!-- Sticky Runway: Locks when the Animated Factory Machines + Conveyor Belt List Below Fill the Screen -->
+  <div
+    #factorySection
+    class="factory__runway"
+    [style.height.px]="runwayHeightPx()">
+    <div #factorySticky class="factory__sticky">
+      <!-- Interactive Factory Stage: JSON Gears + Hydraulic Press + Conveyor Belt (devinthehood .factory__stage) -->
+      <div class="factory__machine-stage">
       <!-- JSON-Driven Animated Factory Gears, Industrial Silos & Pistons Backdrop -->
       <svg class="factory__backdrop-svg" viewBox="0 0 1140 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <!-- Factory Wall Industrial Window Grid (devinthehood factory-wall) -->
@@ -103,7 +108,7 @@
         }
       </div>
 
-      <!-- Career Evolution & Hydraulic Control Strip -->
+      <!-- Career Evolution & Hydraulic Control Scrubber Strip -->
       <div class="factory__banner">
         <div class="factory__banner-left">
           <div class="factory__emblem">
@@ -113,17 +118,27 @@
             <div class="factory__banner-title-row">
               <h3 class="text-title">CAREER EVOLUTION &amp; OPEN-SOURCE BELT</h3>
               <span class="factory__loc">
-                <i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh
+                <i class="fa-solid fa-location-dot"></i> Dhaka · {{ getTotalTenure() }}
               </span>
             </div>
             <p class="factory__conveyor">
-              <span>Project Developer (2021)</span>
+              <span>Project Dev (2021)</span>
               <span class="factory__arrow">→</span>
               <span>{{ t.t('experience.internship') }} (2023)</span>
               <span class="factory__arrow">→</span>
-              <strong class="factory__current">{{ t.t('experience.fulltime') }} Developer ({{ t.t('experience.present') }})</strong>
+              <strong class="factory__current">{{ t.t('experience.fulltime') }} ({{ t.t('experience.present') }}) · {{ beltScrollPct() }}%</strong>
             </p>
           </div>
+        </div>
+
+        <div class="factory__scrubber">
+          <input
+            type="range"
+            min="0"
+            max="100"
+            [value]="beltScrollPct()"
+            aria-label="Scrub horizontally along the factory conveyor belt"
+            (input)="onBeltScrub($event)" />
         </div>
 
         <div class="factory__banner-right">
@@ -136,35 +151,15 @@
             <span>{{ isRawBlueprint() ? 'STAMP TO SHIPPED' : 'RAW WIREFRAME' }}</span>
           </button>
 
-          @if (layoutMode() === 'belt') {
-            <button type="button" class="factory__nav-btn" (click)="scrollBelt(-1)">← PREV</button>
-            <button type="button" class="factory__nav-btn" (click)="scrollBelt(1)">NEXT →</button>
-          }
-
-          <button
-            type="button"
-            class="factory__nav-btn"
-            [class.is-active]="layoutMode() === 'belt'"
-            (click)="toggleLayoutMode()">
-            <i class="fa-solid" [class.fa-arrows-left-right]="layoutMode() === 'belt'" [class.fa-bars]="layoutMode() === 'stack'"></i>
-            <span>{{ layoutMode() === 'belt' ? 'Conveyor Strip' : 'Vertical Stack' }}</span>
-          </button>
-
-          <div class="factory__tenure">
-            <span class="factory__tenure-label">{{ t.t('experience.total_tenure') }}</span>
-            <strong class="factory__tenure-val">
-              Jan 2021 — {{ t.t('experience.present') }}
-              <em>({{ getTotalTenure() }})</em>
-            </strong>
-          </div>
+          <button type="button" class="factory__nav-btn" (click)="scrollBelt(-1)">← PREV</button>
+          <button type="button" class="factory__nav-btn" (click)="scrollBelt(1)">NEXT →</button>
         </div>
       </div>
 
-      <!-- Horizontal Conveyor Belt Crates Track OR Vertical Timeline -->
+      <!-- Horizontal Conveyor Belt Crates Track -->
       <div
         #beltViewport
-        [class.factory__belt-viewport]="layoutMode() === 'belt'"
-        [class.factory__line]="layoutMode() === 'stack'"
+        class="factory__belt-viewport"
         [class.is-dragging]="isDraggingBelt()"
         [class.is-raw-mode]="isRawBlueprint()"
         (scroll)="onBeltScroll()"
@@ -344,6 +339,7 @@
         <div class="belt__progress">
           <span class="belt__progress-fill" [style.width.%]="beltScrollPct()"></span>
         </div>
+      </div>
       </div>
     </div>
   </div>

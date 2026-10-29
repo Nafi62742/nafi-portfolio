@@ -15,11 +15,22 @@
   background: var(--bg);
   color: var(--ink);
   border-bottom: 1px solid var(--line);
+  padding-bottom: clamp(2rem, 4vw, 3.5rem);
+
+  &__intro {
+    padding: clamp(2.5rem, 4.5vw, 4rem) var(--gutter) 1rem;
+  }
+
+  &__runway {
+    position: relative;
+    padding: 0 var(--gutter);
+  }
 
   &__sticky {
     position: sticky;
-    top: 68px;
-    padding: clamp(2.5rem, 4.5vw, 4.25rem) var(--gutter);
+    top: 70px;
+    z-index: 4;
+    padding: 0.25rem 0 0.75rem;
   }
 
   &__head {
@@ -51,7 +62,6 @@
 
   &__stage {
     position: relative;
-    margin-top: 1.25rem;
     border: 1px solid var(--ink);
     border-radius: 14px;
     background: var(--bg-2);
@@ -62,7 +72,7 @@
   /* Animated JSON Skyline + R-007 Sports Car Backdrop (.street__sky) */
   &__sky {
     position: relative;
-    height: 185px;
+    height: 158px;
     background: linear-gradient(180deg, rgba(2, 132, 199, 0.16) 0%, rgba(234, 243, 253, 0.4) 82%, rgba(8, 27, 51, 0.12) 100%);
     border-bottom: 1px solid var(--line);
     overflow: hidden;
@@ -359,7 +369,7 @@
     display: flex;
     align-items: stretch;
     gap: 1.35rem;
-    padding: 1.65rem 1.5rem 1.25rem;
+    padding: 1.15rem 1.5rem 0.95rem;
     overflow-x: auto;
     scrollbar-width: thin;
     cursor: grab;

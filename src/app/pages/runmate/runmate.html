@@ -1,9 +1,9 @@
 <section class="rm-case" data-night aria-label="RunMate — Flagship Case Study">
-  <!-- 1. Editorial Header & Store Links -->
+  <!-- 1. Compact Header + Inline Metrics + Store Links -->
   <div class="rm-case__head reveal">
-    <div>
+    <div class="rm-case__title-block">
       <div class="rm-case__kicker-row">
-        <p class="kicker">06 — {{ t.t('runmate.section_label') }} // FLAGSHIP CASE STUDY</p>
+        <p class="kicker">06 — {{ t.t('runmate.section_label') }} // FLAGSHIP</p>
         @if (runmateData.collaboration) {
           <span class="rm-case__collab-tag">
             <i class="fa-solid fa-handshake-angle"></i>
@@ -15,384 +15,229 @@
       <p class="rm-case__sub">{{ t.t('runmate.subtitle') }}</p>
     </div>
 
-    <!-- Store & Platform Buttons -->
-    <div class="rm-case__stores">
-      @if (runmateData.playstoreUrl) {
-        <a
-          [href]="runmateData.playstoreUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="rm-store"
-          aria-label="Download RunMate on Google Play Store">
-          <i class="fa-brands fa-google-play"></i>
-          <div>
-            <span>GET IT ON</span>
-            <strong>Google Play</strong>
+    <div class="rm-case__head-right">
+      <!-- Compact Inline Metrics -->
+      <div class="rm-case__metrics-inline">
+        @for (metric of runmateData.metrics; track metric.label) {
+          <div class="rm-mini-stat">
+            <strong class="text-display">{{ metric.value }}</strong>
+            <span>{{ metric.label }}</span>
           </div>
-          <span class="arrow">↗</span>
-        </a>
-      }
-      @if (runmateData.appstoreUrl) {
-        <a
-          [href]="runmateData.appstoreUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="rm-store"
-          aria-label="Download RunMate on Apple App Store">
-          <i class="fa-brands fa-apple"></i>
-          <div>
-            <span>DOWNLOAD ON</span>
-            <strong>App Store</strong>
-          </div>
-          <span class="arrow">↗</span>
-        </a>
-      }
-      @if (runmateData.websiteUrl) {
-        <a
-          [href]="runmateData.websiteUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="rm-store"
-          aria-label="Open RunMate Club Official Website">
-          <i class="fa-solid fa-globe"></i>
-          <div>
-            <span>LIVE PLATFORM</span>
-            <strong>runmate.club</strong>
-          </div>
-          <span class="arrow">↗</span>
-        </a>
-      }
-      @if (runmateData.webAdminUrl) {
-        <a
-          [href]="runmateData.webAdminUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="rm-store"
-          aria-label="Open RunMate Organizer Web Admin">
-          <i class="fa-solid fa-desktop"></i>
-          <div>
-            <span>RACE ORGANIZERS</span>
-            <strong>Admin Hub</strong>
-          </div>
-          <span class="arrow">↗</span>
-        </a>
-      }
-    </div>
-  </div>
-
-  <!-- 2. Case Study Key Metrics Strip (.case-stats) -->
-  <div class="rm-case__stats reveal delay-1">
-    @for (metric of runmateData.metrics; track metric.label; let i = $index) {
-      <div class="rm-stat">
-        <div class="rm-stat__top">
-          <span class="text-mono">METRIC 0{{ i + 1 }}</span>
-          <i class="fa-solid" [ngClass]="metric.icon"></i>
-        </div>
-        <strong class="rm-stat__val text-display">{{ metric.value }}</strong>
-        <span class="rm-stat__lbl">{{ metric.label }}</span>
-      </div>
-    }
-  </div>
-
-  <!-- 3. Interactive Split Stage: Phone Mockup + Telemetry Slide Deck -->
-  <div
-    class="rm-stage reveal delay-2"
-    (mouseenter)="stopAutoPlay()"
-    (mouseleave)="startAutoPlay()"
-    (touchstart)="onTouchStart($event)"
-    (touchend)="onTouchEnd($event)">
-
-    <!-- Left: Device Stage (Blueprint Contrast Frame) -->
-    <div class="rm-stage__device">
-      <div class="rm-stage__device-tag">
-        <span class="text-mono">DEVICE VIEWPORT // {{ currentSlide.badge }}</span>
-        <span class="text-mono">0{{ activeSlideIndex() + 1 }} / 0{{ runmateData.slides.length }}</span>
-      </div>
-
-      <div class="rm-phone">
-        <div class="rm-phone__notch" aria-hidden="true"></div>
-        <div class="rm-phone__screen">
-          @if (currentSlide.image) {
-            <div
-              class="rm-phone__shot"
-              (click)="openFullscreen(currentSlide.image)"
-              (keydown.enter)="openFullscreen(currentSlide.image)"
-              role="button"
-              tabindex="0"
-              [attr.aria-label]="'Enlarge ' + currentSlide.title">
-              <img [src]="currentSlide.image" [alt]="currentSlide.title" />
-              <span class="rm-phone__zoom">
-                <i class="fa-solid fa-expand"></i> INSPECT FULLSCREEN
-              </span>
-            </div>
-          } @else {
-            <div class="rm-phone__fallback">
-              <i class="fa-solid" [ngClass]="currentSlide.icon"></i>
-              <strong>{{ currentSlide.badge }}</strong>
-            </div>
-          }
-        </div>
-      </div>
-    </div>
-
-    <!-- Right: Slide Telemetry & Horizontally Scrollable Screen Strip -->
-    <div class="rm-stage__info">
-      <div class="rm-stage__meta">
-        <span class="rm-stage__badge">
-          <i class="fa-solid" [ngClass]="currentSlide.icon"></i>
-          {{ currentSlide.badge }}
-        </span>
-        <span class="rm-stage__counter">
-          SLIDE 0{{ activeSlideIndex() + 1 }} OF 0{{ runmateData.slides.length }}
-        </span>
-      </div>
-
-      <h3 class="rm-stage__title text-display">{{ currentSlide.title }}</h3>
-      <p class="rm-stage__desc">{{ currentSlide.subtitle }}</p>
-
-      @if (currentSlide.stats && currentSlide.stats.length > 0) {
-        <dl class="rm-stage__telemetry">
-          @for (stat of currentSlide.stats; track stat.label) {
-            <div class="rm-stage__tel-cell">
-              <dt>{{ stat.label }}</dt>
-              <dd>{{ stat.value }}</dd>
-            </div>
-          }
-        </dl>
-      }
-
-      <!-- Horizontally Scrollable Slide Jump Strip -->
-      <div
-        #slidesViewport
-        class="rm-stage__pills"
-        (wheel)="onSlidesWheel($event)">
-        @for (slide of runmateData.slides; track slide.id; let idx = $index) {
-          <button
-            type="button"
-            class="rm-stage__jump"
-            [class.is-active]="idx === activeSlideIndex()"
-            (click)="goToSlide(idx)">
-            <span class="rm-stage__jump-num">0{{ idx + 1 }}</span>
-            <i class="fa-solid" [ngClass]="slide.icon"></i>
-            <span>{{ slide.badge }}</span>
-          </button>
         }
       </div>
 
-      <!-- Prev / Next / Dots Bar -->
-      <div class="rm-stage__controls">
-        <div class="rm-stage__arrows">
-          <button
-            type="button"
-            class="rm-stage__arrow"
-            (click)="prevSlide()"
-            [attr.aria-label]="t.t('runmate.slider_prev')">
-            ← PREV
-          </button>
-          <button
-            type="button"
-            class="rm-stage__arrow"
-            (click)="nextSlide()"
-            [attr.aria-label]="t.t('runmate.slider_next')">
-            NEXT →
-          </button>
-        </div>
-
-        <div class="rm-stage__dots">
-          @for (slide of runmateData.slides; track slide.id; let idx = $index) {
-            <button
-              type="button"
-              class="rm-stage__dot"
-              [class.is-active]="idx === activeSlideIndex()"
-              (click)="goToSlide(idx)"
-              [attr.aria-label]="'Go to slide ' + (idx + 1)">
-            </button>
-          }
-        </div>
-
-        <span class="rm-stage__hint text-mono">
-          {{ t.t('runmate.gallery_hint') }}
-        </span>
+      <!-- Compact Store Action Pills -->
+      <div class="rm-case__stores">
+        @if (runmateData.playstoreUrl) {
+          <a [href]="runmateData.playstoreUrl" target="_blank" rel="noopener noreferrer" class="rm-store">
+            <i class="fa-brands fa-google-play"></i>
+            <strong>Google Play ↗</strong>
+          </a>
+        }
+        @if (runmateData.appstoreUrl) {
+          <a [href]="runmateData.appstoreUrl" target="_blank" rel="noopener noreferrer" class="rm-store">
+            <i class="fa-brands fa-apple"></i>
+            <strong>App Store ↗</strong>
+          </a>
+        }
+        @if (runmateData.websiteUrl) {
+          <a [href]="runmateData.websiteUrl" target="_blank" rel="noopener noreferrer" class="rm-store">
+            <i class="fa-solid fa-globe"></i>
+            <strong>runmate.club ↗</strong>
+          </a>
+        }
+        @if (runmateData.webAdminUrl) {
+          <a [href]="runmateData.webAdminUrl" target="_blank" rel="noopener noreferrer" class="rm-store">
+            <i class="fa-solid fa-desktop"></i>
+            <strong>Admin Hub ↗</strong>
+          </a>
+        }
       </div>
     </div>
   </div>
 
-  <!-- 4. Sticky Vertical-to-Horizontal Scrollable Feature Strip & Category Tabs -->
+  <!-- 2. Unified Compact Sticky Dashboard: Phone Preview (Left) + Horizontal Features Strip (Right) -->
   <div
     #featuresRunway
     class="rm-features-runway"
     [style.height.px]="featuresRunwayHeightPx()">
-    <div #featuresSticky class="rm-features reveal delay-3">
-      <!-- Top Feature Strip Control Bar -->
-      <div class="rm-features__bar">
-        <div class="rm-features__bar-left">
-          <span class="rm-features__hint text-mono">
-            <i></i> SCROLL DOWN OR DRAG TO INSPECT ALL {{ filteredFeatures.length }} MODULES ({{ featureScrollPct() }}%)
-          </span>
-        </div>
-
-        <div class="rm-features__scrubber">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            [value]="featureScrollPct()"
-            aria-label="Scrub horizontally through RunMate features"
-            (input)="onFeatureScrub($event)" />
-        </div>
-
-        <div class="rm-features__bar-btns">
-          <button type="button" class="rm-features__nav-btn" data-cursor="PREV" (click)="scrollFeatures(-1)">
-            ← SCROLL LEFT
-          </button>
-          <button type="button" class="rm-features__nav-btn" data-cursor="NEXT" (click)="scrollFeatures(1)">
-            SCROLL RIGHT →
-          </button>
-        </div>
-      </div>
-
-      <!-- Category Filter Tabs (including All 16 Features tab) -->
-      <div class="rm-features__tabs" role="tablist">
-        <button
-          type="button"
-          role="tab"
-          class="rm-features__tab"
-          [class.is-active]="activeTab() === 'all'"
-          (click)="setTab('all')">
-          <span class="rm-features__tab-idx">00</span>
-          <i class="fa-solid fa-layer-group"></i>
-          <span>All Features ({{ runmateData.features.length }})</span>
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          class="rm-features__tab"
-          [class.is-active]="activeTab() === 'runners'"
-          (click)="setTab('runners')">
-          <span class="rm-features__tab-idx">01</span>
-          <i class="fa-solid fa-person-running"></i>
-          <span>{{ t.t('runmate.tab_runners') }}</span>
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          class="rm-features__tab"
-          [class.is-active]="activeTab() === 'races'"
-          (click)="setTab('races')">
-          <span class="rm-features__tab-idx">02</span>
-          <i class="fa-solid fa-flag-checkered"></i>
-          <span>{{ t.t('runmate.tab_races') }}</span>
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          class="rm-features__tab"
-          [class.is-active]="activeTab() === 'organizers'"
-          (click)="setTab('organizers')">
-          <span class="rm-features__tab-idx">03</span>
-          <i class="fa-solid fa-desktop"></i>
-          <span>{{ t.t('runmate.tab_organizers') }}</span>
-        </button>
-
-        <button
-          type="button"
-          role="tab"
-          class="rm-features__tab"
-          [class.is-active]="activeTab() === 'tech'"
-          (click)="setTab('tech')">
-          <span class="rm-features__tab-idx">04</span>
-          <i class="fa-solid fa-microchip"></i>
-          <span>{{ t.t('runmate.tab_tech') }}</span>
-        </button>
-      </div>
-
-      <!-- Horizontal Scrollable Features Track -->
+    <div #featuresSticky class="rm-dashboard">
+      <!-- Left: Compact Interactive Phone Stage -->
       <div
-        #featuresViewport
-        class="rm-features__strip"
-        [class.is-dragging]="isDraggingFeatures()"
-        (scroll)="onFeaturesScroll()"
-        (wheel)="onFeaturesWheel($event)"
-        (mousedown)="onFeaturesDragStart($event)">
+        class="rm-stage__device"
+        (mouseenter)="stopAutoPlay()"
+        (mouseleave)="startAutoPlay()"
+        (touchstart)="onTouchStart($event)"
+        (touchend)="onTouchEnd($event)">
+        <div class="rm-stage__device-tag">
+          <span class="text-mono">{{ currentSlide.badge }}</span>
+          <span class="text-mono">0{{ activeSlideIndex() + 1 }}/0{{ runmateData.slides.length }}</span>
+        </div>
 
-        @for (feature of filteredFeatures; track feature.title; let fIdx = $index) {
-          <article class="rm-fcard" data-cursor="DRAG ↔">
-            <div class="rm-fcard__top">
-              <span class="rm-fcard__num">{{ (fIdx + 1) < 10 ? '0' + (fIdx + 1) : (fIdx + 1) }}</span>
-              <i class="fa-solid" [ngClass]="feature.icon"></i>
-              @if (feature.badge) {
-                <span class="rm-fcard__badge">{{ feature.badge }}</span>
-              }
-            </div>
-            <h4 class="rm-fcard__title text-title">{{ feature.title }}</h4>
-            <p class="rm-fcard__desc">{{ feature.description }}</p>
-            @if (feature.tags && feature.tags.length > 0) {
-              <div class="rm-fcard__tags">
-                @for (tag of feature.tags; track tag) {
-                  <span class="pill pill--night">{{ tag }}</span>
-                }
+        <div class="rm-phone">
+          <div class="rm-phone__notch" aria-hidden="true"></div>
+          <div class="rm-phone__screen">
+            @if (currentSlide.image) {
+              <div
+                class="rm-phone__shot"
+                (click)="openFullscreen(currentSlide.image)"
+                (keydown.enter)="openFullscreen(currentSlide.image)"
+                role="button"
+                tabindex="0"
+                [attr.aria-label]="'Enlarge ' + currentSlide.title">
+                <img [src]="currentSlide.image" [alt]="currentSlide.title" />
+                <span class="rm-phone__zoom">
+                  <i class="fa-solid fa-expand"></i> ZOOM
+                </span>
+              </div>
+            } @else {
+              <div class="rm-phone__fallback">
+                <i class="fa-solid" [ngClass]="currentSlide.icon"></i>
+                <strong>{{ currentSlide.badge }}</strong>
               </div>
             }
-          </article>
-        }
+          </div>
+        </div>
+
+        <div class="rm-stage__mini-nav">
+          <button type="button" class="rm-stage__arrow" (click)="prevSlide()" [attr.aria-label]="t.t('runmate.slider_prev')">←</button>
+          <span class="rm-stage__mini-title text-mono">{{ currentSlide.title }}</span>
+          <button type="button" class="rm-stage__arrow" (click)="nextSlide()" [attr.aria-label]="t.t('runmate.slider_next')">→</button>
+        </div>
       </div>
 
-      <div class="rm-features__progress" aria-hidden="true">
-        <span class="rm-features__progress-fill" [style.width.%]="featureScrollPct()"></span>
-      </div>
-    </div>
-  </div>
+      <!-- Right: Horizontally Scrollable Features + Compact Credits Footer -->
+      <div class="rm-features">
+        <!-- Top Feature Strip Control Bar -->
+        <div class="rm-features__bar">
+          <div class="rm-features__bar-left">
+            <span class="rm-features__hint text-mono">
+              <i></i> {{ filteredFeatures.length }} MODULES ({{ featureScrollPct() }}%)
+            </span>
+          </div>
 
-  <!-- 5. Unified Tech Stack & Team Collaboration Crate -->
-  <div class="rm-credits crate reveal delay-4">
-    <div class="crate__tape" aria-hidden="true"></div>
+          <div class="rm-features__scrubber">
+            <input
+              type="range"
+              min="0"
+              max="100"
+              [value]="featureScrollPct()"
+              aria-label="Scrub horizontally through RunMate features"
+              (input)="onFeatureScrub($event)" />
+          </div>
 
-    <div class="rm-credits__body">
-      <div class="rm-credits__stack">
-        <span class="text-mono">{{ t.t('runmate.tech_title') }}</span>
-        <div class="rm-credits__pills">
-          @for (tech of runmateData.techStack; track tech) {
-            <span class="pill pill--night">
-              <i class="fa-solid fa-check"></i>
-              <span>{{ tech }}</span>
+          <div class="rm-features__bar-btns">
+            <button type="button" class="rm-features__nav-btn" data-cursor="PREV" (click)="scrollFeatures(-1)">
+              ← LEFT
+            </button>
+            <button type="button" class="rm-features__nav-btn" data-cursor="NEXT" (click)="scrollFeatures(1)">
+              RIGHT →
+            </button>
+          </div>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="rm-features__tabs" role="tablist">
+          <button
+            type="button"
+            role="tab"
+            class="rm-features__tab"
+            [class.is-active]="activeTab() === 'all'"
+            (click)="setTab('all')">
+            <span class="rm-features__tab-idx">00</span>
+            <span>All ({{ runmateData.features.length }})</span>
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            class="rm-features__tab"
+            [class.is-active]="activeTab() === 'runners'"
+            (click)="setTab('runners')">
+            <span class="rm-features__tab-idx">01</span>
+            <span>{{ t.t('runmate.tab_runners') }}</span>
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            class="rm-features__tab"
+            [class.is-active]="activeTab() === 'races'"
+            (click)="setTab('races')">
+            <span class="rm-features__tab-idx">02</span>
+            <span>{{ t.t('runmate.tab_races') }}</span>
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            class="rm-features__tab"
+            [class.is-active]="activeTab() === 'organizers'"
+            (click)="setTab('organizers')">
+            <span class="rm-features__tab-idx">03</span>
+            <span>{{ t.t('runmate.tab_organizers') }}</span>
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            class="rm-features__tab"
+            [class.is-active]="activeTab() === 'tech'"
+            (click)="setTab('tech')">
+            <span class="rm-features__tab-idx">04</span>
+            <span>{{ t.t('runmate.tab_tech') }}</span>
+          </button>
+        </div>
+
+        <!-- Horizontal Scrollable Features Track -->
+        <div
+          #featuresViewport
+          class="rm-features__strip"
+          [class.is-dragging]="isDraggingFeatures()"
+          (scroll)="onFeaturesScroll()"
+          (wheel)="onFeaturesWheel($event)"
+          (mousedown)="onFeaturesDragStart($event)">
+
+          @for (feature of filteredFeatures; track feature.title; let fIdx = $index) {
+            <article class="rm-fcard" data-cursor="DRAG ↔">
+              <div class="rm-fcard__top">
+                <span class="rm-fcard__num">{{ (fIdx + 1) < 10 ? '0' + (fIdx + 1) : (fIdx + 1) }}</span>
+                <i class="fa-solid" [ngClass]="feature.icon"></i>
+                @if (feature.badge) {
+                  <span class="rm-fcard__badge">{{ feature.badge }}</span>
+                }
+              </div>
+              <h4 class="rm-fcard__title text-title">{{ feature.title }}</h4>
+              <p class="rm-fcard__desc">{{ feature.description }}</p>
+              @if (feature.tags && feature.tags.length > 0) {
+                <div class="rm-fcard__tags">
+                  @for (tag of feature.tags; track tag) {
+                    <span class="pill pill--night">{{ tag }}</span>
+                  }
+                </div>
+              }
+            </article>
+          }
+        </div>
+
+        <!-- Compact Inline Tech Stack & Team Bar -->
+        <div class="rm-compact-foot">
+          <div class="rm-compact-foot__pills">
+            @for (tech of runmateData.techStack; track tech) {
+              <span class="pill pill--night">{{ tech }}</span>
+            }
+          </div>
+          @if (runmateData.teamLead) {
+            <span class="rm-compact-foot__team text-mono">
+              LEAD: <b>{{ runmateData.teamLead }}</b> · CORE: <b>{{ runmateData.coreDevelopers?.join(', ') }}</b>
             </span>
           }
         </div>
-      </div>
 
-      @if (runmateData.teamLead || runmateData.coreDevelopers || runmateData.teamMembers) {
-        <div class="rm-credits__team">
-          @if (runmateData.teamLead) {
-            <div class="rm-credits__group">
-              <span class="text-mono">TEAM LEAD</span>
-              <strong>{{ runmateData.teamLead }}</strong>
-            </div>
-          }
-          @if (runmateData.coreDevelopers && runmateData.coreDevelopers.length > 0) {
-            <div class="rm-credits__group">
-              <span class="text-mono">CORE DEVELOPERS</span>
-              <div class="rm-credits__names">
-                @for (dev of runmateData.coreDevelopers; track dev) {
-                  <span>{{ dev }}</span>
-                }
-              </div>
-            </div>
-          }
-          @if (runmateData.teamMembers && runmateData.teamMembers.length > 0) {
-            <div class="rm-credits__group">
-              <span class="text-mono">ENGINEERING TEAMMATES</span>
-              <div class="rm-credits__names">
-                @for (member of runmateData.teamMembers; track member) {
-                  <span>{{ member }}</span>
-                }
-              </div>
-            </div>
-          }
+        <div class="rm-features__progress" aria-hidden="true">
+          <span class="rm-features__progress-fill" [style.width.%]="featureScrollPct()"></span>
         </div>
-      }
+      </div>
     </div>
   </div>
 

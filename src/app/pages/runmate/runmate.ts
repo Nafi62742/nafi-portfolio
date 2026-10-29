@@ -98,12 +98,17 @@ export class RunmateComponent implements OnInit, AfterViewInit, OnDestroy {
       this.syncHorizontalFromVerticalScroll();
     }, 80);
 
-    if (typeof ResizeObserver !== 'undefined' && this.featuresViewport?.nativeElement) {
+    if (typeof ResizeObserver !== 'undefined') {
       this.resizeObserver = new ResizeObserver(() => {
         this.recalculateRunway();
         this.syncHorizontalFromVerticalScroll();
       });
-      this.resizeObserver.observe(this.featuresViewport.nativeElement);
+      if (this.featuresViewport?.nativeElement) {
+        this.resizeObserver.observe(this.featuresViewport.nativeElement);
+      }
+      if (this.featuresSticky?.nativeElement) {
+        this.resizeObserver.observe(this.featuresSticky.nativeElement);
+      }
     }
   }
 
@@ -454,7 +459,7 @@ export class RunmateComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     const rect: DOMRect = runwayEl.getBoundingClientRect();
-    const stickyOffsetTop = 88;
+    const stickyOffsetTop = 72;
     const travel: number = runwayEl.offsetHeight - stickyEl.offsetHeight;
     if (travel <= 10) {
       return;
@@ -478,7 +483,7 @@ export class RunmateComponent implements OnInit, AfterViewInit, OnDestroy {
     if (travel <= 10) {
       return false;
     }
-    const stickyOffsetTop = 88;
+    const stickyOffsetTop = 72;
     const runwayTop: number = window.scrollY + runwayEl.getBoundingClientRect().top - stickyOffsetTop;
     const targetY: number = runwayTop + Math.max(0, Math.min(1, ratio)) * travel;
     window.scrollTo({ top: targetY, behavior: 'smooth' });

@@ -107,16 +107,13 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
   /** Whether crates are displayed in Raw Blueprint Wireframe mode vs Shipped mode. */
   public readonly isRawBlueprint = signal<boolean>(false);
 
-  /** Layout mode: 'belt' (horizontal conveyor belt strip) or 'stack' (vertical stack). */
-  public readonly layoutMode = signal<'belt' | 'stack'>('belt');
-
   /** Horizontal scroll progress (0..100) along the factory conveyor belt. */
   public readonly beltScrollPct = signal<number>(0);
 
   /** Whether the user is click-dragging the conveyor belt. */
   public readonly isDraggingBelt = signal<boolean>(false);
 
-  /** Sticky scroll runway height in pixels when in horizontal belt mode. */
+  /** Sticky scroll runway height in pixels for vertical-to-horizontal scroll lock. */
   public readonly runwayHeightPx = signal<number | null>(null);
 
   /** Active 18-spark burst particles emitted by the hydraulic press (devinthehood Yt pattern). */
@@ -130,6 +127,7 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
   private syncingFromWindowScroll = false;
   private lastAutoStampZone = -1;
   private resizeTimer?: ReturnType<typeof setTimeout>;
+  private resizeObserver: ResizeObserver | null = null;
 
   private readonly portfolio: PortfolioService = inject(PortfolioService);
   public readonly t: TranslateService = inject(TranslateService);
@@ -165,24 +163,49 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
     setTimeout(() => {
       this.recalculateRunway();
       this.onWindowScroll();
-    }, 140);
+    }, 100);
+
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => {
+        this.recalculateRunway();
+        this.onWindowScroll();
+      });
+      if (this.beltViewport?.nativeElement) {
+        this.resizeObserver.observe(this.beltViewport.nativeElement);
+      }
+      if (this.factorySticky?.nativeElement) {
+        this.resizeObserver.observe(this.factorySticky.nativeElement);
+      }
+    }
   }
 
   public ngOnDestroy(): void {
     if (this.resizeTimer) {
       clearTimeout(this.resizeTimer);
     }
+    this.resizeObserver?.disconnect();
   }
 
   /**
-   * Switches between horizontal Conveyor Belt and Vertical Stack modes.
+   * Scrubs the horizontal conveyor belt via range slider.
    */
-  public toggleLayoutMode(): void {
-    this.layoutMode.update((m) => (m === 'belt' ? 'stack' : 'belt'));
-    setTimeout(() => {
-      this.recalculateRunway();
-      this.onWindowScroll();
-    }, 40);
+  public onBeltScrub(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const el = this.beltViewport?.nativeElement;
+    if (!input || !el) {
+      return;
+    }
+    const pct: number = Number(input.value);
+    const maxScroll: number = el.scrollWidth - el.clientWidth;
+    const targetLeft: number = (pct / 100) * maxScroll;
+
+    if (this.runwayHeightPx() !== null && this.factorySection?.nativeElement) {
+      const sectionTop: number = this.factorySection.nativeElement.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: Math.max(0, sectionTop - 70 + targetLeft), behavior: 'auto' });
+    } else {
+      el.scrollLeft = targetLeft;
+      this.beltScrollPct.set(pct);
+    }
   }
 
   /**
@@ -239,7 +262,7 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
    */
   @HostListener('window:scroll')
   public onWindowScroll(): void {
-    if (this.layoutMode() !== 'belt' || this.runwayHeightPx() === null) {
+    if (this.runwayHeightPx() === null) {
       return;
     }
     const sectionEl = this.factorySection?.nativeElement;
@@ -255,7 +278,7 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
     }
 
     const rect = sectionEl.getBoundingClientRect();
-    const stickyOffset = 68;
+    const stickyOffset = 70;
     const runwayTravel = Math.max(1, sectionEl.offsetHeight - stickyEl.offsetHeight);
     const rawScrolled = stickyOffset - rect.top;
     const clampedScrolled = Math.min(runwayTravel, Math.max(0, rawScrolled));
@@ -266,7 +289,7 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
     viewportEl.scrollLeft = progressRatio * maxScroll;
     this.beltScrollPct.set(pct);
 
-    // Auto-stamp hydraulic press with sparks at key conveyor checkpoints (20%, 50%, 80%)
+    // Auto-stamp hydraulic press with sparks at key conveyor checkpoints (25%, 50%, 75%)
     const zone = Math.floor(pct / 25);
     if (zone > 0 && zone !== this.lastAutoStampZone) {
       this.lastAutoStampZone = zone;
@@ -292,9 +315,6 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
    * Converts mouse-wheel scrolling over the conveyor belt into smooth horizontal progress.
    */
   public onBeltWheel(event: WheelEvent): void {
-    if (this.layoutMode() !== 'belt') {
-      return;
-    }
     const el = this.beltViewport?.nativeElement;
     if (!el) {
       return;
@@ -330,7 +350,7 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
    * Starts click-and-drag scrolling on the horizontal conveyor belt.
    */
   public onBeltDragStart(event: MouseEvent): void {
-    if (this.layoutMode() !== 'belt' || event.button !== 0) {
+    if (event.button !== 0) {
       return;
     }
     const el = this.beltViewport?.nativeElement;
@@ -433,7 +453,7 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
     }
     const viewportEl = this.beltViewport?.nativeElement;
     const stickyEl = this.factorySticky?.nativeElement;
-    if (!viewportEl || !stickyEl || this.layoutMode() !== 'belt' || window.innerWidth <= 768) {
+    if (!viewportEl || !stickyEl || window.innerWidth <= 768) {
       this.runwayHeightPx.set(null);
       return;
     }
