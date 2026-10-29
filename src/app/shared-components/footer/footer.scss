@@ -1,9 +1,9 @@
 .site-footer {
   position: relative;
   z-index: 2;
-  background: #0a0c10;
-  color: #f4f1ea;
-  border-top: 1px solid rgba(244, 241, 234, 0.14);
+  background: #050912;
+  color: #edf4fc;
+  border-top: 1px solid var(--night-line);
   padding: 2.5rem var(--gutter);
   display: grid;
   grid-template-columns: 1.2fr 1.2fr 1fr;
@@ -22,13 +22,18 @@
     gap: 0.7rem;
     font-family: var(--font);
     font-variation-settings: "wdth" 125, "wght" 820;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #f4f1ea;
+    color: #edf4fc;
+
+    em {
+      font-style: normal;
+      color: var(--amber);
+    }
 
     .brand__mark {
-      width: 36px;
+      width: 34px;
       height: 16px;
     }
 
@@ -58,7 +63,7 @@
 
     a,
     button {
-      color: rgba(244, 241, 234, 0.78);
+      color: rgba(237, 244, 252, 0.78);
       transition: color 200ms var(--ease);
 
       &:hover {
@@ -69,7 +74,7 @@
 
   &__top {
     padding: 0.35rem 0.65rem;
-    border: 1px solid rgba(244, 241, 234, 0.22);
+    border: 1px solid var(--night-line);
 
     &:hover {
       border-color: var(--amber);

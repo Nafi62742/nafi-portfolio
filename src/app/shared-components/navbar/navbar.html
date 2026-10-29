@@ -1,42 +1,41 @@
 <header class="site-header" [class.is-scrolled]="isNavbarScrolled" [class.is-menu-open]="menuOpen()">
-  <!-- Brand Mark -->
-  <button class="brand" (click)="navigate('hero')" id="nav-logo" aria-label="Nafi in the Hood — Home">
+  <!-- Clean Single-Line Brand Mark -->
+  <button class="brand" (click)="navigate('hero')" id="nav-logo" aria-label="Nafi.dev — Home">
     <svg class="brand__mark" viewBox="0 0 64 28" aria-hidden="true">
       <path d="M2 2 L22 6 L18 14 L22 22 L2 26 Z" fill="currentColor" />
-      <path d="M32 2 L38 14 L32 26 L26 14 Z" fill="var(--red)" />
+      <path d="M32 2 L38 14 L32 26 L26 14 Z" fill="var(--amber)" />
       <path d="M62 2 L42 6 L46 14 L42 22 L62 26 Z" fill="currentColor" />
     </svg>
-    <span class="brand__text">
-      <span class="brand__name">NAFI IN THE HOOD</span>
-      <span class="brand__tag">NAFI.DEV // FRONT × BACK</span>
-    </span>
+    <span class="brand__name">NAFI<em>.DEV</em></span>
   </button>
 
-  <!-- Primary Navigation -->
+  <!-- Simplified Primary Navigation -->
   <nav class="site-nav" aria-label="Primary">
-    @for (link of navLinks; track link.id; let i = $index) {
+    @for (link of navLinks; track link.id) {
       <button
         type="button"
         [id]="'nav-' + link.id"
         class="site-nav__link"
         [class.is-active]="isLinkActive(link.id)"
         (click)="navigate(link.id)">
-        <span class="site-nav__num">0{{ i + 2 }}</span>
-        <span>{{ t.t(link.key) }}</span>
+        {{ t.t(link.key) }}
       </button>
     }
   </nav>
 
-  <!-- Right Meta & Actions -->
-  <div class="site-header__meta">
-    <span class="status" title="Available for full-stack, mobile & cloud engineering roles">
-      <span class="status__dot"></span>
-      <span class="status__text">Available</span>
-    </span>
+  <!-- Minimal Right Actions -->
+  <div class="site-header__actions">
+    <span class="status-dot" title="Available for new opportunities"></span>
 
-    <span class="header-loc">
-      Dhaka, BD · <strong>{{ dhakaTime() }}</strong>
-    </span>
+    <button
+      type="button"
+      class="theme-btn"
+      (click)="theme.toggle()"
+      id="btn-theme-toggle"
+      [attr.aria-label]="theme.isDark ? 'Switch to Deep Night mode' : 'Switch to Split Blueprint mode'"
+      [title]="theme.isDark ? 'Switch to Full Night Mode' : 'Switch to Split Blueprint Mode'">
+      <i class="fa-solid" [class.fa-moon]="theme.isDark" [class.fa-circle-half-stroke]="!theme.isDark"></i>
+    </button>
 
     <a
       href="assets/docs/Nafi_Ahmed_Resume.pdf"
@@ -44,20 +43,9 @@
       class="header-resume"
       id="btn-nav-resume"
       download>
-      <i class="fa-solid fa-arrow-down-long"></i>
       <span>{{ t.t("nav.resume") }}</span>
+      <i class="fa-solid fa-arrow-down-long"></i>
     </a>
-
-    <button
-      type="button"
-      class="theme-switch"
-      (click)="theme.toggle()"
-      id="btn-theme-toggle"
-      [attr.aria-label]="theme.isDark ? 'Switch to Noir mode' : 'Switch to Split Paper mode'"
-      [title]="theme.isDark ? 'Switch to Full Night Mode' : 'Switch to Paper/Night Split Mode'">
-      <span class="theme-switch__indicator"></span>
-      <span class="theme-switch__label">{{ theme.isDark ? 'SPLIT' : 'NOIR' }}</span>
-    </button>
 
     <button
       type="button"
@@ -67,7 +55,6 @@
       aria-controls="site-menu"
       aria-label="Toggle navigation"
       (click)="toggleMenu()">
-      <span class="menu-toggle__label">{{ menuOpen() ? 'Close' : 'Menu' }}</span>
       <span class="menu-toggle__bars" aria-hidden="true">
         <i></i>
         <i></i>
@@ -76,7 +63,7 @@
   </div>
 </header>
 
-<!-- Mobile / Fullscreen Editorial Menu -->
+<!-- Mobile Overlay Menu -->
 <div class="site-menu" id="site-menu" [class.is-open]="menuOpen()" [attr.aria-hidden]="!menuOpen()">
   <nav class="site-menu__nav" aria-label="Mobile Primary">
     @for (link of navLinks; track link.id; let i = $index) {
@@ -93,14 +80,6 @@
   </nav>
 
   <div class="site-menu__foot">
-    <div class="site-menu__status">
-      <span class="status">
-        <span class="status__dot"></span>
-        <span>Available for new opportunities</span>
-      </span>
-      <span class="text-mono">Dhaka, BD · {{ dhakaTime() }}</span>
-    </div>
-
     <a
       href="assets/docs/Nafi_Ahmed_Resume.pdf"
       target="_blank"

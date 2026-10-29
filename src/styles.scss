@@ -3,41 +3,41 @@
 @tailwind utilities;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DEV IN THE HOOD — Architectural Dual-World Design System
-   Warm Paper ("Front") × Industrial Night ("Back")
+   ARCHITECTURAL DUAL-WORLD DESIGN SYSTEM — BLUISH EDITION
+   Ice Blueprint ("Front") × Midnight Navy ("Back")
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root,
 [data-theme="dark"] {
-  /* Paper ("Front" / Street / Client Side) */
-  --bg:           #f4f1ea;
-  --bg-2:         #eae6dd;
-  --bg-3:         #ded8cc;
-  --ink:          #16130f;
-  --ink-2:        #4a443c;
-  --ink-3:        #6f685d;
-  --line:         rgba(22, 19, 15, 0.14);
-  --line-2:       rgba(22, 19, 15, 0.06);
-  --paper-line:   #cbc2b2;
+  /* Ice Blueprint ("Front" / Street / Client Side) */
+  --bg:           #eef4fb;
+  --bg-2:         #e2ecf7;
+  --bg-3:         #d2e1f1;
+  --ink:          #0b192c;
+  --ink-2:        #2b4263;
+  --ink-3:        #567196;
+  --line:         rgba(11, 25, 44, 0.14);
+  --line-2:       rgba(11, 25, 44, 0.06);
+  --paper-line:   #b8cde6;
 
-  /* Industrial Night ("Back" / Factory / Server & Cloud Side) */
-  --night:        #0f1217;
-  --night-2:      #1c222c;
-  --night-3:      #2b3341;
-  --night-ink:    #f4f1ea;
-  --night-line:   rgba(244, 241, 234, 0.14);
-  --night-line-2: rgba(244, 241, 234, 0.06);
-  --dim:          #8d96a6;
+  /* Midnight Navy ("Back" / Factory / Server & Cloud Side) */
+  --night:        #070d19;
+  --night-2:      #0e182b;
+  --night-3:      #172642;
+  --night-ink:    #edf4fc;
+  --night-line:   rgba(148, 197, 255, 0.15);
+  --night-line-2: rgba(148, 197, 255, 0.07);
+  --dim:          #7e9bc0;
 
-  /* Brand Accents */
-  --red:          #ea1d0f;
-  --red-ink:      #c2160a;
-  --rose:         #e97381;
-  --amber:        #ffb547;
-  --gold:         #a86f00;
-  --online:       #1f9e52;
-  --success:      #157f3e;
-  --error-night:  #ff7a6b;
+  /* Bluish Brand Accents */
+  --red:          #2563eb;
+  --red-ink:      #1d4ed8;
+  --rose:         #60a5fa;
+  --amber:        #38bdf8;
+  --gold:         #0284c7;
+  --online:       #10b981;
+  --success:      #059669;
+  --error-night:  #60a5fa;
 
   /* Typography & Layout */
   --font:         'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -55,43 +55,43 @@
   --text-secondary: var(--ink-2);
   --text-muted:     var(--ink-3);
   --border-color:   var(--line);
-  --glass-bg:       rgba(244, 241, 234, 0.9);
+  --glass-bg:       rgba(238, 244, 251, 0.9);
   --glass-border:   var(--line);
-  --navbar-bg:      rgba(244, 241, 234, 0.88);
+  --navbar-bg:      rgba(7, 13, 25, 0.9);
   --selection-bg:   var(--red);
   --focus-outline:  var(--red);
-  --scrollbar-thumb: rgba(22, 19, 15, 0.32);
+  --scrollbar-thumb: rgba(37, 99, 235, 0.38);
   --scrollbar-thumb-hover: var(--red);
 }
 
-/* Alternate "Night Shift / Noir" Mode when toggled via ThemeService ('light' slot) */
+/* Alternate "Deep Sapphire / All-Night" Mode when toggled via ThemeService ('light' slot) */
 [data-theme="light"] {
-  --bg:           #151922;
-  --bg-2:         #1c222e;
-  --bg-3:         #252d3d;
-  --ink:          #f4f1ea;
-  --ink-2:        #c4beb2;
-  --ink-3:        #8d96a6;
-  --line:         rgba(244, 241, 234, 0.14);
-  --line-2:       rgba(244, 241, 234, 0.06);
-  --paper-line:   #2b3341;
+  --bg:           #0b1426;
+  --bg-2:         #111e38;
+  --bg-3:         #182a4c;
+  --ink:          #edf4fc;
+  --ink-2:        #b0c7e6;
+  --ink-3:        #7e9bc0;
+  --line:         rgba(148, 197, 255, 0.15);
+  --line-2:       rgba(148, 197, 255, 0.06);
+  --paper-line:   #1e335c;
 
-  --night:        #0b0d12;
-  --night-2:      #141821;
-  --night-3:      #202736;
-  --night-ink:    #f4f1ea;
-  --night-line:   rgba(244, 241, 234, 0.14);
-  --night-line-2: rgba(244, 241, 234, 0.06);
-  --dim:          #8d96a6;
+  --night:        #050a14;
+  --night-2:      #0b1324;
+  --night-3:      #13203b;
+  --night-ink:    #edf4fc;
+  --night-line:   rgba(148, 197, 255, 0.15);
+  --night-line-2: rgba(148, 197, 255, 0.06);
+  --dim:          #7e9bc0;
 
-  --red:          #ff3b2f;
-  --red-ink:      #ff6b60;
-  --rose:         #e97381;
-  --amber:        #ffb547;
-  --gold:         #ffc46b;
-  --online:       #24b45e;
-  --success:      #24b45e;
-  --error-night:  #ff7a6b;
+  --red:          #3b82f6;
+  --red-ink:      #60a5fa;
+  --rose:         #93c5fd;
+  --amber:        #38bdf8;
+  --gold:         #7dd3fc;
+  --online:       #10b981;
+  --success:      #10b981;
+  --error-night:  #60a5fa;
 
   --bg-base:        var(--bg);
   --bg-surface:     var(--bg-2);
@@ -101,16 +101,16 @@
   --text-secondary: var(--ink-2);
   --text-muted:     var(--ink-3);
   --border-color:   var(--line);
-  --glass-bg:       rgba(21, 25, 34, 0.9);
+  --glass-bg:       rgba(11, 20, 38, 0.9);
   --glass-border:   var(--line);
-  --navbar-bg:      rgba(21, 25, 34, 0.88);
+  --navbar-bg:      rgba(5, 10, 20, 0.92);
   --selection-bg:   var(--amber);
   --focus-outline:  var(--amber);
-  --scrollbar-thumb: rgba(244, 241, 234, 0.28);
+  --scrollbar-thumb: rgba(56, 189, 248, 0.35);
   --scrollbar-thumb-hover: var(--amber);
 }
 
-/* Night Section Scope (`[data-night]`) — always industrial night surface */
+/* Night Section Scope (`[data-night]`) — always midnight navy surface */
 [data-night] {
   background-color: var(--night);
   color: var(--night-ink);
@@ -127,7 +127,7 @@
   html {
     font-size: 16px;
     scroll-behavior: smooth;
-    scroll-padding-top: 72px;
+    scroll-padding-top: 64px;
     background: var(--bg);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
@@ -176,7 +176,7 @@
 
   ::selection {
     background: var(--red);
-    color: #f4f1ea;
+    color: #edf4fc;
   }
 
   :focus-visible {
@@ -204,7 +204,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TYPOGRAPHY & EDITORIAL PRIMITIVES (devinthehood.com)
+   TYPOGRAPHY & EDITORIAL PRIMITIVES
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .text-display {
@@ -293,14 +293,14 @@
   inset: 0;
   pointer-events: none;
   z-index: 60;
-  opacity: 0.035;
+  opacity: 0.03;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.08  0 0 0 0 0.07  0 0 0 0 0.05  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.04  0 0 0 0 0.10  0 0 0 0 0.22  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 [data-theme="light"] .paper-grain {
   mix-blend-mode: screen;
-  opacity: 0.025;
+  opacity: 0.022;
 }
 
 .grid-lines {
@@ -368,7 +368,7 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BUTTONS & PILLS (devinthehood.com)
+   BUTTONS & PILLS
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .button {
@@ -427,14 +427,14 @@
 .button--solid {
   background: var(--red);
   border-color: var(--red);
-  color: #f4f1ea;
+  color: #edf4fc;
 
   &::before {
     background: var(--ink);
   }
 
   &:hover {
-    color: #f4f1ea;
+    color: #edf4fc;
     border-color: var(--ink);
   }
 }
@@ -442,20 +442,20 @@
 .button--amber {
   background: var(--amber);
   border-color: var(--amber);
-  color: #0f1217;
+  color: #070d19;
 
   &::before {
-    background: #f4f1ea;
+    background: #edf4fc;
   }
 
   &:hover {
-    color: #0f1217;
-    border-color: #f4f1ea;
+    color: #070d19;
+    border-color: #edf4fc;
   }
 }
 
 [data-night] .button:not(.button--solid):not(.button--amber) {
-  border-color: rgba(244, 241, 234, 0.35);
+  border-color: rgba(148, 197, 255, 0.35);
   color: var(--night-ink);
 
   &::before {
@@ -463,7 +463,7 @@
   }
 
   &:hover {
-    color: #0f1217;
+    color: #070d19;
     border-color: var(--amber);
   }
 }
@@ -474,7 +474,7 @@
   }
 
   &:hover {
-    color: #0f1217;
+    color: #070d19;
     border-color: var(--amber);
   }
 }
@@ -491,7 +491,7 @@
   text-transform: uppercase;
   border: 1px solid var(--line);
   color: var(--ink-2);
-  background: rgba(22, 19, 15, 0.03);
+  background: rgba(37, 99, 235, 0.04);
   transition: border-color 200ms var(--ease), color 200ms var(--ease), background-color 200ms var(--ease);
 
   &:hover {
@@ -503,8 +503,8 @@
 [data-night] .pill,
 .pill--night {
   border-color: var(--night-line);
-  color: rgba(244, 241, 234, 0.82);
-  background: rgba(244, 241, 234, 0.03);
+  color: rgba(237, 244, 252, 0.85);
+  background: rgba(56, 189, 248, 0.05);
 
   &:hover {
     border-color: var(--amber);
@@ -519,7 +519,7 @@
 .browser {
   border: 1px solid var(--ink);
   background: var(--bg);
-  box-shadow: 0 22px 48px -22px rgba(22, 19, 15, 0.32);
+  box-shadow: 0 22px 48px -22px rgba(11, 25, 44, 0.32);
 
   &__bar {
     display: flex;
@@ -564,12 +564,12 @@
 
 .terminal {
   border: 1px solid var(--night-line);
-  background: #0b0d11;
-  color: #f4f1ea;
+  background: #050a14;
+  color: #edf4fc;
   font-family: var(--mono);
   font-size: 0.78rem;
   line-height: 1.7;
-  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.75);
 
   &__bar {
     display: flex;
@@ -577,13 +577,13 @@
     gap: 0.4rem;
     padding: 0.55rem 0.9rem;
     border-bottom: 1px solid var(--night-line);
-    background: rgba(244, 241, 234, 0.03);
+    background: rgba(56, 189, 248, 0.04);
 
     i {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: rgba(244, 241, 234, 0.22);
+      background: rgba(148, 197, 255, 0.25);
       display: inline-block;
 
       &:first-child {
@@ -611,11 +611,11 @@
     overflow-x: auto;
 
     .p { color: var(--amber); }
-    .c { color: #f4f1ea; }
+    .c { color: #edf4fc; }
     .k { color: var(--rose); }
-    .v { color: #a8e6cf; }
+    .v { color: #7dd3fc; }
     .m { color: var(--dim); }
-    .ok { color: #4ade80; }
+    .ok { color: #34d399; }
   }
 }
 
@@ -648,7 +648,6 @@ app-starfield,
   display: none !important;
 }
 
-
 /* ═══════════════════════════════════════════════════════════════════════════
    RIGHT-SIDE CHAPTER RAIL (.rail)
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -667,10 +666,10 @@ app-starfield,
     flex-direction: column;
     gap: 0.45rem;
     padding: 0.55rem 0.45rem;
-    background: rgba(15, 18, 23, 0.78);
+    background: rgba(7, 13, 25, 0.82);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(244, 241, 234, 0.14);
+    border: 1px solid var(--night-line);
   }
 
   &__item {
@@ -680,7 +679,7 @@ app-starfield,
     gap: 0.45rem;
     cursor: pointer;
     padding: 0.18rem 0.25rem;
-    color: rgba(244, 241, 234, 0.45);
+    color: rgba(237, 244, 252, 0.48);
     font-family: var(--mono);
     font-size: 0.6rem;
     letter-spacing: 0.14em;
@@ -688,7 +687,7 @@ app-starfield,
     transition: color 200ms var(--ease);
 
     &:hover {
-      color: #f4f1ea;
+      color: #edf4fc;
 
       .rail__label {
         max-width: 90px;

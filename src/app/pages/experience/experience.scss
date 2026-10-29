@@ -106,8 +106,8 @@
     align-items: flex-end;
     gap: 0.25rem;
     padding: 0.65rem 1rem;
-    border: 1px solid rgba(255, 181, 71, 0.35);
-    background: rgba(255, 181, 71, 0.05);
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: rgba(56, 189, 248, 0.06);
   }
 
   &__tenure-label {
@@ -158,14 +158,14 @@
     }
 
     &-card {
-      border: 1px dashed rgba(255, 181, 71, 0.45);
-      background: rgba(28, 34, 44, 0.55);
+      border: 1px dashed rgba(56, 189, 248, 0.45);
+      background: rgba(14, 24, 43, 0.65);
       padding: 1.15rem 1.5rem;
     }
 
     &.is-promo .factory__bridge-card {
       border-color: var(--red);
-      background: linear-gradient(90deg, rgba(234, 29, 15, 0.12), rgba(28, 34, 44, 0.6));
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.16), rgba(14, 24, 43, 0.7));
     }
 
     &-meta {

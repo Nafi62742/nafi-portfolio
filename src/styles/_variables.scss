@@ -1,37 +1,37 @@
-// ─── DEV IN THE HOOD Design Tokens (Backward-compatible SCSS variables) ─────
-$bg-base:           #f4f1ea;
-$bg-surface:        #eae6dd;
-$bg-card:           #ded8cc;
-$bg-card-hover:     #d4cdbf;
+// ─── Bluish Architectural Design Tokens (Backward-compatible SCSS variables) ─
+$bg-base:           #eef4fb;
+$bg-surface:        #e2ecf7;
+$bg-card:           #d2e1f1;
+$bg-card-hover:     #c2d6ec;
 
-$night-base:        #0f1217;
-$night-surface:     #1c222c;
-$night-card:        #2b3341;
+$night-base:        #070d19;
+$night-surface:     #0e182b;
+$night-card:        #172642;
 
-$primary:           #ea1d0f;
-$primary-light:     #ff4b3e;
-$primary-dark:      #c2160a;
-$accent:            #ffb547;
-$accent-light:      #ffd166;
-$accent-dark:       #a86f00;
+$primary:           #2563eb;
+$primary-light:     #3b82f6;
+$primary-dark:      #1d4ed8;
+$accent:            #38bdf8;
+$accent-light:      #7dd3fc;
+$accent-dark:       #0284c7;
 
 $gradient-primary:  linear-gradient(135deg, $primary 0%, $accent 100%);
 $gradient-hero:     linear-gradient(90deg, $bg-base 50%, $night-base 50%);
-$gradient-glow:     radial-gradient(ellipse at center, rgba($primary, 0.2) 0%, transparent 70%);
+$gradient-glow:     radial-gradient(ellipse at center, rgba($primary, 0.22) 0%, transparent 70%);
 
-$text-primary:      #16130f;
-$text-secondary:    #4a443c;
-$text-muted:        #6f685d;
+$text-primary:      #0b192c;
+$text-secondary:    #2b4263;
+$text-muted:        #567196;
 $text-accent:       $primary;
 
-$border:            rgba(22, 19, 15, 0.14);
+$border:            rgba(11, 25, 44, 0.13);
 $border-hover:      rgba($primary, 0.55);
-$glass-bg:          rgba(244, 241, 234, 0.88);
-$glass-bg-light:    rgba(234, 230, 221, 0.78);
+$glass-bg:          rgba(238, 244, 251, 0.88);
+$glass-bg-light:    rgba(226, 236, 247, 0.78);
 
-$success:           #157f3e;
-$warning:           #ffb547;
-$error:             #ea1d0f;
+$success:           #10b981;
+$warning:           #38bdf8;
+$error:             #ef4444;
 
 // ─── Typography ──────────────────────────────────────────────────────────────
 $font-sans:         'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -81,7 +81,7 @@ $bp-2xl:  1536px;
 
 // ─── Layout ──────────────────────────────────────────────────────────────────
 $container-max:   1480px;
-$navbar-height:   72px;
+$navbar-height:   64px;
 $section-py:      $space-24;
 
 // ─── Effects ─────────────────────────────────────────────────────────────────
@@ -91,11 +91,11 @@ $radius-lg:   6px;
 $radius-xl:   8px;
 $radius-full: 9999px;
 
-$shadow-sm:   0 2px 6px rgba(22, 19, 15, 0.08);
-$shadow-md:   0 12px 32px -12px rgba(22, 19, 15, 0.22);
-$shadow-lg:   0 24px 60px -20px rgba(0, 0, 0, 0.45);
+$shadow-sm:   0 2px 6px rgba(11, 25, 44, 0.08);
+$shadow-md:   0 12px 32px -12px rgba(11, 25, 44, 0.22);
+$shadow-lg:   0 24px 60px -20px rgba(4, 10, 22, 0.5);
 $shadow-glow: 0 0 40px rgba($primary, 0.25), 0 0 80px rgba($accent, 0.15);
-$shadow-card-hover: 0 22px 44px -18px rgba(22, 19, 15, 0.28);
+$shadow-card-hover: 0 22px 44px -18px rgba(11, 25, 44, 0.28);
 
 $transition-fast:   180ms cubic-bezier(0.22, 1, 0.36, 1);
 $transition-base:   280ms cubic-bezier(0.22, 1, 0.36, 1);

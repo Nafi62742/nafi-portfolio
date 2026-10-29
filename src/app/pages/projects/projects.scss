@@ -91,10 +91,10 @@
 
 /* Architectural Storefront Card (.shop) */
 .shop {
-  --facade: #16130f;
-  --facade-ink: #f4f1ea;
-  --awning-a: #ea1d0f;
-  --awning-b: #f4f1ea;
+  --facade: #0b192c;
+  --facade-ink: #edf4fc;
+  --awning-a: #2563eb;
+  --awning-b: #eef4fb;
 
   display: flex;
   flex-direction: column;
@@ -104,31 +104,31 @@
   transition: transform 280ms var(--ease), box-shadow 280ms var(--ease);
 
   &--ink {
-    --facade: #16130f;
-    --facade-ink: #f4f1ea;
-    --awning-a: #ea1d0f;
-    --awning-b: #f4f1ea;
+    --facade: #0b192c;
+    --facade-ink: #edf4fc;
+    --awning-a: #2563eb;
+    --awning-b: #eef4fb;
   }
 
   &--red {
-    --facade: #b31409;
-    --facade-ink: #f4f1ea;
-    --awning-a: #16130f;
-    --awning-b: #ffb547;
+    --facade: #1d4ed8;
+    --facade-ink: #edf4fc;
+    --awning-a: #0b192c;
+    --awning-b: #38bdf8;
   }
 
   &--stone {
-    --facade: #2b3341;
-    --facade-ink: #f4f1ea;
-    --awning-a: #ffb547;
-    --awning-b: #16130f;
+    --facade: #172642;
+    --facade-ink: #edf4fc;
+    --awning-a: #0284c7;
+    --awning-b: #eef4fb;
   }
 
   &--brick {
-    --facade: #3a231e;
-    --facade-ink: #f4f1ea;
-    --awning-a: #ea1d0f;
-    --awning-b: #ded8cc;
+    --facade: #1e3a8a;
+    --facade-ink: #edf4fc;
+    --awning-a: #2563eb;
+    --awning-b: #d2e1f1;
   }
 
   &:hover {

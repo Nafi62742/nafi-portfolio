@@ -123,7 +123,7 @@
 
   &__stage {
     border: 1px solid var(--night-line);
-    background: radial-gradient(ellipse at 100% 0%, rgba(255, 181, 71, 0.12), transparent 65%), #0b0d11;
+    background: radial-gradient(ellipse at 100% 0%, rgba(56, 189, 248, 0.14), transparent 65%), #050a14;
     padding: 1.75rem;
   }
 
@@ -139,7 +139,7 @@
 
   &__status-pill {
     padding: 0.2rem 0.55rem;
-    border: 1px solid rgba(255, 181, 71, 0.4);
+    border: 1px solid rgba(56, 189, 248, 0.4);
     color: var(--amber);
     font-family: var(--mono);
     font-size: 0.58rem;

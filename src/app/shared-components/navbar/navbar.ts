@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ScrollService } from '@services/scroll.service';
@@ -6,8 +6,8 @@ import { ThemeService } from '@services/theme.service';
 import { TranslateService } from '@services/translate.service';
 
 /**
- * Navbar component with responsive mobile menu, active section tracking,
- * live Dhaka clock, and scroll-based navigation styled after devinthehood.com.
+ * Simplified, clean architectural Navbar component with responsive mobile menu,
+ * active section tracking, and scroll-based navigation.
  */
 @Component({
   selector: 'app-navbar',
@@ -16,14 +16,9 @@ import { TranslateService } from '@services/translate.service';
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss'
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent {
   /** Signal tracking whether the mobile menu is open. */
   public readonly menuOpen = signal<boolean>(false);
-
-  /** Signal holding the formatted current time in Dhaka (GMT+6). */
-  public readonly dhakaTime = signal<string>('');
-
-  private clockInterval?: ReturnType<typeof setInterval>;
 
   /**
    * Getter to check if the navbar should be in scrolled state (solid background).
@@ -56,23 +51,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public readonly theme = inject(ThemeService);
   public readonly t = inject(TranslateService);
   private readonly router = inject(Router);
-
-  /**
-   * Starts the live Dhaka GMT+6 clock on init.
-   */
-  public ngOnInit(): void {
-    this.updateClock();
-    this.clockInterval = setInterval(() => this.updateClock(), 15000);
-  }
-
-  /**
-   * Cleans up the clock interval on destroy.
-   */
-  public ngOnDestroy(): void {
-    if (this.clockInterval) {
-      clearInterval(this.clockInterval);
-    }
-  }
 
   /**
    * Checks if a given nav link is currently active based on scroll tracking.
@@ -113,23 +91,5 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   public toggleMenu(): void {
     this.menuOpen.update((v: boolean) => !v);
-  }
-
-  /**
-   * Formats the current Asia/Dhaka time as HH:MM.
-   */
-  private updateClock(): void {
-    try {
-      const now = new Date();
-      const formatted = new Intl.DateTimeFormat('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-        timeZone: 'Asia/Dhaka'
-      }).format(now);
-      this.dhakaTime.set(`${formatted} GMT+6`);
-    } catch {
-      this.dhakaTime.set('GMT+6');
-    }
   }
 }

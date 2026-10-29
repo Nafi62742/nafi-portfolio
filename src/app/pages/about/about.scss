@@ -40,7 +40,7 @@
   &__stage {
     position: relative;
     border: 1px solid var(--night-line);
-    background: radial-gradient(ellipse at 50% 0%, rgba(255, 181, 71, 0.14), transparent 70%), #0b0d11;
+    background: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.16), transparent 70%), #050a14;
     padding: 2.25rem 1.5rem 1.75rem;
     display: flex;
     flex-direction: column;
@@ -55,7 +55,7 @@
     transform: translateX(-50%);
     width: 280px;
     height: 360px;
-    background: linear-gradient(180deg, rgba(255, 181, 71, 0.22), rgba(234, 29, 15, 0.04) 70%, transparent);
+    background: linear-gradient(180deg, rgba(56, 189, 248, 0.22), rgba(37, 99, 235, 0.05) 70%, transparent);
     clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%);
     pointer-events: none;
   }
@@ -188,7 +188,7 @@
     background: repeating-linear-gradient(
       -45deg,
       var(--red) 0 10px,
-      #16130f 10px 20px
+      #0b192c 10px 20px
     );
   }
 
