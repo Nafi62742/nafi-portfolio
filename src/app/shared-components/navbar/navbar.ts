@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ScrollService } from '@services/scroll.service';
@@ -39,9 +39,6 @@ export interface UnifiedNavGroup {
 export class NavbarComponent {
   /** Signal tracking whether the mobile menu is open. */
   public readonly menuOpen = signal<boolean>(false);
-
-  /** Signal tracking whether the theme preset picker popover is open. */
-  public readonly themeMenuOpen = signal<boolean>(false);
 
   /**
    * Grouped navigation tabs displayed inside the mobile overlay menu.
@@ -93,17 +90,6 @@ export class NavbarComponent {
   }
 
   /**
-   * Closes open dropdowns when clicking outside the navbar.
-   */
-  @HostListener('document:click', ['$event'])
-  public onDocumentClick(event: MouseEvent): void {
-    const target = event.target as HTMLElement | null;
-    if (!target?.closest('.site-header')) {
-      this.themeMenuOpen.set(false);
-    }
-  }
-
-  /**
    * Checks if a given sub-section ID is currently active based on scroll tracking.
    * Note: 'runmate' maps to 'projects' since RunMate is part of the Projects showcase flow.
    */
@@ -132,22 +118,13 @@ export class NavbarComponent {
       this.scroll.scrollTo(id);
     }
     this.menuOpen.set(false);
-    this.themeMenuOpen.set(false);
   }
 
   /**
-   * Toggles the theme preset dropdown menu.
+   * Sets the theme mode to 'light' or 'dark'.
    */
-  public toggleThemeMenu(): void {
-    this.themeMenuOpen.update((v: boolean) => !v);
-  }
-
-  /**
-   * Selects a specific theme preset and closes the popover.
-   */
-  public selectTheme(id: Theme): void {
-    this.theme.setTheme(id);
-    this.themeMenuOpen.set(false);
+  public setMode(mode: Theme): void {
+    this.theme.setTheme(mode);
   }
 
   /**
@@ -155,6 +132,5 @@ export class NavbarComponent {
    */
   public toggleMenu(): void {
     this.menuOpen.update((v: boolean) => !v);
-    this.themeMenuOpen.set(false);
   }
 }

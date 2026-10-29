@@ -8,40 +8,30 @@
     </span>
   </button>
 
-  <!-- Right Actions: Multi-Theme Switcher + Resume Download -->
+  <!-- Right Actions: Light/Dark Mode Switcher + Resume Download -->
   <div class="site-header__actions">
-    <!-- Multi-Theme Switcher -->
-    <div class="theme-switcher">
+    <!-- Light / Dark Mode Toggle Pill -->
+    <div class="theme-mode-pill" role="radiogroup" aria-label="Theme Mode">
       <button
         type="button"
-        class="theme-btn"
-        id="btn-theme-toggle"
-        [attr.aria-expanded]="themeMenuOpen()"
-        (click)="toggleThemeMenu()"
-        [title]="'Theme: ' + theme.currentPreset.name">
-        <span class="theme-btn__swatch" [style.background]="theme.currentPreset.swatch"></span>
-        <span class="theme-btn__label">{{ theme.currentPreset.shortLabel }}</span>
-        <i class="fa-solid fa-chevron-down theme-btn__caret"></i>
+        class="theme-mode-pill__btn"
+        [class.is-active]="!theme.isDark"
+        (click)="setMode('light')"
+        title="Light Mode (Glacier)"
+        aria-label="Switch to Light Mode">
+        <i class="fa-solid fa-sun"></i>
+        <span>Light</span>
       </button>
-
-      @if (themeMenuOpen()) {
-        <div class="theme-popover" role="menu" aria-label="Select Theme">
-          @for (preset of theme.presets; track preset.id) {
-            <button
-              type="button"
-              role="menuitem"
-              class="theme-popover__item"
-              [class.is-active]="theme.theme === preset.id"
-              (click)="selectTheme(preset.id)">
-              <span class="theme-popover__dot" [style.background]="preset.swatch"></span>
-              <span class="theme-popover__name">{{ preset.name }}</span>
-              @if (theme.theme === preset.id) {
-                <i class="fa-solid fa-check"></i>
-              }
-            </button>
-          }
-        </div>
-      }
+      <button
+        type="button"
+        class="theme-mode-pill__btn"
+        [class.is-active]="theme.isDark"
+        (click)="setMode('dark')"
+        title="Dark Mode (Executive Slate & Cobalt)"
+        aria-label="Switch to Dark Mode">
+        <i class="fa-solid fa-moon"></i>
+        <span>Dark</span>
+      </button>
     </div>
 
     <a
@@ -106,20 +96,26 @@
     </div>
   </nav>
 
-  <!-- Mobile Palette Switcher Strip -->
+  <!-- Mobile Theme Mode Switcher Strip -->
   <div class="site-menu__themes">
-    <p class="site-menu__themes-label text-mono">PALETTE // THEME PRESET</p>
-    <div class="site-menu__themes-grid">
-      @for (preset of theme.presets; track preset.id) {
-        <button
-          type="button"
-          class="site-menu__theme-chip"
-          [class.is-active]="theme.theme === preset.id"
-          (click)="selectTheme(preset.id)">
-          <span class="theme-chip-dot" [style.background]="preset.swatch"></span>
-          <span class="theme-chip-label">{{ preset.shortLabel }}</span>
-        </button>
-      }
+    <p class="site-menu__themes-label text-mono">INTERFACE THEME</p>
+    <div class="site-menu__theme-mode">
+      <button
+        type="button"
+        class="site-menu__theme-mode-btn"
+        [class.is-active]="!theme.isDark"
+        (click)="setMode('light')">
+        <i class="fa-solid fa-sun"></i>
+        <span>Light Mode</span>
+      </button>
+      <button
+        type="button"
+        class="site-menu__theme-mode-btn"
+        [class.is-active]="theme.isDark"
+        (click)="setMode('dark')">
+        <i class="fa-solid fa-moon"></i>
+        <span>Dark Mode</span>
+      </button>
     </div>
   </div>
 
