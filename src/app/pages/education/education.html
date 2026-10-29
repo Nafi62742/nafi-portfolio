@@ -36,6 +36,10 @@
                     <span>·</span>
                     <i class="fa-solid fa-location-dot"></i>
                     <span>{{ edu.location }}</span>
+                    @if (edu.gpa) {
+                      <span>·</span>
+                      <span class="hl-metric">{{ edu.gpa }}</span>
+                    }
                   </p>
                 </div>
               </div>

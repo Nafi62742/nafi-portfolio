@@ -226,7 +226,11 @@
 
       <div class="player__identity">
         <h3 class="player__name text-display">NAFI AHMED</h3>
-        <p class="player__role">SOFTWARE DEVELOPER · DATA SPECIALIST · FULL-STACK &amp; CLOUD ARCHITECT</p>
+        <p class="player__role">
+          <span class="hl-lead">SOFTWARE DEVELOPER</span> ·
+          <span class="hl-tech">DATA SPECIALIST</span> ·
+          <span class="hl-metric">FULL-STACK &amp; CLOUD ARCHITECT</span>
+        </p>
       </div>
 
       <!-- Quick Facts Strip -->
@@ -242,11 +246,11 @@
         }
       </div>
 
-      <!-- Clean Bio Paragraphs -->
+      <!-- Clean Bio Paragraphs with High-Visibility Keywords -->
       <div class="player__copy">
-        <p class="player__lead">{{ t.t('about.bio_1') }}</p>
-        <p>{{ t.t('about.bio_2') }}</p>
-        <p>{{ t.t('about.bio_3') }}</p>
+        <p class="player__lead" [innerHTML]="t.t('about.bio_1')"></p>
+        <p [innerHTML]="t.t('about.bio_2')"></p>
+        <p [innerHTML]="t.t('about.bio_3')"></p>
       </div>
 
       <!-- Tabular Stats Grid -->
@@ -258,7 +262,7 @@
               <span>{{ t.t(stat.key) }}</span>
             </dt>
             <dd>
-              <strong>{{ stat.value }}</strong>
+              <strong [style.color]="stat.color">{{ stat.value }}</strong>
               <small>{{ t.t(stat.subKey) }}</small>
             </dd>
           </div>

@@ -285,6 +285,94 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   EDITORIAL KEYWORD HIGHLIGHTING SYSTEM (.hl, .hl-tech, .hl-metric, .hl-lead)
+   Ensures key technologies, metrics, and technical keywords immediately draw focus
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+strong {
+  font-weight: 700;
+  color: var(--ink);
+
+  [data-night] &,
+  [data-theme="cyber"] & {
+    color: #ffffff;
+  }
+}
+
+.hl {
+  font-weight: 600;
+  color: #0284c7;
+  transition: color 200ms var(--ease);
+
+  [data-night] &,
+  [data-theme="cyber"] & {
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.22);
+  }
+}
+
+.hl-tech {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #0284c7;
+  padding: 0.08em 0.38em;
+  border-radius: 4px;
+  background: rgba(2, 132, 199, 0.08);
+  border: 1px solid rgba(2, 132, 199, 0.22);
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: baseline;
+  line-height: 1.25;
+
+  [data-night] &,
+  [data-theme="cyber"] & {
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.35);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.16);
+  }
+}
+
+.hl-metric {
+  font-family: var(--mono);
+  font-size: 0.88em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #d97706;
+  padding: 0.08em 0.38em;
+  border-radius: 4px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  white-space: nowrap;
+  display: inline-block;
+  vertical-align: baseline;
+  line-height: 1.25;
+
+  [data-night] &,
+  [data-theme="cyber"] & {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.14);
+    border-color: rgba(251, 191, 36, 0.38);
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.22);
+  }
+}
+
+.hl-lead {
+  font-weight: 700;
+  color: #081b33;
+  border-bottom: 2px solid #0284c7;
+  padding-bottom: 1px;
+
+  [data-night] &,
+  [data-theme="cyber"] & {
+    color: #f8fafc;
+    border-bottom-color: #38bdf8;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    AMBIENT OVERLAYS: PAPER GRAIN, 6-COLUMN GRID LINES, SCROLL PROGRESS
    ═══════════════════════════════════════════════════════════════════════════ */
 

@@ -828,13 +828,19 @@
 
   &__role {
     font-family: var(--mono);
-    font-size: 0.56rem;
+    font-size: 0.58rem;
+    font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--red);
+    color: #0284c7;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    [data-night] &,
+    [data-theme="cyber"] & {
+      color: #38bdf8;
+    }
   }
 
   &__desc {
@@ -856,10 +862,22 @@
     .pill {
       font-size: 0.55rem;
       padding: 0.2rem 0.5rem;
+      font-weight: 600;
+      color: #0284c7;
+      border-color: rgba(2, 132, 199, 0.25);
+      background: rgba(2, 132, 199, 0.06);
+
+      [data-night] &,
+      [data-theme="cyber"] & {
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.35);
+        background: rgba(56, 189, 248, 0.12);
+      }
 
       &--more {
         background: var(--bg-3);
         color: var(--ink-3);
+        border-color: var(--line);
       }
     }
   }

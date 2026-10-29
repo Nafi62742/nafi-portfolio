@@ -219,7 +219,7 @@
                 @for (bullet of exp.bullets; track bullet; let bIdx = $index) {
                   <li>
                     <span class="crate__bullet-num">0{{ bIdx + 1 }}</span>
-                    <span>{{ bullet }}</span>
+                    <span [innerHTML]="highlightBullet(bullet)"></span>
                   </li>
                 }
               </ul>

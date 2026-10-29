@@ -102,6 +102,17 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
     this.experiences = this.portfolio.getExperiences();
   }
 
+  /**
+   * Highlights key technologies, quantifiable metrics, and impact phrases
+   * so recruiters and visitors immediately focus on critical achievements.
+   */
+  public highlightBullet(text: string): string {
+    return text
+      .replace(/(6 live production systems|4-tier Role-Based Access Control \(RBAC\)|2-month internship)/g, '<span class="hl-metric">$1</span>')
+      .replace(/\b(Core engineer|serverless cloud architectures|high-throughput REST APIs|real-time data ingestion pipelines|live race GPS telemetry|interactive auction bidding streams|reusable, responsive UI component libraries)\b/g, '<strong class="hl">$1</strong>')
+      .replace(/\b(Angular|Flutter|TypeScript|JavaScript|Dart|AWS|Lambda|API Gateway|S3|CloudFront|DynamoDB|EC2|SQS|SNS|Route53|MySQL|PostgreSQL|Firebase RTDB|Firebase|Laravel|PHP|RxJS|REST APIs|RESTful API|CI\/CD|NoSQL|SQL|HttpOnly)\b/g, '<span class="hl-tech">$1</span>');
+  }
+
   public ngAfterViewInit(): void {
     setTimeout(() => {
       this.recalculateRunway();

@@ -392,12 +392,18 @@
     border: 1px solid var(--line);
     border-radius: 8px;
     font-family: var(--mono);
-    font-size: 0.62rem;
+    font-size: 0.64rem;
+    font-weight: 600;
     letter-spacing: 0.08em;
-    color: var(--ink-2);
+    color: var(--ink);
 
     i {
-      color: var(--red);
+      color: #0284c7;
+
+      [data-night] &,
+      [data-theme="cyber"] & {
+        color: #38bdf8;
+      }
     }
   }
 
@@ -406,6 +412,21 @@
     flex-wrap: wrap;
     gap: 0.35rem;
     margin-top: auto;
+
+    .pill {
+      font-size: 0.58rem;
+      font-weight: 600;
+      color: #0284c7;
+      border-color: rgba(2, 132, 199, 0.25);
+      background: rgba(2, 132, 199, 0.06);
+
+      [data-night] &,
+      [data-theme="cyber"] & {
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.35);
+        background: rgba(56, 189, 248, 0.12);
+      }
+    }
   }
 
   &__foot {
