@@ -1,0 +1,244 @@
+\documentclass[a4paper,8pt]{article}
+
+\usepackage{parskip}
+\usepackage{hologo}
+\usepackage{fontspec}
+
+%other packages for formatting
+\RequirePackage{color}
+\RequirePackage{graphicx}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[scale=0.92, top=.32in, bottom=.32in, left=.4in, right=.4in]{geometry}
+
+%tabularx environment
+\usepackage{tabularx}
+
+%for lists within experience section
+\usepackage{enumitem}
+
+% centered version of 'X' col. type
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+
+%to prevent spillover of tabular into next pages
+\usepackage{supertabular}
+\usepackage{tabularx}
+\newlength{\fullcollw}
+\setlength{\fullcollw}{0.42\textwidth}
+
+%custom \section
+\usepackage{titlesec}
+\usepackage{multicol}
+\usepackage{multirow}
+
+%CV Sections inspired by:
+%http://stefano.italians.nl/archives/26
+\titleformat{\section}{\large\scshape\raggedright}{}{0em}{}[\titlerule]
+\titlespacing{\section}{0pt}{5pt}{3pt}
+
+%for publications
+\usepackage[style=authoryear,sorting=ynt, maxbibnames=2]{biblatex}
+
+%Setup hyperref package, and colours for links
+\usepackage[unicode, draft=false, hidelinks]{hyperref}
+\addbibresource{citations.bib}
+\setlength\bibitemsep{0.4em}
+
+%for social icons
+\usepackage{fontawesome5}
+
+% For underline
+\usepackage[normalem]{ulem}
+
+\setmainfont{Arial} % Set it to whatever you like
+
+\begin{document}
+
+% non-numbered pages
+\pagestyle{empty}
+
+% Header with Details on Left and Photo on Top Right
+\noindent
+\begin{minipage}[t]{0.74\linewidth}
+\vspace{0pt}%
+{\fontsize{20pt}{22pt}\selectfont \textbf{Nafi Ahmed}}\\[3pt]
+{\fontsize{9.5pt}{12pt}\selectfont \textbf{Software Developer \textbar{} Cloud \& Mobile Engineer}}\\[5pt]
+{\fontsize{8pt}{10pt}\selectfont
+\faEnvelope\ \href{mailto:nafiahmed318@gmail.com}{nafiahmed318@gmail.com} \enspace$|$\enspace
+\faMobile\ +8801760887297 \enspace$|$\enspace
+\faMapMarker*\ Dhaka, Bangladesh\\[3pt]
+\underline{\raisebox{-0.05\height}{\faGithub}\ \href{https://github.com/Nafi62742}{github.com/Nafi62742}} \enspace$|$\enspace
+\underline{\raisebox{-0.05\height}{\faLinkedin}\ \href{https://linkedin.com/in/racer007}{linkedin.com/in/racer007}} \enspace$|$\enspace
+\underline{\raisebox{-0.05\height}{\faGlobe}\ \href{https://nafi-ahmed.vercel.app}{nafi-ahmed.vercel.app}}%
+}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.24\linewidth}
+\vspace{0pt}%
+\raggedleft
+% Photo on top right: Place your photo as 'profile.jpg' or 'profile.png' in this directory
+\IfFileExists{profile.jpg}{%
+    \setlength{\fboxsep}{0pt}%
+    \setlength{\fboxrule}{0.8pt}%
+    \fcolorbox{black}{white}{%
+        \includegraphics[width=2.8cm,height=3.3cm,keepaspectratio]{profile.jpg}%
+    }%
+}{%
+    \IfFileExists{profile.png}{%
+        \setlength{\fboxsep}{0pt}%
+        \setlength{\fboxrule}{0.8pt}%
+        \fcolorbox{black}{white}{%
+            \includegraphics[width=2.8cm,height=3.3cm,keepaspectratio]{profile.png}%
+        }%
+    }{%
+        \setlength{\fboxsep}{0pt}%
+        \setlength{\fboxrule}{0.8pt}%
+        \fcolorbox{black}{white}{%
+            \begin{minipage}[c][3.2cm][c]{2.7cm}
+                \centering
+                {\huge \faUser}\\[5pt]
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{Photo}}\\[2pt]
+                {\fontsize{6.5pt}{7.5pt}\selectfont \textit{profile.jpg}}
+            \end{minipage}%
+        }%
+    }%
+}
+\end{minipage}
+
+\vspace{4pt}
+\section{Summary}
+Software Developer and Full-Stack Engineer with 3+ years of professional experience developing and deploying mobile, web, and cloud-based applications. Core engineer behind 6 production platforms at XORGeek, with a strong focus on mobile application development using Flutter and cross-platform solutions, alongside Angular-based web development. Experienced in AWS cloud services, REST API development, SQL/NoSQL databases, PL/SQL programming, database optimization, and data management. Skilled in integrating backend services with mobile applications and building scalable, reliable software solutions. Co-author of peer-reviewed research in Machine Learning and Computer Vision published in IEEE and JSTR.
+
+
+\vspace{4pt}
+\section{Skills}
+\textbf{Languages:} C/C++, Java, Python, JavaScript, TypeScript, Dart, SQL, NoSQL\\[2pt]
+\textbf{Frameworks \& Cloud:} AWS (EC2, S3, DynamoDB, Lambda, SQS, SNS, Route53), Docker, Flutter, Angular, Firebase, MySQL, REST APIs, Git\\[2pt]
+\textbf{AI Tools \& Acceleration:} Claude (Claude Code, Anthropic API, Prompt Engineering), ChatGPT, GitHub Copilot, Cursor\\[2pt]
+
+\vspace{4pt}
+\section{Work Experience}
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\textbf{\textit{Software Developer}} \hfill Aug 2023 - Present \\[2pt]
+\textbf{{XORGeek, Bangladesh}} \hfill \\[2.5pt]
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=2pt]
+\item Served as Core Developer for \textbf{RunMate Club} (cross-platform marathon platform); engineered hardened background GPS tracking resilient against OS process kills, a 3-layer anti-cheat engine, sub-second live race telemetry via Firebase RTDB, and SSLCommerz multi-merchant payments.
+\item Architected and deployed 6 production platforms (RunMate Club, Koyama Shokai, Pet Auction App, KEIAI Order App, Izumi, Ginsen) across Angular web SPAs, Flutter mobile apps, and AWS serverless cloud infrastructure.
+\item Designed high-throughput REST APIs and scalable SQL/NoSQL schemas (MySQL, PostgreSQL, DynamoDB), reducing data retrieval latency and improving API response times across client products.
+\item Implemented strict 4-tier Role-Based Access Control (RBAC) with route guards, action-level permission matrices, and automated PDF reporting pipelines for enterprise healthcare logistics (Koyama Shokai).
+\item Accelerated team delivery by integrating AI engineering workflows (Claude, Copilot) for schema design and code refactoring, mentoring junior developers, and conducting technical code reviews.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{3pt}
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\textbf{\textit{Software Development Intern}} \hfill Jun 2023 - Jul 2023 \\[2pt]
+\textbf{{XORGeek, Bangladesh}} \hfill \\[2.5pt]
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=2pt]
+\item Developed modular, responsive mobile UI components and state-managed screens using Flutter and Dart under senior engineering mentorship.
+\item Collaborated with the backend team to design normalized MySQL database schemas, write optimized queries, and integrate secure RESTful APIs.
+\item Participated in agile sprints, code reviews, and architecture discussions, demonstrating high-impact delivery that led to promotion to full-time Software Developer.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{3pt}
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\textbf{\textit{Software Engineer}} \hfill Jan 2021 - May 2023 \\[2pt]
+\textbf{{Software \& Application Development, Bangladesh}} \hfill \\[2.5pt]
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=2pt]
+\item Built and deployed commercial cross-platform mobile applications with Flutter and responsive web interfaces using JavaScript and TypeScript.
+\item Designed RESTful APIs, relational database schemas (MySQL, PostgreSQL), and server-side business logic supporting multiple external client products.
+\item Integrated secure user authentication, transactional payment gateways, and third-party APIs with comprehensive error handling and logging.
+\item Optimized complex SQL queries, restructured indexing strategies, and created reusable UI component libraries to speed up subsequent sprint delivery.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{4pt}
+% Projects
+\section{Featured Projects}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=3.5pt]
+
+\item \textbf{Pet Auction App:} Designed real-time bidding architecture, synchronized live auction data streams using AWS and NoSQL, and developed Angular web and Flutter mobile client interfaces. \\[1.5pt]
+\textbf{Technologies:} \textit{Angular, Flutter, Dart, AWS, NoSQL, Firebase}
+
+\item \textbf{Koyama Shokai:} Engineered a hospital delivery \& logistics management SPA with 4-tier Role-Based Access Control (RBAC), standalone Angular architecture, RxJS state management, and AWS Serverless REST API integration. \\[1.5pt]
+\textbf{Technologies:} \textit{Angular, TypeScript, AWS Lambda, S3, RxJS, REST APIs}
+
+\item \textbf{RunMate Club:} Core developer for a marathon companion platform with real-time GPS tracking, anti-cheat engine, offline-first sync, live leaderboards, and SSLCommerz payment integration. \\[1.5pt]
+\textbf{Technologies:} \textit{Flutter, Dart, Firebase RTDB, Cloud Functions, GetX, SSLCommerz}
+
+\item \textbf{Gram Stain Atlas:} Built a clinically-oriented mobile reference app published on Google Play and Apple App Store (Japan), cataloging 50+ bacterial species with microscopic slide imagery, clinical explanations, native audio pronunciations, and offline SQLite storage. \\[1.5pt]
+\textbf{Technologies:} \textit{Flutter, Dart, SQLite, Audio Player APIs, Android \& iOS}
+
+\item \textbf{KEIAI Order App:} Engineered a cross-platform commercial ordering management application for a Japanese enterprise, enabling streamlined order placement, real-time inventory tracking, and synchronized mobile and web client workflows. \\[1.5pt]
+\textbf{Technologies:} \textit{Flutter, Dart, REST APIs, State Management}
+
+\item \textbf{Izumi Workflow Manager:} Developed an internal operations management web platform for an automotive service client, centralizing multi-bay vehicle repair tracking, job status timelines, parts ordering, and AWS DynamoDB data persistence. \\[1.5pt]
+\textbf{Technologies:} \textit{Angular, TypeScript, Python, AWS DynamoDB, REST APIs}
+
+\item \textbf{RemindLy:} Designed a privacy-focused, offline-first routine and workout tracking mobile app featuring closed-app background notifications, interactive reorderable checklists, daily analytics, and local JSON backup/restore. \\[1.5pt]
+\textbf{Technologies:} \textit{Flutter, Dart, SQLite, Local Notifications}
+
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{4pt}
+% Thesis & Publications
+\section{Thesis \& Publications}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep, after=\strut, leftmargin=1.5em, itemsep=2pt]
+\item \textbf{Traditional Bengali Food Classification and Calorie Measurement Using Machine Learning} — Published in \textit{JSTR, BOU}, \textbf{2025}.
+\item \textbf{A Deep Learning Approach to Analyze the Relationship Between Gender, Height, Weight, and Basal Metabolic Rate from Face Images} — S. Islam Siam, S. A. H. Chowdhury, Nafi Ahmed \& Swapneel Biswas. Published by \textit{IEEE}, \textbf{2025}.
+\item \textbf{Drought Forecast Using Traditional and Custom Models for Dhaka, Bangladesh} — A. H. Mridul, T. Bose, S. Biswas, Nafi Ahmed, et al. Published in \textit{Research in Ecology}, \textbf{2025}.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{4pt}
+% Education
+\section{Education}
+\begin{tabularx}{\linewidth}{ @{}X r@{} }
+\textbf{Ahsanullah University of Science and Technology, Dhaka} & 2018 - 2023 \\[1.5pt]
+B.Sc. in Computer Science and Engineering & \textit{\textbf{CGPA: 3.208/4.00}} \\[1.5pt]
+\multicolumn{2}{@{}X@{}}{Relevant Coursework: Data Structures \& Algorithms, OOP, Database Systems, OS, Software Engineering, API Development} \\[6.5pt]
+\textbf{Dhaka City College, Dhaka} & 2017 - 2018 \\[1.5pt]
+Higher Secondary Certificate (HSC) — Science & \textit{\textbf{GPA: 4.88/5.00}} \\[6.5pt]
+\textbf{Monipur High School and College, Dhaka} & 2010 - 2016 \\[1.5pt]
+Secondary School Certificate (SSC) — Science & \textit{\textbf{GPA: 5.00/5.00}}
+\end{tabularx}
+
+% Leadership and Involvement
+\section{Leadership \& Involvement}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\begin{minipage}[t]{\linewidth}
+\begin{itemize}[nosep,after=\strut, leftmargin=1.5em, itemsep=2pt]
+\item \textbf{Program Organizer, AUST CSE Society (Jan 2022 – Jul 2022):} Organized departmental programs, workshops, and technical events.
+\item \textbf{General Member, AUST Innovation and Design Club (Jan 2019 – May 2022):} Contributed to innovation challenges and club hackathons.
+\end{itemize}
+\end{minipage}
+\end{tabularx}
+
+\vspace{4pt}
+% References
+\section{References}
+\begin{tabularx}{\linewidth}{ @{}X X@{} }
+\textbf{Aowlad Hossain} & \textbf{Professor Dr. Mamunur Rashid} \\[2pt]
+Managing Director & Professor, Computer Science and Engineering \\
+Bengal Commercial Bank & School of Science and Technology \\
+Head Office, Gulshan, Dhaka & Bangladesh Open University (BOU) \\
+{\faMobile}\ +8801938801752 & {\faMobile}\ +8801716115139
+\end{tabularx}
+
+\end{document}

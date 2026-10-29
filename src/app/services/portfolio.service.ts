@@ -43,11 +43,11 @@ export class PortfolioService {
       },
       {
         key: 'cat_cloud', icon: 'fa-cloud',
-        skills: ['AWS EC2', 'AWS S3', 'AWS Lambda', 'SQS', 'SNS', 'Route53', 'Docker', 'CI/CD']
+        skills: ['AWS EC2', 'AWS S3', 'AWS Lambda', 'SQS', 'SNS', 'Route53', 'Microsoft Fabric', 'Docker', 'CI/CD']
       },
       {
         key: 'cat_tools', icon: 'fa-screwdriver-wrench',
-        skills: ['Git', 'GitHub', 'Postman', 'Jira', 'VS Code', 'Tableau', 'Power BI']
+        skills: ['Git', 'GitHub', 'Postman', 'Power Automate', 'Jira', 'VS Code', 'Tableau', 'Power BI']
       }
     ];
   }
