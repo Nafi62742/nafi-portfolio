@@ -627,17 +627,235 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SCROLL REVEAL ANIMATION
+   SCROLL REVEAL & MODERN SECTION TRANSITIONS
    ═══════════════════════════════════════════════════════════════════════════ */
+
+@keyframes gateBeamSweep {
+  from {
+    transform: scaleX(0.08);
+    opacity: 0.25;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+@keyframes gateHudEnter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes hudToastSlide {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, -14px, 0) scale(0.95);
+  }
+  15%, 80% {
+    opacity: 1;
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -8px, 0) scale(0.97);
+  }
+}
 
 .reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 650ms var(--ease-out), transform 650ms var(--ease-out);
+  transform: translate3d(0, 26px, 0) scale(0.988);
+  filter: blur(3px);
+  transition:
+    opacity 720ms var(--ease-out),
+    transform 720ms var(--ease-out),
+    filter 720ms var(--ease-out);
+
+  &.delay-1 {
+    transition-delay: 90ms;
+  }
+
+  &.delay-2 {
+    transition-delay: 180ms;
+  }
+
+  &.delay-3 {
+    transition-delay: 270ms;
+  }
 
   &.revealed {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Architectural Chapter Gate Divider Between Sections */
+.chapter-gate {
+  position: relative;
+  z-index: 3;
+  height: 54px;
+  padding: 0 var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 50%, var(--bg) 100%);
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+  cursor: pointer;
+  overflow: hidden;
+  view-timeline: --gate-tl block;
+
+  &.reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  &--to-night {
+    background: linear-gradient(180deg, var(--bg) 0%, #09182f 52%, var(--night) 100%);
+    border-bottom-color: var(--night-line);
+  }
+
+  &--from-night {
+    background: linear-gradient(180deg, var(--night) 0%, #09182f 48%, var(--bg) 100%);
+    border-top-color: var(--night-line);
+  }
+
+  &__beam {
+    position: absolute;
+    left: var(--gutter);
+    right: var(--gutter);
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--red) 25%,
+      var(--amber) 50%,
+      var(--red) 75%,
+      transparent 100%
+    );
+    transform-origin: 50% 50%;
+    transform: scaleX(0.15);
+    opacity: 0.4;
+    transition: transform 680ms var(--ease-out), opacity 680ms var(--ease-out);
+  }
+
+  &.revealed .chapter-gate__beam {
+    transform: scaleX(1);
+    opacity: 0.9;
+  }
+
+  &__hud {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.28rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(56, 189, 248, 0.38);
+    background: rgba(8, 21, 41, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #f6faff;
+    font-size: 0.56rem;
+    letter-spacing: 0.15em;
+    box-shadow: 0 10px 24px -10px rgba(2, 8, 20, 0.55);
+    transition: transform 220ms var(--ease), border-color 220ms var(--ease);
+  }
+
+  &:hover &__hud {
+    transform: translateY(-2px) scale(1.02);
+    border-color: var(--amber);
+  }
+
+  &__from {
+    color: var(--dim);
+  }
+
+  &__node {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 2px;
+    background: rgba(56, 189, 248, 0.45);
+    position: relative;
+
+    i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--amber);
+      box-shadow: 0 0 8px var(--amber);
+    }
+  }
+
+  &__to {
+    color: var(--amber);
+    font-weight: 700;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: scroll()) and (animation-range: 0% 100%)) {
+    .chapter-gate__beam {
+      animation: gateBeamSweep auto linear both;
+      animation-timeline: --gate-tl;
+      animation-range: entry 5% cover 55%;
+    }
+
+    .chapter-gate__hud {
+      animation: gateHudEnter auto linear both;
+      animation-timeline: --gate-tl;
+      animation-range: entry 10% cover 45%;
+    }
+  }
+}
+
+/* Transient Top HUD Chapter Transition Toast */
+.chapter-hud-toast {
+  position: fixed;
+  top: 74px;
+  left: 50%;
+  transform: translate3d(-50%, 0, 0);
+  z-index: 95;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.32rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  background: rgba(5, 12, 24, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #f6faff;
+  box-shadow: 0 14px 32px -12px rgba(2, 8, 20, 0.65);
+  animation: hudToastSlide 1.35s var(--ease-out) forwards;
+
+  &__idx {
+    padding: 0.1rem 0.45rem;
+    border-radius: 999px;
+    background: var(--red);
+    color: #f6faff;
+    font-weight: 700;
+  }
+
+  &__lbl {
+    color: var(--amber);
+    font-weight: 600;
   }
 }
 
@@ -645,7 +863,15 @@
   .reveal {
     opacity: 1 !important;
     transform: none !important;
+    filter: none !important;
     transition: none !important;
+  }
+
+  .chapter-gate__beam,
+  .chapter-gate__hud {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -739,8 +965,14 @@ app-starfield,
   left: 0;
   z-index: 9990;
   pointer-events: none;
-  transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0);
-  transition: transform 55ms linear, opacity 200ms ease;
+  opacity: 0;
+  will-change: transform;
+  transform: translate3d(-100px, -100px, 0);
+  transition: opacity 180ms ease;
+
+  &.is-visible {
+    opacity: 1;
+  }
 
   &__dot {
     position: absolute;

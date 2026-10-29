@@ -39,20 +39,20 @@
       ]
     },
     "sportsCar": {
-      "id": "r007-gt-side",
+      "id": "audi-r8-r007-side",
       "viewBox": "0 0 360 120",
-      "bodyPath": "M 26 84 L 16 74 L 22 50 L 58 46 L 106 22 L 192 20 L 252 44 L 322 52 L 342 68 L 346 82 L 320 86 L 300 86 A 27 27 0 0 0 242 86 L 124 86 A 27 27 0 0 0 66 86 L 26 86 Z",
-      "roofGlassPath": "M 112 26 L 188 24 L 240 44 L 116 45 Z",
-      "rightDoorPath": "M 130 46 L 228 46 L 232 80 L 126 80 Z",
-      "sideIntakePath": "M 134 54 L 166 50 L 156 75 L 130 73 Z",
-      "spoilerPath": "M 20 50 L 8 30 L 34 30 L 36 48 Z",
-      "splitterPath": "M 318 82 L 350 82 L 346 88 L 314 88 Z",
-      "headlightPath": "M 304 54 L 338 62 L 332 69 L 300 62 Z",
-      "taillightPath": "M 16 54 L 30 54 L 28 65 L 16 65 Z",
+      "bodyPath": "M 22 84 L 14 75 C 14 60 18 49 28 45 C 54 42 82 26 116 20 C 154 14 202 16 254 41 C 292 44 324 51 343 64 C 348 70 349 78 345 83 L 316 86 L 301 86 A 27 27 0 0 0 243 86 L 123 86 A 27 27 0 0 0 65 86 L 22 86 Z",
+      "roofGlassPath": "M 139 22 C 174 19 212 25 244 42 L 144 43 C 143 34 141 27 139 22 Z",
+      "rightDoorPath": "M 144 44 L 234 44 C 238 56 238 69 235 80 L 141 80 C 145 66 145 54 144 44 Z",
+      "sideIntakePath": "M 110 23 L 136 21 C 144 36 146 56 140 79 L 112 79 C 118 58 117 38 110 23 Z",
+      "spoilerPath": "M 16 47 L 8 27 L 36 27 L 30 31 L 24 46 Z",
+      "splitterPath": "M 46 83 L 348 83 L 344 88 L 42 88 Z",
+      "headlightPath": "M 304 53 L 340 61 L 333 69 L 298 60 Z",
+      "taillightPath": "M 15 51 L 34 51 L 31 61 L 15 61 Z",
       "doorEmblem": "R 007",
-      "doorSubLabel": "NAFI // GT",
-      "rearWheel":  { "cx": 95,  "cy": 84, "r": 23, "rimR": 15 },
-      "frontWheel": { "cx": 271, "cy": 84, "r": 23, "rimR": 15 }
+      "doorSubLabel": "AUDI R8 // QUATTRO",
+      "rearWheel":  { "cx": 94,  "cy": 84, "r": 23, "rimR": 15 },
+      "frontWheel": { "cx": 272, "cy": 84, "r": 23, "rimR": 15 }
     },
     "factory": {
       "id": "factory",

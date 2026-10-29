@@ -116,7 +116,7 @@
           </div>
           <div>
             <div class="factory__banner-title-row">
-              <h3 class="text-title">CAREER EVOLUTION &amp; OPEN-SOURCE BELT</h3>
+              <h3 class="text-title">CAREER EVOLUTION &amp; PRODUCTION BELT</h3>
               <span class="factory__loc">
                 <i class="fa-solid fa-location-dot"></i> Dhaka · {{ getTotalTenure() }}
               </span>
@@ -270,62 +270,21 @@
           }
         }
 
-        <!-- Open-Source GitHub Crates on the Belt (devinthehood #the-factory crates) -->
-        @for (repo of githubCrates; track repo.repo; let rIdx = $index) {
-          <a
-            class="crate crate--repo"
-            [class.is-raw]="isRawBlueprint()"
-            [class.is-active]="repo.legendary"
-            [href]="repo.url"
-            target="_blank"
-            rel="noopener noreferrer"
-            data-cursor="GITHUB ↗">
-            <div class="crate__tape" aria-hidden="true"></div>
-            <header class="crate__top">
-              <div class="crate__station">
-                <span class="crate__idx">CRATE 0{{ rIdx + 1 }}</span>
-                <span class="crate__type">
-                  <i class="fa-brands fa-github"></i> Nafi62742 /
-                </span>
-              </div>
-              <span class="crate__stamp" [class.is-live]="repo.legendary">
-                {{ isRawBlueprint() ? '&lt;/&gt; RAW' : (repo.legendary ? '★ LEGENDARY' : 'SHIPPED') }}
-              </span>
-            </header>
-
-            <div class="crate__body">
-              <div>
-                <h3 class="crate__role text-title">{{ repo.repo }}</h3>
-                <p class="crate__company">
-                  <i class="fa-solid fa-code-branch"></i>
-                  <span>{{ repo.version }}</span>
-                  <span class="crate__dot">·</span>
-                  <span>OPEN SOURCE REPOSITORY</span>
-                </p>
-              </div>
-              <p class="crate__repo-desc">{{ repo.description }}</p>
-              <footer class="crate__foot">
-                <span class="pill pill--night">{{ repo.tech }}</span>
-                <span class="crate__repo-link text-mono">MIT · GITHUB ↗</span>
-              </footer>
-            </div>
-          </a>
-        }
-
-        <!-- End of Belt GitHub Dock Signpost (devinthehood .factory__dock) -->
-        <a
+        <!-- End of Belt Return Signpost -->
+        <div
           class="factory__dock"
-          href="https://github.com/Nafi62742"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-cursor="GITHUB ↗">
-          <span class="factory__dock-count text-mono">ALL REPOSITORIES · RACER007</span>
+          role="button"
+          tabindex="0"
+          data-cursor="START"
+          (click)="scrollToBeltStart()"
+          (keydown.enter)="scrollToBeltStart()">
+          <span class="factory__dock-count text-mono">END OF BELT · {{ experiences.length }} STATIONS</span>
           <div class="factory__dock-board">
-            <i class="fa-brands fa-github"></i>
-            <span>ALL ON GITHUB ↗</span>
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>← BACK TO STATION 01</span>
           </div>
           <span class="factory__dock-pole" aria-hidden="true"></span>
-        </a>
+        </div>
       </div>
 
       <!-- Moving Conveyor Belt Rollers + Progress Strip (devinthehood .belt__rollers) -->

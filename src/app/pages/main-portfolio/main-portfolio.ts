@@ -43,17 +43,16 @@ interface ChapterRailItem {
 export class MainPortfolioComponent implements OnInit {
   public readonly scrollService: ScrollService = inject(ScrollService);
 
-  /** Ordered chapters displayed on the right-hand architectural rail. */
+  /** Ordered chapters displayed on the right-hand architectural rail (RunMate folded under Projects). */
   public readonly chapters: Array<ChapterRailItem> = [
     { id: 'hero',         index: '01', label: 'Two Sides' },
     { id: 'about',        index: '02', label: 'Player 1' },
     { id: 'skills',       index: '03', label: 'Loadout' },
     { id: 'experience',   index: '04', label: 'Factory' },
     { id: 'projects',     index: '05', label: 'The Street' },
-    { id: 'runmate',      index: '06', label: 'RunMate' },
-    { id: 'publications', index: '07', label: 'Research' },
-    { id: 'education',    index: '08', label: 'Credentials' },
-    { id: 'contact',      index: '09', label: 'Console' }
+    { id: 'publications', index: '06', label: 'Research' },
+    { id: 'education',    index: '07', label: 'Credentials' },
+    { id: 'contact',      index: '08', label: 'Console' }
   ];
 
   /**

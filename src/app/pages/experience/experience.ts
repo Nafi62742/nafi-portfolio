@@ -16,16 +16,6 @@ import { FactoryGear, FactoryPiston, InteractiveSceneService } from '@services/i
 import { PortfolioService } from '@services/portfolio.service';
 import { TranslateService } from '@services/translate.service';
 
-/** Open-source GitHub crate item displayed on the Factory conveyor belt (devinthehood pattern). */
-export interface FactoryRepoCrate {
-  repo: string;
-  version: string;
-  description: string;
-  tech: string;
-  url: string;
-  legendary?: boolean;
-}
-
 /** Spark particle emitted when the hydraulic press stamps a crate. */
 export interface PressSpark {
   id: number;
@@ -37,7 +27,7 @@ export interface PressSpark {
  * Experience section component styled as the interactive horizontal-scrolling
  * "The Factory" conveyor belt from devinthehood.com, complete with sticky
  * vertical-to-horizontal scroll lock, rotating gears, hydraulic press with
- * 18-spark burst, open-source GitHub crates, and spinning conveyor rollers.
+ * 18-spark burst, career progression milestones, and spinning conveyor rollers.
  */
 @Component({
   selector: 'app-experience',
@@ -53,53 +43,6 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
 
   /** All experience entries loaded from the portfolio service. */
   public readonly experiences: Array<Experience>;
-
-  /** Open-source GitHub repositories shipped on the conveyor belt (devinthehood crate pattern). */
-  public readonly githubCrates: Array<FactoryRepoCrate> = [
-    {
-      repo: 'reminder_app',
-      version: 'RemindLy · v2.0',
-      description: '100% offline Flutter reminder, daily routine drag-and-drop & workout tracker with SQLite.',
-      tech: 'Flutter · Dart · SQLite',
-      url: 'https://github.com/Nafi62742/reminder_app',
-      legendary: true
-    },
-    {
-      repo: 'Nearest-Location',
-      version: 'Geo-Engine · v1.4',
-      description: 'Haversine coordinate-based proximity ranking engine built in Flutter & Dart.',
-      tech: 'Flutter · Dart · Algorithms',
-      url: 'https://github.com/Nafi62742/Nearest-Location'
-    },
-    {
-      repo: 'Getfund',
-      version: 'Crowdfund · v1.2',
-      description: 'Entrepreneur pitch & crowdfunding investment platform on ASP.NET MVC and SQL Server.',
-      tech: 'C# · .NET MVC · SQL Server',
-      url: 'https://github.com/Nafi62742/Getfund'
-    },
-    {
-      repo: 'School-Management-System',
-      version: 'Academic · v1.5',
-      description: 'Role-based academic administration, grading, and timetable platform backed by SQL Server.',
-      tech: 'Java · MS SQL Server',
-      url: 'https://github.com/Nafi62742/School-Management-System'
-    },
-    {
-      repo: 'Flour_To_Pastry',
-      version: 'Storefront · v1.1',
-      description: 'Full-stack e-commerce bakery catalog, cart, and order management platform.',
-      tech: 'PHP · MySQL · HTML/CSS',
-      url: 'https://github.com/Nafi62742/Flour_To_Pastry'
-    },
-    {
-      repo: 'Voice-record-and-player',
-      version: 'Audio SDK · v1.0',
-      description: 'Offline native Android voice capture and playback engine using MediaRecorder APIs.',
-      tech: 'Java · Android SDK',
-      url: 'https://github.com/Nafi62742/Voice-record-and-player'
-    }
-  ];
 
   /** Whether the hydraulic press is currently mid-stamp animation. */
   public readonly isPressing = signal<boolean>(false);
@@ -143,9 +86,9 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
     this.sceneService.config().scenes.factory.pistons
   );
 
-  /** Total crates on the belt (career stations + GitHub open-source crates). */
+  /** Total career stations on the belt. */
   public readonly totalBeltItems = computed<number>(
-    () => this.experiences.length + this.githubCrates.length
+    () => this.experiences.length
   );
 
   /** Number of crates shipped based on belt scroll progress (devinthehood data-shipped counter). */
@@ -242,6 +185,19 @@ export class ExperienceComponent implements AfterViewInit, OnDestroy {
       window.scrollBy({ top: delta, behavior: 'smooth' });
     } else {
       el.scrollBy({ left: delta, behavior: 'smooth' });
+    }
+  }
+
+  /**
+   * Returns to the start of the conveyor belt (Station 01).
+   */
+  public scrollToBeltStart(): void {
+    const el = this.beltViewport?.nativeElement;
+    if (this.runwayHeightPx() !== null && this.factorySection?.nativeElement) {
+      const sectionTop = this.factorySection.nativeElement.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: Math.max(0, sectionTop - 70), behavior: 'smooth' });
+    } else if (el) {
+      el.scrollTo({ left: 0, behavior: 'smooth' });
     }
   }
 

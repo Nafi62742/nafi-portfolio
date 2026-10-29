@@ -17,11 +17,28 @@ export class ScrollService {
   /** Signal that is true when the page has been scrolled past 60px. */
   public isScrolled = signal<boolean>(false);
 
+  /** Transient HUD banner shown briefly during section transitions. */
+  public transitionHud = signal<{ index: string; label: string } | null>(null);
+
   /** Ordered list of section IDs used for active-section tracking. */
   public readonly sections: Array<string> = [
     'hero', 'about', 'skills', 'experience',
     'projects', 'runmate', 'publications', 'education', 'contact'
   ];
+
+  private readonly sectionMeta: Record<string, { index: string; label: string }> = {
+    hero:         { index: '01', label: 'TWO SIDES // HERO' },
+    about:        { index: '02', label: 'PLAYER 1 // ABOUT' },
+    skills:       { index: '03', label: 'LOADOUT // SKILLS' },
+    experience:   { index: '04', label: 'THE FACTORY // EXPERIENCE' },
+    projects:     { index: '05', label: 'THE STREET // PROJECTS' },
+    runmate:      { index: '06', label: 'RUNMATE // ECOSYSTEM' },
+    publications: { index: '07', label: 'RESEARCH // PUBLICATIONS' },
+    education:    { index: '08', label: 'CREDENTIALS // EDUCATION' },
+    contact:      { index: '09', label: 'CONSOLE // CONTACT' }
+  };
+
+  private hudTimer: ReturnType<typeof setTimeout> | null = null;
 
   private previousUrl: string | null = null;
   private currentUrl: string | null = null;
@@ -84,7 +101,18 @@ export class ScrollService {
    */
   public scrollTo(id: string, behavior: ScrollBehavior = 'smooth'): void {
     const el: HTMLElement | null = document.getElementById(id);
-    if (el) {
+    if (!el) {
+      return;
+    }
+    this.showTransitionHud(id);
+    const docWithVT = document as Document & {
+      startViewTransition?: (cb: () => void) => void;
+    };
+    if (behavior === 'auto' && typeof docWithVT.startViewTransition === 'function') {
+      docWithVT.startViewTransition(() => {
+        el.scrollIntoView({ behavior, block: 'start' });
+      });
+    } else {
       el.scrollIntoView({ behavior, block: 'start' });
     }
   }
@@ -93,13 +121,31 @@ export class ScrollService {
    * Updates the activeSection signal based on current scroll position.
    */
   private updateActive(): void {
-    const scrollY: number = window.scrollY + 120;
+    const scrollY: number = window.scrollY + 140;
     for (let i: number = this.sections.length - 1; i >= 0; i--) {
       const el: HTMLElement | null = document.getElementById(this.sections[i]);
       if (el && el.offsetTop <= scrollY) {
-        this.activeSection.set(this.sections[i]);
+        const nextId = this.sections[i];
+        if (this.activeSection() !== nextId) {
+          this.activeSection.set(nextId);
+          this.showTransitionHud(nextId);
+        }
         return;
       }
     }
+  }
+
+  private showTransitionHud(id: string): void {
+    const meta = this.sectionMeta[id];
+    if (!meta) {
+      return;
+    }
+    this.transitionHud.set(meta);
+    if (this.hudTimer) {
+      clearTimeout(this.hudTimer);
+    }
+    this.hudTimer = setTimeout(() => {
+      this.transitionHud.set(null);
+    }, 1350);
   }
 }

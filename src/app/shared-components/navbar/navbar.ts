@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { InteractiveSceneService } from '@services/interactive-scene.service';
@@ -7,9 +7,28 @@ import { ScrollService } from '@services/scroll.service';
 import { Theme, ThemeService } from '@services/theme.service';
 import { TranslateService } from '@services/translate.service';
 
+/** Sub-section item inside a unified navbar tab. */
+export interface NavSubSection {
+  id: string;
+  code: string;
+  key: string;
+  subLabel: string;
+  icon: string;
+}
+
+/** Unified top-level tab grouping 2–3 relevant portfolio sections. */
+export interface UnifiedNavGroup {
+  id: string;
+  code: string;
+  label: string;
+  defaultSectionId: string;
+  children: Array<NavSubSection>;
+}
+
 /**
- * Simplified, clean architectural Navbar component with multi-theme bluish preset
- * switching, R-007 hood splash trigger, active section tracking, and mobile menu.
+ * Architectural Navbar component with minimized unified tabs, interactive
+ * sub-section dropdowns, multi-theme bluish preset switching, R-007 hood
+ * splash trigger, and mobile grouped navigation.
  */
 @Component({
   selector: 'app-navbar',
@@ -25,25 +44,45 @@ export class NavbarComponent {
   /** Signal tracking whether the theme preset picker popover is open. */
   public readonly themeMenuOpen = signal<boolean>(false);
 
-  /**
-   * Getter to check if the navbar should be in scrolled state (solid background).
-   *
-   * @returns True if the navbar should be in scrolled state, false otherwise.
-   */
-  public get isNavbarScrolled(): boolean {
-    return this.scroll.isScrolled() || this.router.url !== '/' || this.menuOpen();
-  }
+  /** Signal tracking which unified tab dropdown is currently open on desktop. */
+  public readonly openGroupId = signal<string | null>(null);
 
-  /** Navigation link definitions with i18n key and section ID. */
-  public readonly navLinks: Array<{ key: string; id: string }> = [
-    { key: 'nav.about',        id: 'about' },
-    { key: 'nav.skills',       id: 'skills' },
-    { key: 'nav.experience',   id: 'experience' },
-    { key: 'nav.projects',     id: 'projects' },
-    { key: 'nav.runmate',      id: 'runmate' },
-    { key: 'nav.publications', id: 'publications' },
-    { key: 'nav.education',    id: 'education' },
-    { key: 'nav.contact',      id: 'contact' }
+  /**
+   * Minimized unified navigation tabs — each groups 2–3 relevant sections
+   * (with RunMate removed from the tab bar).
+   */
+  public readonly navGroups: Array<UnifiedNavGroup> = [
+    {
+      id: 'profile',
+      code: '01',
+      label: 'Profile',
+      defaultSectionId: 'about',
+      children: [
+        { id: 'hero',   code: '1.1', key: 'nav.home',   subLabel: 'Two Sides // Intro',    icon: 'fa-compass' },
+        { id: 'about',  code: '1.2', key: 'nav.about',  subLabel: 'Player 1 // Bio & Lab', icon: 'fa-user-astronaut' },
+        { id: 'skills', code: '1.3', key: 'nav.skills', subLabel: 'Loadout // Tech Stack', icon: 'fa-microchip' }
+      ]
+    },
+    {
+      id: 'work',
+      code: '02',
+      label: 'Work & Career',
+      defaultSectionId: 'projects',
+      children: [
+        { id: 'experience', code: '2.1', key: 'nav.experience', subLabel: 'The Factory // Career Belt', icon: 'fa-industry' },
+        { id: 'projects',   code: '2.2', key: 'nav.projects',   subLabel: 'The Street // Storefronts',  icon: 'fa-road' }
+      ]
+    },
+    {
+      id: 'credentials',
+      code: '03',
+      label: 'Credentials',
+      defaultSectionId: 'publications',
+      children: [
+        { id: 'publications', code: '3.1', key: 'nav.publications', subLabel: 'IEEE & Springer Research', icon: 'fa-book-journal-whills' },
+        { id: 'education',    code: '3.2', key: 'nav.education',    subLabel: 'B.Sc. CSE & Leadership',   icon: 'fa-graduation-cap' }
+      ]
+    }
   ];
 
   public readonly scroll = inject(ScrollService);
@@ -53,19 +92,87 @@ export class NavbarComponent {
   private readonly router = inject(Router);
 
   /**
-   * Checks if a given nav link is currently active based on scroll tracking.
-   *
-   * @param id - The section identifier.
-   * @returns True if the section is currently active, false otherwise.
+   * Getter to check if the navbar should be in scrolled state (solid background).
+   */
+  public get isNavbarScrolled(): boolean {
+    return this.scroll.isScrolled() || this.router.url !== '/' || this.menuOpen();
+  }
+
+  /**
+   * Closes open dropdowns when clicking outside the navbar.
+   */
+  @HostListener('document:click', ['$event'])
+  public onDocumentClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement | null;
+    if (!target?.closest('.site-header')) {
+      this.openGroupId.set(null);
+      this.themeMenuOpen.set(false);
+    }
+  }
+
+  /**
+   * Checks if a given sub-section ID is currently active based on scroll tracking.
+   * Note: 'runmate' maps to 'projects' since RunMate is part of the Projects showcase flow.
    */
   public isLinkActive(id: string): boolean {
     if (this.router.url !== '/' && this.router.url.length > 0) {
       return false;
     }
-    if (id === 'hero') {
-      return this.scroll.activeSection() === 'hero';
+    const active = this.scroll.activeSection();
+    if (id === 'projects' && active === 'runmate') {
+      return true;
     }
-    return this.scroll.activeSection() === id;
+    return active === id;
+  }
+
+  /**
+   * Checks if any sub-section inside a unified tab group is currently active.
+   */
+  public isGroupActive(group: UnifiedNavGroup): boolean {
+    return group.children.some((child) => this.isLinkActive(child.id));
+  }
+
+  /**
+   * Returns the active sub-section inside a unified tab group (if any) to display
+   * as a live sub-badge on the parent tab.
+   */
+  public getActiveChild(group: UnifiedNavGroup): NavSubSection | undefined {
+    return group.children.find((child) => this.isLinkActive(child.id));
+  }
+
+  /**
+   * Returns the currently active unified group so its sub-sections can be shown
+   * in the contextual sub-navigation bar.
+   */
+  public get activeGroup(): UnifiedNavGroup | undefined {
+    return this.navGroups.find((g) => this.isGroupActive(g));
+  }
+
+  /**
+   * Opens a unified tab dropdown on hover.
+   */
+  public onGroupEnter(groupId: string): void {
+    this.openGroupId.set(groupId);
+  }
+
+  /**
+   * Closes the unified tab dropdown when pointer leaves the tab group.
+   */
+  public onGroupLeave(groupId: string): void {
+    if (this.openGroupId() === groupId) {
+      this.openGroupId.set(null);
+    }
+  }
+
+  /**
+   * Toggles a unified tab dropdown on click, or navigates to its default section.
+   */
+  public onGroupClick(group: UnifiedNavGroup): void {
+    if (this.openGroupId() === group.id) {
+      this.navigate(group.defaultSectionId);
+    } else {
+      this.openGroupId.set(group.id);
+    }
   }
 
   /**
@@ -83,6 +190,7 @@ export class NavbarComponent {
     } else {
       this.scroll.scrollTo(id);
     }
+    this.openGroupId.set(null);
     this.menuOpen.set(false);
     this.themeMenuOpen.set(false);
   }
@@ -91,6 +199,7 @@ export class NavbarComponent {
    * Toggles the theme preset dropdown menu.
    */
   public toggleThemeMenu(): void {
+    this.openGroupId.set(null);
     this.themeMenuOpen.update((v: boolean) => !v);
   }
 
@@ -106,6 +215,7 @@ export class NavbarComponent {
    * Re-opens the R 007 car hood opening splash screen.
    */
   public replayHoodSplash(): void {
+    this.openGroupId.set(null);
     this.menuOpen.set(false);
     this.themeMenuOpen.set(false);
     this.sceneService.triggerSplashReplay();
@@ -115,6 +225,7 @@ export class NavbarComponent {
    * Toggles the mobile menu open/closed state.
    */
   public toggleMenu(): void {
+    this.openGroupId.set(null);
     this.menuOpen.update((v: boolean) => !v);
     this.themeMenuOpen.set(false);
   }

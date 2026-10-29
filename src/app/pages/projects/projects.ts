@@ -411,6 +411,16 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
+   * Extracts a clean `owner/repo` label from a full GitHub URL.
+   *
+   * @param githubUrl - Full GitHub repository URL
+   * @returns Formatted repository label
+   */
+  public getRepoName(githubUrl: string): string {
+    return githubUrl.replace(/^https?:\/\/(www\.)?github\.com\//i, '').replace(/\/$/, '');
+  }
+
+  /**
    * Navigates to the detail page for the given project (ignoring drag release).
    *
    * @param project - The project to view

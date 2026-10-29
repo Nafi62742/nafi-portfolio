@@ -2,13 +2,9 @@
   <!-- Clean Single-Line Brand Mark: Nafi (Dev) × Racer007 (Alias) -->
   <button class="brand" (click)="navigate('hero')" id="nav-logo" aria-label="Nafi × Racer007 — Home">
     <svg class="brand__mark" viewBox="0 0 64 48" aria-hidden="true">
-      <!-- Hex Shield -->
       <polygon points="32,2 60,12 54,38 32,46 10,38 4,12" fill="#070d19" stroke="var(--amber)" stroke-width="2.5" />
-      <!-- Left Code Wing `<` -->
       <path d="M21 15 L11 24 L21 33" fill="none" stroke="var(--red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-      <!-- Right Aero Wing `>` -->
       <path d="M43 15 L53 24 L43 33" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-      <!-- Center R -->
       <text x="32" y="30" text-anchor="middle" fill="#edf4fc" font-family="Archivo, sans-serif" font-weight="900" font-size="18">R</text>
     </svg>
     <span class="brand__name">
@@ -17,18 +13,71 @@
     </span>
   </button>
 
-  <!-- Simplified Primary Navigation -->
+  <!-- Unified Primary Navigation Tabs + Sub-Section Dropdowns -->
   <nav class="site-nav" aria-label="Primary">
-    @for (link of navLinks; track link.id) {
-      <button
-        type="button"
-        [id]="'nav-' + link.id"
-        class="site-nav__link"
-        [class.is-active]="isLinkActive(link.id)"
-        (click)="navigate(link.id)">
-        {{ t.t(link.key) }}
-      </button>
+    @for (group of navGroups; track group.id) {
+      <div
+        class="site-nav__group"
+        [class.is-active]="isGroupActive(group)"
+        [class.is-open]="openGroupId() === group.id"
+        (mouseenter)="onGroupEnter(group.id)"
+        (mouseleave)="onGroupLeave(group.id)">
+        <button
+          type="button"
+          [id]="'nav-group-' + group.id"
+          class="site-nav__tab"
+          [class.is-active]="isGroupActive(group)"
+          [attr.aria-expanded]="openGroupId() === group.id"
+          (click)="onGroupClick(group)">
+          <span class="site-nav__code">{{ group.code }}</span>
+          <span class="site-nav__label">{{ group.label }}</span>
+          @if (getActiveChild(group); as activeSub) {
+            <span class="site-nav__active-sub">· {{ t.t(activeSub.key) }}</span>
+          }
+          <i class="fa-solid fa-chevron-down site-nav__caret" aria-hidden="true"></i>
+        </button>
+
+        <!-- Sub-Section Dropdown Menu (2-3 Relevant Sections per Unified Tab) -->
+        <div class="site-nav__submenu" role="menu" [attr.aria-label]="group.label + ' sub-sections'">
+          <div class="site-nav__submenu-head text-mono">
+            <span>{{ group.code }} // {{ group.label }}</span>
+            <span>{{ group.children.length }} SECTIONS</span>
+          </div>
+          @for (sub of group.children; track sub.id) {
+            <button
+              type="button"
+              role="menuitem"
+              [id]="'nav-' + sub.id"
+              class="site-nav__subitem"
+              [class.is-active]="isLinkActive(sub.id)"
+              (click)="navigate(sub.id)">
+              <span class="site-nav__subicon">
+                <i class="fa-solid" [ngClass]="sub.icon"></i>
+              </span>
+              <span class="site-nav__subbody">
+                <span class="site-nav__subtitle-row">
+                  <small class="site-nav__subcode">{{ sub.code }}</small>
+                  <strong>{{ t.t(sub.key) }}</strong>
+                </span>
+                <span class="site-nav__subdesc">{{ sub.subLabel }}</span>
+              </span>
+              <span class="site-nav__subarrow">{{ isLinkActive(sub.id) ? '●' : '→' }}</span>
+            </button>
+          }
+        </div>
+      </div>
     }
+
+    <!-- Direct Contact Tab -->
+    <button
+      type="button"
+      id="nav-contact"
+      class="site-nav__tab site-nav__tab--direct"
+      [class.is-active]="isLinkActive('contact')"
+      (click)="navigate('contact')">
+      <span class="site-nav__code">04</span>
+      <span class="site-nav__label">{{ t.t('nav.contact') }}</span>
+    </button>
   </nav>
 
   <!-- Right Actions: R-007 Hood Trigger + Multi-Theme Switcher + Resume -->
@@ -104,20 +153,40 @@
   </div>
 </header>
 
-<!-- Mobile Overlay Menu -->
+<!-- Mobile Overlay Menu (Grouped by Unified Tabs + Sub-Sections) -->
 <div class="site-menu" id="site-menu" [class.is-open]="menuOpen()" [attr.aria-hidden]="!menuOpen()">
   <nav class="site-menu__nav" aria-label="Mobile Primary">
-    @for (link of navLinks; track link.id; let i = $index) {
+    @for (group of navGroups; track group.id) {
+      <div class="site-menu__group">
+        <p class="site-menu__group-title text-mono">{{ group.code }} // {{ group.label }}</p>
+        <div class="site-menu__sublist">
+          @for (sub of group.children; track sub.id) {
+            <button
+              type="button"
+              class="site-menu__link"
+              [class.is-active]="isLinkActive(sub.id)"
+              (click)="navigate(sub.id)">
+              <span class="site-menu__idx">{{ sub.code }}</span>
+              <span class="site-menu__title">{{ t.t(sub.key) }}</span>
+              <span class="site-menu__arrow">→</span>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <div class="site-menu__group">
+      <p class="site-menu__group-title text-mono">04 // Direct Uplink</p>
       <button
         type="button"
         class="site-menu__link"
-        [class.is-active]="isLinkActive(link.id)"
-        (click)="navigate(link.id)">
-        <span class="site-menu__idx">0{{ i + 2 }}</span>
-        <span class="site-menu__title">{{ t.t(link.key) }}</span>
+        [class.is-active]="isLinkActive('contact')"
+        (click)="navigate('contact')">
+        <span class="site-menu__idx">4.1</span>
+        <span class="site-menu__title">{{ t.t('nav.contact') }}</span>
         <span class="site-menu__arrow">→</span>
       </button>
-    }
+    </div>
   </nav>
 
   <div class="site-menu__foot">

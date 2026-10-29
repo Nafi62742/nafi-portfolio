@@ -44,6 +44,9 @@ export class AppComponent implements OnInit {
   /** Cursor Y coordinate in viewport pixels. */
   public readonly cursorY = signal<number>(-100);
 
+  /** Whether the pointer is currently inside the viewport. */
+  public readonly cursorVisible = signal<boolean>(false);
+
   /** Whether the cursor is hovering over an interactive target. */
   public readonly cursorHover = signal<boolean>(false);
 
@@ -70,14 +73,25 @@ export class AppComponent implements OnInit {
   /**
    * Tracks pointer coordinates and detects `[data-cursor]` or interactive elements.
    */
-  @HostListener('document:mousemove', ['$event'])
+  @HostListener('window:mousemove', ['$event'])
   public onMouseMove(event: MouseEvent): void {
     this.cursorX.set(event.clientX);
     this.cursorY.set(event.clientY);
+    if (!this.cursorVisible()) {
+      this.cursorVisible.set(true);
+    }
 
     const target = event.target as HTMLElement | null;
     if (!target) {
       this.cursorHover.set(false);
+      this.cursorLabel.set('');
+      return;
+    }
+
+    // Keep the cursor subtle when inside the top navbar so it never obscures nav menus
+    if (target.closest('.site-header')) {
+      const navInteractive = target.closest('a, button, [role="button"]');
+      this.cursorHover.set(Boolean(navInteractive));
       this.cursorLabel.set('');
       return;
     }
@@ -92,6 +106,14 @@ export class AppComponent implements OnInit {
     const interactiveEl = target.closest('a, button, [role="button"]');
     this.cursorHover.set(Boolean(interactiveEl));
     this.cursorLabel.set('');
+  }
+
+  /**
+   * Hides the custom cursor when the pointer leaves the browser window.
+   */
+  @HostListener('document:mouseleave')
+  public onMouseLeave(): void {
+    this.cursorVisible.set(false);
   }
 
   /**

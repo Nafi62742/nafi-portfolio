@@ -70,8 +70,8 @@
       <div class="street__sky" aria-hidden="true">
         <!-- Live Telemetry HUD Badge -->
         <div class="street__car-hud text-mono">
-          <span class="street__car-hud-tag">R-007 GT</span>
-          <span>GEAR {{ currentGear() }}</span>
+          <span class="street__car-hud-tag">AUDI R8 V10 // R-007</span>
+          <span>QUATTRO · GEAR {{ currentGear() }}</span>
           <span>{{ carSpeedKmh() }} KM/H</span>
           <span>{{ scrollPct() }}%</span>
         </div>
@@ -151,61 +151,91 @@
               points="334,62 360,50 360,82 332,70"
               fill="url(#r007HeadlightBeam)" />
 
-            <!-- Rear Carbon GT Wing -->
+            <!-- Rear Carbon GT Gooseneck Wing -->
             <path [attr.d]="sportsCar().spoilerPath" class="street__car-wing" />
 
-            <!-- Front Carbon Splitter & Side Diffuser -->
+            <!-- Front Carbon Splitter & Quattro Side Skirt -->
             <path [attr.d]="sportsCar().splitterPath" class="street__car-splitter" />
 
-            <!-- Main Sculpted Sports Car Body (Right Side Profile) -->
+            <!-- Main Sculpted Audi R8 V10 Body (Right Side Profile) -->
             <path [attr.d]="sportsCar().bodyPath" fill="url(#r007CarBody)" class="street__car-body" />
 
-            <!-- Tinted Fastback Cabin Glass -->
+            <!-- Quattro Muscular Wheel Arch Flare Highlights & Dynamic Tornado Line -->
+            <path d="M 60 83 A 31 31 0 0 1 128 83" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.65" />
+            <path d="M 238 83 A 31 31 0 0 1 306 83" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.65" />
+            <path d="M 32 52 C 110 47 215 47 328 58" fill="none" stroke="#7dd3fc" stroke-width="1" opacity="0.55" />
+
+            <!-- Tinted Teardrop Fastback Cabin Glass -->
             <path [attr.d]="sportsCar().roofGlassPath" fill="url(#r007CarGlass)" class="street__car-glass" />
 
-            <!-- Right Door Panel Outline, Side Mirror, Handle & NACA Air Intake -->
-            <path [attr.d]="sportsCar().rightDoorPath" class="street__car-door" />
-            <path [attr.d]="sportsCar().sideIntakePath" class="street__car-intake" />
-            <!-- Flush Racing Door Handle -->
-            <rect x="144" y="51" width="14" height="3" rx="1.5" fill="#38bdf8" />
-            <!-- Right Side Aero Wing Mirror -->
-            <path d="M 218 42 L 230 37 L 233 43 L 220 46 Z" fill="#38bdf8" />
+            <!-- Iconic Audi R8 Contrasting Carbon-Fiber Sideblade + Horizontal Intake Louvers -->
+            <path [attr.d]="sportsCar().sideIntakePath" class="street__car-sideblade" />
+            <line x1="115" y1="48" x2="141" y2="48" class="street__car-louver" />
+            <line x1="116" y1="55" x2="142" y2="55" class="street__car-louver" />
+            <line x1="116" y1="62" x2="142" y2="62" class="street__car-louver" />
+            <line x1="115" y1="69" x2="140" y2="69" class="street__car-louver" />
 
-            <!-- Right Door Livery: R 007 + NAFI // GT -->
-            <text x="184" y="65" text-anchor="middle" class="street__car-door-emblem">
+            <!-- Right Door Panel Outline, Flush Handle & Aero Wing Mirror -->
+            <path [attr.d]="sportsCar().rightDoorPath" class="street__car-door" />
+            <!-- Flush Audi R8 Door Handle Recess -->
+            <path d="M 149 51 L 164 50 L 162 54 L 149 54 Z" fill="#38bdf8" />
+            <!-- Right Side Carbon Wing Mirror -->
+            <path d="M 225 41 L 238 36 L 241 42 L 227 45 Z" fill="#38bdf8" />
+
+            <!-- Front Fender V10 Badge -->
+            <rect x="237" y="53" width="14" height="6" rx="1.5" fill="#071224" stroke="#38bdf8" stroke-width="0.8" />
+            <text x="244" y="57.8" text-anchor="middle" class="street__car-v10-badge">V10</text>
+
+            <!-- Four Interlocked Audi Rings Emblem on Right Door -->
+            <g class="street__car-audi-rings" transform="translate(175, 53)">
+              <circle cx="0"  cy="0" r="3.6" />
+              <circle cx="5"  cy="0" r="3.6" />
+              <circle cx="10" cy="0" r="3.6" />
+              <circle cx="15" cy="0" r="3.6" />
+            </g>
+
+            <!-- Right Door Livery: R 007 + AUDI R8 // QUATTRO -->
+            <text x="190" y="69" text-anchor="middle" class="street__car-door-emblem">
               {{ sportsCar().doorEmblem }}
             </text>
-            <text x="184" y="75" text-anchor="middle" class="street__car-door-sub">
+            <text x="190" y="77" text-anchor="middle" class="street__car-door-sub">
               {{ sportsCar().doorSubLabel }}
             </text>
 
-            <!-- LED Matrix Headlight & Taillight -->
+            <!-- Audi Matrix Laser LED Headlight & Honeycomb LED Taillight -->
             <path [attr.d]="sportsCar().headlightPath" class="street__car-headlight" />
+            <polyline points="303,58 326,64 337,62" fill="none" stroke="#0284c7" stroke-width="1.5" />
             <path [attr.d]="sportsCar().taillightPath" class="street__car-taillight" />
 
-            <!-- Rear Wheel (Spins with scrollPct) -->
+            <!-- Rear Wheel: Fixed Audi Sport Caliper + Spinning 10-Spoke Y-Design Rim -->
             <g [attr.transform]="'translate(' + sportsCar().rearWheel.cx + ' ' + sportsCar().rearWheel.cy + ')'">
+              <circle r="23" class="street__car-tire" />
+              <circle r="16" class="street__car-rim" />
+              <circle r="11.5" class="street__car-rotor" />
+              <!-- Fixed Audi Sport Brake Caliper -->
+              <path d="M -13 -6 C -11 -12 -5 -14 0 -13 L -2 -8 C -6 -8 -9 -6 -10 -3 Z" class="street__car-caliper" />
               <g [style.transform]="'rotate(' + carWheelDeg() + 'deg)'">
-                <circle r="23" class="street__car-tire" />
-                <circle r="15" class="street__car-rim" />
-                <line x1="-14" y1="0" x2="14" y2="0" class="street__car-spoke" />
-                <line x1="0" y1="-14" x2="0" y2="14" class="street__car-spoke" />
-                <line x1="-10" y1="-10" x2="10" y2="10" class="street__car-spoke" />
-                <line x1="-10" y1="10" x2="10" y2="-10" class="street__car-spoke" />
-                <circle r="4.5" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+                <line x1="-15" y1="0" x2="15" y2="0" class="street__car-spoke" />
+                <line x1="0" y1="-15" x2="0" y2="15" class="street__car-spoke" />
+                <line x1="-11" y1="-11" x2="11" y2="11" class="street__car-spoke" />
+                <line x1="-11" y1="11" x2="11" y2="-11" class="street__car-spoke" />
+                <circle r="5" fill="#071224" stroke="#38bdf8" stroke-width="1.5" />
               </g>
             </g>
 
-            <!-- Front Wheel (Spins with scrollPct) -->
+            <!-- Front Wheel: Fixed Audi Sport Caliper + Spinning 10-Spoke Y-Design Rim -->
             <g [attr.transform]="'translate(' + sportsCar().frontWheel.cx + ' ' + sportsCar().frontWheel.cy + ')'">
+              <circle r="23" class="street__car-tire" />
+              <circle r="16" class="street__car-rim" />
+              <circle r="11.5" class="street__car-rotor" />
+              <!-- Fixed Audi Sport Brake Caliper -->
+              <path d="M -13 -6 C -11 -12 -5 -14 0 -13 L -2 -8 C -6 -8 -9 -6 -10 -3 Z" class="street__car-caliper" />
               <g [style.transform]="'rotate(' + carWheelDeg() + 'deg)'">
-                <circle r="23" class="street__car-tire" />
-                <circle r="15" class="street__car-rim" />
-                <line x1="-14" y1="0" x2="14" y2="0" class="street__car-spoke" />
-                <line x1="0" y1="-14" x2="0" y2="14" class="street__car-spoke" />
-                <line x1="-10" y1="-10" x2="10" y2="10" class="street__car-spoke" />
-                <line x1="-10" y1="10" x2="10" y2="-10" class="street__car-spoke" />
-                <circle r="4.5" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+                <line x1="-15" y1="0" x2="15" y2="0" class="street__car-spoke" />
+                <line x1="0" y1="-15" x2="0" y2="15" class="street__car-spoke" />
+                <line x1="-11" y1="-11" x2="11" y2="11" class="street__car-spoke" />
+                <line x1="-11" y1="11" x2="11" y2="-11" class="street__car-spoke" />
+                <circle r="5" fill="#071224" stroke="#38bdf8" stroke-width="1.5" />
               </g>
             </g>
           </svg>
@@ -312,70 +342,66 @@
                 }
 
                 <!-- Floating External Links -->
-                @if (project.github || project.link || project.playstore || project.appstore || project.youtube) {
-                  <div class="shop__quick-links">
-                    @if (project.github) {
-                      <a
-                        [href]="project.github"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="GitHub"
-                        title="GitHub Repository"
-                        (click)="$event.stopPropagation()"
-                        class="shop__qbtn">
-                        <i class="fa-brands fa-github"></i>
-                      </a>
-                    }
-                    @if (project.playstore) {
-                      <a
-                        [href]="project.playstore"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Play Store"
-                        title="Google Play Store"
-                        (click)="$event.stopPropagation()"
-                        class="shop__qbtn">
-                        <i class="fa-brands fa-google-play"></i>
-                      </a>
-                    }
-                    @if (project.appstore) {
-                      <a
-                        [href]="project.appstore"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="App Store"
-                        title="Apple App Store"
-                        (click)="$event.stopPropagation()"
-                        class="shop__qbtn">
-                        <i class="fa-brands fa-apple"></i>
-                      </a>
-                    }
-                    @if (project.youtube) {
-                      <a
-                        [href]="project.youtube"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="YouTube Demo"
-                        title="Watch Video Demo"
-                        (click)="$event.stopPropagation()"
-                        class="shop__qbtn">
-                        <i class="fa-brands fa-youtube"></i>
-                      </a>
-                    }
-                    @if (project.link) {
-                      <a
-                        [href]="project.link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Live Site"
-                        title="Open Live Project"
-                        (click)="$event.stopPropagation()"
-                        class="shop__qbtn">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                      </a>
-                    }
-                  </div>
-                }
+                <div class="shop__quick-links">
+                  <a
+                    [href]="project.github || 'https://github.com/Nafi62742'"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    [title]="project.github ? 'GitHub Repository' : 'GitHub Profile'"
+                    (click)="$event.stopPropagation()"
+                    class="shop__qbtn">
+                    <i class="fa-brands fa-github"></i>
+                  </a>
+                  @if (project.playstore) {
+                    <a
+                      [href]="project.playstore"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Play Store"
+                      title="Google Play Store"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-brands fa-google-play"></i>
+                    </a>
+                  }
+                  @if (project.appstore) {
+                    <a
+                      [href]="project.appstore"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="App Store"
+                      title="Apple App Store"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-brands fa-apple"></i>
+                    </a>
+                  }
+                  @if (project.youtube) {
+                    <a
+                      [href]="project.youtube"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="YouTube Demo"
+                      title="Watch Video Demo"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-brands fa-youtube"></i>
+                    </a>
+                  }
+                  @if (project.link) {
+                    <a
+                      [href]="project.link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Live Site"
+                      title="Open Live Project"
+                      (click)="$event.stopPropagation()"
+                      class="shop__qbtn">
+                      <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                  }
+                </div>
               </div>
 
               <!-- 3D Swinging Door with Daily Easter-Egg Cat (devinthehood shop-cat) -->
@@ -399,9 +425,71 @@
             <!-- 5. Sidewalk Curb -->
             <div class="shop__sidewalk" aria-hidden="true"></div>
 
-            <!-- 6. Storefront Plate: Description, Tech Badges & Details Link -->
+            <!-- 6. Storefront Plate: Description, GitHub / Live Links, Tech Badges & Details Link -->
             <div class="shop__plate">
               <p class="shop__desc">{{ project.description }}</p>
+
+              <!-- Direct GitHub & Live Link Row on Every Card -->
+              <div class="shop__links-bar">
+                @if (project.github) {
+                  <a
+                    [href]="project.github"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    (click)="$event.stopPropagation()"
+                    data-cursor="GITHUB ↗"
+                    class="shop__gh-pill is-repo">
+                    <i class="fa-brands fa-github"></i>
+                    <span>{{ getRepoName(project.github) }} ↗</span>
+                  </a>
+                } @else {
+                  <a
+                    href="https://github.com/Nafi62742"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    (click)="$event.stopPropagation()"
+                    data-cursor="GITHUB ↗"
+                    class="shop__gh-pill">
+                    <i class="fa-brands fa-github"></i>
+                    <span>Nafi62742 · GitHub ↗</span>
+                  </a>
+                }
+
+                @if (project.link) {
+                  <a
+                    [href]="project.link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    (click)="$event.stopPropagation()"
+                    data-cursor="LIVE ↗"
+                    class="shop__live-pill">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>LIVE ↗</span>
+                  </a>
+                } @else if (project.playstore) {
+                  <a
+                    [href]="project.playstore"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    (click)="$event.stopPropagation()"
+                    data-cursor="STORE ↗"
+                    class="shop__live-pill">
+                    <i class="fa-brands fa-google-play"></i>
+                    <span>STORE ↗</span>
+                  </a>
+                } @else if (project.youtube) {
+                  <a
+                    [href]="project.youtube"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    (click)="$event.stopPropagation()"
+                    data-cursor="DEMO ↗"
+                    class="shop__live-pill">
+                    <i class="fa-brands fa-youtube"></i>
+                    <span>DEMO ↗</span>
+                  </a>
+                }
+              </div>
 
               <footer class="shop__foot">
                 <div class="shop__tags">
@@ -439,14 +527,23 @@
           </div>
         }
 
-        <!-- End of Boulevard Signpost (devinthehood .street__end) -->
-        <div
-          class="street__end"
-          role="button"
-          tabindex="0"
-          (click)="scrollToStreetStart()"
-          (keydown.enter)="scrollToStreetStart()">
-          <div class="street__end-sign">
+        <!-- End of Boulevard Signpost + GitHub Dock (devinthehood .street__end) -->
+        <div class="street__end">
+          <a
+            href="https://github.com/Nafi62742"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="GITHUB ↗"
+            class="street__end-gh">
+            <i class="fa-brands fa-github"></i>
+            <span>ALL ON GITHUB ↗</span>
+          </a>
+          <div
+            class="street__end-sign"
+            role="button"
+            tabindex="0"
+            (click)="scrollToStreetStart()"
+            (keydown.enter)="scrollToStreetStart()">
             <span class="street__end-kicker">END OF BOULEVARD // {{ filteredProjects.length }} LOTS</span>
             <strong class="street__end-title">← BACK TO LOT 01</strong>
           </div>
