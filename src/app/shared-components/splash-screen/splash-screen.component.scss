@@ -213,14 +213,14 @@
 .hood-car {
   position: relative;
   width: min(560px, 90vw);
-  aspect-ratio: 680 / 460;
-  perspective: 1200px;
+  aspect-ratio: 680 / 480;
+  perspective: 1300px;
   cursor: pointer;
   user-select: none;
-  border-radius: 14px;
+  border-radius: 16px;
   overflow: hidden;
   border: 1px solid rgba(148, 163, 184, 0.24);
-  box-shadow: 0 26px 60px -15px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 26px 60px -15px rgba(0, 0, 0, 0.78);
 
   &__engine-svg,
   &__lid-svg {
@@ -232,20 +232,30 @@
   &__lid {
     position: absolute;
     inset: 0;
-    transform-origin: 50% 18%;
+    transform-origin: 50% 19%;
     transform: rotateX(0deg) translateY(0) scale(1);
     opacity: 1;
     transition:
-      transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 650ms cubic-bezier(0.16, 1, 0.3, 1);
-    filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.7));
+      transform 950ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 720ms cubic-bezier(0.16, 1, 0.3, 1);
+    filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.72));
   }
 
   /* Hinges open upward at the windshield cowl to reveal the gold-plated & cast-silver engine bay */
   &.is-open .hood-car__lid {
-    transform: rotateX(72deg) translateY(-76%) scale(0.92);
+    transform: rotateX(74deg) translateY(-78%) scale(0.94);
     opacity: 0;
     pointer-events: none;
+  }
+
+  &__headlights {
+    opacity: 0.75;
+    transition: opacity 300ms ease, filter 300ms ease;
+  }
+
+  &.is-open .hood-car__headlights {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.7));
   }
 }
 

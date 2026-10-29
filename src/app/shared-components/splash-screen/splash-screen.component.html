@@ -26,7 +26,7 @@
       </div>
     </header>
 
-    <!-- Center Front-Perspective Custom V10 Engine Bay & Hinged Hood Stage -->
+    <!-- Center Front-Perspective Sports Car Hood & Custom Gold/Silver Engine Bay Stage -->
     <div class="loader__stage">
       <div
         class="hood-car"
@@ -37,14 +37,24 @@
         (click)="popHoodNow()"
         (keydown.enter)="popHoodNow()">
 
-        <!-- 1. REALISTIC CUSTOM ENGINE BAY (Matches Reference Photo: Center Silver Ribbed Manifold, Gold Valve Covers & Sweeping Charge Tubes, Zero Fans) -->
-        <svg class="hood-car__engine-svg" viewBox="0 0 680 460" aria-hidden="true">
+        <!-- ============================================================== -->
+        <!-- LAYER 1: CAR CHASSIS, WINDSHIELD, FRONT FENDERS & ENGINE BAY   -->
+        <!-- ============================================================== -->
+        <svg class="hood-car__engine-svg" viewBox="0 0 680 480" aria-hidden="true">
           <defs>
-            <!-- Gunmetal Chassis & Inner Fender Apron Gradients -->
-            <linearGradient id="bay-chassis" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#4b5563" />
-              <stop offset="50%" stop-color="#374151" />
-              <stop offset="100%" stop-color="#1f2937" />
+            <!-- Automotive Gunmetal Paint Gradient for Fenders & Bodywork -->
+            <linearGradient id="car-body-paint" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#475569" />
+              <stop offset="30%" stop-color="#334155" />
+              <stop offset="55%" stop-color="#1e293b" />
+              <stop offset="80%" stop-color="#334155" />
+              <stop offset="100%" stop-color="#0f172a" />
+            </linearGradient>
+
+            <linearGradient id="windshield-glass" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#0f172a" />
+              <stop offset="45%" stop-color="#1e293b" />
+              <stop offset="100%" stop-color="#090d14" />
             </linearGradient>
 
             <linearGradient id="bay-cavity" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -100,65 +110,63 @@
           </defs>
 
           <!-- ============================================================ -->
-          <!-- 1. TOP LIFTED HOOD UNDERSIDE, HINGES & WINDSHIELD WIPER COWL -->
+          <!-- 1. WINDSHIELD CABIN, A-PILLARS, SIDE MIRRORS & WIPER COWL    -->
           <!-- ============================================================ -->
-          <!-- Open Hood Underside Liner at Very Top of Frame -->
-          <path
-            d="M 55 8 L 625 8 L 590 66 L 90 66 Z"
-            fill="#1f2937"
-            stroke="#4b5563"
-            stroke-width="2" />
-          <path
-            d="M 110 14 L 570 14 L 548 52 L 132 52 Z"
-            fill="#111827"
-            stroke="#374151"
-            stroke-width="1.2" />
+          <!-- Aerodynamic Side Mirrors (Left & Right) -->
+          <path d="M 82 54 L 34 44 L 26 60 L 76 68 Z" fill="url(#car-body-paint)" stroke="#64748b" stroke-width="1.5" />
+          <path d="M 598 54 L 646 44 L 654 60 L 604 68 Z" fill="url(#car-body-paint)" stroke="#64748b" stroke-width="1.5" />
 
-          <!-- Windshield Glass Reflection & Black Wiper Cowl Panel -->
+          <!-- Windshield Frame, Roof Header & A-Pillars -->
           <path
-            d="M 88 64 L 592 64 L 610 106 L 70 106 Z"
+            d="M 118 8 L 562 8 L 604 82 L 76 82 Z"
+            fill="url(#windshield-glass)"
+            stroke="#475569"
+            stroke-width="2.2" />
+          <!-- Subtle Interior Dashboard / Rearview Mirror Glint inside Windshield -->
+          <rect x="312" y="18" width="56" height="12" rx="4" fill="#090d14" stroke="#334155" stroke-width="1" />
+          <path d="M 134 14 L 250 14 L 195 74 L 98 74 Z" fill="#38bdf8" fill-opacity="0.06" />
+
+          <!-- Black Wiper Cowl & Dual Windshield Wipers -->
+          <path
+            d="M 76 74 L 604 74 L 616 106 L 64 106 Z"
             fill="#0f172a"
             stroke="#334155"
             stroke-width="1.5" />
-
-          <!-- Windshield Wiper Arms & Blades (Left & Right, just like reference photo) -->
           <g stroke="#090d14" stroke-linecap="round" fill="none">
-            <path d="M 115 96 Q 210 78 310 92" stroke-width="6" />
-            <path d="M 115 96 Q 210 78 310 92" stroke="#334155" stroke-width="1.5" />
-            <path d="M 330 92 Q 445 78 555 96" stroke-width="6" />
-            <path d="M 330 92 Q 445 78 555 96" stroke="#334155" stroke-width="1.5" />
+            <path d="M 115 96 Q 210 78 310 92" stroke-width="5.5" />
+            <path d="M 115 96 Q 210 78 310 92" stroke="#475569" stroke-width="1.4" />
+            <path d="M 330 92 Q 445 78 555 96" stroke-width="5.5" />
+            <path d="M 330 92 Q 445 78 555 96" stroke="#475569" stroke-width="1.4" />
           </g>
 
-          <!-- Left & Right Mechanical Hood Hinges / Gas Struts -->
+          <!-- Left & Right Hydraulic Hood Struts / Hinges -->
           <g stroke="#374151" stroke-width="5" stroke-linecap="round">
-            <line x1="82" y1="22" x2="96" y2="108" />
-            <line x1="598" y1="22" x2="584" y2="108" />
+            <line x1="88" y1="42" x2="96" y2="108" />
+            <line x1="592" y1="42" x2="584" y2="108" />
           </g>
-          <g stroke="#9ca3af" stroke-width="2" stroke-linecap="round">
-            <line x1="82" y1="22" x2="96" y2="108" />
-            <line x1="598" y1="22" x2="584" y2="108" />
+          <g stroke="#cbd5e1" stroke-width="2" stroke-linecap="round">
+            <line x1="88" y1="42" x2="96" y2="108" />
+            <line x1="592" y1="42" x2="584" y2="108" />
           </g>
 
           <!-- ============================================================ -->
-          <!-- 2. OUTER FENDER APRONS, SIDE PANELS & DEEP ENGINE BAY CAVITY -->
+          <!-- 2. SCULPTED OUTER FRONT FENDERS & INNER ENGINE BAY APRONS    -->
           <!-- ============================================================ -->
-          <!-- Outer Metallic Grey Engine Bay Fender Surround -->
+          <!-- Outer Sculpted Front Fenders (Curving from A-Pillars to Front Bumper) -->
           <path
-            d="M 65 102 L 615 102 L 664 412 L 16 412 Z"
-            fill="url(#bay-chassis)"
-            stroke="#6b7280"
+            d="M 64 102 L 616 102 L 668 386 C 672 406 664 422 648 430 L 32 430 C 16 422 8 406 12 386 Z"
+            fill="url(#car-body-paint)"
+            stroke="#64748b"
             stroke-width="2" />
 
-          <!-- Left Strut Tower & Fuse/Airbox Panel (Matches Left Side of Photo) -->
+          <!-- Left Strut Tower & Fuse/Airbox Panel -->
           <path
             d="M 74 114 L 188 114 L 146 385 L 28 385 Z"
             fill="#374151"
             stroke="#4b5563"
             stroke-width="1.5" />
-          <!-- Left Top Yellow/Gold Strut Mount Cap -->
           <ellipse cx="122" cy="134" rx="18" ry="9" fill="#1f2937" stroke="#f59e0b" stroke-width="2" />
           <circle cx="122" cy="134" r="5" fill="#f59e0b" />
-          <!-- Left Ribbed Fuse / Intake Box Cover -->
           <path d="M 48 162 L 136 162 L 112 292 L 32 292 Z" fill="#4b5563" stroke="#1f2937" stroke-width="1.5" />
           <g stroke="#1f2937" stroke-width="2.5">
             <line x1="56" y1="180" x2="124" y2="180" />
@@ -168,16 +176,14 @@
             <line x1="40" y1="244" x2="108" y2="244" />
           </g>
 
-          <!-- Right Strut Tower & Reservoir Panel (Matches Right Side of Photo) -->
+          <!-- Right Strut Tower & Reservoir Panel -->
           <path
             d="M 492 114 L 606 114 L 652 385 L 534 385 Z"
             fill="#374151"
             stroke="#4b5563"
             stroke-width="1.5" />
-          <!-- Right Top Strut Mount -->
           <ellipse cx="556" cy="134" rx="18" ry="9" fill="#1f2937" stroke="#9ca3af" stroke-width="1.5" />
           <circle cx="556" cy="134" r="5" fill="#6b7280" />
-          <!-- Right Side Partition & Silver Fluid Canister (Lower Right) -->
           <path d="M 526 168 L 614 168 L 636 280 L 544 280 Z" fill="#1f2937" stroke="#4b5563" stroke-width="1.5" />
           <g transform="translate(578, 336)">
             <ellipse cx="0" cy="0" rx="28" ry="34" fill="url(#silver-cast)" stroke="#475569" stroke-width="1.5" />
@@ -192,41 +198,34 @@
             stroke-width="2.5" />
 
           <!-- ============================================================ -->
-          <!-- 3. ENGINE BLOCK ASSEMBLY (Vibrates subtly at idle/rev)       -->
+          <!-- 3. ENGINE BLOCK ASSEMBLY (Gold Valve Covers & Silver Spine)  -->
           <!-- ============================================================ -->
           <g class="engine__assembly">
-
-            <!-- Underlying Cast Aluminum Lower Crankcase & Plumbing -->
+            <!-- Underlying Cast Aluminum Lower Crankcase -->
             <path
               d="M 218 270 L 462 270 L 478 390 L 202 390 Z"
               fill="#1e293b"
               stroke="#334155"
               stroke-width="1.5" />
 
-            <!-- Lower Left Braided Lines & Black Cap with Red Ring (From Photo) -->
+            <!-- Lower Left Braided Lines -->
             <path d="M 76 310 C 62 340, 88 365, 84 392" fill="none" stroke="#cbd5e1" stroke-width="5" stroke-dasharray="6 3" />
             <path d="M 92 316 C 78 345, 102 368, 98 392" fill="none" stroke="#94a3b8" stroke-width="4" stroke-dasharray="6 3" />
 
-            <!-- ========================================================== -->
-            <!-- LEFT & RIGHT SWEEPING GOLD CHARGE / INTAKE TUBES           -->
-            <!-- ========================================================== -->
-            <!-- LEFT SWEEPING GOLD TUBE -->
+            <!-- LEFT SWEEPING GOLD CHARGE TUBE -->
             <g>
-              <!-- Upper Gold Pipe Section -->
               <path
                 d="M 226 144 C 210 156, 178 198, 152 246"
                 fill="none"
                 stroke="url(#gold-tube-left)"
                 stroke-width="28"
                 stroke-linecap="round" />
-              <!-- Lower Thick Sweeping Gold S-Bend to Front Intercooler -->
               <path
                 d="M 150 250 C 110 302, 146 346, 146 402"
                 fill="none"
                 stroke="url(#gold-tube-left)"
                 stroke-width="38"
                 stroke-linecap="round" />
-              <!-- Black Silicone Coupler Boots & Stainless T-Bolt Clamps (Left Tube) -->
               <g transform="translate(216, 152) rotate(-42)">
                 <rect x="-16" y="-9" width="32" height="18" rx="3" fill="#111827" stroke="#374151" stroke-width="1" />
                 <line x1="-15" y1="-4" x2="15" y2="-4" stroke="#d1d5db" stroke-width="2" />
@@ -237,7 +236,6 @@
                 <line x1="-18" y1="-6" x2="18" y2="-6" stroke="#d1d5db" stroke-width="2.2" />
                 <line x1="-18" y1="6"  x2="18" y2="6"  stroke="#d1d5db" stroke-width="2.2" />
               </g>
-              <!-- Ribbed Gold Bellow Rings on Left Elbow -->
               <g transform="translate(136, 274) rotate(-25)" stroke="#92400e" stroke-width="2.2" fill="none">
                 <line x1="-18" y1="-6" x2="18" y2="-6" />
                 <line x1="-19" y1="0"  x2="19" y2="0" />
@@ -245,23 +243,20 @@
               </g>
             </g>
 
-            <!-- RIGHT SWEEPING GOLD TUBE -->
+            <!-- RIGHT SWEEPING GOLD CHARGE TUBE -->
             <g>
-              <!-- Upper Gold Pipe Section -->
               <path
                 d="M 454 144 C 470 156, 502 198, 528 246"
                 fill="none"
                 stroke="url(#gold-tube-right)"
                 stroke-width="28"
                 stroke-linecap="round" />
-              <!-- Lower Thick Sweeping Gold S-Bend to Front Intercooler -->
               <path
                 d="M 530 250 C 570 302, 534 346, 534 402"
                 fill="none"
                 stroke="url(#gold-tube-right)"
                 stroke-width="38"
                 stroke-linecap="round" />
-              <!-- Black Silicone Coupler Boots & Stainless T-Bolt Clamps (Right Tube) -->
               <g transform="translate(464, 152) rotate(42)">
                 <rect x="-16" y="-9" width="32" height="18" rx="3" fill="#111827" stroke="#374151" stroke-width="1" />
                 <line x1="-15" y1="-4" x2="15" y2="-4" stroke="#d1d5db" stroke-width="2" />
@@ -272,7 +267,6 @@
                 <line x1="-18" y1="-6" x2="18" y2="-6" stroke="#d1d5db" stroke-width="2.2" />
                 <line x1="-18" y1="6"  x2="18" y2="6"  stroke="#d1d5db" stroke-width="2.2" />
               </g>
-              <!-- Ribbed Gold Bellow Rings on Right Elbow -->
               <g transform="translate(544, 274) rotate(25)" stroke="#92400e" stroke-width="2.2" fill="none">
                 <line x1="-18" y1="-6" x2="18" y2="-6" />
                 <line x1="-19" y1="0"  x2="19" y2="0" />
@@ -280,9 +274,6 @@
               </g>
             </g>
 
-            <!-- ========================================================== -->
-            <!-- LEFT & RIGHT GOLD-ANODIZED CYLINDER HEAD VALVE COVERS      -->
-            <!-- ========================================================== -->
             <!-- LEFT GOLD VALVE COVER -->
             <g>
               <path
@@ -291,9 +282,7 @@
                 stroke="#78350f"
                 stroke-width="2"
                 stroke-linejoin="round" />
-              <!-- Inner Black Longitudinal Accent Slot -->
               <line x1="286" y1="128" x2="270" y2="276" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
-              <!-- Sculpted Diagonal Machined Ribs on Left Valve Cover -->
               <g stroke="#92400e" stroke-width="2.2" stroke-linecap="round">
                 <line x1="252" y1="145" x2="276" y2="155" />
                 <line x1="244" y1="168" x2="272" y2="180" />
@@ -301,7 +290,6 @@
                 <line x1="228" y1="214" x2="264" y2="230" />
                 <line x1="220" y1="237" x2="260" y2="255" />
               </g>
-              <!-- Front Beveled Face of Left Valve Cover -->
               <polygon points="204,294 284,294 278,314 210,314" fill="#d97706" stroke="#78350f" stroke-width="1.5" />
             </g>
 
@@ -313,9 +301,7 @@
                 stroke="#78350f"
                 stroke-width="2"
                 stroke-linejoin="round" />
-              <!-- Inner Black Longitudinal Accent Slot -->
               <line x1="394" y1="128" x2="410" y2="276" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
-              <!-- Sculpted Diagonal Machined Ribs on Right Valve Cover -->
               <g stroke="#92400e" stroke-width="2.2" stroke-linecap="round">
                 <line x1="428" y1="145" x2="404" y2="155" />
                 <line x1="436" y1="168" x2="408" y2="180" />
@@ -323,19 +309,14 @@
                 <line x1="452" y1="214" x2="416" y2="230" />
                 <line x1="460" y1="237" x2="420" y2="255" />
               </g>
-              <!-- Front Beveled Face of Right Valve Cover -->
               <polygon points="396,294 476,294 470,314 402,314" fill="#d97706" stroke="#78350f" stroke-width="1.5" />
             </g>
 
-            <!-- ========================================================== -->
-            <!-- CENTER CAST-SILVER RIBBED INTAKE MANIFOLD SPINE & PLENUM   -->
-            <!-- ========================================================== -->
+            <!-- CENTER CAST-SILVER RIBBED INTAKE MANIFOLD SPINE & PLENUM -->
             <g>
-              <!-- Left & Right Fuel Rails / Runner Flanges with Bolts -->
               <rect x="288" y="124" width="16" height="156" fill="#94a3b8" stroke="#334155" stroke-width="1" />
               <rect x="376" y="124" width="16" height="156" fill="#94a3b8" stroke="#334155" stroke-width="1" />
 
-              <!-- 8 Pairs of Cast Runner Bolts -->
               <g fill="#1e293b">
                 <circle cx="294" cy="134" r="2.2" /><circle cx="386" cy="134" r="2.2" />
                 <circle cx="294" cy="152" r="2.2" /><circle cx="386" cy="152" r="2.2" />
@@ -347,7 +328,6 @@
                 <circle cx="294" cy="260" r="2.2" /><circle cx="386" cy="260" r="2.2" />
               </g>
 
-              <!-- 8 Sculpted Horizontal Tubular Intake Manifold Runner Lobes -->
               <g fill="url(#silver-cast)" stroke="#475569" stroke-width="1.4">
                 <rect x="300" y="116" width="80" height="18" rx="9" />
                 <rect x="299" y="133" width="82" height="19" rx="9.5" />
@@ -359,33 +339,26 @@
                 <rect x="293" y="247" width="94" height="22" rx="11" />
               </g>
 
-              <!-- Center Vertical Cast Spine Highlight -->
               <path
                 d="M 332 116 L 348 116 L 352 270 L 328 270 Z"
                 fill="url(#silver-cast)"
                 opacity="0.88" />
 
-              <!-- Black Ribbed Silicone Coupler Bellow at Front of Manifold -->
               <rect x="308" y="268" width="64" height="28" rx="8" fill="#111827" stroke="#374151" stroke-width="1.5" />
               <line x1="310" y1="276" x2="370" y2="276" stroke="#374151" stroke-width="2" />
               <line x1="310" y1="284" x2="370" y2="284" stroke="#374151" stroke-width="2" />
               <line x1="310" y1="291" x2="370" y2="291" stroke="#374151" stroke-width="2" />
 
-              <!-- Front Cast-Silver Spherical Throttle Body / Plenum Dome (Center of Photo) -->
               <circle cx="340" cy="322" r="32" fill="url(#plenum-dome)" stroke="#475569" stroke-width="2" />
               <circle cx="340" cy="322" r="20" fill="none" stroke="#94a3b8" stroke-width="1.5" />
               <circle cx="340" cy="322" r="9"  fill="#cbd5e1" stroke="#64748b" stroke-width="1.2" />
             </g>
 
-            <!-- ========================================================== -->
-            <!-- LOWER FRONT ENGINE ACCESSORIES (Pulley Wheel & Plumbing)   -->
-            <!-- ========================================================== -->
-            <!-- Lower Right Cast Alternator / Supercharger Drive Housing with Gold Machined Pulley (Exact match to photo) -->
+            <!-- LOWER RIGHT CAST HOUSING WITH GOLD MACHINED PULLEY HUB -->
             <g transform="translate(414, 344)">
               <rect x="-32" y="-36" width="64" height="58" rx="12" fill="url(#silver-cast)" stroke="#475569" stroke-width="1.6" />
               <circle cx="0" cy="4" r="28" fill="#94a3b8" stroke="#334155" stroke-width="2" />
               <circle cx="0" cy="4" r="21" fill="#1f2937" stroke="#475569" stroke-width="1.5" />
-              <!-- Recessed Gold Anodized Pulley Hub with Circular Weight-Reduction Holes -->
               <g class="engine__pulley" transform="translate(0, 4)">
                 <circle cx="0" cy="0" r="16" fill="url(#gold-anodized)" stroke="#78350f" stroke-width="1.4" />
                 <circle cx="0"  cy="-9" r="3" fill="#1f2937" />
@@ -398,11 +371,10 @@
               </g>
             </g>
 
-            <!-- Lower Left Sensor / Thermostat Housing & Red-Ringed Cap (Exact match to photo) -->
+            <!-- LOWER LEFT THERMOSTAT HOUSING & RED-RINGED CAP -->
             <g transform="translate(262, 348)">
               <rect x="-42" y="-22" width="68" height="44" rx="6" fill="#1f2937" stroke="#475569" stroke-width="1.5" />
               <rect x="-56" y="-8" width="28" height="26" rx="4" fill="url(#silver-cast)" stroke="#334155" stroke-width="1.2" />
-              <!-- Black Reservoir Block with Red Cap -->
               <rect x="22" y="10" width="76" height="34" rx="4" fill="#111827" stroke="#374151" stroke-width="1.5" />
               <ellipse cx="52" cy="10" rx="11" ry="6" fill="#dc2626" stroke="#7f1d1d" stroke-width="1.2" />
               <ellipse cx="52" cy="7"  rx="7"  ry="3.5" fill="#1f2937" />
@@ -410,93 +382,212 @@
           </g>
 
           <!-- ============================================================ -->
-          <!-- 4. FRONT SLAM PANEL / RADIATOR SUPPORT CROSSMEMBER (Bottom)  -->
+          <!-- 4. FRONT SLAM PANEL, LED HEADLIGHTS & LOWER FRONT BUMPER     -->
           <!-- ============================================================ -->
+          <!-- Front Radiator Support Crossmember / Slam Panel -->
           <path
-            d="M 12 390 L 668 390 L 680 460 L 0 460 Z"
+            d="M 16 388 L 664 388 L 672 432 L 8 432 Z"
             fill="url(#slam-panel)"
             stroke="#374151"
-            stroke-width="2" />
-          <!-- Recessed Slam Panel Channel & Latch Cutouts (Matches bottom bar of photo) -->
-          <rect x="92" y="404" width="496" height="44" rx="4" fill="#374151" stroke="#1f2937" stroke-width="1.5" />
-          <rect x="128" y="410" width="28" height="14" rx="2" fill="#111827" />
-          <rect x="326" y="410" width="28" height="14" rx="2" fill="#111827" />
-          <rect x="524" y="410" width="28" height="14" rx="2" fill="#111827" />
-          <text
-            x="340"
-            y="440"
-            text-anchor="middle"
-            fill="#9ca3af"
-            font-family="JetBrains Mono, monospace"
-            font-weight="700"
-            font-size="9.5"
-            letter-spacing="4">R-007 // TWIN-CHARGED PERFORMANCE BAY</text>
+            stroke-width="1.8" />
+          <rect x="126" y="396" width="428" height="28" rx="4" fill="#374151" stroke="#1f2937" stroke-width="1.4" />
+          <rect x="158" y="402" width="28" height="12" rx="2" fill="#111827" />
+          <rect x="326" y="402" width="28" height="12" rx="2" fill="#111827" />
+          <rect x="494" y="402" width="28" height="12" rx="2" fill="#111827" />
+
+          <!-- Lower Front Bumper Fascia, LED Projector Headlights & Center Grille -->
+          <path
+            d="M 8 426 L 672 426 L 656 474 L 24 474 Z"
+            fill="#111827"
+            stroke="#334155"
+            stroke-width="1.8" />
+
+          <!-- Left & Right Aggressive LED DRL Headlights -->
+          <g class="hood-car__headlights">
+            <!-- Left Headlight Housing -->
+            <polygon points="22,406 138,420 128,452 16,438" fill="#090d14" stroke="#475569" stroke-width="1.5" />
+            <polyline points="28,430 88,438 126,426" fill="none" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+            <circle cx="62" cy="424" r="7" fill="#38bdf8" opacity="0.85" />
+            <circle cx="102" cy="428" r="6" fill="#e0f2fe" opacity="0.9" />
+
+            <!-- Right Headlight Housing -->
+            <polygon points="658,406 542,420 552,452 664,438" fill="#090d14" stroke="#475569" stroke-width="1.5" />
+            <polyline points="652,430 592,438 554,426" fill="none" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
+            <circle cx="618" cy="424" r="7" fill="#38bdf8" opacity="0.85" />
+            <circle cx="578" cy="428" r="6" fill="#e0f2fe" opacity="0.9" />
+          </g>
+
+          <!-- Center Front Bumper Mesh Grille & Carbon Front Splitter Lip -->
+          <polygon points="154,434 526,434 508,468 172,468" fill="#06090f" stroke="#374151" stroke-width="1.5" />
+          <line x1="168" y1="451" x2="512" y2="451" stroke="#1e293b" stroke-width="2" />
+          <rect x="24" y="470" width="632" height="6" rx="3" fill="#f59e0b" opacity="0.85" />
         </svg>
 
-        <!-- 2. SCULPTED METALLIC CAR HOOD PANEL (Hinges up cleanly from top windshield edge) -->
+        <!-- ============================================================== -->
+        <!-- LAYER 2: REALISTIC SCULPTED AUTOMOTIVE CAR HOOD (BONNET)       -->
+        <!-- ============================================================== -->
         <div class="hood-car__lid">
-          <svg class="hood-car__lid-svg" viewBox="0 0 680 460" aria-hidden="true">
+          <svg class="hood-car__lid-svg" viewBox="0 0 680 480" aria-hidden="true">
             <defs>
-              <linearGradient id="hood-metallic" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#1e293b" />
-                <stop offset="48%" stop-color="#0f172a" />
-                <stop offset="100%" stop-color="#334155" />
+              <!-- Rich Multi-Stop Metallic Charcoal/Slate Automotive Hood Paint -->
+              <linearGradient id="hood-paint-main" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#334155" />
+                <stop offset="22%" stop-color="#475569" />
+                <stop offset="48%" stop-color="#1e293b" />
+                <stop offset="72%" stop-color="#334155" />
+                <stop offset="100%" stop-color="#0f172a" />
+              </linearGradient>
+
+              <!-- Raised Center Power-Dome 3D Specular Highlight Gradient -->
+              <linearGradient id="hood-power-dome" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#0f172a" />
+                <stop offset="18%" stop-color="#334155" />
+                <stop offset="50%" stop-color="#64748b" />
+                <stop offset="82%" stop-color="#334155" />
+                <stop offset="100%" stop-color="#0f172a" />
+              </linearGradient>
+
+              <!-- Side Fender-to-Hood Sculpted Bevel Lighting -->
+              <linearGradient id="hood-bevel-left" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#64748b" stop-opacity="0.45" />
+                <stop offset="100%" stop-color="#1e293b" stop-opacity="0" />
+              </linearGradient>
+
+              <linearGradient id="hood-bevel-right" x1="100%" y1="0%" x2="0%" y2="0%">
+                <stop offset="0%" stop-color="#64748b" stop-opacity="0.45" />
+                <stop offset="100%" stop-color="#1e293b" stop-opacity="0" />
+              </linearGradient>
+
+              <linearGradient id="poly-window" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#090d14" stop-opacity="0.88" />
+                <stop offset="50%" stop-color="#1e293b" stop-opacity="0.72" />
+                <stop offset="100%" stop-color="#090d14" stop-opacity="0.9" />
               </linearGradient>
             </defs>
 
-            <!-- Closed Sculpted Hood Panel Covering the Engine Bay -->
+            <!-- 1. Main Contoured Automotive Hood Sheetmetal Panel (Fits flush between fenders, cowl & front bumper) -->
             <path
-              d="M 65 98 L 615 98 L 666 402 L 14 402 Z"
-              fill="url(#hood-metallic)"
+              d="M 68 98
+                 Q 340 90 612 98
+                 L 658 386
+                 Q 642 414 532 422
+                 L 148 422
+                 Q 38 414 22 386
+                 Z"
+              fill="url(#hood-paint-main)"
               stroke="#64748b"
-              stroke-width="2.5" />
+              stroke-width="2.2"
+              stroke-linejoin="round" />
 
-            <!-- Aerodynamic Hood Power-Dome Crease Lines -->
-            <line x1="175" y1="104" x2="128" y2="394" stroke="#94a3b8" stroke-width="1.5" stroke-opacity="0.45" />
-            <line x1="505" y1="104" x2="552" y2="394" stroke="#94a3b8" stroke-width="1.5" stroke-opacity="0.45" />
-            <line x1="340" y1="104" x2="340" y2="394" stroke="#f59e0b" stroke-width="1.5" stroke-opacity="0.35" />
+            <!-- Left & Right Sculpted Wing Crease Highlights -->
+            <path
+              d="M 68 98 L 178 100 L 146 420 L 22 386 Z"
+              fill="url(#hood-bevel-left)" />
+            <path
+              d="M 612 98 L 502 100 L 534 420 L 658 386 Z"
+              fill="url(#hood-bevel-right)" />
 
-            <!-- Center Hexagonal R-007 Crest on Outer Hood -->
-            <g transform="translate(340, 248)">
+            <!-- 2. Raised Center Muscular Power-Dome Bulge -->
+            <path
+              d="M 192 98
+                 Q 340 94 488 98
+                 L 516 404
+                 Q 340 416 164 404
+                 Z"
+              fill="url(#hood-power-dome)"
+              stroke="#475569"
+              stroke-width="1.5" />
+
+            <!-- Crisp Character Crease Lines Along the Power-Dome Edges -->
+            <path d="M 192 98 L 164 404" stroke="#94a3b8" stroke-width="1.5" stroke-opacity="0.7" />
+            <path d="M 488 98 L 516 404" stroke="#94a3b8" stroke-width="1.5" stroke-opacity="0.7" />
+            <path d="M 140 102 L 94 398" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.55" />
+            <path d="M 540 102 L 586 398" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.55" />
+
+            <!-- Center Longitudinal Spine Crease Highlight -->
+            <line x1="340" y1="96" x2="340" y2="372" stroke="#cbd5e1" stroke-width="1.2" stroke-opacity="0.45" />
+
+            <!-- 3. Recessed Carbon-Fiber Heat-Extractor Hood Louvers (Left & Right) -->
+            <!-- Left Aero Louver Vent -->
+            <g>
               <polygon
-                points="0,-76 96,-38 78,56 0,80 -78,56 -96,-38"
+                points="126,156 174,162 152,324 98,314"
                 fill="#090d14"
-                fill-opacity="0.95"
+                stroke="#475569"
+                stroke-width="1.5" />
+              <g stroke="#334155" stroke-width="3.5" stroke-linecap="round">
+                <line x1="128" y1="176" x2="168" y2="182" />
+                <line x1="124" y1="198" x2="165" y2="204" />
+                <line x1="120" y1="220" x2="162" y2="226" />
+                <line x1="116" y1="242" x2="158" y2="248" />
+                <line x1="112" y1="264" x2="155" y2="270" />
+                <line x1="108" y1="286" x2="151" y2="292" />
+              </g>
+            </g>
+
+            <!-- Right Aero Louver Vent -->
+            <g>
+              <polygon
+                points="554,156 506,162 528,324 582,314"
+                fill="#090d14"
+                stroke="#475569"
+                stroke-width="1.5" />
+              <g stroke="#334155" stroke-width="3.5" stroke-linecap="round">
+                <line x1="552" y1="176" x2="512" y2="182" />
+                <line x1="556" y1="198" x2="515" y2="204" />
+                <line x1="560" y1="220" x2="518" y2="226" />
+                <line x1="564" y1="242" x2="522" y2="248" />
+                <line x1="568" y1="264" x2="525" y2="270" />
+                <line x1="572" y1="286" x2="529" y2="292" />
+              </g>
+            </g>
+
+            <!-- 4. Center Smoked Polycarbonate Engine-Preview Window on Power-Dome -->
+            <path
+              d="M 278 136 L 402 136 L 416 286 L 340 304 L 264 286 Z"
+              fill="url(#poly-window)"
+              stroke="#475569"
+              stroke-width="2" />
+            <!-- Subtle Glint of the Silver Ribbed Intake & Gold Valve Covers Through the Tinted Hood Window -->
+            <g opacity="0.35">
+              <rect x="276" y="148" width="22" height="126" rx="3" fill="#f59e0b" />
+              <rect x="382" y="148" width="22" height="126" rx="3" fill="#f59e0b" />
+              <rect x="308" y="148" width="64" height="14" rx="7" fill="#cbd5e1" />
+              <rect x="306" y="168" width="68" height="14" rx="7" fill="#cbd5e1" />
+              <rect x="304" y="188" width="72" height="14" rx="7" fill="#cbd5e1" />
+              <rect x="302" y="208" width="76" height="14" rx="7" fill="#cbd5e1" />
+              <rect x="300" y="228" width="80" height="14" rx="7" fill="#cbd5e1" />
+              <rect x="298" y="248" width="84" height="14" rx="7" fill="#cbd5e1" />
+            </g>
+            <!-- Diagonal Glass Specular Reflection Across Hood Window -->
+            <polygon points="284,140 332,140 294,282 268,276" fill="#f8fafc" fill-opacity="0.08" />
+
+            <!-- 5. Realistic Front Nose Crest Emblem ("R 007") at Leading Edge of Hood -->
+            <g transform="translate(340, 386)">
+              <polygon
+                points="0,-20 42,-10 34,16 0,22 -34,16 -42,-10"
+                fill="#090d14"
                 stroke="#f59e0b"
-                stroke-width="2.2" />
-
+                stroke-width="1.8" />
               <text
                 x="0"
-                y="-44"
-                text-anchor="middle"
-                fill="#cbd5e1"
-                font-family="JetBrains Mono, monospace"
-                font-weight="700"
-                font-size="11"
-                letter-spacing="3.5">&lt;NAFI/&gt;</text>
-
-              <text
-                x="0"
-                y="-2"
+                y="5"
                 text-anchor="middle"
                 fill="#f8fafc"
                 font-family="Archivo, sans-serif"
                 font-weight="900"
-                font-size="52"
-                letter-spacing="3">R</text>
+                font-size="15"
+                letter-spacing="2">R<tspan fill="#f59e0b">007</tspan></text>
+            </g>
 
-              <rect x="-46" y="6" width="92" height="3" fill="#b45309" />
-              <rect x="-18" y="6" width="36" height="3" fill="#fde047" />
-
-              <text
-                x="0"
-                y="44"
-                text-anchor="middle"
-                fill="#f59e0b"
-                font-family="JetBrains Mono, monospace"
-                font-weight="800"
-                font-size="32"
-                letter-spacing="6">007</text>
+            <!-- Flush Aerodynamic Hood Latch Pins (Left & Right Front Corners) -->
+            <g transform="translate(198, 392)">
+              <circle cx="0" cy="0" r="8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" />
+              <circle cx="0" cy="0" r="3" fill="#475569" />
+            </g>
+            <g transform="translate(482, 392)">
+              <circle cx="0" cy="0" r="8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" />
+              <circle cx="0" cy="0" r="3" fill="#475569" />
             </g>
           </svg>
         </div>
