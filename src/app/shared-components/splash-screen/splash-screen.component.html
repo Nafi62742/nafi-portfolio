@@ -26,568 +26,280 @@
       </div>
     </header>
 
-    <!-- Center Front-Perspective Sports Car Hood & Custom Gold/Silver Engine Bay Stage -->
+    <!-- Free-standing front view of the R-007 supercar (no frame / box) -->
     <div class="loader__stage">
       <div
         class="hood-car"
         [class.is-open]="hoodPopped()"
         role="button"
         tabindex="0"
-        aria-label="Click to toggle the R 007 car hood"
+        aria-label="Click to open or close the R 007 car hood"
         (click)="popHoodNow()"
         (keydown.enter)="popHoodNow()">
 
-        <!-- ============================================================== -->
-        <!-- LAYER 1: CAR CHASSIS, WINDSHIELD, FRONT FENDERS & ENGINE BAY   -->
-        <!-- ============================================================== -->
-        <svg class="hood-car__engine-svg" viewBox="0 0 680 480" aria-hidden="true">
+        <!-- ============================================================ -->
+        <!-- LAYER 1: CAR BODY, CABIN, ENGINE BAY, LIGHTS & GRILLE         -->
+        <!-- Design cues: Camaro (wide stance, lower intake), GT-R (sharp  -->
+        <!-- headlights, side ducts), R8 (LED DRL hook), Veyron (center    -->
+        <!-- horseshoe grille). No manufacturer logos.                     -->
+        <!-- ============================================================ -->
+        <svg class="hood-car__body-svg" viewBox="0 0 640 560" aria-hidden="true">
           <defs>
-            <!-- Automotive Gunmetal Paint Gradient for Fenders & Bodywork -->
-            <linearGradient id="car-body-paint" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#475569" />
-              <stop offset="30%" stop-color="#334155" />
-              <stop offset="55%" stop-color="#1e293b" />
-              <stop offset="80%" stop-color="#334155" />
-              <stop offset="100%" stop-color="#0f172a" />
+            <linearGradient id="r7-body" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="35%" stop-color="#1d4ed8" />
+              <stop offset="70%" stop-color="#1e3a8a" />
+              <stop offset="100%" stop-color="#0b1f4d" />
             </linearGradient>
-
-            <linearGradient id="windshield-glass" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#0f172a" />
-              <stop offset="45%" stop-color="#1e293b" />
-              <stop offset="100%" stop-color="#090d14" />
+            <linearGradient id="r7-body-side" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0b1f4d" stop-opacity="0.75" />
+              <stop offset="18%" stop-color="#0b1f4d" stop-opacity="0" />
+              <stop offset="82%" stop-color="#0b1f4d" stop-opacity="0" />
+              <stop offset="100%" stop-color="#0b1f4d" stop-opacity="0.75" />
             </linearGradient>
-
-            <linearGradient id="bay-cavity" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#090d14" />
-              <stop offset="50%" stop-color="#111827" />
-              <stop offset="100%" stop-color="#06090f" />
+            <linearGradient id="r7-glass" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1e293b" />
+              <stop offset="100%" stop-color="#0b1220" />
             </linearGradient>
-
-            <!-- Anodized Gold-Plated Valve Covers & Charge Tubes Gradient -->
-            <linearGradient id="gold-anodized" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#b45309" />
-              <stop offset="28%" stop-color="#f59e0b" />
-              <stop offset="52%" stop-color="#fde047" />
-              <stop offset="76%" stop-color="#eab308" />
-              <stop offset="100%" stop-color="#92400e" />
+            <linearGradient id="r7-chrome" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#f8fafc" />
+              <stop offset="50%" stop-color="#94a3b8" />
+              <stop offset="100%" stop-color="#e2e8f0" />
             </linearGradient>
-
-            <linearGradient id="gold-tube-left" x1="0%" y1="0%" x2="100%" y2="20%">
-              <stop offset="0%" stop-color="#92400e" />
-              <stop offset="40%" stop-color="#f59e0b" />
-              <stop offset="65%" stop-color="#fef08a" />
-              <stop offset="100%" stop-color="#b45309" />
+            <linearGradient id="r7-cover" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#374151" />
+              <stop offset="55%" stop-color="#1f2937" />
+              <stop offset="100%" stop-color="#0b0f17" />
             </linearGradient>
-
-            <linearGradient id="gold-tube-right" x1="100%" y1="0%" x2="0%" y2="20%">
-              <stop offset="0%" stop-color="#92400e" />
-              <stop offset="40%" stop-color="#f59e0b" />
-              <stop offset="65%" stop-color="#fef08a" />
-              <stop offset="100%" stop-color="#b45309" />
-            </linearGradient>
-
-            <!-- Cast Brushed Silver Center Intake Manifold Gradient -->
-            <linearGradient id="silver-cast" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#64748b" />
-              <stop offset="25%" stop-color="#cbd5e1" />
-              <stop offset="50%" stop-color="#f8fafc" />
-              <stop offset="75%" stop-color="#cbd5e1" />
-              <stop offset="100%" stop-color="#475569" />
-            </linearGradient>
-
-            <radialGradient id="plenum-dome" cx="45%" cy="40%" r="55%">
-              <stop offset="0%" stop-color="#ffffff" />
-              <stop offset="45%" stop-color="#cbd5e1" />
-              <stop offset="85%" stop-color="#64748b" />
-              <stop offset="100%" stop-color="#334155" />
+            <radialGradient id="r7-shadow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#000000" stop-opacity="0.7" />
+              <stop offset="100%" stop-color="#000000" stop-opacity="0" />
             </radialGradient>
-
-            <linearGradient id="slam-panel" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#6b7280" />
-              <stop offset="35%" stop-color="#4b5563" />
-              <stop offset="100%" stop-color="#1f2937" />
-            </linearGradient>
+            <pattern id="r7-mesh" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <rect width="8" height="8" fill="#05080f" />
+              <line x1="0" y1="0" x2="0" y2="8" stroke="#334155" stroke-width="1.6" />
+              <line x1="0" y1="0" x2="8" y2="0" stroke="#334155" stroke-width="1.6" />
+            </pattern>
           </defs>
 
-          <!-- ============================================================ -->
-          <!-- 1. WINDSHIELD CABIN, A-PILLARS, SIDE MIRRORS & WIPER COWL    -->
-          <!-- ============================================================ -->
-          <!-- Aerodynamic Side Mirrors (Left & Right) -->
-          <path d="M 82 54 L 34 44 L 26 60 L 76 68 Z" fill="url(#car-body-paint)" stroke="#64748b" stroke-width="1.5" />
-          <path d="M 598 54 L 646 44 L 654 60 L 604 68 Z" fill="url(#car-body-paint)" stroke="#64748b" stroke-width="1.5" />
+          <!-- Ground shadow -->
+          <ellipse cx="320" cy="530" rx="310" ry="22" fill="url(#r7-shadow)" />
 
-          <!-- Windshield Frame, Roof Header & A-Pillars -->
-          <path
-            d="M 118 8 L 562 8 L 604 82 L 76 82 Z"
-            fill="url(#windshield-glass)"
-            stroke="#475569"
-            stroke-width="2.2" />
-          <!-- Subtle Interior Dashboard / Rearview Mirror Glint inside Windshield -->
-          <rect x="312" y="18" width="56" height="12" rx="4" fill="#090d14" stroke="#334155" stroke-width="1" />
-          <path d="M 134 14 L 250 14 L 195 74 L 98 74 Z" fill="#38bdf8" fill-opacity="0.06" />
+          <!-- Cabin: roof, A-pillars & windshield -->
+          <path d="M 200 148 Q 320 130 440 148 L 542 258 L 98 258 Z" fill="url(#r7-body)" stroke="#60a5fa" stroke-width="1" stroke-opacity="0.4" />
+          <path d="M 192 170 Q 320 156 448 170 L 516 252 L 124 252 Z" fill="url(#r7-glass)" />
+          <path d="M 206 176 L 262 172 L 196 248 L 150 248 Z" fill="#93c5fd" fill-opacity="0.07" />
+          <rect x="304" y="174" width="32" height="8" rx="3" fill="#05080f" />
 
-          <!-- Black Wiper Cowl & Dual Windshield Wipers -->
+          <!-- Side mirrors -->
+          <path d="M 112 236 L 64 226 Q 52 234 58 248 L 108 254 Z" fill="url(#r7-body)" stroke="#60a5fa" stroke-width="1" stroke-opacity="0.4" />
+          <path d="M 528 236 L 576 226 Q 588 234 582 248 L 532 254 Z" fill="url(#r7-body)" stroke="#60a5fa" stroke-width="1" stroke-opacity="0.4" />
+
+          <!-- Front body: fenders, nose & bumper -->
           <path
-            d="M 76 74 L 604 74 L 616 106 L 64 106 Z"
-            fill="#0f172a"
-            stroke="#334155"
-            stroke-width="1.5" />
-          <g stroke="#090d14" stroke-linecap="round" fill="none">
-            <path d="M 115 96 Q 210 78 310 92" stroke-width="5.5" />
-            <path d="M 115 96 Q 210 78 310 92" stroke="#475569" stroke-width="1.4" />
-            <path d="M 330 92 Q 445 78 555 96" stroke-width="5.5" />
-            <path d="M 330 92 Q 445 78 555 96" stroke="#475569" stroke-width="1.4" />
+            d="M 100 254 L 540 254 C 582 262 612 292 620 332 L 628 420 C 630 470 620 506 600 520 L 40 520 C 20 506 10 470 12 420 L 20 332 C 28 292 58 262 100 254 Z"
+            fill="url(#r7-body)" />
+          <path
+            d="M 100 254 L 540 254 C 582 262 612 292 620 332 L 628 420 C 630 470 620 506 600 520 L 40 520 C 20 506 10 470 12 420 L 20 332 C 28 292 58 262 100 254 Z"
+            fill="url(#r7-body-side)" />
+          <!-- Fender character lines -->
+          <path d="M 96 262 C 60 290 38 330 34 390" fill="none" stroke="#93c5fd" stroke-width="1.4" stroke-opacity="0.45" />
+          <path d="M 544 262 C 580 290 602 330 606 390" fill="none" stroke="#93c5fd" stroke-width="1.4" stroke-opacity="0.45" />
+
+          <!-- ======================= ENGINE BAY ======================= -->
+          <path d="M 134 256 L 506 256 L 550 392 Q 320 406 90 392 Z" fill="#070b13" />
+
+          <!-- Cowl panel with vent slots -->
+          <path d="M 140 258 L 500 258 L 508 284 L 132 284 Z" fill="#111827" stroke="#1f2937" />
+          <g stroke="#05080f" stroke-width="3" stroke-linecap="round">
+            <line x1="250" y1="268" x2="300" y2="268" />
+            <line x1="250" y1="276" x2="300" y2="276" />
+            <line x1="340" y1="268" x2="390" y2="268" />
+            <line x1="340" y1="276" x2="390" y2="276" />
           </g>
 
-          <!-- Left & Right Hydraulic Hood Struts / Hinges -->
-          <g stroke="#374151" stroke-width="5" stroke-linecap="round">
-            <line x1="88" y1="42" x2="96" y2="108" />
-            <line x1="592" y1="42" x2="584" y2="108" />
-          </g>
-          <g stroke="#cbd5e1" stroke-width="2" stroke-linecap="round">
-            <line x1="88" y1="42" x2="96" y2="108" />
-            <line x1="592" y1="42" x2="584" y2="108" />
-          </g>
+          <!-- Strut towers -->
+          <ellipse cx="152" cy="300" rx="20" ry="11" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1" />
+          <circle cx="152" cy="300" r="5" fill="#94a3b8" />
+          <ellipse cx="488" cy="300" rx="20" ry="11" fill="#1e3a8a" stroke="#3b82f6" stroke-width="1" />
+          <circle cx="488" cy="300" r="5" fill="#94a3b8" />
 
-          <!-- ============================================================ -->
-          <!-- 2. SCULPTED OUTER FRONT FENDERS & INNER ENGINE BAY APRONS    -->
-          <!-- ============================================================ -->
-          <!-- Outer Sculpted Front Fenders (Curving from A-Pillars to Front Bumper) -->
-          <path
-            d="M 64 102 L 616 102 L 668 386 C 672 406 664 422 648 430 L 32 430 C 16 422 8 406 12 386 Z"
-            fill="url(#car-body-paint)"
-            stroke="#64748b"
-            stroke-width="2" />
+          <!-- Battery (left) -->
+          <rect x="178" y="298" width="48" height="36" rx="3" fill="#111827" stroke="#374151" />
+          <rect x="182" y="292" width="8" height="6" rx="1" fill="#dc2626" />
+          <rect x="212" y="292" width="8" height="6" rx="1" fill="#1f2937" stroke="#4b5563" />
 
-          <!-- Left Strut Tower & Fuse/Airbox Panel -->
-          <path
-            d="M 74 114 L 188 114 L 146 385 L 28 385 Z"
-            fill="#374151"
-            stroke="#4b5563"
-            stroke-width="1.5" />
-          <ellipse cx="122" cy="134" rx="18" ry="9" fill="#1f2937" stroke="#f59e0b" stroke-width="2" />
-          <circle cx="122" cy="134" r="5" fill="#f59e0b" />
-          <path d="M 48 162 L 136 162 L 112 292 L 32 292 Z" fill="#4b5563" stroke="#1f2937" stroke-width="1.5" />
-          <g stroke="#1f2937" stroke-width="2.5">
-            <line x1="56" y1="180" x2="124" y2="180" />
-            <line x1="52" y1="196" x2="120" y2="196" />
-            <line x1="48" y1="212" x2="116" y2="212" />
-            <line x1="44" y1="228" x2="112" y2="228" />
-            <line x1="40" y1="244" x2="108" y2="244" />
+          <!-- Coolant reservoir (left, translucent beige) -->
+          <rect x="106" y="338" width="70" height="36" rx="6" fill="#d6cfc0" stroke="#a8a29e" />
+          <line x1="112" y1="356" x2="170" y2="356" stroke="#a8a29e" stroke-dasharray="3 3" />
+          <ellipse cx="160" cy="338" rx="9" ry="4" fill="#1d4ed8" />
+
+          <!-- Engine cover (center) -->
+          <g class="engine__cover">
+            <path d="M 250 290 L 390 290 Q 404 292 406 306 L 412 360 Q 412 374 398 376 L 242 376 Q 228 374 228 360 L 234 306 Q 236 292 250 290 Z"
+              fill="url(#r7-cover)" stroke="#4b5563" stroke-width="1.2" />
+            <path d="M 268 300 L 372 300 L 380 344 L 260 344 Z" fill="#111827" stroke="#374151" />
+            <g stroke="#374151" stroke-width="2.4" stroke-linecap="round">
+              <line x1="274" y1="310" x2="366" y2="310" />
+              <line x1="272" y1="320" x2="368" y2="320" />
+              <line x1="270" y1="330" x2="370" y2="330" />
+            </g>
+            <text x="320" y="364" text-anchor="middle" fill="#6b7280" font-family="Archivo, sans-serif" font-weight="800" font-size="11" letter-spacing="3">R 007</text>
+            <circle cx="392" cy="300" r="5" fill="#4b5563" stroke="#9ca3af" />
           </g>
 
-          <!-- Right Strut Tower & Reservoir Panel -->
-          <path
-            d="M 492 114 L 606 114 L 652 385 L 534 385 Z"
-            fill="#374151"
-            stroke="#4b5563"
-            stroke-width="1.5" />
-          <ellipse cx="556" cy="134" rx="18" ry="9" fill="#1f2937" stroke="#9ca3af" stroke-width="1.5" />
-          <circle cx="556" cy="134" r="5" fill="#6b7280" />
-          <path d="M 526 168 L 614 168 L 636 280 L 544 280 Z" fill="#1f2937" stroke="#4b5563" stroke-width="1.5" />
-          <g transform="translate(578, 336)">
-            <ellipse cx="0" cy="0" rx="28" ry="34" fill="url(#silver-cast)" stroke="#475569" stroke-width="1.5" />
-            <ellipse cx="0" cy="-22" rx="12" ry="6" fill="#e2e8f0" stroke="#334155" stroke-width="1.5" />
+          <!-- Air filter box (right) -->
+          <rect x="418" y="296" width="62" height="42" rx="5" fill="#111827" stroke="#374151" />
+          <g stroke="#1f2937" stroke-width="2">
+            <line x1="424" y1="306" x2="474" y2="306" />
+            <line x1="424" y1="316" x2="474" y2="316" />
+            <line x1="424" y1="326" x2="474" y2="326" />
+          </g>
+          <!-- Fuse box -->
+          <rect x="418" y="344" width="42" height="28" rx="3" fill="#1f2937" stroke="#374151" />
+          <!-- Washer reservoir -->
+          <rect x="466" y="340" width="68" height="34" rx="6" fill="#d6cfc0" stroke="#a8a29e" />
+          <ellipse cx="482" cy="340" rx="8" ry="4" fill="#38bdf8" />
+
+          <!-- Radiator crossmember (body colour with cut-outs) -->
+          <path d="M 100 376 L 540 376 L 548 396 Q 320 410 92 396 Z" fill="#1d4ed8" stroke="#3b82f6" />
+          <g fill="#070b13">
+            <rect x="150" y="382" width="40" height="8" rx="4" />
+            <rect x="230" y="383" width="50" height="8" rx="4" />
+            <rect x="360" y="383" width="50" height="8" rx="4" />
+            <rect x="450" y="382" width="40" height="8" rx="4" />
           </g>
 
-          <!-- Center Recessed Dark Engine Bay Cavity -->
-          <path
-            d="M 176 110 L 504 110 L 556 392 L 124 392 Z"
-            fill="url(#bay-cavity)"
-            stroke="#1f2937"
-            stroke-width="2.5" />
-
-          <!-- ============================================================ -->
-          <!-- 3. ENGINE BLOCK ASSEMBLY (Gold Valve Covers & Silver Spine)  -->
-          <!-- ============================================================ -->
-          <g class="engine__assembly">
-            <!-- Underlying Cast Aluminum Lower Crankcase -->
-            <path
-              d="M 218 270 L 462 270 L 478 390 L 202 390 Z"
-              fill="#1e293b"
-              stroke="#334155"
-              stroke-width="1.5" />
-
-            <!-- Lower Left Braided Lines -->
-            <path d="M 76 310 C 62 340, 88 365, 84 392" fill="none" stroke="#cbd5e1" stroke-width="5" stroke-dasharray="6 3" />
-            <path d="M 92 316 C 78 345, 102 368, 98 392" fill="none" stroke="#94a3b8" stroke-width="4" stroke-dasharray="6 3" />
-
-            <!-- LEFT SWEEPING GOLD CHARGE TUBE -->
-            <g>
-              <path
-                d="M 226 144 C 210 156, 178 198, 152 246"
-                fill="none"
-                stroke="url(#gold-tube-left)"
-                stroke-width="28"
-                stroke-linecap="round" />
-              <path
-                d="M 150 250 C 110 302, 146 346, 146 402"
-                fill="none"
-                stroke="url(#gold-tube-left)"
-                stroke-width="38"
-                stroke-linecap="round" />
-              <g transform="translate(216, 152) rotate(-42)">
-                <rect x="-16" y="-9" width="32" height="18" rx="3" fill="#111827" stroke="#374151" stroke-width="1" />
-                <line x1="-15" y1="-4" x2="15" y2="-4" stroke="#d1d5db" stroke-width="2" />
-                <line x1="-15" y1="4"  x2="15" y2="4"  stroke="#d1d5db" stroke-width="2" />
-              </g>
-              <g transform="translate(154, 244) rotate(-36)">
-                <rect x="-19" y="-12" width="38" height="24" rx="3" fill="#111827" stroke="#374151" stroke-width="1" />
-                <line x1="-18" y1="-6" x2="18" y2="-6" stroke="#d1d5db" stroke-width="2.2" />
-                <line x1="-18" y1="6"  x2="18" y2="6"  stroke="#d1d5db" stroke-width="2.2" />
-              </g>
-              <g transform="translate(136, 274) rotate(-25)" stroke="#92400e" stroke-width="2.2" fill="none">
-                <line x1="-18" y1="-6" x2="18" y2="-6" />
-                <line x1="-19" y1="0"  x2="19" y2="0" />
-                <line x1="-18" y1="6"  x2="18" y2="6" />
-              </g>
-            </g>
-
-            <!-- RIGHT SWEEPING GOLD CHARGE TUBE -->
-            <g>
-              <path
-                d="M 454 144 C 470 156, 502 198, 528 246"
-                fill="none"
-                stroke="url(#gold-tube-right)"
-                stroke-width="28"
-                stroke-linecap="round" />
-              <path
-                d="M 530 250 C 570 302, 534 346, 534 402"
-                fill="none"
-                stroke="url(#gold-tube-right)"
-                stroke-width="38"
-                stroke-linecap="round" />
-              <g transform="translate(464, 152) rotate(42)">
-                <rect x="-16" y="-9" width="32" height="18" rx="3" fill="#111827" stroke="#374151" stroke-width="1" />
-                <line x1="-15" y1="-4" x2="15" y2="-4" stroke="#d1d5db" stroke-width="2" />
-                <line x1="-15" y1="4"  x2="15" y2="4"  stroke="#d1d5db" stroke-width="2" />
-              </g>
-              <g transform="translate(526, 244) rotate(36)">
-                <rect x="-19" y="-12" width="38" height="24" rx="3" fill="#111827" stroke="#374151" stroke-width="1" />
-                <line x1="-18" y1="-6" x2="18" y2="-6" stroke="#d1d5db" stroke-width="2.2" />
-                <line x1="-18" y1="6"  x2="18" y2="6"  stroke="#d1d5db" stroke-width="2.2" />
-              </g>
-              <g transform="translate(544, 274) rotate(25)" stroke="#92400e" stroke-width="2.2" fill="none">
-                <line x1="-18" y1="-6" x2="18" y2="-6" />
-                <line x1="-19" y1="0"  x2="19" y2="0" />
-                <line x1="-18" y1="6"  x2="18" y2="6" />
-              </g>
-            </g>
-
-            <!-- LEFT GOLD VALVE COVER -->
-            <g>
-              <path
-                d="M 256 122 L 298 122 L 284 294 L 204 294 L 198 266 Z"
-                fill="url(#gold-anodized)"
-                stroke="#78350f"
-                stroke-width="2"
-                stroke-linejoin="round" />
-              <line x1="286" y1="128" x2="270" y2="276" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
-              <g stroke="#92400e" stroke-width="2.2" stroke-linecap="round">
-                <line x1="252" y1="145" x2="276" y2="155" />
-                <line x1="244" y1="168" x2="272" y2="180" />
-                <line x1="236" y1="191" x2="268" y2="205" />
-                <line x1="228" y1="214" x2="264" y2="230" />
-                <line x1="220" y1="237" x2="260" y2="255" />
-              </g>
-              <polygon points="204,294 284,294 278,314 210,314" fill="#d97706" stroke="#78350f" stroke-width="1.5" />
-            </g>
-
-            <!-- RIGHT GOLD VALVE COVER -->
-            <g>
-              <path
-                d="M 382 122 L 424 122 L 482 266 L 476 294 L 396 294 Z"
-                fill="url(#gold-anodized)"
-                stroke="#78350f"
-                stroke-width="2"
-                stroke-linejoin="round" />
-              <line x1="394" y1="128" x2="410" y2="276" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
-              <g stroke="#92400e" stroke-width="2.2" stroke-linecap="round">
-                <line x1="428" y1="145" x2="404" y2="155" />
-                <line x1="436" y1="168" x2="408" y2="180" />
-                <line x1="444" y1="191" x2="412" y2="205" />
-                <line x1="452" y1="214" x2="416" y2="230" />
-                <line x1="460" y1="237" x2="420" y2="255" />
-              </g>
-              <polygon points="396,294 476,294 470,314 402,314" fill="#d97706" stroke="#78350f" stroke-width="1.5" />
-            </g>
-
-            <!-- CENTER CAST-SILVER RIBBED INTAKE MANIFOLD SPINE & PLENUM -->
-            <g>
-              <rect x="288" y="124" width="16" height="156" fill="#94a3b8" stroke="#334155" stroke-width="1" />
-              <rect x="376" y="124" width="16" height="156" fill="#94a3b8" stroke="#334155" stroke-width="1" />
-
-              <g fill="#1e293b">
-                <circle cx="294" cy="134" r="2.2" /><circle cx="386" cy="134" r="2.2" />
-                <circle cx="294" cy="152" r="2.2" /><circle cx="386" cy="152" r="2.2" />
-                <circle cx="294" cy="170" r="2.2" /><circle cx="386" cy="170" r="2.2" />
-                <circle cx="294" cy="188" r="2.2" /><circle cx="386" cy="188" r="2.2" />
-                <circle cx="294" cy="206" r="2.2" /><circle cx="386" cy="206" r="2.2" />
-                <circle cx="294" cy="224" r="2.2" /><circle cx="386" cy="224" r="2.2" />
-                <circle cx="294" cy="242" r="2.2" /><circle cx="386" cy="242" r="2.2" />
-                <circle cx="294" cy="260" r="2.2" /><circle cx="386" cy="260" r="2.2" />
-              </g>
-
-              <g fill="url(#silver-cast)" stroke="#475569" stroke-width="1.4">
-                <rect x="300" y="116" width="80" height="18" rx="9" />
-                <rect x="299" y="133" width="82" height="19" rx="9.5" />
-                <rect x="298" y="151" width="84" height="19" rx="9.5" />
-                <rect x="297" y="169" width="86" height="20" rx="10" />
-                <rect x="296" y="188" width="88" height="20" rx="10" />
-                <rect x="295" y="207" width="90" height="21" rx="10.5" />
-                <rect x="294" y="227" width="92" height="21" rx="10.5" />
-                <rect x="293" y="247" width="94" height="22" rx="11" />
-              </g>
-
-              <path
-                d="M 332 116 L 348 116 L 352 270 L 328 270 Z"
-                fill="url(#silver-cast)"
-                opacity="0.88" />
-
-              <rect x="308" y="268" width="64" height="28" rx="8" fill="#111827" stroke="#374151" stroke-width="1.5" />
-              <line x1="310" y1="276" x2="370" y2="276" stroke="#374151" stroke-width="2" />
-              <line x1="310" y1="284" x2="370" y2="284" stroke="#374151" stroke-width="2" />
-              <line x1="310" y1="291" x2="370" y2="291" stroke="#374151" stroke-width="2" />
-
-              <circle cx="340" cy="322" r="32" fill="url(#plenum-dome)" stroke="#475569" stroke-width="2" />
-              <circle cx="340" cy="322" r="20" fill="none" stroke="#94a3b8" stroke-width="1.5" />
-              <circle cx="340" cy="322" r="9"  fill="#cbd5e1" stroke="#64748b" stroke-width="1.2" />
-            </g>
-
-            <!-- LOWER RIGHT CAST HOUSING WITH GOLD MACHINED PULLEY HUB -->
-            <g transform="translate(414, 344)">
-              <rect x="-32" y="-36" width="64" height="58" rx="12" fill="url(#silver-cast)" stroke="#475569" stroke-width="1.6" />
-              <circle cx="0" cy="4" r="28" fill="#94a3b8" stroke="#334155" stroke-width="2" />
-              <circle cx="0" cy="4" r="21" fill="#1f2937" stroke="#475569" stroke-width="1.5" />
-              <g class="engine__pulley" transform="translate(0, 4)">
-                <circle cx="0" cy="0" r="16" fill="url(#gold-anodized)" stroke="#78350f" stroke-width="1.4" />
-                <circle cx="0"  cy="-9" r="3" fill="#1f2937" />
-                <circle cx="8"  cy="-4" r="3" fill="#1f2937" />
-                <circle cx="8"  cy="5"  r="3" fill="#1f2937" />
-                <circle cx="0"  cy="9"  r="3" fill="#1f2937" />
-                <circle cx="-8" cy="5"  r="3" fill="#1f2937" />
-                <circle cx="-8" cy="-4" r="3" fill="#1f2937" />
-                <circle cx="0"  cy="0"  r="4" fill="#92400e" stroke="#fde047" stroke-width="1" />
-              </g>
-            </g>
-
-            <!-- LOWER LEFT THERMOSTAT HOUSING & RED-RINGED CAP -->
-            <g transform="translate(262, 348)">
-              <rect x="-42" y="-22" width="68" height="44" rx="6" fill="#1f2937" stroke="#475569" stroke-width="1.5" />
-              <rect x="-56" y="-8" width="28" height="26" rx="4" fill="url(#silver-cast)" stroke="#334155" stroke-width="1.2" />
-              <rect x="22" y="10" width="76" height="34" rx="4" fill="#111827" stroke="#374151" stroke-width="1.5" />
-              <ellipse cx="52" cy="10" rx="11" ry="6" fill="#dc2626" stroke="#7f1d1d" stroke-width="1.2" />
-              <ellipse cx="52" cy="7"  rx="7"  ry="3.5" fill="#1f2937" />
-            </g>
+          <!-- Hood struts (shown only when the hood is open) -->
+          <g class="hood-car__struts" stroke-linecap="round">
+            <line x1="160" y1="170" x2="142" y2="300" stroke="#1f2937" stroke-width="5" />
+            <line x1="160" y1="170" x2="142" y2="300" stroke="#cbd5e1" stroke-width="2" />
+            <line x1="480" y1="170" x2="498" y2="300" stroke="#1f2937" stroke-width="5" />
+            <line x1="480" y1="170" x2="498" y2="300" stroke="#cbd5e1" stroke-width="2" />
           </g>
 
-          <!-- ============================================================ -->
-          <!-- 4. FRONT SLAM PANEL, LED HEADLIGHTS & LOWER FRONT BUMPER     -->
-          <!-- ============================================================ -->
-          <!-- Front Radiator Support Crossmember / Slam Panel -->
-          <path
-            d="M 16 388 L 664 388 L 672 432 L 8 432 Z"
-            fill="url(#slam-panel)"
-            stroke="#374151"
-            stroke-width="1.8" />
-          <rect x="126" y="396" width="428" height="28" rx="4" fill="#374151" stroke="#1f2937" stroke-width="1.4" />
-          <rect x="158" y="402" width="28" height="12" rx="2" fill="#111827" />
-          <rect x="326" y="402" width="28" height="12" rx="2" fill="#111827" />
-          <rect x="494" y="402" width="28" height="12" rx="2" fill="#111827" />
-
-          <!-- Lower Front Bumper Fascia, LED Projector Headlights & Center Grille -->
-          <path
-            d="M 8 426 L 672 426 L 656 474 L 24 474 Z"
-            fill="#111827"
-            stroke="#334155"
-            stroke-width="1.8" />
-
-          <!-- Left & Right Aggressive LED DRL Headlights -->
+          <!-- ======================= HEADLIGHTS ======================= -->
           <g class="hood-car__headlights">
-            <!-- Left Headlight Housing -->
-            <polygon points="22,406 138,420 128,452 16,438" fill="#090d14" stroke="#475569" stroke-width="1.5" />
-            <polyline points="28,430 88,438 126,426" fill="none" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
-            <circle cx="62" cy="424" r="7" fill="#38bdf8" opacity="0.85" />
-            <circle cx="102" cy="428" r="6" fill="#e0f2fe" opacity="0.9" />
+            <path d="M 22 402 L 172 414 L 158 442 Q 84 448 30 434 Z" fill="#05080f" stroke="#64748b" stroke-width="1.4" />
+            <polyline class="hood-car__drl" points="34,420 112,430 160,418" fill="none" stroke="#e0f2fe" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle class="hood-car__lamp" cx="70" cy="428" r="7" fill="#64748b" />
+            <circle class="hood-car__lamp" cx="96" cy="432" r="5" fill="#64748b" />
 
-            <!-- Right Headlight Housing -->
-            <polygon points="658,406 542,420 552,452 664,438" fill="#090d14" stroke="#475569" stroke-width="1.5" />
-            <polyline points="652,430 592,438 554,426" fill="none" stroke="#f8fafc" stroke-width="3.5" stroke-linecap="round" />
-            <circle cx="618" cy="424" r="7" fill="#38bdf8" opacity="0.85" />
-            <circle cx="578" cy="428" r="6" fill="#e0f2fe" opacity="0.9" />
+            <path d="M 618 402 L 468 414 L 482 442 Q 556 448 610 434 Z" fill="#05080f" stroke="#64748b" stroke-width="1.4" />
+            <polyline class="hood-car__drl" points="606,420 528,430 480,418" fill="none" stroke="#e0f2fe" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            <circle class="hood-car__lamp" cx="570" cy="428" r="7" fill="#64748b" />
+            <circle class="hood-car__lamp" cx="544" cy="432" r="5" fill="#64748b" />
           </g>
 
-          <!-- Center Front Bumper Mesh Grille & Carbon Front Splitter Lip -->
-          <polygon points="154,434 526,434 508,468 172,468" fill="#06090f" stroke="#374151" stroke-width="1.5" />
-          <line x1="168" y1="451" x2="512" y2="451" stroke="#1e293b" stroke-width="2" />
-          <rect x="24" y="470" width="632" height="6" rx="3" fill="#f59e0b" opacity="0.85" />
+          <!-- ========================= GRILLE ========================= -->
+          <!-- Upper chrome slat grille -->
+          <path d="M 184 414 L 456 414 L 444 456 L 196 456 Z" fill="#05080f" />
+          <g stroke="url(#r7-chrome)" stroke-width="3" stroke-linecap="round">
+            <line x1="190" y1="422" x2="450" y2="422" />
+            <line x1="192" y1="432" x2="448" y2="432" />
+            <line x1="194" y1="442" x2="446" y2="442" />
+            <line x1="196" y1="451" x2="444" y2="451" />
+          </g>
+          <!-- Center horseshoe grille -->
+          <path d="M 284 410 Q 320 402 356 410 L 362 466 Q 320 490 278 466 Z" fill="url(#r7-mesh)" stroke="url(#r7-chrome)" stroke-width="3.5" />
+          <rect x="304" y="428" width="32" height="12" rx="2" fill="#0b1220" stroke="#93c5fd" stroke-width="1" />
+          <text x="320" y="437.5" text-anchor="middle" fill="#e0f2fe" font-family="JetBrains Mono, monospace" font-weight="800" font-size="8" letter-spacing="1">R007</text>
+
+          <!-- Lower intake & side ducts -->
+          <path d="M 120 472 L 270 472 Q 320 494 370 472 L 520 472 L 500 502 L 140 502 Z" fill="url(#r7-mesh)" stroke="#1e3a8a" stroke-width="1.5" />
+          <path d="M 28 456 L 100 466 L 112 502 L 46 502 Q 30 486 28 456 Z" fill="url(#r7-mesh)" stroke="#1e3a8a" stroke-width="1.5" />
+          <path d="M 612 456 L 540 466 L 528 502 L 594 502 Q 610 486 612 456 Z" fill="url(#r7-mesh)" stroke="#1e3a8a" stroke-width="1.5" />
+
+          <!-- Carbon front splitter -->
+          <path d="M 38 512 L 602 512 L 590 526 L 50 526 Z" fill="#05080f" stroke="#334155" />
         </svg>
 
-        <!-- ============================================================== -->
-        <!-- LAYER 2: REALISTIC SCULPTED AUTOMOTIVE CAR HOOD (BONNET)       -->
-        <!-- ============================================================== -->
+        <!-- ============================================================ -->
+        <!-- LAYER 2: THE HOOD (two faces, hinged at the windshield)       -->
+        <!-- ============================================================ -->
         <div class="hood-car__lid">
-          <svg class="hood-car__lid-svg" viewBox="0 0 680 480" aria-hidden="true">
+          <!-- Outer hood skin (visible when closed) -->
+          <svg class="hood-car__face hood-car__face--top" viewBox="0 0 480 150" preserveAspectRatio="none" aria-hidden="true">
             <defs>
-              <!-- Rich Multi-Stop Metallic Charcoal/Slate Automotive Hood Paint -->
-              <linearGradient id="hood-paint-main" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#334155" />
-                <stop offset="22%" stop-color="#475569" />
-                <stop offset="48%" stop-color="#1e293b" />
-                <stop offset="72%" stop-color="#334155" />
-                <stop offset="100%" stop-color="#0f172a" />
+              <linearGradient id="r7-hood" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#1e3a8a" />
+                <stop offset="45%" stop-color="#2563eb" />
+                <stop offset="100%" stop-color="#1d4ed8" />
               </linearGradient>
-
-              <!-- Raised Center Power-Dome 3D Specular Highlight Gradient -->
-              <linearGradient id="hood-power-dome" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#0f172a" />
-                <stop offset="18%" stop-color="#334155" />
-                <stop offset="50%" stop-color="#64748b" />
-                <stop offset="82%" stop-color="#334155" />
-                <stop offset="100%" stop-color="#0f172a" />
-              </linearGradient>
-
-              <!-- Side Fender-to-Hood Sculpted Bevel Lighting -->
-              <linearGradient id="hood-bevel-left" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#64748b" stop-opacity="0.45" />
-                <stop offset="100%" stop-color="#1e293b" stop-opacity="0" />
-              </linearGradient>
-
-              <linearGradient id="hood-bevel-right" x1="100%" y1="0%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#64748b" stop-opacity="0.45" />
-                <stop offset="100%" stop-color="#1e293b" stop-opacity="0" />
-              </linearGradient>
-
-              <linearGradient id="poly-window" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#090d14" stop-opacity="0.88" />
-                <stop offset="50%" stop-color="#1e293b" stop-opacity="0.72" />
-                <stop offset="100%" stop-color="#090d14" stop-opacity="0.9" />
+              <linearGradient id="r7-hood-bulge" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#1e40af" />
+                <stop offset="50%" stop-color="#3b82f6" />
+                <stop offset="100%" stop-color="#1e40af" />
               </linearGradient>
             </defs>
 
-            <!-- 1. Main Contoured Automotive Hood Sheetmetal Panel (Fits flush between fenders, cowl & front bumper) -->
-            <path
-              d="M 68 98
-                 Q 340 90 612 98
-                 L 658 386
-                 Q 642 414 532 422
-                 L 148 422
-                 Q 38 414 22 386
-                 Z"
-              fill="url(#hood-paint-main)"
-              stroke="#64748b"
-              stroke-width="2.2"
-              stroke-linejoin="round" />
+            <path d="M 52 2 Q 240 -4 428 2 L 478 140 Q 240 154 2 140 Z" fill="url(#r7-hood)" stroke="#60a5fa" stroke-width="1.4" stroke-opacity="0.6" />
 
-            <!-- Left & Right Sculpted Wing Crease Highlights -->
-            <path
-              d="M 68 98 L 178 100 L 146 420 L 22 386 Z"
-              fill="url(#hood-bevel-left)" />
-            <path
-              d="M 612 98 L 502 100 L 534 420 L 658 386 Z"
-              fill="url(#hood-bevel-right)" />
+            <!-- Center power bulge -->
+            <path d="M 182 3 Q 240 0 298 3 L 320 144 Q 240 150 160 144 Z" fill="url(#r7-hood-bulge)" />
+            <path d="M 182 3 L 160 144" stroke="#93c5fd" stroke-width="1.3" stroke-opacity="0.7" />
+            <path d="M 298 3 L 320 144" stroke="#93c5fd" stroke-width="1.3" stroke-opacity="0.7" />
 
-            <!-- 2. Raised Center Muscular Power-Dome Bulge -->
-            <path
-              d="M 192 98
-                 Q 340 94 488 98
-                 L 516 404
-                 Q 340 416 164 404
-                 Z"
-              fill="url(#hood-power-dome)"
-              stroke="#475569"
-              stroke-width="1.5" />
+            <!-- Side creases -->
+            <path d="M 110 4 L 60 140" stroke="#93c5fd" stroke-width="1" stroke-opacity="0.35" />
+            <path d="M 370 4 L 420 140" stroke="#93c5fd" stroke-width="1" stroke-opacity="0.35" />
 
-            <!-- Crisp Character Crease Lines Along the Power-Dome Edges -->
-            <path d="M 192 98 L 164 404" stroke="#94a3b8" stroke-width="1.5" stroke-opacity="0.7" />
-            <path d="M 488 98 L 516 404" stroke="#94a3b8" stroke-width="1.5" stroke-opacity="0.7" />
-            <path d="M 140 102 L 94 398" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.55" />
-            <path d="M 540 102 L 586 398" stroke="#64748b" stroke-width="1.2" stroke-opacity="0.55" />
+            <!-- Twin nostril vents at the front of the bulge -->
+            <path d="M 194 104 L 232 100 L 232 122 L 188 126 Z" fill="#05080f" stroke="#1e3a8a" />
+            <path d="M 286 104 L 248 100 L 248 122 L 292 126 Z" fill="#05080f" stroke="#1e3a8a" />
+            <g stroke="#1e293b" stroke-width="2">
+              <line x1="194" y1="112" x2="230" y2="109" />
+              <line x1="192" y1="119" x2="230" y2="116" />
+              <line x1="286" y1="112" x2="250" y2="109" />
+              <line x1="288" y1="119" x2="250" y2="116" />
+            </g>
 
-            <!-- Center Longitudinal Spine Crease Highlight -->
-            <line x1="340" y1="96" x2="340" y2="372" stroke="#cbd5e1" stroke-width="1.2" stroke-opacity="0.45" />
+            <!-- Heat-extractor louvres -->
+            <g stroke="#0b1f4d" stroke-width="3" stroke-linecap="round">
+              <line x1="104" y1="40" x2="136" y2="42" />
+              <line x1="100" y1="52" x2="133" y2="54" />
+              <line x1="96" y1="64" x2="130" y2="66" />
+              <line x1="376" y1="40" x2="344" y2="42" />
+              <line x1="380" y1="52" x2="347" y2="54" />
+              <line x1="384" y1="64" x2="350" y2="66" />
+            </g>
 
-            <!-- 3. Recessed Carbon-Fiber Heat-Extractor Hood Louvers (Left & Right) -->
-            <!-- Left Aero Louver Vent -->
-            <g>
-              <polygon
-                points="126,156 174,162 152,324 98,314"
-                fill="#090d14"
-                stroke="#475569"
-                stroke-width="1.5" />
-              <g stroke="#334155" stroke-width="3.5" stroke-linecap="round">
-                <line x1="128" y1="176" x2="168" y2="182" />
-                <line x1="124" y1="198" x2="165" y2="204" />
-                <line x1="120" y1="220" x2="162" y2="226" />
-                <line x1="116" y1="242" x2="158" y2="248" />
-                <line x1="112" y1="264" x2="155" y2="270" />
-                <line x1="108" y1="286" x2="151" y2="292" />
+            <!-- Specular highlight -->
+            <path d="M 120 6 L 200 4 L 120 140 L 60 138 Z" fill="#ffffff" fill-opacity="0.06" />
+          </svg>
+
+          <!-- Hood underside (visible when open) -->
+          <svg class="hood-car__face hood-car__face--under" viewBox="0 0 480 150" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M 2 10 Q 240 -6 478 10 L 428 148 Q 240 152 52 148 Z" fill="#1d4ed8" stroke="#60a5fa" stroke-width="1.2" stroke-opacity="0.6" />
+            <!-- Inner structural frame -->
+            <path d="M 28 20 Q 240 8 452 20 L 412 138 L 68 138 Z" fill="#1e3a8a" />
+            <g fill="#0b1f4d">
+              <ellipse cx="120" cy="52" rx="44" ry="16" />
+              <ellipse cx="240" cy="42" rx="52" ry="14" />
+              <ellipse cx="360" cy="52" rx="44" ry="16" />
+              <ellipse cx="160" cy="100" rx="46" ry="18" />
+              <ellipse cx="320" cy="100" rx="46" ry="18" />
+            </g>
+            <!-- Bolts -->
+            <g fill="#60a5fa" fill-opacity="0.7">
+              <circle cx="60" cy="30" r="3" /><circle cx="420" cy="30" r="3" />
+              <circle cx="240" cy="72" r="3" /><circle cx="90" cy="126" r="3" />
+              <circle cx="390" cy="126" r="3" /><circle cx="240" cy="128" r="3" />
+            </g>
+            <!-- Latch striker -->
+            <rect x="232" y="12" width="16" height="14" rx="2" fill="#94a3b8" />
+            <!-- Under-hood LED lamps -->
+            <g class="hood-car__under-lamp">
+              <rect x="120" y="122" width="64" height="11" rx="3" fill="#0b1220" />
+              <rect x="296" y="122" width="64" height="11" rx="3" fill="#0b1220" />
+              <g fill="#e0f2fe">
+                <rect x="124" y="125" width="8" height="5" rx="1" /><rect x="136" y="125" width="8" height="5" rx="1" />
+                <rect x="148" y="125" width="8" height="5" rx="1" /><rect x="160" y="125" width="8" height="5" rx="1" />
+                <rect x="172" y="125" width="8" height="5" rx="1" />
+                <rect x="300" y="125" width="8" height="5" rx="1" /><rect x="312" y="125" width="8" height="5" rx="1" />
+                <rect x="324" y="125" width="8" height="5" rx="1" /><rect x="336" y="125" width="8" height="5" rx="1" />
+                <rect x="348" y="125" width="8" height="5" rx="1" />
               </g>
-            </g>
-
-            <!-- Right Aero Louver Vent -->
-            <g>
-              <polygon
-                points="554,156 506,162 528,324 582,314"
-                fill="#090d14"
-                stroke="#475569"
-                stroke-width="1.5" />
-              <g stroke="#334155" stroke-width="3.5" stroke-linecap="round">
-                <line x1="552" y1="176" x2="512" y2="182" />
-                <line x1="556" y1="198" x2="515" y2="204" />
-                <line x1="560" y1="220" x2="518" y2="226" />
-                <line x1="564" y1="242" x2="522" y2="248" />
-                <line x1="568" y1="264" x2="525" y2="270" />
-                <line x1="572" y1="286" x2="529" y2="292" />
-              </g>
-            </g>
-
-            <!-- 4. Center Smoked Polycarbonate Engine-Preview Window on Power-Dome -->
-            <path
-              d="M 278 136 L 402 136 L 416 286 L 340 304 L 264 286 Z"
-              fill="url(#poly-window)"
-              stroke="#475569"
-              stroke-width="2" />
-            <!-- Subtle Glint of the Silver Ribbed Intake & Gold Valve Covers Through the Tinted Hood Window -->
-            <g opacity="0.35">
-              <rect x="276" y="148" width="22" height="126" rx="3" fill="#f59e0b" />
-              <rect x="382" y="148" width="22" height="126" rx="3" fill="#f59e0b" />
-              <rect x="308" y="148" width="64" height="14" rx="7" fill="#cbd5e1" />
-              <rect x="306" y="168" width="68" height="14" rx="7" fill="#cbd5e1" />
-              <rect x="304" y="188" width="72" height="14" rx="7" fill="#cbd5e1" />
-              <rect x="302" y="208" width="76" height="14" rx="7" fill="#cbd5e1" />
-              <rect x="300" y="228" width="80" height="14" rx="7" fill="#cbd5e1" />
-              <rect x="298" y="248" width="84" height="14" rx="7" fill="#cbd5e1" />
-            </g>
-            <!-- Diagonal Glass Specular Reflection Across Hood Window -->
-            <polygon points="284,140 332,140 294,282 268,276" fill="#f8fafc" fill-opacity="0.08" />
-
-            <!-- 5. Realistic Front Nose Crest Emblem ("R 007") at Leading Edge of Hood -->
-            <g transform="translate(340, 386)">
-              <polygon
-                points="0,-20 42,-10 34,16 0,22 -34,16 -42,-10"
-                fill="#090d14"
-                stroke="#f59e0b"
-                stroke-width="1.8" />
-              <text
-                x="0"
-                y="5"
-                text-anchor="middle"
-                fill="#f8fafc"
-                font-family="Archivo, sans-serif"
-                font-weight="900"
-                font-size="15"
-                letter-spacing="2">R<tspan fill="#f59e0b">007</tspan></text>
-            </g>
-
-            <!-- Flush Aerodynamic Hood Latch Pins (Left & Right Front Corners) -->
-            <g transform="translate(198, 392)">
-              <circle cx="0" cy="0" r="8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" />
-              <circle cx="0" cy="0" r="3" fill="#475569" />
-            </g>
-            <g transform="translate(482, 392)">
-              <circle cx="0" cy="0" r="8" fill="#0f172a" stroke="#94a3b8" stroke-width="1.5" />
-              <circle cx="0" cy="0" r="3" fill="#475569" />
             </g>
           </svg>
         </div>
@@ -596,7 +308,7 @@
       <!-- Subtle Interactive Status Pill -->
       <button type="button" class="loader__hint" (click)="popHoodNow()">
         <span class="loader__hint-dot"></span>
-        <span>{{ hoodPopped() ? 'GOLD-PLATED TWIN-INTAKE ENGINE BAY · CLICK TO CLOSE HOOD' : 'UNLOCKING HOOD · CLICK TO POP NOW' }}</span>
+        <span>{{ hoodPopped() ? 'ENGINE BAY EXPOSED · CLICK TO CLOSE HOOD' : 'UNLOCKING HOOD · CLICK TO POP NOW' }}</span>
       </button>
     </div>
 

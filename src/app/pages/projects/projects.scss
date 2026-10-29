@@ -663,209 +663,96 @@
   }
 }
 
-/* Architectural Storefront Card (.shop) — Slightly Rounded */
+/* Streamlined Modern Project Showcase Card (.shop) */
 .shop {
-  --facade: #0b192c;
-  --facade-ink: #edf4fc;
-  --awning-a: #0284c7;
-  --awning-b: #f6faff;
-
+  flex: 0 0 clamp(320px, 32vw, 410px);
   display: flex;
   flex-direction: column;
   border: 1px solid var(--ink);
   border-radius: 12px;
   overflow: hidden;
   background: var(--bg);
+  box-shadow: 0 10px 24px -12px rgba(8, 27, 51, 0.16);
   cursor: pointer;
-  transition: transform 280ms var(--ease), box-shadow 280ms var(--ease);
-
-  &--ink {
-    --facade: #0b192c;
-    --facade-ink: #edf4fc;
-    --awning-a: #0284c7;
-    --awning-b: #f6faff;
-  }
-
-  &--red {
-    --facade: #0369a1;
-    --facade-ink: #edf4fc;
-    --awning-a: #0b192c;
-    --awning-b: #38bdf8;
-  }
-
-  &--stone {
-    --facade: #142e54;
-    --facade-ink: #edf4fc;
-    --awning-a: #0284c7;
-    --awning-b: #f6faff;
-  }
-
-  &--brick {
-    --facade: #1d3e6e;
-    --facade-ink: #edf4fc;
-    --awning-a: #0284c7;
-    --awning-b: #d8e8fa;
-  }
+  transition: transform 240ms var(--ease), box-shadow 240ms var(--ease);
 
   &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 26px 50px -22px rgba(8, 27, 51, 0.35);
-
-    .shop__door {
-      transform: rotateY(-28deg);
-    }
-
-    .shop__cat {
-      transform: translateY(-2px) translateX(-4px);
-      opacity: 1;
-    }
+    transform: translateY(-5px);
+    box-shadow: 0 22px 44px -18px rgba(8, 27, 51, 0.28);
 
     .shop__enter .arrow {
       transform: translateX(4px);
     }
   }
 
-  /* 1. Roof Cornice */
-  &__upper {
+  /* 1. Top Control Bar */
+  &__bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.45rem 0.9rem;
-    background: var(--bg-3);
-    border-bottom: 2px solid var(--ink);
-  }
+    padding: 0.55rem 0.95rem;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
 
-  &__windows-up {
-    display: flex;
-    gap: 0.35rem;
-
-    i {
-      width: 12px;
-      height: 8px;
-      border-radius: 2px;
-      border: 1px solid var(--ink);
-      background: var(--bg);
-      display: inline-block;
+    &-left {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
     }
   }
 
-  &__lot-code {
+  &__dots {
+    display: flex;
+    gap: 0.28rem;
+
+    i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--ink-3);
+      opacity: 0.6;
+      display: inline-block;
+
+      &:first-child {
+        background: var(--red);
+        opacity: 0.85;
+      }
+    }
+  }
+
+  &__lot {
     font-family: var(--mono);
     font-size: 0.56rem;
     letter-spacing: 0.16em;
     color: var(--ink-3);
   }
 
-  &__priority-tag {
-    margin-left: auto;
-    margin-right: 0.55rem;
-    padding: 0.14rem 0.45rem;
-    border-radius: 5px;
-    background: var(--red);
-    color: #f0f7ff;
-    font-family: var(--mono);
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-  }
-
-  /* 2. Storefront Signboard */
-  &__sign {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.85rem 1rem;
-    background: var(--facade);
-    color: var(--facade-ink);
-  }
-
-  &__num {
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    color: var(--amber);
-    padding: 0.2rem 0.45rem;
-    border-radius: 6px;
-    border: 1px solid rgba(56, 189, 248, 0.4);
-  }
-
-  &__sign-titles {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__title {
-    font-family: var(--font);
-    font-variation-settings: "wdth" 122, "wght" 800;
-    font-size: 1.05rem;
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    color: #f6faff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__role {
-    font-family: var(--mono);
-    font-size: 0.56rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(246, 250, 255, 0.72);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   &__badge {
     font-family: var(--mono);
-    font-size: 0.55rem;
+    font-size: 0.52rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    padding: 0.22rem 0.55rem;
+    padding: 0.2rem 0.52rem;
     border-radius: 6px;
-    background: rgba(246, 250, 255, 0.12);
-    color: #f6faff;
-    border: 1px solid rgba(246, 250, 255, 0.24);
+    background: rgba(14, 24, 43, 0.06);
+    color: var(--ink-2);
+    border: 1px solid var(--line);
+    font-weight: 600;
 
     &.is-office {
       background: var(--amber);
       color: #081b33;
       border-color: var(--amber);
-      font-weight: 600;
     }
   }
 
-  /* 3. Striped Awning */
-  &__awning {
-    height: 14px;
-    background: repeating-linear-gradient(
-      90deg,
-      var(--awning-a) 0 18px,
-      var(--awning-b) 18px 36px
-    );
-    border-top: 1px solid var(--ink);
-    border-bottom: 2px solid var(--ink);
-    box-shadow: 0 5px 10px -4px rgba(8, 27, 51, 0.35);
-  }
-
-  /* 4. Storefront Window & Doorway */
-  &__front {
-    display: grid;
-    grid-template-columns: 1fr 78px;
-    height: 172px;
-    background: #0d213f;
-    border-bottom: 2px solid var(--ink);
-  }
-
-  &__window {
+  /* 2. Media Window */
+  &__media {
+    height: 185px;
     position: relative;
     overflow: hidden;
-    border-right: 2px solid var(--ink);
-    background: radial-gradient(ellipse at 50% 30%, rgba(56, 189, 248, 0.16), #081529 75%);
+    background: #070e1b;
+    border-bottom: 1px solid var(--line);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -876,7 +763,7 @@
     height: 100%;
     object-fit: cover;
     object-position: top center;
-    transition: transform 420ms var(--ease);
+    transition: transform 380ms var(--ease);
   }
 
   &:hover &__preview-img {
@@ -893,15 +780,15 @@
   }
 
   &__icon-emblem {
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     border-radius: 12px;
     border: 1.5px solid var(--amber);
     background: rgba(246, 250, 255, 0.05);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.45rem;
+    font-size: 1.4rem;
   }
 
   &__blueprint-tag {
@@ -912,107 +799,42 @@
     color: rgba(246, 250, 255, 0.72);
   }
 
-  &__quick-links {
-    position: absolute;
-    top: 0.55rem;
-    right: 0.55rem;
-    display: flex;
-    gap: 0.35rem;
-    z-index: 2;
-  }
-
-  &__qbtn {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    background: rgba(8, 21, 41, 0.88);
-    border: 1px solid rgba(246, 250, 255, 0.25);
-    color: #f6faff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    transition: background-color 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease);
-
-    &:hover {
-      background: var(--red);
-      border-color: var(--red);
-      color: #f6faff;
-    }
-  }
-
-  /* 3D Swinging Door */
-  &__doorway {
-    position: relative;
-    perspective: 420px;
-    background: #06101f;
-    padding: 0.45rem 0.45rem 0;
-    display: flex;
-    align-items: stretch;
-  }
-
-  &__cat {
-    position: absolute;
-    bottom: 2px;
-    right: 10px;
-    width: 24px;
-    height: 26px;
-    opacity: 0.82;
-    transition: transform 280ms var(--ease), opacity 280ms var(--ease);
-    z-index: 0;
-  }
-
-  &__door {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    background: var(--facade);
-    border: 1px solid rgba(246, 250, 255, 0.25);
-    border-bottom: 0;
-    border-radius: 6px 6px 0 0;
-    padding: 0.45rem;
+  /* 3. Card Content (Title, Role, Description, Tags) */
+  &__content {
+    padding: 1rem 1.15rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    transform-origin: 0 50%;
-    transition: transform 360ms var(--ease);
-  }
-
-  &__door-glass {
-    height: 55%;
-    border-radius: 4px;
-    border: 1px solid rgba(246, 250, 255, 0.28);
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(8, 21, 41, 0.85));
-  }
-
-  &__door-knob {
-    align-self: flex-end;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--amber);
-    margin-bottom: 1.5rem;
-  }
-
-  /* 5. Sidewalk Curb */
-  &__sidewalk {
-    height: 8px;
-    background: repeating-linear-gradient(
-      90deg,
-      var(--bg-3) 0 28px,
-      var(--paper-line) 28px 30px
-    );
-    border-bottom: 1px solid var(--line);
-  }
-
-  /* 6. Description & Footer Plate */
-  &__plate {
-    padding: 0.95rem 1.15rem 1.05rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    gap: 0.6rem;
     flex: 1;
-    gap: 0.65rem;
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  &__title {
+    font-family: var(--font);
+    font-variation-settings: "wdth" 122, "wght" 800;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__role {
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__desc {
@@ -1025,96 +847,75 @@
     overflow: hidden;
   }
 
-  &__links-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.45rem;
-  }
-
-  &__gh-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.28rem 0.6rem;
-    border-radius: 7px;
-    border: 1px solid var(--line);
-    background: var(--bg-2);
-    color: var(--ink-2);
-    font-family: var(--mono);
-    font-size: 0.56rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    max-width: 100%;
-    transition: background-color 180ms var(--ease), color 180ms var(--ease), border-color 180ms var(--ease);
-
-    i {
-      font-size: 0.78rem;
-      color: var(--red);
-    }
-
-    span {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &.is-repo {
-      background: #0b192c;
-      border-color: #0b192c;
-      color: #f6faff;
-
-      i {
-        color: var(--amber);
-      }
-    }
-
-    &:hover {
-      background: var(--red);
-      border-color: var(--red);
-      color: #f6faff;
-
-      i {
-        color: #f6faff;
-      }
-    }
-  }
-
-  &__live-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.28rem 0.55rem;
-    border-radius: 7px;
-    border: 1px solid var(--red);
-    background: rgba(2, 132, 199, 0.1);
-    color: var(--red);
-    font-family: var(--mono);
-    font-size: 0.55rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    transition: background-color 180ms var(--ease), color 180ms var(--ease);
-
-    &:hover {
-      background: var(--red);
-      color: #f6faff;
-    }
-  }
-
-  &__foot {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.65rem;
-    padding-top: 0.65rem;
-    border-top: 1px solid var(--line);
-  }
-
   &__tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
+    margin-top: 0.2rem;
+
+    .pill {
+      font-size: 0.55rem;
+      padding: 0.2rem 0.5rem;
+
+      &--more {
+        background: var(--bg-3);
+        color: var(--ink-3);
+      }
+    }
+  }
+
+  /* 4. Action Footer */
+  &__foot {
+    padding: 0.75rem 1.15rem;
+    border-top: 1px solid var(--line);
+    background: var(--bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.56rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 180ms ease;
+
+    &--code {
+      border: 1px solid var(--line);
+      background: var(--bg);
+      color: var(--ink);
+
+      &:hover {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: var(--bg);
+      }
+    }
+
+    &--live {
+      border: 1px solid var(--red);
+      background: rgba(2, 132, 199, 0.08);
+      color: var(--red);
+
+      &:hover {
+        background: var(--red);
+        color: #edf4fc;
+      }
+    }
   }
 
   &__enter {
@@ -1122,11 +923,11 @@
     align-items: center;
     gap: 0.35rem;
     font-family: var(--mono);
-    font-size: 0.64rem;
+    font-size: 0.62rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--red);
+    color: var(--ink);
 
     .arrow {
       display: inline-block;
@@ -1134,7 +935,7 @@
     }
 
     &:hover {
-      color: var(--ink);
+      color: var(--red);
     }
   }
 }
