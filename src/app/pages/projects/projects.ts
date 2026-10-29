@@ -37,9 +37,6 @@ export class ProjectsComponent {
   /** Currently active category filter ('all', 'office', or 'personal'). */
   public activeFilter: 'all' | 'office' | 'personal' = 'all';
 
-  /** View mode: 'street' (horizontal scrollable boulevard) or 'grid' (all-shops grid). */
-  public readonly viewMode = signal<'street' | 'grid'>('street');
-
   /** Whether streetlamps along the boulevard are lit. */
   public readonly lampsLit = signal<boolean>(true);
 
@@ -109,17 +106,21 @@ export class ProjectsComponent {
   }
 
   /**
-   * Switches between interactive horizontal Boulevard ('street') and full Grid ('grid') view.
-   */
-  public setViewMode(mode: 'street' | 'grid'): void {
-    this.viewMode.set(mode);
-  }
-
-  /**
    * Toggles the streetlamps along the boulevard on/off.
    */
   public toggleLamps(): void {
     this.lampsLit.update((v: boolean) => !v);
+  }
+
+  /**
+   * Smoothly scrolls the horizontal boulevard back to the very first storefront.
+   */
+  public scrollToStreetStart(): void {
+    const el = this.streetViewport?.nativeElement;
+    if (!el) {
+      return;
+    }
+    el.scrollTo({ left: 0, behavior: 'smooth' });
   }
 
   /**
@@ -148,9 +149,6 @@ export class ProjectsComponent {
    * smoothly to vertical page scroll once the start or end of the street is reached.
    */
   public onViewportWheel(event: WheelEvent): void {
-    if (this.viewMode() !== 'street') {
-      return;
-    }
     const el = this.streetViewport?.nativeElement;
     if (!el) {
       return;
@@ -180,7 +178,7 @@ export class ProjectsComponent {
    * Starts mouse click-and-drag scrolling on the horizontal boulevard.
    */
   public onDragStart(event: MouseEvent): void {
-    if (this.viewMode() !== 'street' || event.button !== 0) {
+    if (event.button !== 0) {
       return;
     }
     const el = this.streetViewport?.nativeElement;

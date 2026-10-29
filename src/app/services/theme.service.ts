@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
 /** Union type representing the supported bluish themes. */
-export type Theme = 'dark' | 'light' | 'cyber' | 'glacier';
+export type Theme = 'glacier' | 'cyber';
 
 /** Metadata for a theme preset shown in the navbar theme switcher. */
 export interface ThemePreset {
@@ -21,18 +21,11 @@ export class ThemeService {
   /** Available bluish theme presets. */
   public readonly presets: Array<ThemePreset> = [
     {
-      id: 'dark',
-      name: 'Arctic Split (Front × Back)',
-      shortLabel: 'SPLIT',
-      swatch: '#2563eb',
-      icon: 'fa-circle-half-stroke'
-    },
-    {
-      id: 'light',
-      name: 'Deep Sapphire Night',
-      shortLabel: 'SAPPHIRE',
-      swatch: '#38bdf8',
-      icon: 'fa-moon'
+      id: 'glacier',
+      name: 'Glacier Daylight Blueprint',
+      shortLabel: 'GLACIER',
+      swatch: '#0284c7',
+      icon: 'fa-sun'
     },
     {
       id: 'cyber',
@@ -40,17 +33,10 @@ export class ThemeService {
       shortLabel: 'CYBER',
       swatch: '#00f0ff',
       icon: 'fa-bolt'
-    },
-    {
-      id: 'glacier',
-      name: 'Glacier Daylight Blueprint',
-      shortLabel: 'GLACIER',
-      swatch: '#0284c7',
-      icon: 'fa-sun'
     }
   ];
 
-  private readonly _theme = signal<Theme>('dark');
+  private readonly _theme = signal<Theme>('glacier');
 
   /**
    * Returns the current theme value.
@@ -69,12 +55,12 @@ export class ThemeService {
   }
 
   /**
-   * Returns true when the current theme is the default split ('dark') or cyber mode.
+   * Returns true when the current theme is Cyan Overdrive ('cyber').
    *
-   * @returns True if the active theme is 'dark', false otherwise
+   * @returns True if the active theme is 'cyber', false otherwise
    */
   public get isDark(): boolean {
-    return this._theme() === 'dark' || this._theme() === 'cyber';
+    return this._theme() === 'cyber';
   }
 
   /**
@@ -98,12 +84,12 @@ export class ThemeService {
   }
 
   /**
-   * Initialises the theme from localStorage or defaults to Arctic Split ('dark').
+   * Initialises the theme from localStorage or defaults to Glacier Daylight ('glacier').
    */
   public init(): void {
     const saved: string | null = localStorage.getItem('portfolio-theme');
-    const validIds: Array<Theme> = ['dark', 'light', 'cyber', 'glacier'];
-    const theme: Theme = validIds.includes(saved as Theme) ? (saved as Theme) : 'dark';
+    const validIds: Array<Theme> = ['glacier', 'cyber'];
+    const theme: Theme = validIds.includes(saved as Theme) ? (saved as Theme) : 'glacier';
     this.setTheme(theme);
   }
 }

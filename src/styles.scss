@@ -8,36 +8,36 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root,
-[data-theme="dark"] {
-  /* Ice Blueprint ("Front" / Street / Client Side) */
-  --bg:           #eef4fb;
-  --bg-2:         #e2ecf7;
-  --bg-3:         #d2e1f1;
-  --ink:          #0b192c;
-  --ink-2:        #2b4263;
-  --ink-3:        #567196;
-  --line:         rgba(11, 25, 44, 0.14);
-  --line-2:       rgba(11, 25, 44, 0.06);
-  --paper-line:   #b8cde6;
+[data-theme="glacier"] {
+  /* Glacier Daylight Blueprint ("Front" / Street / Client Side — Default) */
+  --bg:           #f6faff;
+  --bg-2:         #eaf3fd;
+  --bg-3:         #d8e8fa;
+  --ink:          #081b33;
+  --ink-2:        #1e3a5f;
+  --ink-3:        #4c6b94;
+  --line:         rgba(8, 27, 51, 0.15);
+  --line-2:       rgba(8, 27, 51, 0.06);
+  --paper-line:   #b4cef0;
 
-  /* Midnight Navy ("Back" / Factory / Server & Cloud Side) */
-  --night:        #070d19;
-  --night-2:      #0e182b;
-  --night-3:      #172642;
-  --night-ink:    #edf4fc;
-  --night-line:   rgba(148, 197, 255, 0.15);
-  --night-line-2: rgba(148, 197, 255, 0.07);
-  --dim:          #7e9bc0;
+  /* Royal Navy ("Back" / Factory / Server & Cloud Side) */
+  --night:        #0d213f;
+  --night-2:      #142e54;
+  --night-3:      #1d3e6e;
+  --night-ink:    #f6faff;
+  --night-line:   rgba(186, 230, 253, 0.2);
+  --night-line-2: rgba(186, 230, 253, 0.08);
+  --dim:          #93b8e0;
 
   /* Bluish Brand Accents */
-  --red:          #2563eb;
-  --red-ink:      #1d4ed8;
-  --rose:         #60a5fa;
+  --red:          #0284c7;
+  --red-ink:      #0369a1;
+  --rose:         #38bdf8;
   --amber:        #38bdf8;
   --gold:         #0284c7;
   --online:       #10b981;
   --success:      #059669;
-  --error-night:  #60a5fa;
+  --error-night:  #38bdf8;
 
   /* Typography & Layout */
   --font:         'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -55,62 +55,16 @@
   --text-secondary: var(--ink-2);
   --text-muted:     var(--ink-3);
   --border-color:   var(--line);
-  --glass-bg:       rgba(238, 244, 251, 0.9);
+  --glass-bg:       rgba(246, 250, 255, 0.92);
   --glass-border:   var(--line);
-  --navbar-bg:      rgba(7, 13, 25, 0.9);
+  --navbar-bg:      rgba(13, 33, 63, 0.92);
   --selection-bg:   var(--red);
   --focus-outline:  var(--red);
-  --scrollbar-thumb: rgba(37, 99, 235, 0.38);
+  --scrollbar-thumb: rgba(2, 132, 199, 0.38);
   --scrollbar-thumb-hover: var(--red);
 }
 
-/* Alternate "Deep Sapphire / All-Night" Mode when toggled via ThemeService ('light' slot) */
-[data-theme="light"] {
-  --bg:           #0b1426;
-  --bg-2:         #111e38;
-  --bg-3:         #182a4c;
-  --ink:          #edf4fc;
-  --ink-2:        #b0c7e6;
-  --ink-3:        #7e9bc0;
-  --line:         rgba(148, 197, 255, 0.15);
-  --line-2:       rgba(148, 197, 255, 0.06);
-  --paper-line:   #1e335c;
-
-  --night:        #050a14;
-  --night-2:      #0b1324;
-  --night-3:      #13203b;
-  --night-ink:    #edf4fc;
-  --night-line:   rgba(148, 197, 255, 0.15);
-  --night-line-2: rgba(148, 197, 255, 0.06);
-  --dim:          #7e9bc0;
-
-  --red:          #3b82f6;
-  --red-ink:      #60a5fa;
-  --rose:         #93c5fd;
-  --amber:        #38bdf8;
-  --gold:         #7dd3fc;
-  --online:       #10b981;
-  --success:      #10b981;
-  --error-night:  #60a5fa;
-
-  --bg-base:        var(--bg);
-  --bg-surface:     var(--bg-2);
-  --bg-card:        var(--bg-2);
-  --bg-card-hover:  var(--bg-3);
-  --text-primary:   var(--ink);
-  --text-secondary: var(--ink-2);
-  --text-muted:     var(--ink-3);
-  --border-color:   var(--line);
-  --glass-bg:       rgba(11, 20, 38, 0.9);
-  --glass-border:   var(--line);
-  --navbar-bg:      rgba(5, 10, 20, 0.92);
-  --selection-bg:   var(--amber);
-  --focus-outline:  var(--amber);
-  --scrollbar-thumb: rgba(56, 189, 248, 0.35);
-  --scrollbar-thumb-hover: var(--amber);
-}
-
-/* Preset 3: "Cyan Overdrive R-007" ('cyber') — Deep Obsidian Navy with Electric Cyan & Azure */
+/* Preset 2: "Cyan Overdrive R-007" ('cyber') — Deep Obsidian Navy with Electric Cyan & Azure */
 [data-theme="cyber"] {
   --bg:           #060d1b;
   --bg-2:         #0b162c;
@@ -138,36 +92,22 @@
   --online:       #10b981;
   --success:      #10b981;
   --error-night:  #38bdf8;
-}
 
-/* Preset 4: "Glacier Daylight Blueprint" ('glacier') — Crisp Glacier White-Blue & Royal Navy */
-[data-theme="glacier"] {
-  --bg:           #f6faff;
-  --bg-2:         #eaf3fd;
-  --bg-3:         #d8e8fa;
-  --ink:          #081b33;
-  --ink-2:        #1e3a5f;
-  --ink-3:        #4c6b94;
-  --line:         rgba(8, 27, 51, 0.15);
-  --line-2:       rgba(8, 27, 51, 0.06);
-  --paper-line:   #b4cef0;
-
-  --night:        #0d213f;
-  --night-2:      #142e54;
-  --night-3:      #1d3e6e;
-  --night-ink:    #f6faff;
-  --night-line:   rgba(186, 230, 253, 0.2);
-  --night-line-2: rgba(186, 230, 253, 0.08);
-  --dim:          #93b8e0;
-
-  --red:          #0284c7;
-  --red-ink:      #0369a1;
-  --rose:         #38bdf8;
-  --amber:        #38bdf8;
-  --gold:         #0284c7;
-  --online:       #10b981;
-  --success:      #059669;
-  --error-night:  #38bdf8;
+  --bg-base:        var(--bg);
+  --bg-surface:     var(--bg-2);
+  --bg-card:        var(--bg-2);
+  --bg-card-hover:  var(--bg-3);
+  --text-primary:   var(--ink);
+  --text-secondary: var(--ink-2);
+  --text-muted:     var(--ink-3);
+  --border-color:   var(--line);
+  --glass-bg:       rgba(6, 13, 27, 0.92);
+  --glass-border:   var(--line);
+  --navbar-bg:      rgba(3, 7, 16, 0.94);
+  --selection-bg:   var(--amber);
+  --focus-outline:  var(--amber);
+  --scrollbar-thumb: rgba(0, 240, 255, 0.35);
+  --scrollbar-thumb-hover: var(--amber);
 }
 
 /* Night Section Scope (`[data-night]`) — always midnight navy surface */
@@ -358,7 +298,7 @@
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.04  0 0 0 0 0.10  0 0 0 0 0.22  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
-[data-theme="light"] .paper-grain {
+[data-theme="cyber"] .paper-grain {
   mix-blend-mode: screen;
   opacity: 0.022;
 }

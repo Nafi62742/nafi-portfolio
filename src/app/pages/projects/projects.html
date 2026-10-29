@@ -55,23 +55,6 @@
         <i class="fa-solid fa-lightbulb"></i>
         <span>{{ lampsLit() ? 'Streetlights: ON' : 'Streetlights: OFF' }}</span>
       </button>
-
-      <div class="work-filter__modes">
-        <button
-          type="button"
-          class="work-filter__btn"
-          [class.is-active]="viewMode() === 'street'"
-          (click)="setViewMode('street')">
-          <i class="fa-solid fa-arrows-left-right"></i> Horizontal Street
-        </button>
-        <button
-          type="button"
-          class="work-filter__btn"
-          [class.is-active]="viewMode() === 'grid'"
-          (click)="setViewMode('grid')">
-          <i class="fa-solid fa-table-cells-large"></i> Grid ({{ filteredProjects.length }})
-        </button>
-      </div>
     </div>
   </div>
 
@@ -110,42 +93,39 @@
       </svg>
     </div>
 
-    <!-- Boulevard Stroll Navigation & Scrubber Controls (when in 'street' mode) -->
-    @if (viewMode() === 'street') {
-      <div class="street__nav">
-        <div class="street__nav-status">
-          <span class="street__shop-counter">
-            LOT {{ currentShopIndex() < 10 ? '0' + currentShopIndex() : currentShopIndex() }} / {{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }}
-          </span>
-          <span class="text-mono">STROLL THE BOULEVARD ({{ scrollPct() }}%)</span>
-        </div>
-
-        <div class="street__scrubber">
-          <input
-            type="range"
-            min="0"
-            max="100"
-            [value]="scrollPct()"
-            aria-label="Scrub horizontally along the street"
-            (input)="onScrubInput($event)" />
-        </div>
-
-        <div class="street__nav-btns">
-          <button type="button" class="street__nav-btn" data-cursor="PREV" (click)="strollStreet(-1)" aria-label="Scroll Street Left">
-            ← WALK WEST
-          </button>
-          <button type="button" class="street__nav-btn" data-cursor="NEXT" (click)="strollStreet(1)" aria-label="Scroll Street Right">
-            WALK EAST →
-          </button>
-        </div>
+    <!-- Boulevard Stroll Navigation & Scrubber Controls -->
+    <div class="street__nav">
+      <div class="street__nav-status">
+        <span class="street__shop-counter">
+          LOT {{ currentShopIndex() < 10 ? '0' + currentShopIndex() : currentShopIndex() }} / {{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }}
+        </span>
+        <span class="text-mono">STROLL THE BOULEVARD ({{ scrollPct() }}%)</span>
       </div>
-    }
 
-    <!-- Storefronts Container: Horizontal Boulevard OR Multi-Column Grid -->
+      <div class="street__scrubber">
+        <input
+          type="range"
+          min="0"
+          max="100"
+          [value]="scrollPct()"
+          aria-label="Scrub horizontally along the street"
+          (input)="onScrubInput($event)" />
+      </div>
+
+      <div class="street__nav-btns">
+        <button type="button" class="street__nav-btn" data-cursor="PREV" (click)="strollStreet(-1)" aria-label="Scroll Street Left">
+          ← WALK WEST
+        </button>
+        <button type="button" class="street__nav-btn" data-cursor="NEXT" (click)="strollStreet(1)" aria-label="Scroll Street Right">
+          WALK EAST →
+        </button>
+      </div>
+    </div>
+
+    <!-- Storefronts Container: Horizontal Boulevard Only -->
     <div
       #streetViewport
-      [class.street__viewport]="viewMode() === 'street'"
-      [class.street__grid]="viewMode() === 'grid'"
+      class="street__viewport"
       [class.is-dragging]="isDragging()"
       (scroll)="onViewportScroll()"
       (wheel)="onViewportWheel($event)"
@@ -321,37 +301,33 @@
         </article>
 
         <!-- Streetlamp between storefronts in Boulevard mode (devinthehood .street__lamp) -->
-        @if (viewMode() === 'street') {
-          <div
-            class="street__lamp"
-            role="button"
-            tabindex="0"
-            aria-label="Toggle Streetlamp"
-            (click)="toggleLamps()"
-            (keydown.enter)="toggleLamps()">
-            <span class="street__lamp-head"></span>
-            <span class="street__lamp-glow"></span>
-            <span class="street__lamp-pole"></span>
-            <span class="street__lamp-base"></span>
-          </div>
-        }
+        <div
+          class="street__lamp"
+          role="button"
+          tabindex="0"
+          aria-label="Toggle Streetlamp"
+          (click)="toggleLamps()"
+          (keydown.enter)="toggleLamps()">
+          <span class="street__lamp-head"></span>
+          <span class="street__lamp-glow"></span>
+          <span class="street__lamp-pole"></span>
+          <span class="street__lamp-base"></span>
+        </div>
       }
 
       <!-- End of Boulevard Signpost (devinthehood .street__end) -->
-      @if (viewMode() === 'street') {
-        <div
-          class="street__end"
-          role="button"
-          tabindex="0"
-          (click)="setViewMode('grid')"
-          (keydown.enter)="setViewMode('grid')">
-          <div class="street__end-sign">
-            <span class="street__end-kicker">ALL {{ filteredProjects.length }} CASE STUDIES</span>
-            <strong class="street__end-title">VIEW FULL GRID ↗</strong>
-          </div>
-          <span class="street__end-post"></span>
+      <div
+        class="street__end"
+        role="button"
+        tabindex="0"
+        (click)="scrollToStreetStart()"
+        (keydown.enter)="scrollToStreetStart()">
+        <div class="street__end-sign">
+          <span class="street__end-kicker">END OF BOULEVARD // {{ filteredProjects.length }} LOTS</span>
+          <strong class="street__end-title">← BACK TO LOT 01</strong>
         </div>
-      }
+        <span class="street__end-post"></span>
+      </div>
     </div>
 
     <!-- Boulevard Asphalt & Crosswalk Road Strip + Horizontal Progress Bar -->
