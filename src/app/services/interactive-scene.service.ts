@@ -221,7 +221,7 @@ const DEFAULT_SCENES_CONFIG: InteractiveScenesConfig = {
         id: 'v8-core',
         x: 260,
         y: 195,
-        label: 'V8 CORE ENGINE',
+        label: 'V10 CORE ARCHITECTURE',
         detail: 'Node.js · FastAPI · TypeScript · Microservices'
       },
       {

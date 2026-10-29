@@ -30,7 +30,7 @@ export interface Pillar {
 
 /**
  * About section component displaying bio text, key statistics, and an interactive
- * R-007 Under-the-Hood Engine Bay Inspector driven by assets/data/interactive-scenes.json.
+ * R-007 System Core Architecture Schematic driven by assets/data/interactive-scenes.json.
  */
 @Component({
   selector: "app-about",
@@ -68,10 +68,10 @@ export class AboutComponent {
   public readonly scroll = inject(ScrollService);
   public readonly sceneService = inject(InteractiveSceneService);
 
-  /** Whether the R-007 hood in the About pedestal stage is popped open. */
-  public readonly stageHoodOpen = signal<boolean>(true);
+  /** Whether live data telemetry stream is actively pulsing. */
+  public readonly liveDiagnostics = signal<boolean>(true);
 
-  /** Currently selected engine hotspot ID from interactive-scenes.json. */
+  /** Currently selected architecture node ID from interactive-scenes.json. */
   public readonly activeHotspotId = signal<string>("v8-core");
 
   /** List of JSON-defined engine hotspots. */
@@ -86,17 +86,16 @@ export class AboutComponent {
   });
 
   /**
-   * Toggles the R 007 car hood on the Under-the-Hood pedestal stage.
+   * Toggles the live diagnostic pulse in the system core schematic.
    */
-  public toggleStageHood(): void {
-    this.stageHoodOpen.update((v: boolean) => !v);
+  public toggleDiagnostics(): void {
+    this.liveDiagnostics.update((v: boolean) => !v);
   }
 
   /**
-   * Selects a specific engine hotspot in the R-007 engine bay.
+   * Selects a specific architectural subsystem node to inspect in the telemetry panel.
    */
   public selectHotspot(id: string): void {
-    this.stageHoodOpen.set(true);
     this.activeHotspotId.set(id);
   }
 

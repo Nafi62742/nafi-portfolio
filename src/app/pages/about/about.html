@@ -8,104 +8,170 @@
   </div>
 
   <div class="player__grid">
-    <!-- Left Column: Interactive R-007 Car Hood & Engine Bay Inspector + Pillars -->
+    <!-- Left Column: Interactive System Architecture Core & Specialization Pillars -->
     <div class="player__stage-col reveal delay-1">
-      <div class="player__stage" [class.is-hood-open]="stageHoodOpen()">
-        <div class="player__spotlight" aria-hidden="true"></div>
-
+      <div class="player__stage">
         <!-- Stage Top Bar -->
         <div class="player__stage-bar">
-          <span class="text-mono">CHASSIS // RACER007 INSPECTOR</span>
+          <div class="player__stage-badge">
+            <span class="player__pulse-dot" [class.is-paused]="!liveDiagnostics()"></span>
+            <span class="text-mono">R-007 // SYSTEM CORE ARCHITECTURE</span>
+          </div>
           <button
             type="button"
             class="player__hood-toggle"
-            data-cursor="POP HOOD"
-            (click)="toggleStageHood()">
-            <i class="fa-solid" [class.fa-Lock-open]="stageHoodOpen()" [class.fa-car]="!stageHoodOpen()"></i>
-            <span>{{ stageHoodOpen() ? 'CLOSE R 007 HOOD' : 'POP R 007 HOOD' }}</span>
+            data-cursor="DIAG"
+            (click)="toggleDiagnostics()">
+            <i class="fa-solid" [class.fa-bolt]="liveDiagnostics()" [class.fa-pause]="!liveDiagnostics()"></i>
+            <span>{{ liveDiagnostics() ? 'DIAGNOSTICS: LIVE' : 'DIAGNOSTICS: PAUSED' }}</span>
           </button>
         </div>
 
-        <!-- Interactive SVG: Pedestal + R-007 Car Hood + JSON Engine Hotspots -->
+        <!-- Interactive Holographic System Core Schematic SVG -->
         <div class="player__inspector">
-          <svg class="player__figure" viewBox="0 0 520 380">
+          <svg class="player__figure" viewBox="0 0 520 340" aria-label="Interactive System Architecture Schematic">
             <defs>
-              <radialGradient id="ped-glow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.5" />
-                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              <radialGradient id="core-glow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.32" />
+                <stop offset="60%" stop-color="#2563eb" stop-opacity="0.1" />
+                <stop offset="100%" stop-color="#050a14" stop-opacity="0" />
               </radialGradient>
+              <linearGradient id="bus-glow-horiz" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#38bdf8" />
+                <stop offset="50%" stop-color="#60a5fa" />
+                <stop offset="100%" stop-color="#38bdf8" />
+              </linearGradient>
             </defs>
 
-            <!-- Glowing Spotlight Pedestal -->
-            <ellipse cx="260" cy="340" rx="210" ry="32" fill="url(#ped-glow)" />
-            <ellipse cx="260" cy="332" rx="175" ry="18" fill="#0e182b" stroke="#38bdf8" stroke-width="1.5" />
-            <ellipse cx="260" cy="324" rx="145" ry="12" fill="#070d19" stroke="#2563eb" stroke-width="1.2" />
+            <!-- Background Ambient Glow & Circular Matrix Grid -->
+            <ellipse cx="260" cy="170" rx="190" ry="140" fill="url(#core-glow)" />
+            <circle cx="260" cy="170" r="145" fill="none" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 6" opacity="0.6" />
+            <circle cx="260" cy="170" r="110" fill="none" stroke="#2563eb" stroke-width="1" stroke-dasharray="6 8" opacity="0.4" />
 
-            <!-- Sports Car Front Bay Silhouette on Pedestal -->
-            <path
-              d="M115 62 L405 62 L438 165 L420 305 L100 305 L82 165 Z"
-              fill="#070d19"
-              stroke="#2563eb"
-              stroke-width="2" />
-
-            <!-- Headlights -->
-            <polygon points="104,288 165,298 160,310 98,300" fill="#38bdf8" />
-            <polygon points="416,288 355,298 360,310 422,300" fill="#38bdf8" />
-
-            <!-- Exposed V8 Twin-Turbo Engine Block -->
-            <rect x="135" y="88" width="250" height="192" rx="8" fill="#040811" stroke="#1e3a8a" stroke-width="2" />
-            <!-- Left & Right Turbochargers -->
-            <circle cx="170" cy="175" r="28" fill="#0b1426" stroke="#38bdf8" stroke-width="2" />
-            <circle cx="170" cy="175" r="10" fill="#2563eb" />
-            <circle cx="350" cy="175" r="28" fill="#0b1426" stroke="#38bdf8" stroke-width="2" />
-            <circle cx="350" cy="175" r="10" fill="#2563eb" />
-
-            <!-- Center V8 Intake Plenum -->
-            <rect x="218" y="104" width="84" height="156" rx="6" fill="#0e182b" stroke="#38bdf8" stroke-width="2" />
-            <line x1="218" y1="142" x2="302" y2="142" stroke="#2563eb" stroke-width="3" />
-            <line x1="218" y1="178" x2="302" y2="178" stroke="#2563eb" stroke-width="3" />
-            <line x1="218" y1="214" x2="302" y2="214" stroke="#2563eb" stroke-width="3" />
-            <text x="260" y="168" text-anchor="middle" fill="#eef4fb" font-family="Archivo, sans-serif" font-weight="800" font-size="14">R 007</text>
-            <text x="260" y="198" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-weight="700" font-size="9">V8 TWIN-TURBO</text>
-
-            <!-- Pivoting Car Hood Overlay (Lifts when stageHoodOpen() is true) -->
-            <g class="player__hood-lid" [class.is-open]="stageHoodOpen()">
-              <path
-                d="M122 72 L398 72 L426 168 L410 296 L110 296 L94 168 Z"
-                fill="#0c182e"
-                stroke="#38bdf8"
-                stroke-width="2.2" />
-              <rect x="236" y="74" width="48" height="220" fill="#2563eb" fill-opacity="0.25" />
-              <polygon
-                points="260,115 335,148 320,235 260,258 200,235 185,148"
-                fill="#050a14"
-                stroke="#38bdf8"
-                stroke-width="2" />
-              <text x="260" y="182" text-anchor="middle" fill="#eef4fb" font-family="Archivo, sans-serif" font-weight="900" font-size="44" letter-spacing="3">R</text>
-              <rect x="218" y="192" width="84" height="3" fill="#2563eb" />
-              <text x="260" y="226" text-anchor="middle" fill="#38bdf8" font-family="JetBrains Mono, monospace" font-weight="800" font-size="28" letter-spacing="5">007</text>
+            <!-- Interconnecting Data Bus Lines Between Core & Subsystems -->
+            <g stroke="#1e3a8a" stroke-width="2.2" stroke-linecap="round" fill="none">
+              <!-- Top Bus: AI / ML ECU -->
+              <path d="M 260 120 L 260 76" />
+              <!-- Left Bus: Frontend Engine -->
+              <path d="M 195 170 L 140 170" />
+              <!-- Right Bus: Cloud & DevOps -->
+              <path d="M 325 170 L 380 170" />
+              <!-- Bottom Bus: Core Backend Microservices -->
+              <path d="M 260 220 L 260 264" />
+              <!-- Diagonal Cross-Mesh Traces -->
+              <path d="M 195 140 L 135 90" stroke-opacity="0.5" stroke-dasharray="3 3" />
+              <path d="M 325 140 L 385 90" stroke-opacity="0.5" stroke-dasharray="3 3" />
             </g>
 
-            <!-- Interactive JSON Engine Hotspots (Visible when hood is open) -->
-            @if (stageHoodOpen()) {
-              @for (spot of hotspots(); track spot.id) {
-                <g
-                  class="player__hotspot"
-                  [class.is-active]="activeHotspotId() === spot.id"
-                  role="button"
-                  tabindex="0"
-                  [attr.aria-label]="spot.label"
-                  (click)="selectHotspot(spot.id)"
-                  (keydown.enter)="selectHotspot(spot.id)">
-                  <circle [attr.cx]="spot.x" [attr.cy]="spot.y" r="16" class="player__hotspot-pulse" />
-                  <circle [attr.cx]="spot.x" [attr.cy]="spot.y" r="8" class="player__hotspot-dot" />
-                </g>
-              }
+            <!-- Animated Live Data Packet Streams Along Bus Lines -->
+            @if (liveDiagnostics()) {
+              <g class="player__bus-stream" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" fill="none">
+                <line x1="260" y1="120" x2="260" y2="76" />
+                <line x1="195" y1="170" x2="140" y2="170" />
+                <line x1="325" y1="170" x2="380" y2="170" />
+                <line x1="260" y1="220" x2="260" y2="264" />
+              </g>
             }
+
+            <!-- ========================================================== -->
+            <!-- 1. TOP NODE: AI & MACHINE LEARNING ECU (id: 'ecu-ai')       -->
+            <!-- ========================================================== -->
+            <g
+              class="player__node"
+              [class.is-active]="activeHotspotId() === 'ecu-ai'"
+              role="button"
+              tabindex="0"
+              aria-label="Inspect AI and Machine Learning Subsystem"
+              (click)="selectHotspot('ecu-ai')"
+              (keydown.enter)="selectHotspot('ecu-ai')"
+              transform="translate(260, 52)">
+              <rect x="-68" y="-24" width="136" height="48" rx="8" class="player__node-card" />
+              <circle cx="-46" cy="0" r="12" class="player__node-icon-bg" />
+              <text x="-46" y="4" text-anchor="middle" class="player__node-icon-text">AI</text>
+              <text x="6" y="-3" text-anchor="middle" class="player__node-title">AI / ML CORE</text>
+              <text x="6" y="11" text-anchor="middle" class="player__node-sub">PyTorch · YOLOv9</text>
+            </g>
+
+            <!-- ========================================================== -->
+            <!-- 2. LEFT NODE: UI & FRONTEND ENGINE (id: 'turbo-left')       -->
+            <!-- ========================================================== -->
+            <g
+              class="player__node"
+              [class.is-active]="activeHotspotId() === 'turbo-left'"
+              role="button"
+              tabindex="0"
+              aria-label="Inspect Client UI Subsystem"
+              (click)="selectHotspot('turbo-left')"
+              (keydown.enter)="selectHotspot('turbo-left')"
+              transform="translate(80, 170)">
+              <rect x="-68" y="-24" width="136" height="48" rx="8" class="player__node-card" />
+              <circle cx="-46" cy="0" r="12" class="player__node-icon-bg" />
+              <text x="-46" y="4" text-anchor="middle" class="player__node-icon-text">UI</text>
+              <text x="6" y="-3" text-anchor="middle" class="player__node-title">FRONTEND</text>
+              <text x="6" y="11" text-anchor="middle" class="player__node-sub">Angular · Flutter</text>
+            </g>
+
+            <!-- ========================================================== -->
+            <!-- 3. CENTER NODE: V10 CORE ARCHITECTURE (id: 'v8-core')       -->
+            <!-- ========================================================== -->
+            <g
+              class="player__node player__node--center"
+              [class.is-active]="activeHotspotId() === 'v8-core'"
+              role="button"
+              tabindex="0"
+              aria-label="Inspect Central System Core"
+              (click)="selectHotspot('v8-core')"
+              (keydown.enter)="selectHotspot('v8-core')"
+              transform="translate(260, 170)">
+              <!-- Outer Glowing Hexagon Frame -->
+              <polygon
+                points="0,-48 55,-24 55,24 0,48 -55,24 -55,-24"
+                class="player__center-hex" />
+              <!-- Inner Processor Die -->
+              <rect x="-38" y="-22" width="76" height="44" rx="4" class="player__center-die" />
+              <text x="0" y="-4" text-anchor="middle" class="player__center-badge">&lt;NAFI/&gt;</text>
+              <text x="0" y="12" text-anchor="middle" class="player__center-model">R-007 CORE</text>
+            </g>
+
+            <!-- ========================================================== -->
+            <!-- 4. RIGHT NODE: CLOUD & INFRASTRUCTURE (id: 'turbo-right')   -->
+            <!-- ========================================================== -->
+            <g
+              class="player__node"
+              [class.is-active]="activeHotspotId() === 'turbo-right'"
+              role="button"
+              tabindex="0"
+              aria-label="Inspect Cloud and Infrastructure Subsystem"
+              (click)="selectHotspot('turbo-right')"
+              (keydown.enter)="selectHotspot('turbo-right')"
+              transform="translate(440, 170)">
+              <rect x="-68" y="-24" width="136" height="48" rx="8" class="player__node-card" />
+              <circle cx="-46" cy="0" r="12" class="player__node-icon-bg" />
+              <text x="-46" y="4" text-anchor="middle" class="player__node-icon-text">AWS</text>
+              <text x="6" y="-3" text-anchor="middle" class="player__node-title">CLOUD &amp; OPS</text>
+              <text x="6" y="11" text-anchor="middle" class="player__node-sub">Docker · Lambda</text>
+            </g>
+
+            <!-- ========================================================== -->
+            <!-- 5. BOTTOM NODE: DISTRIBUTED BACKEND MICROSERVICES           -->
+            <!-- ========================================================== -->
+            <g
+              class="player__node"
+              [class.is-active]="activeHotspotId() === 'v8-core'"
+              role="button"
+              tabindex="0"
+              aria-label="Inspect Backend Services"
+              (click)="selectHotspot('v8-core')"
+              (keydown.enter)="selectHotspot('v8-core')"
+              transform="translate(260, 288)">
+              <rect x="-82" y="-22" width="164" height="44" rx="8" class="player__node-card" />
+              <text x="0" y="-3" text-anchor="middle" class="player__node-title">DISTRIBUTED SERVICES</text>
+              <text x="0" y="11" text-anchor="middle" class="player__node-sub">Node.js · FastAPI · PostgreSQL</text>
+            </g>
           </svg>
         </div>
 
-        <!-- JSON Hotspot Telemetry Readout Box -->
+        <!-- Selected Architecture Subsystem Telemetry Card -->
         @if (activeHotspot(); as spot) {
           <div class="player__telemetry">
             <div class="player__telemetry-tabs">
@@ -125,18 +191,13 @@
             </div>
           </div>
         }
-
-        <div class="player__quote">
-          <i class="fa-solid fa-quote-left"></i>
-          <p>"What doesn't kill you makes you stronger."</p>
-        </div>
       </div>
 
-      <!-- Core Architectural Pillars -->
+      <!-- Core Architectural Specialization Pillars (2x2 Grid) -->
       <div class="player__pillars">
         <div class="player__pillars-head">
-          <span class="text-mono">CORE ARCHITECTURAL PILLARS</span>
-          <span class="text-mono">04 DOMAINS</span>
+          <span class="text-mono">CORE ARCHITECTURAL DOMAINS</span>
+          <span class="text-mono">04 PILLARS</span>
         </div>
         <div class="player__pillars-grid">
           @for (pillar of pillars; track pillar.title; let i = $index) {
@@ -153,15 +214,13 @@
       </div>
     </div>
 
-    <!-- Right Column: Player 1 Dossier Card (Ice Blueprint Surface with Hazard Stripe) -->
+    <!-- Right Column: Developer Dossier & Bio Information -->
     <article class="player__card reveal delay-2">
-      <div class="player__hazard" aria-hidden="true"></div>
-
       <header class="player__card-head">
-        <span class="player__badge">PLAYER 01 // nafi.racer007.dev.ts</span>
+        <span class="player__badge">DEVELOPER DOSSIER // NAFI AHMED</span>
         <span class="player__live">
           <span class="player__live-dot"></span>
-          <span>{{ t.t('about.status_active') }} · GMT+6 Dhaka</span>
+          <span>AVAILABLE FOR NEW PROJECTS</span>
         </span>
       </header>
 
@@ -183,14 +242,14 @@
         }
       </div>
 
-      <!-- 3 Bio Paragraphs -->
+      <!-- Clean Bio Paragraphs -->
       <div class="player__copy">
         <p class="player__lead">{{ t.t('about.bio_1') }}</p>
         <p>{{ t.t('about.bio_2') }}</p>
         <p>{{ t.t('about.bio_3') }}</p>
       </div>
 
-      <!-- 4 Tabular Stats Grid -->
+      <!-- Tabular Stats Grid -->
       <dl class="player__stats">
         @for (stat of stats; track stat.key) {
           <div class="player__stat">
@@ -206,17 +265,7 @@
         }
       </dl>
 
-      <!-- Front <-> Back Balance Meter -->
-      <div class="player__meter">
-        <span class="text-mono">FRONT · UI &amp; MOBILE</span>
-        <div class="player__meter-bar">
-          <span class="player__meter-fill"></span>
-          <span class="player__meter-thumb">50 / 50</span>
-        </div>
-        <span class="text-mono">BACK · CLOUD &amp; DATA</span>
-      </div>
-
-      <!-- Action Buttons -->
+      <!-- Primary Action Buttons -->
       <div class="player__actions">
         <button (click)="scrollToProjects()" class="button button--solid" type="button">
           <span>Explore Projects</span>
@@ -225,10 +274,6 @@
         <button (click)="scrollToContact()" class="button" type="button">
           <span>Get in Touch</span>
           <span class="arrow">↘</span>
-        </button>
-        <button (click)="sceneService.triggerSplashReplay()" class="button" type="button">
-          <span>Replay R 007 Splash</span>
-          <span class="arrow">↺</span>
         </button>
       </div>
     </article>
