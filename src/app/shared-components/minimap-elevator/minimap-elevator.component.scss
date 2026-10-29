@@ -1,0 +1,306 @@
+@keyframes pulseMarker {
+  0%, 100% { box-shadow: 0 0 12px 1px rgba(56, 189, 248, 0.65); }
+  50%      { box-shadow: 0 0 20px 3px rgba(56, 189, 248, 0.9); }
+}
+
+.minimap-elevator {
+  position: fixed;
+  right: clamp(0.75rem, 1.8vw, 1.35rem);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 85;
+  width: 46px;
+  background: rgba(5, 11, 22, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 0.55rem 0.35rem;
+  box-shadow:
+    0 16px 40px -10px rgba(0, 0, 0, 0.75),
+    0 0 20px -4px rgba(37, 99, 235, 0.22);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+  transition: border-color 220ms var(--ease), box-shadow 220ms var(--ease);
+
+  &:hover {
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow:
+      0 20px 48px -10px rgba(0, 0, 0, 0.85),
+      0 0 24px -2px rgba(37, 99, 235, 0.35);
+  }
+
+  /* 1. Blueprint Telemetry Header */
+  &__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+  }
+
+  &__nav-arrow {
+    background: transparent;
+    border: 0;
+    color: #64748b;
+    font-size: 0.65rem;
+    cursor: pointer;
+    padding: 0.2rem;
+    line-height: 1;
+    border-radius: 4px;
+    transition: color 160ms ease, background-color 160ms ease;
+
+    &:hover {
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.12);
+    }
+  }
+
+  &__coords {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.1;
+
+    .coord-tag {
+      font-size: 0.46rem;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+    }
+
+    .coord-val {
+      font-size: 0.56rem;
+      font-weight: 700;
+      color: #93c5fd;
+    }
+  }
+
+  /* 2. Central Elevator Shaft Track */
+  &__shaft {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0.25rem 0;
+  }
+
+  /* Laser Elevator Guide Spine */
+  &__spine {
+    position: absolute;
+    top: 14px;
+    bottom: 14px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 1px;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  /* Continuous Scroll Beam Fill */
+  &__beam {
+    width: 100%;
+    background: linear-gradient(180deg, #38bdf8 0%, #2563eb 100%);
+    box-shadow: 0 0 8px #38bdf8;
+    transition: height 120ms linear;
+  }
+
+  /* 7 Blueprint Nodes */
+  &__nodes {
+    position: relative;
+    z-index: 2;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  &__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__node-btn {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+
+    &:focus-visible .minimap-elevator__marker {
+      border-color: var(--amber);
+      box-shadow: 0 0 10px var(--amber);
+    }
+
+    &:hover .minimap-elevator__tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) translateX(0);
+    }
+  }
+
+  /* Node Marker Ring & Icon */
+  &__marker {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #060c18;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+    font-size: 0.66rem;
+    transition:
+      transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 200ms ease,
+      background-color 200ms ease,
+      color 200ms ease,
+      box-shadow 200ms ease;
+
+    .minimap-elevator__node-btn:hover & {
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #93c5fd;
+      background: #09152b;
+      transform: scale(1.08);
+    }
+  }
+
+  /* Active Node State */
+  &__item.is-active &__marker {
+    background: #081730;
+    border-color: #38bdf8;
+    color: #38bdf8;
+    transform: scale(1.15);
+    animation: pulseMarker 1.8s infinite ease-in-out;
+  }
+
+  /* Passed Nodes State */
+  &__item.is-passed:not(.is-active) &__marker {
+    border-color: rgba(56, 189, 248, 0.3);
+    color: #94a3b8;
+  }
+
+  /* 3. Left-Docked Blueprint Tooltip Card */
+  &__tooltip {
+    position: absolute;
+    right: calc(100% + 14px);
+    top: 50%;
+    transform: translateY(-50%) translateX(8px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    width: max-content;
+    min-width: 175px;
+    max-width: 220px;
+    background: rgba(4, 10, 20, 0.95);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(56, 189, 248, 0.32);
+    border-radius: 8px;
+    padding: 0.55rem 0.8rem;
+    box-shadow:
+      0 14px 34px -8px rgba(0, 0, 0, 0.85),
+      0 0 20px -4px rgba(37, 99, 235, 0.35);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    text-align: left;
+    transition:
+      opacity 180ms ease,
+      transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 180ms ease;
+    z-index: 100;
+
+    /* Arrow pointing to elevator node */
+    &::after {
+      content: "";
+      position: absolute;
+      right: -5px;
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+      width: 8px;
+      height: 8px;
+      background: rgba(4, 10, 20, 0.95);
+      border-top: 1px solid rgba(56, 189, 248, 0.32);
+      border-right: 1px solid rgba(56, 189, 248, 0.32);
+    }
+
+    .tooltip-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.54rem;
+      letter-spacing: 0.12em;
+    }
+
+    .tooltip-code {
+      padding: 0.1rem 0.32rem;
+      border-radius: 3px;
+      background: rgba(56, 189, 248, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      font-weight: 700;
+    }
+
+    .tooltip-idx {
+      color: var(--dim);
+    }
+
+    .tooltip-title {
+      font-family: var(--font);
+      font-variation-settings: "wdth" 116, "wght" 750;
+      font-size: 0.84rem;
+      color: #f8fafc;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    .tooltip-status {
+      font-size: 0.52rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding-top: 0.15rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+      .status-active {
+        color: var(--amber);
+        font-weight: 700;
+      }
+
+      .status-idle {
+        color: var(--dim);
+      }
+    }
+  }
+
+  /* 4. Blueprint Footer Navigation */
+  &__foot {
+    display: flex;
+    justify-content: center;
+    padding-top: 0.35rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+  }
+}
+
+/* Mobile & Tablet Responsiveness */
+@media (max-width: 1080px) {
+  .minimap-elevator {
+    display: none;
+  }
+}
+

@@ -7,107 +7,14 @@
     <p class="research__sub">{{ t.t('publications.subtitle') }}</p>
   </div>
 
-  <!-- Interactive Neural Research Knowledge Graph Stage -->
-  <div class="research__stage reveal delay-1">
-    <div class="research__stage-bar">
-      <div class="research__stage-meta">
-        <span class="research__pulse-dot" [class.is-paused]="!streamActive()"></span>
-        <span class="text-mono">NEURAL CITATION NETWORK // IEEE &amp; SPRINGER INDEX</span>
-      </div>
-      <button
-        type="button"
-        class="research__stage-btn"
-        data-cursor="NETWORK"
-        (click)="toggleStream()">
-        <i class="fa-solid" [class.fa-bolt]="streamActive()" [class.fa-pause]="!streamActive()"></i>
-        <span>{{ streamActive() ? 'SYNAPSE STREAM: LIVE' : 'SYNAPSE STREAM: PAUSED' }}</span>
-      </button>
-    </div>
-
-    <!-- Interactive Neural Network SVG Graphic -->
-    <div class="research__graph-wrap">
-      <svg class="research__graph-svg" viewBox="0 0 480 250" aria-label="Interactive Research Knowledge Graph">
-        <defs>
-          <radialGradient id="res-halo" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25" />
-            <stop offset="70%" stop-color="#2563eb" stop-opacity="0.08" />
-            <stop offset="100%" stop-color="#050a14" stop-opacity="0" />
-          </radialGradient>
-        </defs>
-
-        <!-- Ambient Halo and Coordinate Lines -->
-        <ellipse cx="240" cy="125" rx="210" ry="105" fill="url(#res-halo)" />
-        <ellipse cx="240" cy="125" rx="170" ry="80" fill="none" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 6" opacity="0.6" />
-
-        <!-- Synaptic Triangulation Connecting Lines -->
-        <g stroke="#1e3a8a" stroke-width="2" stroke-linecap="round" fill="none">
-          <line x1="120" y1="90" x2="360" y2="90" />
-          <line x1="120" y1="90" x2="240" y2="195" />
-          <line x1="360" y1="90" x2="240" y2="195" />
-          <line x1="240" y1="90" x2="240" y2="195" stroke-dasharray="3 4" stroke-opacity="0.5" />
-        </g>
-
-        <!-- Animated Data Packets Flowing Across Synaptic Lines -->
-        @if (streamActive()) {
-          <g class="research__synapse-stream" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" fill="none">
-            <line x1="120" y1="90" x2="360" y2="90" />
-            <line x1="360" y1="90" x2="240" y2="195" />
-            <line x1="240" y1="195" x2="120" y2="90" />
-          </g>
-        }
-
-        <!-- Interactive Research Matrix Nodes -->
-        @for (node of researchNodes; track node.id) {
-          <g
-            class="research__node"
-            [class.is-active]="activeNodeId() === node.id"
-            role="button"
-            tabindex="0"
-            [attr.aria-label]="node.label"
-            (click)="selectNode(node.id)"
-            (keydown.enter)="selectNode(node.id)"
-            [attr.transform]="'translate(' + node.cx + ', ' + node.cy + ')'">
-            <!-- Pulsing Node Halo -->
-            <circle cx="0" cy="0" r="28" class="research__node-halo" />
-            <!-- Node Card Base -->
-            <rect x="-62" y="-22" width="124" height="44" rx="8" class="research__node-box" />
-            <!-- Node Icon -->
-            <circle cx="-38" cy="0" r="11" class="research__node-icon-bg" />
-            <text x="-38" y="4" text-anchor="middle" class="research__node-icon-text">
-              <tspan>{{ node.badge === 'CONFERENCE' ? 'CF' : (node.badge === 'JOURNAL' ? 'JN' : 'ID') }}</tspan>
-            </text>
-            <text x="12" y="-3" text-anchor="middle" class="research__node-title">{{ node.label }}</text>
-            <text x="12" y="10" text-anchor="middle" class="research__node-sub">{{ node.sub }}</text>
-          </g>
-        }
-      </svg>
-    </div>
-
-    <!-- Bottom Research Metric Badges -->
-    <div class="research__stats-strip">
-      <div class="research__stat-item">
-        <i class="fa-solid fa-graduation-cap"></i>
-        <span>100% Peer-Reviewed</span>
-      </div>
-      <div class="research__stat-item">
-        <i class="fa-solid fa-book-journal-whills"></i>
-        <span>IEEE &amp; Springer Indexed</span>
-      </div>
-      <div class="research__stat-item">
-        <i class="fa-solid fa-network-wired"></i>
-        <span>Computer Vision &amp; Deep Learning</span>
-      </div>
-      <div class="research__stat-item">
-        <i class="fa-solid fa-check-double"></i>
-        <span>DOI Verified</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Publication Dossier Cards Grid -->
+  <!-- Publication Dossier Cards Grid with Staggered Fade-In -->
   <div class="research__grid">
     @for (pub of publications; track pub.title; let i = $index) {
-      <article class="dossier reveal">
+      <article
+        class="dossier reveal"
+        [class.delay-1]="i === 0"
+        [class.delay-2]="i === 1"
+        [class.delay-3]="i === 2">
         <!-- Animated Laser Scanline on Card Top -->
         <div class="dossier__scanline" aria-hidden="true"></div>
 

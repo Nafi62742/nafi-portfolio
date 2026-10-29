@@ -289,85 +289,6 @@
     color: #edf4fc;
   }
 
-  /* Core Architectural Pillars */
-  &__pillars {
-    border: 1px solid var(--night-line);
-    border-radius: 12px;
-    overflow: hidden;
-    background: var(--night-2);
-  }
-
-  &__pillars-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.65rem 1rem;
-    border-bottom: 1px solid var(--night-line);
-    color: var(--dim);
-    font-size: 0.6rem;
-    letter-spacing: 0.12em;
-  }
-
-  &__pillars-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  &__pillar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.9rem 1rem;
-    border-right: 1px solid var(--night-line);
-    border-bottom: 1px solid var(--night-line);
-    transition: background-color 200ms var(--ease);
-
-    &:nth-child(2n) {
-      border-right: 0;
-    }
-
-    &:nth-last-child(-n+2) {
-      border-bottom: 0;
-    }
-
-    i {
-      color: var(--amber);
-      font-size: 1rem;
-    }
-
-    &:hover {
-      background: rgba(255, 181, 71, 0.06);
-    }
-  }
-
-  &__pillar-idx {
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    color: var(--red);
-    letter-spacing: 0.1em;
-  }
-
-  &__pillar-meta {
-    display: flex;
-    flex-direction: column;
-
-    strong {
-      font-family: var(--font);
-      font-variation-settings: "wdth" 115, "wght" 720;
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      color: #f4f1ea;
-    }
-
-    span {
-      font-family: var(--mono);
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--dim);
-    }
-  }
-
   /* Right Column: Player 1 Dossier Card */
   &__card {
     background: var(--bg);
@@ -577,11 +498,237 @@
     flex-wrap: wrap;
     gap: 0.75rem;
   }
+
+  /* =========================================================================
+     Tier 2: Complete Technical Loadout & Skills Capability Matrix
+     Animated fade-in design: 6 domain cards fade in sequentially
+     ========================================================================= */
+  &__loadout {
+    margin-top: clamp(3.5rem, 5vw, 5rem);
+    padding-top: clamp(2.5rem, 4vw, 3.5rem);
+    border-top: 1px solid var(--night-line);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  &__loadout-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--night-line);
+
+    .kicker--amber {
+      color: var(--amber);
+    }
+  }
+
+  &__loadout-title {
+    font-family: var(--font);
+    font-variation-settings: "wdth" 122, "wght" 850;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #f4f1ea;
+    margin-top: 0.35rem;
+
+    em {
+      font-style: italic;
+      color: var(--amber);
+    }
+  }
+
+  &__loadout-sub {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+
+  /* Active Domain Inspector Panel */
+  &__active-domain {
+    border: 1px solid var(--night-line);
+    border-radius: 12px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.12), transparent 75%), #050a14;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.6);
+  }
+
+  &__active-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--night-line);
+  }
+
+  &__active-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: #93c5fd;
+  }
+
+  .domain-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: rgba(56, 189, 248, 0.08);
+    color: var(--amber);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+  }
+
+  &__active-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  /* 6-Domain Architectural Cards Grid */
+  &__domains-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+/* Individual Domain Capability Card with Animated Fade-In & Hover */
+.domain-card {
+  position: relative;
+  border: 1px solid var(--night-line);
+  border-radius: 12px;
+  background: #070d1a;
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  cursor: pointer;
+  outline: none;
+  transition:
+    transform 220ms var(--ease),
+    border-color 220ms var(--ease),
+    box-shadow 220ms var(--ease),
+    background-color 220ms var(--ease);
+
+  &:hover {
+    transform: translateY(-3px);
+    border-color: rgba(56, 189, 248, 0.45);
+    box-shadow: 0 14px 32px -12px rgba(37, 99, 235, 0.4);
+    background: #0b1528;
+  }
+
+  &:focus-visible {
+    border-color: var(--amber);
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+
+  &.is-active {
+    border-color: var(--amber);
+    box-shadow: 0 0 24px -4px rgba(255, 181, 71, 0.35);
+    background: radial-gradient(circle at 100% 0%, rgba(255, 181, 71, 0.1), transparent 60%), #0c182e;
+
+    .domain-card__idx {
+      color: var(--amber);
+    }
+
+    .domain-card__title {
+      color: #ffffff;
+    }
+
+    .domain-card__tag {
+      background: rgba(56, 189, 248, 0.14);
+      color: #93c5fd;
+      border-color: rgba(56, 189, 248, 0.32);
+    }
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    padding-bottom: 0.85rem;
+
+    i {
+      color: var(--amber);
+      font-size: 0.95rem;
+      width: 1.2rem;
+      text-align: center;
+    }
+  }
+
+  &__idx {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  &__title {
+    font-family: var(--font);
+    font-variation-settings: "wdth" 116, "wght" 750;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    color: #f4f1ea;
+    margin: 0;
+    flex: 1;
+    letter-spacing: -0.01em;
+  }
+
+  &__count {
+    font-family: var(--mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.28rem 0.6rem;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    background: rgba(255, 255, 255, 0.04);
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
+  }
 }
 
 @media (max-width: 1080px) {
   .player__grid {
     grid-template-columns: 1fr;
+  }
+
+  .player__domains-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -597,8 +744,11 @@
     }
   }
 
-  .player__facts,
-  .player__pillars-grid {
+  .player__facts {
+    grid-template-columns: 1fr;
+  }
+
+  .player__domains-grid {
     grid-template-columns: 1fr;
   }
 }

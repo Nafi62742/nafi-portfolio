@@ -5,22 +5,8 @@
   </div>
 }
 
-<aside class="rail" aria-label="Chapter progress">
-  <ol class="rail__list">
-    @for (ch of chapters; track ch.id) {
-      <li
-        class="rail__item"
-        [class.is-active]="scrollService.activeSection() === ch.id || (ch.id === 'projects' && scrollService.activeSection() === 'runmate')"
-        role="button"
-        tabindex="0"
-        (click)="goToChapter(ch.id)"
-        (keydown.enter)="goToChapter(ch.id)">
-        <span class="rail__index">{{ ch.index }}</span>
-        <span class="rail__label">{{ ch.label }}</span>
-      </li>
-    }
-  </ol>
-</aside>
+<!-- Cyber Minimap Elevator (Concept 4 — Executive Blueprint Right-Side Rail) -->
+<app-minimap-elevator></app-minimap-elevator>
 
 <app-hero id="hero"></app-hero>
 
@@ -29,29 +15,18 @@
   <div class="chapter-gate__hud text-mono">
     <span class="chapter-gate__from">01 // TWO SIDES</span>
     <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">02 // PLAYER 1 ↓</span>
+    <span class="chapter-gate__to">02 // UNDER THE HOOD ↓</span>
   </div>
 </div>
 
 <app-about id="about"></app-about>
 
-<div class="chapter-gate reveal" role="button" tabindex="0" (click)="goToChapter('skills')" (keydown.enter)="goToChapter('skills')">
-  <span class="chapter-gate__beam" aria-hidden="true"></span>
-  <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">02 // PLAYER 1</span>
-    <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">03 // LOADOUT ↓</span>
-  </div>
-</div>
-
-<app-skills id="skills"></app-skills>
-
 <div class="chapter-gate chapter-gate--to-night reveal" role="button" tabindex="0" (click)="goToChapter('experience')" (keydown.enter)="goToChapter('experience')">
   <span class="chapter-gate__beam" aria-hidden="true"></span>
   <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">03 // LOADOUT</span>
+    <span class="chapter-gate__from">02 // UNDER THE HOOD</span>
     <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">04 // THE FACTORY ↓</span>
+    <span class="chapter-gate__to">03 // THE FACTORY ↓</span>
   </div>
 </div>
 
@@ -60,9 +35,9 @@
 <div class="chapter-gate chapter-gate--from-night reveal" role="button" tabindex="0" (click)="goToChapter('projects')" (keydown.enter)="goToChapter('projects')">
   <span class="chapter-gate__beam" aria-hidden="true"></span>
   <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">04 // THE FACTORY</span>
+    <span class="chapter-gate__from">03 // THE FACTORY</span>
     <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">05 // THE STREET ↓</span>
+    <span class="chapter-gate__to">04 // THE STREET ↓</span>
   </div>
 </div>
 
@@ -71,9 +46,9 @@
 <div class="chapter-gate chapter-gate--to-night reveal" role="button" tabindex="0" (click)="goToChapter('runmate')" (keydown.enter)="goToChapter('runmate')">
   <span class="chapter-gate__beam" aria-hidden="true"></span>
   <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">05 // THE STREET</span>
+    <span class="chapter-gate__from">04 // THE STREET</span>
     <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">06 // RUNMATE ↓</span>
+    <span class="chapter-gate__to">04.1 // RUNMATE ↓</span>
   </div>
 </div>
 
@@ -82,9 +57,9 @@
 <div class="chapter-gate chapter-gate--from-night reveal" role="button" tabindex="0" (click)="goToChapter('publications')" (keydown.enter)="goToChapter('publications')">
   <span class="chapter-gate__beam" aria-hidden="true"></span>
   <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">06 // RUNMATE</span>
+    <span class="chapter-gate__from">04 // THE STREET</span>
     <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">07 // RESEARCH ↓</span>
+    <span class="chapter-gate__to">05 // RESEARCH ↓</span>
   </div>
 </div>
 
@@ -93,9 +68,9 @@
 <div class="chapter-gate reveal" role="button" tabindex="0" (click)="goToChapter('education')" (keydown.enter)="goToChapter('education')">
   <span class="chapter-gate__beam" aria-hidden="true"></span>
   <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">07 // RESEARCH</span>
+    <span class="chapter-gate__from">05 // RESEARCH</span>
     <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">08 // CREDENTIALS ↓</span>
+    <span class="chapter-gate__to">06 // CREDENTIALS ↓</span>
   </div>
 </div>
 
@@ -104,9 +79,9 @@
 <div class="chapter-gate chapter-gate--to-night reveal" role="button" tabindex="0" (click)="goToChapter('contact')" (keydown.enter)="goToChapter('contact')">
   <span class="chapter-gate__beam" aria-hidden="true"></span>
   <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">08 // CREDENTIALS</span>
+    <span class="chapter-gate__from">06 // CREDENTIALS</span>
     <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">09 // CONSOLE ↓</span>
+    <span class="chapter-gate__to">07 // CONSOLE ↓</span>
   </div>
 </div>
 

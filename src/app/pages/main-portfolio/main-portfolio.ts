@@ -9,8 +9,8 @@ import { HeroComponent } from '@pages/hero/hero';
 import { ProjectsComponent } from '@pages/projects/projects';
 import { PublicationsComponent } from '@pages/publications/publications';
 import { RunmateComponent } from '@pages/runmate/runmate';
-import { SkillsComponent } from '@pages/skills/skills';
 import { ScrollService } from '@services/scroll.service';
+import { MinimapElevatorComponent } from '@shared-components/minimap-elevator/minimap-elevator.component';
 import { initRevealObserver } from '@utils/viewport.util';
 
 /** Interface representing a chapter item in the right-hand vertical rail. */
@@ -30,13 +30,13 @@ interface ChapterRailItem {
     CommonModule,
     HeroComponent,
     AboutComponent,
-    SkillsComponent,
     ExperienceComponent,
     ProjectsComponent,
     RunmateComponent,
     PublicationsComponent,
     EducationComponent,
-    ContactComponent
+    ContactComponent,
+    MinimapElevatorComponent
   ],
   templateUrl: './main-portfolio.html'
 })
@@ -46,13 +46,12 @@ export class MainPortfolioComponent implements OnInit {
   /** Ordered chapters displayed on the right-hand architectural rail (RunMate folded under Projects). */
   public readonly chapters: Array<ChapterRailItem> = [
     { id: 'hero',         index: '01', label: 'Two Sides' },
-    { id: 'about',        index: '02', label: 'Player 1' },
-    { id: 'skills',       index: '03', label: 'Loadout' },
-    { id: 'experience',   index: '04', label: 'Factory' },
-    { id: 'projects',     index: '05', label: 'The Street' },
-    { id: 'publications', index: '06', label: 'Research' },
-    { id: 'education',    index: '07', label: 'Credentials' },
-    { id: 'contact',      index: '08', label: 'Console' }
+    { id: 'about',        index: '02', label: 'Under Hood' },
+    { id: 'experience',   index: '03', label: 'Factory' },
+    { id: 'projects',     index: '04', label: 'The Street' },
+    { id: 'publications', index: '05', label: 'Research' },
+    { id: 'education',    index: '06', label: 'Credentials' },
+    { id: 'contact',      index: '07', label: 'Console' }
   ];
 
   /**

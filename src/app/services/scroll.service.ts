@@ -1,9 +1,29 @@
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { filter, throttleTime } from 'rxjs/operators';
 
 import { initRevealObserver } from '@utils/viewport.util';
+
+/** Blueprint chapter node representation for the cyber minimap elevator. */
+export interface MinimapNode {
+  id: string;
+  index: string;
+  label: string;
+  code: string;
+  icon: string;
+}
+
+/** 7 architecture chapters mapped to blueprint minimap coordinates. */
+export const MINIMAP_NODES: Array<MinimapNode> = [
+  { id: 'hero',         index: '01', label: 'Overview',     code: 'INIT', icon: 'fa-terminal' },
+  { id: 'about',        index: '02', label: 'Architecture', code: 'ARCH', icon: 'fa-microchip' },
+  { id: 'experience',   index: '03', label: 'Experience',   code: 'WORK', icon: 'fa-briefcase' },
+  { id: 'projects',     index: '04', label: 'Projects',     code: 'PROD', icon: 'fa-layer-group' },
+  { id: 'publications', index: '05', label: 'Research',     code: 'RSCH', icon: 'fa-book-bookmark' },
+  { id: 'education',    index: '06', label: 'Credentials',  code: 'CRED', icon: 'fa-graduation-cap' },
+  { id: 'contact',      index: '07', label: 'Console',      code: 'DISP', icon: 'fa-paper-plane' }
+];
 
 /**
  * Service that tracks the active scroll section and provides smooth scroll helpers.
@@ -17,6 +37,9 @@ export class ScrollService {
   /** Signal that is true when the page has been scrolled past 60px. */
   public isScrolled = signal<boolean>(false);
 
+  /** Signal holding normalized scroll progress (0 to 1). */
+  public scrollProgress = signal<number>(0);
+
   /** Transient HUD banner shown briefly during section transitions. */
   public transitionHud = signal<{ index: string; label: string } | null>(null);
 
@@ -26,16 +49,29 @@ export class ScrollService {
     'projects', 'runmate', 'publications', 'education', 'contact'
   ];
 
+  /** Currently active minimap node computed from active section. */
+  public readonly activeNode = computed<MinimapNode>(() => {
+    const sec: string = this.activeSection();
+    if (sec === 'skills') {
+      return MINIMAP_NODES[1];
+    }
+    if (sec === 'runmate') {
+      return MINIMAP_NODES[3];
+    }
+    const found: MinimapNode | undefined = MINIMAP_NODES.find((n: MinimapNode) => n.id === sec);
+    return found ?? MINIMAP_NODES[0];
+  });
+
   private readonly sectionMeta: Record<string, { index: string; label: string }> = {
     hero:         { index: '01', label: 'TWO SIDES // HERO' },
-    about:        { index: '02', label: 'PLAYER 1 // ABOUT' },
-    skills:       { index: '03', label: 'LOADOUT // SKILLS' },
-    experience:   { index: '04', label: 'THE FACTORY // EXPERIENCE' },
-    projects:     { index: '05', label: 'THE STREET // PROJECTS' },
-    runmate:      { index: '06', label: 'RUNMATE // ECOSYSTEM' },
-    publications: { index: '07', label: 'RESEARCH // PUBLICATIONS' },
-    education:    { index: '08', label: 'CREDENTIALS // EDUCATION' },
-    contact:      { index: '09', label: 'CONSOLE // CONTACT' }
+    about:        { index: '02', label: 'UNDER THE HOOD // ABOUT' },
+    skills:       { index: '02', label: 'TECH LOADOUT // SKILLS' },
+    experience:   { index: '03', label: 'THE FACTORY // EXPERIENCE' },
+    projects:     { index: '04', label: 'THE STREET // PROJECTS' },
+    runmate:      { index: '04', label: 'RUNMATE // ECOSYSTEM' },
+    publications: { index: '05', label: 'RESEARCH // PUBLICATIONS' },
+    education:    { index: '06', label: 'CREDENTIALS // EDUCATION' },
+    contact:      { index: '07', label: 'CONSOLE // CONTACT' }
   };
 
   private hudTimer: ReturnType<typeof setTimeout> | null = null;
@@ -89,6 +125,7 @@ export class ScrollService {
         this.updateActive();
         const maxScroll: number = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         const ratio: number = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+        this.scrollProgress.set(ratio);
         document.documentElement.style.setProperty('--scroll-ratio', ratio.toFixed(4));
       });
   }

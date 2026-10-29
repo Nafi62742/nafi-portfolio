@@ -1,0 +1,85 @@
+<nav
+  class="minimap-elevator"
+  aria-label="Blueprint Architecture Minimap Elevator">
+
+  <!-- 1. Blueprint Telemetry Header -->
+  <header class="minimap-elevator__head">
+    <button
+      type="button"
+      class="minimap-elevator__nav-arrow"
+      (click)="scrollToTop()"
+      title="Elevator to Top // LOC 0%"
+      aria-label="Scroll to top of document">
+      <i class="fa-solid fa-chevron-up"></i>
+    </button>
+    <div class="minimap-elevator__coords text-mono">
+      <span class="coord-tag">LOC</span>
+      <span class="coord-val">{{ scrollPercent() }}%</span>
+    </div>
+  </header>
+
+  <!-- 2. Central Elevator Shaft Track & Nodes -->
+  <div class="minimap-elevator__shaft">
+    <!-- Laser Elevator Guide Spine -->
+    <div class="minimap-elevator__spine" aria-hidden="true">
+      <!-- Proportional Scroll Fill Beam -->
+      <div
+        class="minimap-elevator__beam"
+        [style.height.%]="scrollPercent()"></div>
+    </div>
+
+    <!-- 7 Architectural Chapter Nodes -->
+    <ol class="minimap-elevator__nodes">
+      @for (node of nodes; track node.id; let idx = $index) {
+        <li
+          class="minimap-elevator__item"
+          [class.is-active]="activeNode().id === node.id"
+          [class.is-passed]="idx < activeIndex()">
+          
+          <button
+            type="button"
+            class="minimap-elevator__node-btn"
+            (click)="navigateTo(node.id)"
+            [attr.aria-label]="node.index + ' — ' + node.label"
+            [attr.aria-current]="activeNode().id === node.id ? 'true' : null">
+            
+            <!-- Node Marker Ring & Core Dot -->
+            <span class="minimap-elevator__marker">
+              <i class="fa-solid" [ngClass]="node.icon"></i>
+            </span>
+
+            <!-- Sliding Left-Docked Blueprint Tooltip Card -->
+            <span class="minimap-elevator__tooltip" role="tooltip">
+              <span class="tooltip-meta text-mono">
+                <span class="tooltip-code">{{ node.code }}</span>
+                <span class="tooltip-idx">CH // {{ node.index }}</span>
+              </span>
+              <strong class="tooltip-title">{{ node.label }}</strong>
+              <span class="tooltip-status text-mono">
+                @if (activeNode().id === node.id) {
+                  <span class="status-active">● CURRENT LEVEL</span>
+                } @else {
+                  <span class="status-idle">ENGAGE LEVEL →</span>
+                }
+              </span>
+            </span>
+
+          </button>
+        </li>
+      }
+    </ol>
+  </div>
+
+  <!-- 3. Blueprint Footer Navigation -->
+  <footer class="minimap-elevator__foot">
+    <button
+      type="button"
+      class="minimap-elevator__nav-arrow"
+      (click)="scrollToBottom()"
+      title="Elevator to Terminal // LOC 100%"
+      aria-label="Scroll to bottom of document">
+      <i class="fa-solid fa-chevron-down"></i>
+    </button>
+  </footer>
+</nav>
+

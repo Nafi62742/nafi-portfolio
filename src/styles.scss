@@ -969,79 +969,7 @@ app-starfield,
   display: none !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   RIGHT-SIDE CHAPTER RAIL (.rail)
-   ═══════════════════════════════════════════════════════════════════════════ */
 
-.rail {
-  position: fixed;
-  right: 1.15rem;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 80;
-  display: flex;
-  flex-direction: column;
-
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    padding: 0.55rem 0.45rem;
-    background: rgba(7, 13, 25, 0.82);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid var(--night-line);
-    border-radius: 10px;
-  }
-
-  &__item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.45rem;
-    cursor: pointer;
-    padding: 0.18rem 0.25rem;
-    color: rgba(237, 244, 252, 0.48);
-    font-family: var(--mono);
-    font-size: 0.6rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    transition: color 200ms var(--ease);
-
-    &:hover {
-      color: #edf4fc;
-
-      .rail__label {
-        max-width: 90px;
-        opacity: 1;
-      }
-    }
-
-    &.is-active {
-      color: var(--amber);
-      font-weight: 600;
-
-      .rail__index::before {
-        content: "● ";
-        color: var(--red);
-      }
-    }
-  }
-
-  &__label {
-    max-width: 0;
-    opacity: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    transition: max-width 260ms var(--ease), opacity 220ms var(--ease);
-  }
-}
-
-@media (max-width: 1180px) {
-  .rail {
-    display: none;
-  }
-}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    CUSTOM INTERACTIVE CURSOR (.cursor — devinthehood.com pattern)

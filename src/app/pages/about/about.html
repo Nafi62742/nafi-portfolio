@@ -1,14 +1,21 @@
-<section class="player" data-night aria-label="About — Under the Hood">
+<section class="player" data-night aria-label="About and Tech Loadout — Under the Hood">
+  <!-- Section Primary Head -->
   <div class="player__head reveal">
     <div>
-      <p class="kicker">02 — {{ t.t('about.section_label') }} // UNDER THE HOOD</p>
+      <p class="kicker">02 — ABOUT ME &amp; TECH LOADOUT // UNDER THE HOOD</p>
       <h2 class="chapter-title">WHO IS <em>UNDER THE HOOD?</em></h2>
     </div>
-    <p class="player__sub">{{ t.t('about.title') }}</p>
+    <p class="player__sub">
+      <span class="hl-tech">Full-Stack Engineer</span> ·
+      <span class="hl-tech">Mobile</span> ·
+      <span class="hl-tech">Cloud</span> ·
+      <span class="hl-metric">AI-Assisted Development</span>
+    </p>
   </div>
 
+  <!-- Tier 1: Developer Dossier & System Core Architecture Schematic -->
   <div class="player__grid">
-    <!-- Left Column: Interactive System Architecture Core & Specialization Pillars -->
+    <!-- Left Column: Interactive System Architecture Core Schematic -->
     <div class="player__stage-col reveal delay-1">
       <div class="player__stage">
         <!-- Stage Top Bar -->
@@ -36,11 +43,6 @@
                 <stop offset="60%" stop-color="#2563eb" stop-opacity="0.1" />
                 <stop offset="100%" stop-color="#050a14" stop-opacity="0" />
               </radialGradient>
-              <linearGradient id="bus-glow-horiz" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#38bdf8" />
-                <stop offset="50%" stop-color="#60a5fa" />
-                <stop offset="100%" stop-color="#38bdf8" />
-              </linearGradient>
             </defs>
 
             <!-- Background Ambient Glow & Circular Matrix Grid -->
@@ -50,15 +52,10 @@
 
             <!-- Interconnecting Data Bus Lines Between Core & Subsystems -->
             <g stroke="#1e3a8a" stroke-width="2.2" stroke-linecap="round" fill="none">
-              <!-- Top Bus: AI / ML ECU -->
               <path d="M 260 120 L 260 76" />
-              <!-- Left Bus: Frontend Engine -->
               <path d="M 195 170 L 140 170" />
-              <!-- Right Bus: Cloud & DevOps -->
               <path d="M 325 170 L 380 170" />
-              <!-- Bottom Bus: Core Backend Microservices -->
               <path d="M 260 220 L 260 264" />
-              <!-- Diagonal Cross-Mesh Traces -->
               <path d="M 195 140 L 135 90" stroke-opacity="0.5" stroke-dasharray="3 3" />
               <path d="M 325 140 L 385 90" stroke-opacity="0.5" stroke-dasharray="3 3" />
             </g>
@@ -73,9 +70,7 @@
               </g>
             }
 
-            <!-- ========================================================== -->
-            <!-- 1. TOP NODE: AI & MACHINE LEARNING ECU (id: 'ecu-ai')       -->
-            <!-- ========================================================== -->
+            <!-- 1. TOP NODE: AI & MACHINE LEARNING ECU (id: 'ecu-ai') -->
             <g
               class="player__node"
               [class.is-active]="activeHotspotId() === 'ecu-ai'"
@@ -92,9 +87,7 @@
               <text x="6" y="11" text-anchor="middle" class="player__node-sub">PyTorch · YOLOv9</text>
             </g>
 
-            <!-- ========================================================== -->
-            <!-- 2. LEFT NODE: UI & FRONTEND ENGINE (id: 'turbo-left')       -->
-            <!-- ========================================================== -->
+            <!-- 2. LEFT NODE: UI & FRONTEND ENGINE (id: 'turbo-left') -->
             <g
               class="player__node"
               [class.is-active]="activeHotspotId() === 'turbo-left'"
@@ -111,9 +104,7 @@
               <text x="6" y="11" text-anchor="middle" class="player__node-sub">Angular · Flutter</text>
             </g>
 
-            <!-- ========================================================== -->
-            <!-- 3. CENTER NODE: V10 CORE ARCHITECTURE (id: 'v8-core')       -->
-            <!-- ========================================================== -->
+            <!-- 3. CENTER NODE: V10 CORE ARCHITECTURE (id: 'v8-core') -->
             <g
               class="player__node player__node--center"
               [class.is-active]="activeHotspotId() === 'v8-core'"
@@ -123,19 +114,13 @@
               (click)="selectHotspot('v8-core')"
               (keydown.enter)="selectHotspot('v8-core')"
               transform="translate(260, 170)">
-              <!-- Outer Glowing Hexagon Frame -->
-              <polygon
-                points="0,-48 55,-24 55,24 0,48 -55,24 -55,-24"
-                class="player__center-hex" />
-              <!-- Inner Processor Die -->
+              <polygon points="0,-48 55,-24 55,24 0,48 -55,24 -55,-24" class="player__center-hex" />
               <rect x="-38" y="-22" width="76" height="44" rx="4" class="player__center-die" />
               <text x="0" y="-4" text-anchor="middle" class="player__center-badge">&lt;NAFI/&gt;</text>
               <text x="0" y="12" text-anchor="middle" class="player__center-model">R-007 CORE</text>
             </g>
 
-            <!-- ========================================================== -->
-            <!-- 4. RIGHT NODE: CLOUD & INFRASTRUCTURE (id: 'turbo-right')   -->
-            <!-- ========================================================== -->
+            <!-- 4. RIGHT NODE: CLOUD & INFRASTRUCTURE (id: 'turbo-right') -->
             <g
               class="player__node"
               [class.is-active]="activeHotspotId() === 'turbo-right'"
@@ -152,9 +137,7 @@
               <text x="6" y="11" text-anchor="middle" class="player__node-sub">Docker · Lambda</text>
             </g>
 
-            <!-- ========================================================== -->
-            <!-- 5. BOTTOM NODE: DISTRIBUTED BACKEND MICROSERVICES           -->
-            <!-- ========================================================== -->
+            <!-- 5. BOTTOM NODE: DISTRIBUTED BACKEND SERVICES -->
             <g
               class="player__node"
               [class.is-active]="activeHotspotId() === 'v8-core'"
@@ -171,7 +154,7 @@
           </svg>
         </div>
 
-        <!-- Selected Architecture Subsystem Telemetry Card -->
+        <!-- Selected Architecture Subsystem Telemetry Panel -->
         @if (activeHotspot(); as spot) {
           <div class="player__telemetry">
             <div class="player__telemetry-tabs">
@@ -191,26 +174,6 @@
             </div>
           </div>
         }
-      </div>
-
-      <!-- Core Architectural Specialization Pillars (2x2 Grid) -->
-      <div class="player__pillars">
-        <div class="player__pillars-head">
-          <span class="text-mono">CORE ARCHITECTURAL DOMAINS</span>
-          <span class="text-mono">04 PILLARS</span>
-        </div>
-        <div class="player__pillars-grid">
-          @for (pillar of pillars; track pillar.title; let i = $index) {
-            <div class="player__pillar">
-              <span class="player__pillar-idx">0{{ i + 1 }}</span>
-              <i class="fa-solid" [ngClass]="pillar.icon"></i>
-              <div class="player__pillar-meta">
-                <strong>{{ pillar.title }}</strong>
-                <span>{{ pillar.badge }}</span>
-              </div>
-            </div>
-          }
-        </div>
       </div>
     </div>
 
@@ -281,5 +244,69 @@
         </button>
       </div>
     </article>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- Tier 2: Complete Technical Loadout & Skills Capability Matrix        -->
+  <!-- Animated fade-in design: 6 domain cards fade in sequentially          -->
+  <!-- ===================================================================== -->
+  <div id="skills" class="player__loadout">
+    <header class="player__loadout-head reveal delay-1">
+      <div>
+        <p class="kicker kicker--amber">02.2 — COMPLETE TECHNICAL LOADOUT // ARSENAL</p>
+        <h3 class="player__loadout-title">FULL-STACK <em>CAPABILITY MATRIX.</em></h3>
+      </div>
+      <p class="player__loadout-sub text-mono">06 DOMAINS · 30+ PRODUCTION-GRADE TECHNOLOGIES</p>
+    </header>
+
+    <!-- Active Domain Live Inspector Strip -->
+    @if (categories[activeCategory()]; as current) {
+      <div class="player__active-domain reveal delay-2">
+        <div class="player__active-top">
+          <div class="player__active-meta">
+            <span class="player__pulse-dot"></span>
+            <span class="text-mono">DOMAIN 0{{ activeCategory() + 1 }} // {{ t.t('skills.' + current.key) }}</span>
+          </div>
+          <span class="domain-badge text-mono">PRODUCTION VERIFIED</span>
+        </div>
+        <div class="player__active-pills">
+          @for (skill of current.skills; track skill) {
+            <span class="pill pill--night pill--lg">
+              <span class="pill__dot"></span>
+              <span>{{ skill }}</span>
+            </span>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- 6-Domain Architectural Cards Grid with Staggered Fade-In -->
+    <div class="player__domains-grid">
+      @for (cat of categories; track cat.key; let i = $index) {
+        <article
+          class="domain-card reveal"
+          [class.delay-1]="i % 3 === 0"
+          [class.delay-2]="i % 3 === 1"
+          [class.delay-3]="i % 3 === 2"
+          [class.is-active]="activeCategory() === i"
+          role="button"
+          tabindex="0"
+          [attr.aria-label]="t.t('skills.' + cat.key)"
+          (click)="selectCategory(i)"
+          (keydown.enter)="selectCategory(i)">
+          <header class="domain-card__head">
+            <span class="domain-card__idx">0{{ i + 1 }}</span>
+            <i class="fa-solid" [ngClass]="cat.icon"></i>
+            <h4 class="domain-card__title">{{ t.t('skills.' + cat.key) }}</h4>
+            <span class="domain-card__count">{{ cat.skills.length }} TOOLS</span>
+          </header>
+          <div class="domain-card__tags">
+            @for (skill of cat.skills; track skill) {
+              <span class="domain-card__tag">{{ skill }}</span>
+            }
+          </div>
+        </article>
+      }
+    </div>
   </div>
 </section>
