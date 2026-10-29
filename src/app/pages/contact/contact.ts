@@ -111,6 +111,21 @@ export class ContactComponent {
   }
 
   /**
+   * Syncs `aria-invalid` with the native CSS `:user-invalid` pseudo-class on blur/input.
+   */
+  public syncFieldAria(event: Event): void {
+    const el = event.target as HTMLElement | null;
+    if (!el || typeof el.matches !== 'function') {
+      return;
+    }
+    try {
+      el.setAttribute('aria-invalid', el.matches(':user-invalid') ? 'true' : 'false');
+    } catch {
+      // Ignore if selector is unsupported in older environments
+    }
+  }
+
+  /**
    * Computes live JSON payload size in bytes as the user fills in the contact form.
    */
   public get payloadBytes(): number {

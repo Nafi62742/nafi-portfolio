@@ -241,40 +241,40 @@ const DEFAULT_SCENES_CONFIG: InteractiveScenesConfig = {
     ],
     contactSignal: {
       id: 'contact-r007-uplink',
-      relayViewBox: '0 0 600 130',
-      skylineViewBox: '0 0 600 180',
+      relayViewBox: '0 0 600 260',
+      skylineViewBox: '0 0 600 260',
       emblem: 'R-007',
-      subLabel: 'DHAKA // LIVE UPLINK',
-      orbitPath: 'M 58 68 Q 300 12 542 68',
+      subLabel: 'DHAKA // LIVE SATELLITE UPLINK',
+      orbitPath: 'M 64 114 Q 300 18 536 114',
       nodes: [
-        { id: 'client', x: 58,  y: 68, code: '01', label: 'CLIENT FORM',   sub: 'JSON PAYLOAD' },
-        { id: 'edge',   x: 218, y: 42, code: '02', label: 'R-007 GATEWAY', sub: 'TLS 1.3 EDGE' },
-        { id: 'cloud',  x: 382, y: 42, code: '03', label: 'WEB3FORMS API', sub: 'REST DISPATCH' },
-        { id: 'inbox',  x: 542, y: 68, code: '04', label: 'NAFI INBOX',    sub: 'DHAKA // READY' }
+        { id: 'client', x: 64,  y: 114, code: '01', label: 'CLIENT FORM',   sub: 'JSON PAYLOAD' },
+        { id: 'edge',   x: 220, y: 66,  code: '02', label: 'R-007 GATEWAY', sub: 'TLS 1.3 EDGE' },
+        { id: 'cloud',  x: 380, y: 66,  code: '03', label: 'WEB3FORMS API', sub: 'REST DISPATCH' },
+        { id: 'inbox',  x: 536, y: 114, code: '04', label: 'NAFI INBOX',    sub: 'DHAKA // READY' }
       ],
       stars: [
-        { cx: 48,  cy: 26, r: 1.4, delay: '0s' },
-        { cx: 124, cy: 18, r: 1.8, delay: '0.6s' },
-        { cx: 210, cy: 32, r: 1.3, delay: '1.2s' },
-        { cx: 295, cy: 16, r: 1.6, delay: '0.3s' },
-        { cx: 362, cy: 28, r: 1.4, delay: '0.9s' },
-        { cx: 528, cy: 22, r: 1.8, delay: '1.5s' },
-        { cx: 576, cy: 38, r: 1.2, delay: '0.4s' }
+        { cx: 42,  cy: 24, r: 1.4, delay: '0s' },
+        { cx: 118, cy: 16, r: 1.8, delay: '0.6s' },
+        { cx: 195, cy: 28, r: 1.3, delay: '1.2s' },
+        { cx: 298, cy: 14, r: 1.7, delay: '0.3s' },
+        { cx: 412, cy: 22, r: 1.4, delay: '0.9s' },
+        { cx: 518, cy: 18, r: 1.8, delay: '1.5s' },
+        { cx: 574, cy: 34, r: 1.3, delay: '0.4s' }
       ],
       tower: {
-        x: 152,
-        y: 80,
-        beamPolygon: '152,138 395,12 520,58',
-        emblemCx: 452,
-        emblemCy: 36
+        x: 150,
+        y: 168,
+        beamPolygon: '150,168 418,22 508,68',
+        emblemCx: 462,
+        emblemCy: 45
       },
       buildings: [
-        { x: 20,  y: 118, w: 68, h: 62, windows: 4 },
-        { x: 108, y: 96,  w: 84, h: 84, windows: 6 },
-        { x: 210, y: 124, w: 76, h: 56, windows: 4 },
-        { x: 304, y: 106, w: 92, h: 74, windows: 6 },
-        { x: 414, y: 128, w: 74, h: 52, windows: 4 },
-        { x: 504, y: 112, w: 78, h: 68, windows: 6 }
+        { x: 18,  y: 196, w: 72, h: 64, windows: 4 },
+        { x: 106, y: 168, w: 88, h: 92, windows: 6 },
+        { x: 210, y: 202, w: 78, h: 58, windows: 4 },
+        { x: 304, y: 180, w: 94, h: 80, windows: 6 },
+        { x: 414, y: 204, w: 74, h: 56, windows: 4 },
+        { x: 502, y: 174, w: 80, h: 86, windows: 6 }
       ]
     }
   }
