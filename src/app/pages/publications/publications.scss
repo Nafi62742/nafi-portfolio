@@ -108,7 +108,7 @@
       position: absolute;
       inset: 0;
       width: 50%;
-      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+      background: linear-gradient(90deg, transparent, var(--amber), transparent);
       opacity: 0.85;
     }
   }
@@ -160,8 +160,8 @@
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: #38bdf8;
-    box-shadow: 0 0 8px #38bdf8;
+    background: var(--amber);
+    box-shadow: 0 0 8px var(--amber);
     animation: beaconGlow 2.2s ease-in-out infinite;
   }
 

@@ -13,7 +13,7 @@ export interface ThemePreset {
 
 /**
  * Service that manages the application's Light and Dark design modes:
- * - 'dark': Option 2 (Executive Slate & Cobalt) — Zinc/Cobalt Linear/Vercel developer tool aesthetic
+ * - 'dark': Executive Onyx & Amber — Professional Linear/Vercel developer tool aesthetic
  * - 'light': Glacier Daylight Blueprint — Clean ice & oceanic architectural daylight mode
  * Persists the user's preference to localStorage.
  */

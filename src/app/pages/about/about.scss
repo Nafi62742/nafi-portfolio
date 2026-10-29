@@ -51,7 +51,7 @@
     position: relative;
     border: 1px solid var(--night-line);
     border-radius: 14px;
-    background: radial-gradient(ellipse at 50% 50%, rgba(37, 99, 235, 0.18), transparent 72%), #050a14;
+    background: radial-gradient(ellipse at 50% 50%, rgba(245, 158, 11, 0.07), transparent 72%), #0e0e12;
     padding: 1.25rem;
     display: flex;
     flex-direction: column;
@@ -79,7 +79,7 @@
     gap: 0.5rem;
     font-size: 0.64rem;
     letter-spacing: 0.14em;
-    color: #93c5fd;
+    color: var(--dim);
   }
 
   &__pulse-dot {
@@ -152,28 +152,28 @@
 
     &.is-active {
       .player__node-card {
-        fill: rgba(37, 99, 235, 0.45);
-        stroke: #38bdf8;
+        fill: rgba(245, 158, 11, 0.15);
+        stroke: var(--amber);
         stroke-width: 2;
-        filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.45));
+        filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.35));
       }
 
       .player__node-title {
-        fill: #38bdf8;
+        fill: var(--amber);
       }
     }
   }
 
   &__node-card {
-    fill: rgba(14, 27, 51, 0.92);
-    stroke: rgba(56, 189, 248, 0.32);
+    fill: rgba(18, 18, 22, 0.92);
+    stroke: rgba(255, 255, 255, 0.12);
     stroke-width: 1.4;
     transition: fill 200ms ease, stroke 200ms ease, stroke-width 200ms ease;
   }
 
   &__node-icon-bg {
-    fill: #0c192e;
-    stroke: #38bdf8;
+    fill: #1a1a20;
+    stroke: rgba(255, 255, 255, 0.2);
     stroke-width: 1.2;
   }
 
@@ -181,7 +181,7 @@
     font-family: var(--mono);
     font-size: 7.5px;
     font-weight: 700;
-    fill: #38bdf8;
+    fill: var(--amber);
   }
 
   &__node-title {
@@ -201,15 +201,15 @@
 
   /* Central Neural Processor Core */
   &__center-hex {
-    fill: #070e1b;
-    stroke: #38bdf8;
+    fill: #141418;
+    stroke: rgba(255, 255, 255, 0.2);
     stroke-width: 2;
     animation: corePulse 3s ease-in-out infinite;
   }
 
   &__center-die {
-    fill: #1e3a8a;
-    stroke: #60a5fa;
+    fill: #1f1f26;
+    stroke: rgba(255, 255, 255, 0.2);
     stroke-width: 1.2;
   }
 
@@ -238,7 +238,7 @@
     border: 1px solid var(--night-line);
     border-radius: 10px;
     overflow: hidden;
-    background: rgba(14, 24, 43, 0.88);
+    background: rgba(18, 18, 22, 0.88);
   }
 
   &__telemetry-tabs {
@@ -263,7 +263,7 @@
 
     &:hover,
     &.is-active {
-      background: rgba(37, 99, 235, 0.25);
+      background: rgba(255, 255, 255, 0.06);
       color: var(--amber);
       font-weight: 700;
     }
@@ -297,6 +297,40 @@
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 24px 60px -20px rgba(0, 0, 0, 0.5);
+
+    /* Light mode contrast for editorial text highlights inside the paper card */
+    [data-theme="light"] &,
+    [data-theme="glacier"] &,
+    :root:not([data-theme="dark"]):not([data-theme="slate"]) & {
+      strong {
+        color: var(--ink) !important;
+      }
+
+      .hl {
+        color: #0284c7 !important;
+        text-shadow: none !important;
+        font-weight: 700 !important;
+      }
+
+      .hl-tech {
+        color: #0284c7 !important;
+        background: rgba(2, 132, 199, 0.08) !important;
+        border: 1px solid rgba(2, 132, 199, 0.25) !important;
+        box-shadow: none !important;
+      }
+
+      .hl-metric {
+        color: #d97706 !important;
+        background: rgba(245, 158, 11, 0.1) !important;
+        border: 1px solid rgba(245, 158, 11, 0.28) !important;
+        box-shadow: none !important;
+      }
+
+      .hl-lead {
+        color: #081b33 !important;
+        border-bottom: 2px solid #0284c7 !important;
+      }
+    }
     position: relative;
 
     .button:not(.button--solid) {
@@ -577,7 +611,7 @@
     gap: 0.65rem;
     font-size: 0.72rem;
     letter-spacing: 0.14em;
-    color: #93c5fd;
+    color: var(--dim);
   }
 
   .domain-badge {
@@ -653,7 +687,7 @@
 
     .domain-card__tag {
       background: rgba(56, 189, 248, 0.14);
-      color: #93c5fd;
+      color: var(--dim);
       border-color: rgba(56, 189, 248, 0.32);
     }
   }

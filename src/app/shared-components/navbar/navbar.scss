@@ -10,16 +10,16 @@
   justify-content: space-between;
   gap: 1.25rem;
   padding: 0 var(--gutter);
-  background: rgba(7, 13, 25, 0.88);
-  color: #edf4fc;
+  background: rgba(9, 9, 11, 0.85);
+  color: #ffffff;
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--night-line);
   transition: background-color 260ms var(--ease), border-color 260ms var(--ease);
 
   &.is-scrolled {
-    background: rgba(7, 13, 25, 0.96);
-    border-bottom-color: rgba(56, 189, 248, 0.25);
+    background: rgba(9, 9, 11, 0.95);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
   }
 }
 
@@ -27,15 +27,15 @@
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  color: #edf4fc;
+  color: #ffffff;
   flex-shrink: 0;
   cursor: pointer;
 
   &__logo-badge {
     padding: 0.22rem 0.5rem;
     border-radius: 6px;
-    background: rgba(37, 99, 235, 0.14);
-    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.28);
     color: var(--amber);
     font-family: var(--mono);
     font-size: 0.72rem;
@@ -133,9 +133,9 @@
     }
 
     &.is-active {
-      background: #2563eb;
+      background: #27272a;
       color: #ffffff;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 0 12px rgba(37, 99, 235, 0.35);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.12);
 
       [data-theme="light"] & {
         background: #0284c7;
@@ -155,7 +155,7 @@
   border-radius: 7px;
   border: 1px solid var(--red);
   background: var(--red);
-  color: #edf4fc;
+  color: #ffffff;
   font-family: var(--mono);
   font-size: 0.62rem;
   font-weight: 500;
@@ -166,7 +166,7 @@
   &:hover {
     background: var(--amber);
     border-color: var(--amber);
-    color: #070d19;
+    color: #09090b;
   }
 }
 
@@ -178,7 +178,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid var(--night-line);
-  color: #edf4fc;
+  color: #ffffff;
 
   &__bars {
     display: inline-flex;
@@ -211,7 +211,7 @@
   inset: 0;
   z-index: 95;
   background: var(--night);
-  color: #edf4fc;
+  color: #ffffff;
   padding: 4.75rem var(--gutter) 2rem;
   display: flex;
   flex-direction: column;
@@ -336,7 +336,7 @@
     }
 
     &.is-active {
-      background: #2563eb;
+      background: #27272a;
       color: #ffffff;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 

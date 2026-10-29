@@ -1,6 +1,6 @@
 @keyframes pulseMarker {
-  0%, 100% { box-shadow: 0 0 12px 1px rgba(56, 189, 248, 0.65); }
-  50%      { box-shadow: 0 0 20px 3px rgba(56, 189, 248, 0.9); }
+  0%, 100% { box-shadow: 0 0 12px 1px rgba(245, 158, 11, 0.65); }
+  50%      { box-shadow: 0 0 20px 3px rgba(245, 158, 11, 0.9); }
 }
 
 .minimap-elevator {
@@ -10,7 +10,7 @@
   transform: translateY(-50%);
   z-index: 85;
   width: 46px;
-  background: rgba(5, 11, 22, 0.78);
+  background: rgba(14, 14, 18, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -18,7 +18,7 @@
   padding: 0.55rem 0.35rem;
   box-shadow:
     0 16px 40px -10px rgba(0, 0, 0, 0.75),
-    0 0 20px -4px rgba(37, 99, 235, 0.22);
+    0 0 0 1px rgba(255, 255, 255, 0.08);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,10 +27,10 @@
   transition: border-color 220ms var(--ease), box-shadow 220ms var(--ease);
 
   &:hover {
-    border-color: rgba(56, 189, 248, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
     box-shadow:
       0 20px 48px -10px rgba(0, 0, 0, 0.85),
-      0 0 24px -2px rgba(37, 99, 235, 0.35);
+      0 0 24px -2px rgba(245, 158, 11, 0.2);
   }
 
   /* 1. Blueprint Telemetry Header */
@@ -56,8 +56,8 @@
     transition: color 160ms ease, background-color 160ms ease;
 
     &:hover {
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.12);
+      color: var(--amber);
+      background: rgba(245, 158, 11, 0.12);
     }
   }
 
@@ -76,7 +76,7 @@
     .coord-val {
       font-size: 0.56rem;
       font-weight: 700;
-      color: #93c5fd;
+      color: var(--amber);
     }
   }
 
@@ -105,8 +105,8 @@
   /* Continuous Scroll Beam Fill */
   &__beam {
     width: 100%;
-    background: linear-gradient(180deg, #38bdf8 0%, #2563eb 100%);
-    box-shadow: 0 0 8px #38bdf8;
+    background: linear-gradient(180deg, var(--red) 0%, var(--amber) 100%);
+    box-shadow: 0 0 8px var(--amber);
     transition: height 120ms linear;
   }
 
@@ -156,7 +156,7 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: #060c18;
+    background: #121215;
     border: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
     align-items: center;
@@ -171,25 +171,25 @@
       box-shadow 200ms ease;
 
     .minimap-elevator__node-btn:hover & {
-      border-color: rgba(56, 189, 248, 0.5);
-      color: #93c5fd;
-      background: #09152b;
+      border-color: rgba(255, 255, 255, 0.25);
+      color: var(--amber);
+      background: #1a1a20;
       transform: scale(1.08);
     }
   }
 
   /* Active Node State */
   &__item.is-active &__marker {
-    background: #081730;
-    border-color: #38bdf8;
-    color: #38bdf8;
+    background: #1a1a20;
+    border-color: var(--amber);
+    color: var(--amber);
     transform: scale(1.15);
     animation: pulseMarker 1.8s infinite ease-in-out;
   }
 
   /* Passed Nodes State */
   &__item.is-passed:not(.is-active) &__marker {
-    border-color: rgba(56, 189, 248, 0.3);
+    border-color: rgba(255, 255, 255, 0.15);
     color: #94a3b8;
   }
 
@@ -205,15 +205,15 @@
     width: max-content;
     min-width: 175px;
     max-width: 220px;
-    background: rgba(4, 10, 20, 0.95);
+    background: rgba(18, 18, 22, 0.95);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(56, 189, 248, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
     padding: 0.55rem 0.8rem;
     box-shadow:
       0 14px 34px -8px rgba(0, 0, 0, 0.85),
-      0 0 20px -4px rgba(37, 99, 235, 0.35);
+      0 0 20px -4px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -233,9 +233,9 @@
       transform: translateY(-50%) rotate(45deg);
       width: 8px;
       height: 8px;
-      background: rgba(4, 10, 20, 0.95);
-      border-top: 1px solid rgba(56, 189, 248, 0.32);
-      border-right: 1px solid rgba(56, 189, 248, 0.32);
+      background: rgba(18, 18, 22, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-right: 1px solid rgba(255, 255, 255, 0.12);
     }
 
     .tooltip-meta {
@@ -250,9 +250,9 @@
     .tooltip-code {
       padding: 0.1rem 0.32rem;
       border-radius: 3px;
-      background: rgba(56, 189, 248, 0.14);
-      border: 1px solid rgba(56, 189, 248, 0.3);
-      color: #38bdf8;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      color: var(--amber);
       font-weight: 700;
     }
 

@@ -149,8 +149,8 @@
     border-radius: 14px;
     overflow: hidden;
     background:
-      radial-gradient(ellipse at 50% 0%, rgba(56, 189, 248, 0.18), transparent 70%),
-      linear-gradient(180deg, #040915 0%, #071224 100%);
+      radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.1), transparent 70%),
+      linear-gradient(180deg, #0e0e12 0%, #070709 100%);
     box-shadow: 0 24px 52px -24px rgba(0, 0, 0, 0.75);
     display: flex;
     flex-direction: column;
@@ -173,7 +173,7 @@
     gap: 0.65rem;
     padding: 0.65rem 0.95rem;
     border-bottom: 1px solid var(--night-line);
-    background: rgba(5, 10, 20, 0.85);
+    background: rgba(18, 18, 22, 0.85);
   }
 
   &__online {
@@ -208,15 +208,15 @@
     padding: 0.26rem 0.6rem;
     border: 1px solid var(--night-line);
     border-radius: 6px;
-    background: rgba(15, 23, 42, 0.85);
-    color: #e0f2fe;
+    background: rgba(22, 22, 28, 0.85);
+    color: var(--dim);
     font-size: 0.54rem;
     transition: all 180ms var(--ease);
 
     &:hover,
     &.is-lit {
       border-color: var(--amber);
-      background: rgba(56, 189, 248, 0.18);
+      background: rgba(245, 158, 11, 0.15);
       color: var(--amber);
     }
   }

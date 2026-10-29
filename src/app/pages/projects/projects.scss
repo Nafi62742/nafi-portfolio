@@ -88,8 +88,8 @@
     gap: 0.65rem;
     padding: 0.3rem 0.7rem;
     border-radius: 8px;
-    background: rgba(8, 27, 51, 0.86);
-    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: rgba(14, 14, 18, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     color: #f6faff;
     font-size: 0.6rem;
     letter-spacing: 0.14em;
@@ -113,7 +113,7 @@
     border-radius: 50%;
     background: radial-gradient(circle, var(--amber) 0%, var(--red) 100%);
     opacity: 0.88;
-    box-shadow: 0 0 36px rgba(56, 189, 248, 0.6);
+    box-shadow: 0 0 36px rgba(245, 158, 11, 0.5);
   }
 
   &__cloud {
@@ -161,7 +161,7 @@
     right: 0;
     bottom: 0;
     height: 24px;
-    background: linear-gradient(180deg, #0d213f 0%, #071224 100%);
+    background: linear-gradient(180deg, #141418 0%, #0a0a0c 100%);
     border-top: 2px solid var(--red);
     z-index: 2;
     display: flex;
@@ -173,7 +173,7 @@
       height: 2px;
       background: repeating-linear-gradient(
         90deg,
-        rgba(56, 189, 248, 0.75) 0 24px,
+        rgba(245, 158, 11, 0.75) 0 24px,
         transparent 24px 48px
       );
     }
@@ -238,7 +238,7 @@
     font-family: var(--mono);
     font-size: 4.5px;
     font-weight: 700;
-    fill: #38bdf8;
+    fill: #ef4444;
     letter-spacing: 0.08em;
   }
 
@@ -262,7 +262,7 @@
     font-size: 5.5px;
     font-weight: 700;
     letter-spacing: 0.14em;
-    fill: #38bdf8;
+    fill: #ef4444;
   }
 
   &__car-headlight {
@@ -273,19 +273,19 @@
   }
 
   &__car-taillight {
-    fill: #38bdf8;
-    stroke: #0284c7;
+    fill: #ef4444;
+    stroke: #b91c1c;
     stroke-width: 1;
-    filter: drop-shadow(0 0 6px #0284c7);
+    filter: drop-shadow(0 0 6px #ef4444);
   }
 
   &__car-flame {
-    fill: #0284c7;
+    fill: #f97316;
     opacity: 0.45;
     transform-origin: 18px 74px;
 
     &--inner {
-      fill: #38bdf8;
+      fill: #facc15;
     }
   }
 
@@ -313,7 +313,7 @@
   }
 
   &__car-caliper {
-    fill: #0284c7;
+    fill: #f97316;
     stroke: #7dd3fc;
     stroke-width: 0.8;
   }
@@ -424,7 +424,7 @@
     &-head {
       width: 24px;
       height: 10px;
-      background: #0b192c;
+      background: #141418;
       border: 1px solid var(--amber);
       border-radius: 6px 6px 2px 2px;
       z-index: 2;
@@ -433,7 +433,7 @@
     &-glow {
       width: 58px;
       height: 140px;
-      background: linear-gradient(180deg, rgba(56, 189, 248, 0.38), transparent);
+      background: linear-gradient(180deg, rgba(245, 158, 11, 0.35), transparent);
       clip-path: polygon(32% 0%, 68% 0%, 100% 100%, 0% 100%);
       position: absolute;
       top: 46px;
@@ -477,7 +477,7 @@
       padding: 0.55rem 0.9rem;
       border: 2px solid var(--ink);
       border-radius: 10px;
-      background: #0b192c;
+      background: #141418;
       color: #f6faff;
       font-family: var(--mono);
       font-size: 0.58rem;
@@ -553,7 +553,7 @@
 
   &__road {
     height: 26px;
-    background: #070d19;
+    background: #0e0e12;
     display: flex;
     align-items: center;
     padding: 0 1rem;

@@ -1,8 +1,8 @@
 .site-footer {
   position: relative;
   z-index: 2;
-  background: #050912;
-  color: #edf4fc;
+  background: #09090b;
+  color: var(--ink);
   border-top: 1px solid var(--night-line);
   padding: 2.25rem var(--gutter);
   display: grid;
@@ -25,7 +25,7 @@
     font-size: 0.95rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: #edf4fc;
+    color: var(--ink);
 
     em {
       font-style: normal;
@@ -35,8 +35,8 @@
     .brand__logo-badge {
       padding: 0.18rem 0.44rem;
       border-radius: 6px;
-      background: rgba(37, 99, 235, 0.14);
-      border: 1px solid rgba(56, 189, 248, 0.35);
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.28);
       color: var(--amber);
       font-family: var(--mono);
       font-size: 0.7rem;
@@ -51,7 +51,7 @@
       .brand__logo-badge {
         background: var(--amber);
         border-color: var(--amber);
-        color: #050a14;
+        color: #09090b;
       }
     }
   }

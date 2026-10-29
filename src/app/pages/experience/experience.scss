@@ -74,9 +74,9 @@
   &__shipped-counter {
     padding: 0.32rem 0.7rem;
     border-radius: 8px;
-    background: rgba(2, 132, 199, 0.2);
+    background: rgba(245, 158, 11, 0.12);
     border: 1px solid var(--amber);
-    color: #edf4fc;
+    color: #fafafa;
 
     b {
       color: var(--amber);
@@ -100,7 +100,7 @@
     padding: 0.32rem 0.7rem;
     border-radius: 999px;
     border: 1px solid var(--amber);
-    background: rgba(56, 189, 248, 0.1);
+    background: rgba(245, 158, 11, 0.1);
     color: var(--amber);
 
     i {
@@ -125,7 +125,7 @@
     position: relative;
     border: 1px solid var(--night-line);
     border-radius: 14px;
-    background: #050a14;
+    background: #0e0e12;
     overflow: hidden;
     box-shadow: 0 26px 56px -28px rgba(0, 0, 0, 0.75);
   }
@@ -134,7 +134,7 @@
     width: 100%;
     height: 122px;
     display: block;
-    background: radial-gradient(ellipse at 50% 0%, rgba(2, 132, 199, 0.22), transparent 70%);
+    background: radial-gradient(ellipse at 50% 0%, rgba(245, 158, 11, 0.08), transparent 70%);
     border-bottom: 1px solid var(--night-line);
   }
 
@@ -173,7 +173,7 @@
         height: 12px;
         border-radius: 50%;
         border: 2px solid var(--amber);
-        background: #070d19;
+        background: #141418;
       }
     }
 
@@ -181,7 +181,7 @@
       width: 100%;
       padding: 0.35rem 0.55rem;
       border-radius: 6px;
-      background: #0e182b;
+      background: #141418;
       border: 1.5px solid var(--amber);
       display: flex;
       align-items: center;
@@ -189,7 +189,7 @@
       font-family: var(--mono);
       font-size: 0.52rem;
       letter-spacing: 0.12em;
-      color: #edf4fc;
+      color: #fafafa;
     }
 
     .press__gauge {
@@ -219,7 +219,7 @@
       border-radius: 6px;
       background: var(--red);
       border: 1.5px solid var(--amber);
-      color: #edf4fc;
+      color: #fafafa;
       font-family: var(--mono);
       font-size: 0.52rem;
       font-weight: 700;
@@ -286,7 +286,7 @@
     border: 1px solid var(--night-line);
     border-radius: 8px;
     background: var(--night);
-    color: #edf4fc;
+    color: #fafafa;
     font-family: var(--mono);
     font-size: 0.62rem;
     font-weight: 700;
@@ -298,7 +298,7 @@
     &.is-active {
       background: var(--red);
       border-color: var(--red);
-      color: #edf4fc;
+      color: #fafafa;
     }
   }
 

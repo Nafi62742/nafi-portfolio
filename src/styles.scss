@@ -17,8 +17,8 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DARK MODE (Default): Executive Slate & Cobalt (Option 2)
-   Linear / Vercel Developer Tool Aesthetic — Zinc & Deep Cobalt
+   DARK MODE (Default): Executive Onyx & Amber
+   Linear / Vercel Developer Tool Aesthetic — Neutral Obsidian, Zinc & Warm Amber
    ═══════════════════════════════════════════════════════════════════════════ */
 :root,
 [data-theme="dark"],
@@ -41,14 +41,14 @@
   --night-line-2: rgba(255, 255, 255, 0.05);
   --dim:          #a1a1aa;
 
-  --red:          #2563eb;
-  --red-ink:      #3b82f6;
-  --rose:         #60a5fa;
-  --amber:        #3b82f6;
-  --gold:         #60a5fa;
+  --red:          #f43f5e;
+  --red-ink:      #fb7185;
+  --rose:         #fda4af;
+  --amber:        #f59e0b;
+  --gold:         #fbbf24;
   --online:       #22c55e;
   --success:      #22c55e;
-  --error-night:  #60a5fa;
+  --error-night:  #f87171;
 
   --bg-base:        var(--bg);
   --bg-surface:     var(--bg-2);
@@ -61,10 +61,10 @@
   --glass-bg:       rgba(9, 9, 11, 0.94);
   --glass-border:   var(--line);
   --navbar-bg:      rgba(9, 9, 11, 0.96);
-  --selection-bg:   #2563eb;
-  --focus-outline:  #3b82f6;
-  --scrollbar-thumb: rgba(59, 130, 246, 0.35);
-  --scrollbar-thumb-hover: #2563eb;
+  --selection-bg:   rgba(244, 63, 94, 0.3);
+  --focus-outline:  var(--amber);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.18);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.32);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -184,7 +184,7 @@
 
   ::selection {
     background: var(--red);
-    color: #edf4fc;
+    color: #fafafa;
   }
 
   :focus-visible {
@@ -339,10 +339,10 @@ strong {
   [data-night] &,
   [data-theme="dark"] &,
   [data-theme="slate"] & {
-    color: #60a5fa;
-    background: rgba(96, 165, 250, 0.12);
-    border-color: rgba(96, 165, 250, 0.35);
-    box-shadow: 0 0 10px rgba(96, 165, 250, 0.16);
+    color: #f4f4f5;
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
   }
 }
 
@@ -381,13 +381,45 @@ strong {
   [data-theme="dark"] &,
   [data-theme="slate"] & {
     color: #fafafa;
-    border-bottom-color: #3b82f6;
+    border-bottom-color: var(--amber);
   }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    AMBIENT OVERLAYS: PAPER GRAIN, 6-COLUMN GRID LINES, SCROLL PROGRESS
    ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="light"],
+[data-theme="glacier"],
+:root:not([data-theme="dark"]):not([data-theme="slate"]) {
+  .player__card,
+  [data-surface="light"] {
+    strong {
+      color: var(--ink) !important;
+    }
+    .hl {
+      color: #0284c7 !important;
+      text-shadow: none !important;
+      font-weight: 700 !important;
+    }
+    .hl-tech {
+      color: #0284c7 !important;
+      background: rgba(2, 132, 199, 0.08) !important;
+      border: 1px solid rgba(2, 132, 199, 0.25) !important;
+      box-shadow: none !important;
+    }
+    .hl-metric {
+      color: #d97706 !important;
+      background: rgba(245, 158, 11, 0.1) !important;
+      border: 1px solid rgba(245, 158, 11, 0.28) !important;
+      box-shadow: none !important;
+    }
+    .hl-lead {
+      color: #081b33 !important;
+      border-bottom-color: #0284c7 !important;
+    }
+  }
+}
 
 .paper-grain {
   position: fixed;
@@ -530,14 +562,14 @@ strong {
 .button--solid {
   background: var(--red);
   border-color: var(--red);
-  color: #edf4fc;
+  color: #fafafa;
 
   &::before {
     background: var(--ink);
   }
 
   &:hover {
-    color: #edf4fc;
+    color: #fafafa;
     border-color: var(--ink);
   }
 }
@@ -595,7 +627,7 @@ strong {
   border: 1px solid var(--line);
   border-radius: 6px;
   color: var(--ink-2);
-  background: rgba(37, 99, 235, 0.04);
+  background: rgba(255, 255, 255, 0.03);
   transition: border-color 200ms var(--ease), color 200ms var(--ease), background-color 200ms var(--ease);
 
   &:hover {
@@ -607,8 +639,8 @@ strong {
 [data-night] .pill,
 .pill--night {
   border-color: var(--night-line);
-  color: rgba(237, 244, 252, 0.85);
-  background: rgba(56, 189, 248, 0.05);
+  color: var(--ink-2);
+  background: rgba(255, 255, 255, 0.04);
 
   &:hover {
     border-color: var(--amber);
@@ -672,8 +704,8 @@ strong {
   border: 1px solid var(--night-line);
   border-radius: 12px;
   overflow: hidden;
-  background: #050a14;
-  color: #edf4fc;
+  background: #0d0d11;
+  color: #fafafa;
   font-family: var(--mono);
   font-size: 0.78rem;
   line-height: 1.7;
@@ -685,13 +717,13 @@ strong {
     gap: 0.4rem;
     padding: 0.55rem 0.9rem;
     border-bottom: 1px solid var(--night-line);
-    background: rgba(56, 189, 248, 0.04);
+    background: rgba(255, 255, 255, 0.03);
 
     i {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: rgba(148, 197, 255, 0.25);
+      background: rgba(255, 255, 255, 0.2);
       display: inline-block;
 
       &:first-child {
