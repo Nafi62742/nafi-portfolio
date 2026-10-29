@@ -141,6 +141,19 @@
     text-transform: uppercase;
   }
 
+  &__alias-badge {
+    display: inline-block;
+    padding: 0.28rem 0.65rem;
+    border: 1px solid var(--red);
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--red);
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
   &__tagline-prefix {
     font-size: 0.95rem;
     color: var(--ink-2);

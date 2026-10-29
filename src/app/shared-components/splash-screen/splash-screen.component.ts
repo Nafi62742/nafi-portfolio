@@ -68,6 +68,8 @@ export class SplashScreenComponent implements OnInit, OnDestroy {
 
   /**
    * Starts or restarts the R-007 hood opening sequence from 0% to 100%.
+   * Runs over ~6.8 seconds total so the user can admire both the closed R 007
+   * hood crest and the exposed V8 Twin-Turbo engine bay.
    */
   public startSequence(): void {
     this.clearTimers();
@@ -76,10 +78,10 @@ export class SplashScreenComponent implements OnInit, OnDestroy {
     this.isExiting.set(false);
 
     this.timerId = setInterval(() => {
-      const next: number = Math.min(100, this.progress() + 2);
+      const next: number = Math.min(100, this.progress() + 1);
       this.progress.set(next);
 
-      if (next >= 34 && !this.hoodPopped()) {
+      if (next >= 38 && !this.hoodPopped()) {
         this.hoodPopped.set(true);
       }
 
@@ -87,19 +89,17 @@ export class SplashScreenComponent implements OnInit, OnDestroy {
         this.clearTimers();
         this.exitTimeoutId = setTimeout(() => {
           this.dismissSplash();
-        }, 650);
+        }, 1500);
       }
-    }, 38);
+    }, 52);
   }
 
   /**
-   * Manually toggles or pops the R 007 car hood immediately when clicked.
+   * Manually toggles the R 007 car hood open/closed when clicked so the user
+   * can inspect both the hood crest and the engine bay.
    */
   public popHoodNow(): void {
-    this.hoodPopped.set(true);
-    if (this.progress() < 65) {
-      this.progress.set(68);
-    }
+    this.hoodPopped.update((open: boolean) => !open);
   }
 
   /**

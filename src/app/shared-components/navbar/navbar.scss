@@ -32,14 +32,17 @@
 
   &__mark {
     width: 34px;
-    height: 16px;
+    height: 26px;
     transition: transform 260ms var(--ease);
   }
 
   &__name {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.28rem;
     font-family: var(--font);
     font-variation-settings: "wdth" 125, "wght" 820;
-    font-size: 0.95rem;
+    font-size: 0.94rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
 
@@ -47,6 +50,24 @@
       font-style: normal;
       color: var(--amber);
     }
+  }
+
+  &__sep {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--red);
+    font-weight: 700;
+  }
+
+  &__tag {
+    margin-left: 0.15rem;
+    padding: 0.1rem 0.32rem;
+    border: 1px solid rgba(56, 189, 248, 0.35);
+    background: rgba(37, 99, 235, 0.16);
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: #93c5fd;
   }
 
   &:hover .brand__mark {
