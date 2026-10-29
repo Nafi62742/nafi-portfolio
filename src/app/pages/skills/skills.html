@@ -1,36 +1,95 @@
-<section class="skills-section">
-  <div class="skills-container">
+<section class="board" aria-label="Skills — Tech Loadout">
+  <div class="board__split">
+    <!-- LEFT HALF: CHOOSE YOUR DOMAIN (Warm Paper) -->
+    <div class="board__left">
+      <div class="board__head reveal">
+        <p class="kicker">03 — {{ t.t('skills.section_label') }} // TECH LOADOUT</p>
+        <h2 class="chapter-title">{{ t.t('skills.title') }} <em>ARSENAL.</em></h2>
+        <p class="board__sub">{{ t.t('skills.subtitle') }}</p>
+      </div>
 
-    <div class="skills-header reveal">
-      <span class="label-tag-primary">{{ t.t('skills.section_label') }}</span>
-      <h2 class="skills-title">
-        {{ t.t('skills.title') }}
-      </h2>
-      <p class="skills-subtitle">{{ t.t('skills.subtitle') }}</p>
+      <ul class="board__list reveal delay-1" role="tablist" aria-label="Skill categories">
+        @for (cat of categories; track cat.key; let i = $index) {
+          <li>
+            <button
+              type="button"
+              role="tab"
+              class="board__option"
+              [class.is-active]="activeCategory === i"
+              [attr.aria-selected]="activeCategory === i"
+              (click)="activeCategory = i"
+              (mouseenter)="activeCategory = i">
+              <span class="board__idx">0{{ i + 1 }}</span>
+              <span class="board__opt-main">
+                <i class="fa-solid" [ngClass]="cat.icon"></i>
+                <strong class="board__opt-title">{{ t.t('skills.' + cat.key) }}</strong>
+              </span>
+              <span class="board__opt-count">{{ cat.skills.length }} TOOLS →</span>
+            </button>
+          </li>
+        }
+      </ul>
     </div>
 
-    <div class="skills-grid">
-      @for (cat of categories; track cat; let i = $index) {
-        <div
-          class="skill-card glass-card reveal"
-          [class.delay-1]="(i % 4) === 0"
-          [class.delay-2]="(i % 4) === 1"
-          [class.delay-3]="(i % 4) === 2"
-          [class.delay-4]="(i % 4) === 3">
-          <div class="card-header">
-            <div class="icon-wrapper">
-              <i class="fa-solid" [ngClass]="cat.icon"></i>
-            </div>
-            <h3 class="skill-category-title">{{ t.t('skills.' + cat.key) }}</h3>
+    <!-- RIGHT HALF: ACTIVE DOMAIN INSPECTOR + FULL MATRIX (Industrial Night) -->
+    <div class="board__right" data-night>
+      @if (categories[activeCategory]; as current) {
+        <div class="board__stage reveal">
+          <div class="board__stage-top">
+            <span class="text-mono">ACTIVE DOMAIN // 0{{ activeCategory + 1 }} OF 0{{ categories.length }}</span>
+            <span class="board__status-pill">PRODUCTION READY</span>
           </div>
-          <div class="badge-container">
-            @for (skill of cat.skills; track skill) {
-              <span class="tech-badge">{{ skill }}</span>
+
+          <div class="board__hero">
+            <div class="board__hex">
+              <i class="fa-solid" [ngClass]="current.icon"></i>
+              <span>0{{ activeCategory + 1 }}</span>
+            </div>
+            <div>
+              <p class="board__domain-kicker">SELECTED STACK</p>
+              <h3 class="board__domain-title text-display">{{ t.t('skills.' + current.key) }}</h3>
+            </div>
+          </div>
+
+          <div class="board__pills">
+            @for (skill of current.skills; track skill) {
+              <span class="pill pill--night board__pill-lg">
+                <span class="board__pill-dot"></span>
+                <span>{{ skill }}</span>
+              </span>
             }
           </div>
         </div>
       }
-    </div>
 
+      <!-- Full All-Category Blueprint Matrix (Preserves 100% Simultaneous Visibility) -->
+      <div class="board__matrix reveal delay-1">
+        <div class="board__matrix-head">
+          <span class="text-mono">COMPLETE ARCHITECTURAL MATRIX (ALL {{ categories.length }} DOMAINS)</span>
+        </div>
+        <div class="board__matrix-grid">
+          @for (cat of categories; track cat.key; let i = $index) {
+            <article
+              class="board__card"
+              [class.is-selected]="activeCategory === i"
+              role="button"
+              tabindex="0"
+              (click)="activeCategory = i"
+              (keydown.enter)="activeCategory = i">
+              <header class="board__card-head">
+                <span class="board__card-idx">0{{ i + 1 }}</span>
+                <i class="fa-solid" [ngClass]="cat.icon"></i>
+                <h4 class="board__card-title">{{ t.t('skills.' + cat.key) }}</h4>
+              </header>
+              <div class="board__card-tags">
+                @for (skill of cat.skills; track skill) {
+                  <span class="board__tag">{{ skill }}</span>
+                }
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </div>
   </div>
 </section>

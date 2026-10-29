@@ -1,123 +1,98 @@
 @if (publication(); as p) {
-  <div class="pub-details-container">
-    <div class="pub-details-inner">
-      <!-- Back Button -->
-      <button (click)="goBack()" class="btn-back group">
-        <i class="fa-solid fa-arrow-left transition-transform duration-200 group-hover:-translate-x-1"></i>
-        <span>Back to Publications</span>
+  <article class="pub-page">
+    <!-- Top Bar & Breadcrumb -->
+    <div class="pub-page__nav">
+      <button type="button" (click)="goBack()" class="button">
+        <span>← Back to Research Lab</span>
       </button>
 
-      <!-- Publication Header Card -->
-      <div class="pub-header-card glass-card" [style.--accent-color]="p.color">
-        <!-- Glow Accent -->
-        <div class="header-glow" [style.background]="p.color"></div>
-        <div class="header-layout">
-          <div class="header-identity">
-            <!-- Icon -->
-            <div class="icon-wrapper"
-              [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'">
-              <i class="fa-solid" [ngClass]="p.icon" [style.color]="p.color"></i>
-            </div>
-            <div>
-              <div class="badge-row">
-                <span class="pub-tag" [style.color]="p.color"
-                  [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.1)'">
-                  <i class="fa-solid fa-flask-vial"></i> Research Paper
-                </span>
-                <span class="year-tag">{{ p.year }}</span>
-              </div>
-              <h1 class="pub-title-text">{{ p.title }}</h1>
-              <p class="pub-authors">
-                <i class="fa-solid fa-users mr-1"></i>{{ p.authors }}
-              </p>
-            </div>
-          </div>
-          <!-- Action Button -->
-          <div class="action-col">
-            @if (p.link) {
-              <a [href]="p.link" target="_blank"
-                class="btn-action btn-highlight"
-                [style.background]="p.color">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                <span>View Publication</span>
-              </a>
-            }
-          </div>
+      <div class="pub-page__crumbs text-mono">
+        <span (click)="goBack()" (keydown.enter)="goBack()" role="button" tabindex="0">RESEARCH LAB</span>
+        <span>/</span>
+        <strong>{{ p.year }} PAPER</strong>
+      </div>
+    </div>
+
+    <!-- Split Header -->
+    <header class="pub-hero">
+      <div class="pub-hero__left">
+        <div class="pub-hero__tags">
+          <span class="pub-hero__badge">
+            <i class="fa-solid fa-flask-vial"></i> PEER-REVIEWED RESEARCH
+          </span>
+          <span class="pub-hero__year">{{ p.year }}</span>
         </div>
+
+        <h1 class="pub-hero__title text-title">{{ p.title }}</h1>
+
+        <p class="pub-hero__authors">
+          <i class="fa-solid fa-users"></i>
+          <span>{{ p.authors }}</span>
+        </p>
+
+        @if (p.link) {
+          <div class="pub-hero__actions">
+            <a [href]="p.link" target="_blank" rel="noopener noreferrer" class="button button--solid">
+              <span>View Official Publication / DOI</span>
+              <span class="arrow">↗</span>
+            </a>
+          </div>
+        }
       </div>
 
-      <!-- Main Content Grid -->
-      <div class="details-grid">
-        <!-- Left: Overview -->
-        <div class="left-column">
-          <!-- Abstract -->
-          <div class="overview-card glass-card">
-            <h2 class="section-title">
-              <i class="fa-solid fa-quote-left text-primary"></i>
-              <span>Abstract</span>
-            </h2>
-            <p class="abstract-text" [style.borderLeftColor]="p.color">
-              {{ p.abstract }}
-            </p>
+      <!-- Right Sidebar: Publication Metadata Crate -->
+      <aside class="pub-hero__right" data-night>
+        <div class="crate__tape" aria-hidden="true"></div>
+        <div class="pub-meta">
+          <div class="pub-meta__head">
+            <span class="text-mono">PUBLICATION DOSSIER</span>
+            <span class="pub-meta__stamp">INDEXED</span>
           </div>
-          <!-- Full Description -->
-          @if (p.longDescription) {
-            <div class="overview-card glass-card">
-              <h2 class="section-title">
-                <i class="fa-solid fa-circle-info text-primary"></i>
-                <span>Research Overview</span>
-              </h2>
-              <p class="overview-desc">{{ p.longDescription }}</p>
-            </div>
-          }
-        </div>
 
-        <!-- Right: Metadata Sidebar -->
-        <div class="right-column">
-          <!-- Publication Details -->
-          <div class="details-sidebar-card glass-card">
-            <h2 class="details-sidebar-title">
-              <i class="fa-solid fa-list-check text-accent"></i>
-              <span>Publication Details</span>
-            </h2>
-            <div class="meta-item">
-              <span class="meta-label">Venue / Journal</span>
-              <span class="meta-val">{{ p.venue }}</span>
+          <dl class="pub-meta__list">
+            <div class="pub-meta__row">
+              <dt>Venue / Journal</dt>
+              <dd>{{ p.venue }}</dd>
             </div>
-            <div class="meta-item">
-              <span class="meta-label">Year</span>
-              <span class="meta-val">{{ p.year }}</span>
+            <div class="pub-meta__row">
+              <dt>Publication Year</dt>
+              <dd>{{ p.year }}</dd>
             </div>
-            <div class="meta-item">
-              <span class="meta-label">Authors</span>
-              <span class="meta-val">{{ p.authors }}</span>
+            <div class="pub-meta__row">
+              <dt>Authors</dt>
+              <dd>{{ p.authors }}</dd>
             </div>
-            @if (p.link) {
-              <div class="meta-item">
-                <span class="meta-label">DOI / Link</span>
-                <a [href]="p.link" target="_blank" class="meta-link mt-2">
-                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                  <span>Open Paper</span>
-                </a>
-              </div>
-            }
-          </div>
-          <!-- Keywords -->
+          </dl>
+
           @if (p.keywords && p.keywords.length) {
-            <div class="keywords-sidebar-card glass-card">
-              <h2 class="keywords-sidebar-title">
-                <i class="fa-solid fa-tags text-primary"></i>
-                <span>Keywords</span>
-              </h2>
-              <div class="keywords-badge-container">
+            <div class="pub-meta__kw">
+              <span class="text-mono">RESEARCH KEYWORDS</span>
+              <div class="pub-meta__pills">
                 @for (kw of p.keywords; track kw) {
-                  <span class="keyword-badge">{{ kw }}</span>
+                  <span class="pill pill--night">{{ kw }}</span>
                 }
               </div>
             </div>
           }
         </div>
-      </div>
+      </aside>
+    </header>
+
+    <!-- Main Body: Abstract & Extended Research Overview -->
+    <div class="pub-body">
+      <section class="pub-block">
+        <p class="kicker">01 — EXECUTIVE ABSTRACT</p>
+        <h2 class="text-title pub-block__title">PAPER ABSTRACT</h2>
+        <blockquote class="pub-block__abstract">{{ p.abstract }}</blockquote>
+      </section>
+
+      @if (p.longDescription) {
+        <section class="pub-block pub-block--night" data-night>
+          <p class="kicker">02 — METHODOLOGY &amp; FINDINGS</p>
+          <h2 class="text-title pub-block__title">RESEARCH OVERVIEW</h2>
+          <p class="pub-block__copy">{{ p.longDescription }}</p>
+        </section>
+      }
     </div>
-  </div>
+  </article>
 }

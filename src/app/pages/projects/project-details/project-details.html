@@ -1,430 +1,278 @@
 @if (project(); as p) {
-  <div class="project-details-container">
-    <!-- Ambient ambient glow effects -->
-    <div class="details-glow details-glow-left" [style.background]="p.color"></div>
-    <div class="details-glow details-glow-right"></div>
+  <article class="case-page">
+    <!-- Top Bar & Breadcrumb -->
+    <div class="case-page__nav">
+      <button type="button" (click)="goBack()" class="button">
+        <span>← Back to The Street</span>
+      </button>
 
-    <div class="project-details-inner">
-      <!-- Breadcrumb & Back Navigation -->
-      <div class="top-nav-bar">
-        <button (click)="goBack()" class="btn-back group">
-          <i class="fa-solid fa-arrow-left transition-transform duration-200 group-hover:-translate-x-1.5"></i>
-          <span>Back to Projects</span>
-        </button>
-
-        <div class="breadcrumb-trail">
-          <span class="crumb-root" (click)="goBack()" (keydown.enter)="goBack()" role="button" tabindex="0">Projects</span>
-          <i class="fa-solid fa-chevron-right text-[10px] text-text-muted"></i>
-          <span class="crumb-current" [style.color]="p.color">{{ p.name }}</span>
-        </div>
+      <div class="case-page__crumbs text-mono">
+        <span (click)="goBack()" (keydown.enter)="goBack()" role="button" tabindex="0">THE STREET</span>
+        <span>/</span>
+        <strong>{{ p.name }}</strong>
       </div>
+    </div>
 
-      <!-- Project Hero Header Card -->
-      <div class="project-header-card glass-card" [style.--accent-color]="p.color">
-        <div class="top-accent-line" [style.background]="'linear-gradient(90deg, transparent, ' + p.color + ', transparent)'"></div>
-        <div class="header-glow" [style.background]="p.color"></div>
-
-        <div class="header-main-content">
-          <div class="header-identity">
-            <div class="icon-wrapper" [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'" [style.boxShadow]="'0 8px 24px rgba(' + hexToRgb(p.color) + ', 0.2)'">
-              <i class="fa-solid" [ngClass]="p.icon" [style.color]="p.color"></i>
-            </div>
-            <div class="header-titles">
-              <div class="badge-row">
-                <span class="badge category-badge"
-                  [style.background]="p.category === 'office' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(16, 185, 129, 0.15)'"
-                  [style.color]="p.category === 'office' ? '#818cf8' : '#34d399'">
-                  {{ p.category === 'office' ? 'Production Enterprise' : 'Personal Application' }}
-                </span>
-                <span class="badge type-tag">{{ p.type }}</span>
-                @if (p.collaboration) {
-                  <span class="badge collab-badge">
-                    <i class="fa-solid fa-handshake-angle text-[10px]"></i>
-                    {{ p.collaboration }}
-                  </span>
-                }
-              </div>
-              <h1 class="project-title-text">{{ p.name }}</h1>
-              @if (p.shortRole) {
-                <p class="project-short-role">
-                  <span class="role-pill" [style.borderColor]="p.color + '44'" [style.color]="p.color">
-                    <i class="fa-solid fa-code-commit text-xs mr-1.5"></i>
-                    {{ p.shortRole }}
-                  </span>
-                </p>
-              }
-            </div>
-          </div>
-
-          <!-- Quick Action Links Bar -->
-          <div class="quick-actions-row">
-            @if (p.link) {
-              <a [href]="p.link" target="_blank" rel="noopener noreferrer" class="btn-action btn-highlight" [style.background]="p.color">
-                <i class="fa-solid fa-globe"></i>
-                <span>Live Platform</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5"></i>
-              </a>
-            }
-            @if (p.playstore) {
-              <a [href]="p.playstore" target="_blank" rel="noopener noreferrer" class="btn-action btn-playstore">
-                <i class="fa-brands fa-google-play"></i>
-                <span>Google Play</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5 opacity-60"></i>
-              </a>
-            }
-            @if (p.appstore) {
-              <a [href]="p.appstore" target="_blank" rel="noopener noreferrer" class="btn-action btn-appstore">
-                <i class="fa-brands fa-apple"></i>
-                <span>App Store</span>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-0.5 opacity-60"></i>
-              </a>
-            }
-            @if (p.github) {
-              <a [href]="p.github" target="_blank" rel="noopener noreferrer" class="btn-action">
-                <i class="fa-brands fa-github"></i>
-                <span>Repository</span>
-              </a>
-            }
-            @if (p.additionalLinks) {
-              @for (al of p.additionalLinks; track al.label) {
-                <a [href]="al.url" target="_blank" rel="noopener noreferrer" class="btn-action">
-                  <i class="fa-solid" [ngClass]="al.icon"></i>
-                  <span>{{ al.label }}</span>
-                </a>
-              }
-            }
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Content Grid -->
-      <div class="details-grid">
-        <!-- Left Column: Details & Media -->
-        <div class="left-column">
-          <!-- Overview & Description Section Card -->
-          <div class="overview-card glass-card">
-            <div class="card-section-header">
-              <div class="header-icon-box" [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'">
-                <i class="fa-solid fa-align-left" [style.color]="p.color"></i>
-              </div>
-              <div class="header-text-group">
-                <h2 class="section-title">Project Overview & Architecture</h2>
-                <span class="section-subtitle-tag">Executive Summary & Technical Breakdown</span>
-              </div>
-            </div>
-
-            <!-- Enhanced Description Layout -->
-            <div class="overview-body">
-              <!-- Lead Highlight Quote Card -->
-              <div class="lead-quote-box" [style.borderLeftColor]="p.color">
-                <p class="overview-desc-lead">
-                  {{ p.description }}
-                </p>
-              </div>
-
-              <!-- Extended Comprehensive Description -->
-              @if (p.longDescription && p.longDescription !== p.description) {
-                <div class="extended-desc-wrapper">
-                  <h3 class="desc-subheading">
-                    <i class="fa-solid fa-cube text-xs" [style.color]="p.color"></i>
-                    Detailed Scope & Implementation
-                  </h3>
-                  <p class="overview-desc-extended">
-                    {{ p.longDescription }}
-                  </p>
-                </div>
-              }
-            </div>
-
-            <!-- Key Technical Highlights Block -->
-            @if (p.highlights) {
-              <div class="highlight-block" [style.borderColor]="'rgba(' + hexToRgb(p.color) + ', 0.25)'">
-                <div class="highlight-accent-glow" [style.background]="p.color"></div>
-                <div class="highlight-header">
-                  <div class="highlight-icon" [style.background]="p.color">
-                    <i class="fa-solid fa-sparkles text-white text-xs"></i>
-                  </div>
-                  <h3 class="highlight-title">Key Technical Achievements & Impact</h3>
-                </div>
-                <p class="highlight-desc">{{ p.highlights }}</p>
-              </div>
-            }
-          </div>
-
-          <!-- Screenshots Gallery Showcase -->
-          @if (p.screenshots && p.screenshots.length > 0) {
-            <div class="overview-card glass-card">
-              <div class="card-section-header">
-                <div class="header-icon-box" [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'">
-                  <i class="fa-solid fa-images" [style.color]="p.color"></i>
-                </div>
-                <div class="header-text-group">
-                  <h2 class="section-title">Application Interface & Screenshots</h2>
-                  <span class="section-subtitle-tag">Click any screenshot to view full resolution</span>
-                </div>
-                <span class="gallery-count-badge">{{ p.screenshots.length }} Screens</span>
-              </div>
-
-              <div class="screenshot-showcase-grid">
-                @for (screenshot of p.screenshots; track screenshot; let idx = $index) {
-                  <div
-                    class="screenshot-card group"
-                    (click)="openLightbox(idx)"
-                    (keydown.enter)="openLightbox(idx)"
-                    role="button"
-                    tabindex="0"
-                    [attr.aria-label]="'View ' + p.name + ' screenshot ' + (idx + 1) + ' fullscreen'"
-                  >
-                    <div class="screenshot-img-wrap">
-                      <img
-                        [src]="screenshot"
-                        [alt]="p.name + ' Screenshot ' + (idx + 1)"
-                        class="screenshot-img"
-                        loading="lazy"
-                      />
-                      <div class="screenshot-overlay">
-                        <div class="zoom-pill">
-                          <i class="fa-solid fa-magnifying-glass-plus"></i>
-                          <span>View Fullscreen</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                }
-              </div>
-            </div>
-          }
-
-          <!-- Video Demo Section -->
-          @if (safeYoutubeUrl(); as yUrl) {
-            <div class="overview-card glass-card">
-              <div class="card-section-header">
-                <div class="header-icon-box bg-red-500/10">
-                  <i class="fa-brands fa-youtube text-red-400"></i>
-                </div>
-                <div class="header-text-group">
-                  <h2 class="section-title">Video Demonstration</h2>
-                  <span class="section-subtitle-tag">Interactive Walkthrough & Feature Demo</span>
-                </div>
-              </div>
-              <div class="video-container">
-                <iframe
-                  [src]="yUrl"
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                  class="video-iframe"></iframe>
-              </div>
-            </div>
+    <!-- Case Study Lead Header (Split Warm Paper + Night) -->
+    <header class="case-hero">
+      <div class="case-hero__left">
+        <div class="case-hero__tags">
+          <span class="case-hero__cat" [class.is-office]="p.category === 'office'">
+            {{ p.category === 'office' ? 'Production Enterprise' : 'Personal Application' }}
+          </span>
+          <span class="pill">{{ p.type }}</span>
+          @if (p.collaboration) {
+            <span class="pill">
+              <i class="fa-solid fa-handshake-angle"></i>
+              {{ p.collaboration }}
+            </span>
           }
         </div>
 
-        <!-- Right Column: Metadata Sidebar -->
-        <div class="right-column">
-          <!-- Technologies Used Sidebar -->
-          <div class="sidebar-card glass-card">
-            <div class="sidebar-card-header">
-              <div class="sidebar-icon-box">
-                <i class="fa-solid fa-layer-group text-primary"></i>
-              </div>
-              <h2 class="sidebar-title">Technologies Used</h2>
+        <div class="case-hero__title-row">
+          <div class="case-hero__icon">
+            <i class="fa-solid" [ngClass]="p.icon"></i>
+          </div>
+          <div>
+            <h1 class="case-hero__title text-display">{{ p.name }}</h1>
+            @if (p.shortRole) {
+              <p class="case-hero__role text-mono">
+                <i class="fa-solid fa-code-commit"></i> {{ p.shortRole }}
+              </p>
+            }
+          </div>
+        </div>
+
+        <p class="case-hero__lead">{{ p.description }}</p>
+
+        <!-- Action Buttons -->
+        <div class="case-hero__actions">
+          @if (p.link) {
+            <a [href]="p.link" target="_blank" rel="noopener noreferrer" class="button button--solid">
+              <i class="fa-solid fa-globe"></i>
+              <span>Live Platform</span>
+              <span class="arrow">↗</span>
+            </a>
+          }
+          @if (p.playstore) {
+            <a [href]="p.playstore" target="_blank" rel="noopener noreferrer" class="button">
+              <i class="fa-brands fa-google-play"></i>
+              <span>Google Play</span>
+              <span class="arrow">↗</span>
+            </a>
+          }
+          @if (p.appstore) {
+            <a [href]="p.appstore" target="_blank" rel="noopener noreferrer" class="button">
+              <i class="fa-brands fa-apple"></i>
+              <span>App Store</span>
+              <span class="arrow">↗</span>
+            </a>
+          }
+          @if (p.github) {
+            <a [href]="p.github" target="_blank" rel="noopener noreferrer" class="button">
+              <i class="fa-brands fa-github"></i>
+              <span>Repository</span>
+              <span class="arrow">↗</span>
+            </a>
+          }
+          @if (p.additionalLinks) {
+            @for (al of p.additionalLinks; track al.label) {
+              <a [href]="al.url" target="_blank" rel="noopener noreferrer" class="button">
+                <i class="fa-solid" [ngClass]="al.icon"></i>
+                <span>{{ al.label }}</span>
+                <span class="arrow">↗</span>
+              </a>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Right Column: Specifications & Stack Crate (Industrial Night) -->
+      <aside class="case-hero__right" data-night>
+        <div class="crate__tape" aria-hidden="true"></div>
+        <div class="case-specs">
+          <div class="case-specs__head">
+            <span class="text-mono">SPECIFICATIONS // DOSSIER</span>
+            <span class="case-specs__stamp">SHIPPED</span>
+          </div>
+
+          <dl class="case-specs__list">
+            <div class="case-specs__row">
+              <dt>Category</dt>
+              <dd>{{ p.category === 'office' ? 'Production Enterprise' : 'Personal Application' }}</dd>
             </div>
-            <div class="tech-badge-container">
+            <div class="case-specs__row">
+              <dt>Platform Type</dt>
+              <dd>{{ p.type }}</dd>
+            </div>
+            @if (p.collaboration) {
+              <div class="case-specs__row">
+                <dt>Collaboration</dt>
+                <dd class="is-amber">{{ p.collaboration }}</dd>
+              </div>
+            }
+            @if (p.teamLead) {
+              <div class="case-specs__row">
+                <dt>Team Lead</dt>
+                <dd>{{ p.teamLead }}</dd>
+              </div>
+            }
+            @if (p.coreDevelopers && p.coreDevelopers.length > 0) {
+              <div class="case-specs__row">
+                <dt>Core Developers</dt>
+                <dd class="case-specs__pills">
+                  @for (dev of p.coreDevelopers; track dev) {
+                    <span class="pill pill--night">{{ dev }}</span>
+                  }
+                </dd>
+              </div>
+            } @else if (p.coreDeveloper) {
+              <div class="case-specs__row">
+                <dt>Core Developer</dt>
+                <dd class="is-amber">{{ p.coreDeveloper }}</dd>
+              </div>
+            }
+            @if (p.teamMembers && p.teamMembers.length > 0) {
+              <div class="case-specs__row">
+                <dt>Engineering Teammates</dt>
+                <dd class="case-specs__pills">
+                  @for (member of p.teamMembers; track member) {
+                    <span class="pill pill--night">{{ member }}</span>
+                  }
+                </dd>
+              </div>
+            }
+          </dl>
+
+          <div class="case-specs__stack">
+            <span class="text-mono">TECHNOLOGIES USED</span>
+            <div class="case-specs__pills">
               @for (tech of p.tech; track tech) {
-                <span class="tech-badge-large">
-                  <i class="fa-solid fa-check text-[10px] text-emerald-400"></i>
-                  {{ tech }}
-                </span>
-              }
-            </div>
-          </div>
-
-          <!-- Project Specs & Team Sidebar -->
-          <div class="details-sidebar-card glass-card">
-            <div class="sidebar-card-header">
-              <div class="sidebar-icon-box">
-                <i class="fa-solid fa-circle-nodes text-accent"></i>
-              </div>
-              <h2 class="details-sidebar-title">Project Specifications</h2>
-            </div>
-
-            <div class="meta-list">
-              <div class="meta-item">
-                <span class="meta-label">
-                  <i class="fa-solid fa-folder-tree text-text-muted"></i>
-                  Category
-                </span>
-                <span class="meta-val">{{ p.category === 'office' ? 'Production Enterprise' : 'Personal Application' }}</span>
-              </div>
-
-              <div class="meta-item">
-                <span class="meta-label">
-                  <i class="fa-solid fa-cube text-text-muted"></i>
-                  Platform Type
-                </span>
-                <span class="meta-val">{{ p.type }}</span>
-              </div>
-
-              @if (p.collaboration) {
-                <div class="meta-item highlight-meta-item">
-                  <span class="meta-label">
-                    <i class="fa-solid fa-handshake text-indigo-400"></i>
-                    Collaboration
-                  </span>
-                  <span class="meta-val text-indigo-300 font-semibold">{{ p.collaboration }}</span>
-                </div>
-              }
-
-              @if (p.teamLead) {
-                <div class="meta-item">
-                  <span class="meta-label">
-                    <i class="fa-solid fa-user-tie text-text-muted"></i>
-                    Team Lead
-                  </span>
-                  <span class="meta-val font-semibold text-text-primary">{{ p.teamLead }}</span>
-                </div>
-              }
-
-              @if (p.coreDevelopers && p.coreDevelopers.length > 0) {
-                <div class="meta-item core-dev-item">
-                  <span class="meta-label">
-                    <i class="fa-solid fa-code text-cyan-400"></i>
-                    Core Developers
-                  </span>
-                  <div class="meta-team-pills">
-                    @for (dev of p.coreDevelopers; track dev) {
-                      <span class="team-member-pill font-bold text-cyan-300 border-cyan-500/30 bg-cyan-500/10">{{ dev }}</span>
-                    }
-                  </div>
-                </div>
-              } @else if (p.coreDeveloper) {
-                <div class="meta-item core-dev-item">
-                  <span class="meta-label">
-                    <i class="fa-solid fa-code text-cyan-400"></i>
-                    Core Developer
-                  </span>
-                  <span class="meta-val font-bold text-cyan-300">{{ p.coreDeveloper }}</span>
-                </div>
-              }
-
-              @if (p.teamMembers && p.teamMembers.length > 0) {
-                <div class="meta-item">
-                  <span class="meta-label">
-                    <i class="fa-solid fa-users text-text-muted"></i>
-                    Engineering Teammates
-                  </span>
-                  <div class="meta-team-pills">
-                    @for (member of p.teamMembers; track member) {
-                      <span class="team-member-pill">{{ member }}</span>
-                    }
-                  </div>
-                </div>
-              }
-
-              @if (p.github || p.link || p.playstore || p.appstore || p.additionalLinks?.length) {
-                <div class="meta-item meta-links-item">
-                  <span class="meta-label">
-                    <i class="fa-solid fa-arrow-up-right-from-square text-text-muted"></i>
-                    Direct Links
-                  </span>
-                  <div class="sidebar-links-col">
-                    @if (p.link) {
-                      <a [href]="p.link" target="_blank" rel="noopener noreferrer" class="meta-link">
-                        <i class="fa-solid fa-globe text-cyan-400"></i>
-                        <span>Live Website</span>
-                        <i class="fa-solid fa-external-link text-[10px] ml-auto opacity-50"></i>
-                      </a>
-                    }
-                    @if (p.playstore) {
-                      <a [href]="p.playstore" target="_blank" rel="noopener noreferrer" class="meta-link">
-                        <i class="fa-brands fa-google-play text-emerald-400"></i>
-                        <span>Google Play Store</span>
-                        <i class="fa-solid fa-external-link text-[10px] ml-auto opacity-50"></i>
-                      </a>
-                    }
-                    @if (p.appstore) {
-                      <a [href]="p.appstore" target="_blank" rel="noopener noreferrer" class="meta-link">
-                        <i class="fa-brands fa-apple text-slate-200"></i>
-                        <span>Apple App Store</span>
-                        <i class="fa-solid fa-external-link text-[10px] ml-auto opacity-50"></i>
-                      </a>
-                    }
-                    @if (p.github) {
-                      <a [href]="p.github" target="_blank" rel="noopener noreferrer" class="meta-link">
-                        <i class="fa-brands fa-github text-slate-300"></i>
-                        <span>GitHub Source</span>
-                        <i class="fa-solid fa-external-link text-[10px] ml-auto opacity-50"></i>
-                      </a>
-                    }
-                    @if (p.additionalLinks) {
-                      @for (al of p.additionalLinks; track al.label) {
-                        <a [href]="al.url" target="_blank" rel="noopener noreferrer" class="meta-link">
-                          <i class="fa-solid" [ngClass]="al.icon"></i>
-                          <span>{{ al.label }}</span>
-                          <i class="fa-solid fa-external-link text-[10px] ml-auto opacity-50"></i>
-                        </a>
-                      }
-                    }
-                  </div>
-                </div>
+                <span class="pill pill--night">{{ tech }}</span>
               }
             </div>
           </div>
         </div>
+      </aside>
+    </header>
+
+    <!-- Main Body: Architecture Breakdown, Achievements, Screenshots & Video -->
+    <div class="case-body">
+      <div class="case-body__grid">
+        @if (p.longDescription && p.longDescription !== p.description) {
+          <section class="case-block">
+            <p class="kicker">01 — ARCHITECTURE &amp; IMPLEMENTATION</p>
+            <h2 class="text-title case-block__title">DETAILED SCOPE &amp; SYSTEM DESIGN</h2>
+            <p class="case-block__copy">{{ p.longDescription }}</p>
+          </section>
+        }
+
+        @if (p.highlights) {
+          <section class="case-block case-block--highlight" data-night>
+            <div class="crate__tape" aria-hidden="true"></div>
+            <div class="case-block__inner">
+              <p class="kicker">02 — IMPACT &amp; ENGINEERING OUTCOMES</p>
+              <h2 class="text-title case-block__title">KEY TECHNICAL ACHIEVEMENTS</h2>
+              <p class="case-block__copy">{{ p.highlights }}</p>
+            </div>
+          </section>
+        }
       </div>
+
+      <!-- Screenshots Gallery -->
+      @if (p.screenshots && p.screenshots.length > 0) {
+        <section class="case-gallery">
+          <div class="case-gallery__head">
+            <div>
+              <p class="kicker">03 — INTERFACE GALLERY</p>
+              <h2 class="chapter-title">APPLICATION <em>SCREENS.</em></h2>
+            </div>
+            <span class="text-mono">{{ p.screenshots.length }} SCREENS // CLICK TO ENLARGE</span>
+          </div>
+
+          <div class="case-gallery__grid">
+            @for (screenshot of p.screenshots; track screenshot; let idx = $index) {
+              <div
+                class="browser case-shot"
+                (click)="openLightbox(idx)"
+                (keydown.enter)="openLightbox(idx)"
+                role="button"
+                tabindex="0"
+                [attr.aria-label]="'View ' + p.name + ' screenshot ' + (idx + 1) + ' fullscreen'">
+                <div class="browser__bar">
+                  <i></i><i></i><i></i>
+                  <span>SCREEN 0{{ idx + 1 }} // {{ p.name }}</span>
+                </div>
+                <div class="case-shot__img-wrap">
+                  <img
+                    [src]="screenshot"
+                    [alt]="p.name + ' Screenshot ' + (idx + 1)"
+                    loading="lazy" />
+                  <span class="case-shot__zoom">INSPECT FULLSCREEN ↗</span>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <!-- YouTube Video Demonstration -->
+      @if (safeYoutubeUrl(); as yUrl) {
+        <section class="case-video" data-night>
+          <div class="case-video__head">
+            <p class="kicker">04 — VIDEO DEMONSTRATION</p>
+            <h2 class="chapter-title">INTERACTIVE <em>WALKTHROUGH.</em></h2>
+          </div>
+          <div class="case-video__frame">
+            <iframe
+              [src]="yUrl"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </section>
+      }
     </div>
 
     <!-- Lightbox Modal for Screenshots -->
     @if (selectedImageIndex() !== null && p.screenshots) {
       <div
-        class="lightbox-backdrop"
+        class="case-lightbox"
         (click)="onBackdropClick($event)"
         (keydown.escape)="closeLightbox()"
         tabindex="0"
         role="dialog"
         aria-modal="true"
-        aria-label="Screenshot fullscreen preview"
-      >
-        <div class="lightbox-dialog" role="document">
-          <button type="button" class="lightbox-close-btn" (click)="closeLightbox()" aria-label="Close fullscreen view">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
+        aria-label="Screenshot fullscreen preview">
+        <div class="case-lightbox__dialog" role="document">
+          <header class="case-lightbox__bar">
+            <span class="text-mono">{{ p.name }} // SCREEN {{ selectedImageIndex()! + 1 }} OF {{ p.screenshots.length }}</span>
+            <button type="button" class="case-lightbox__close" (click)="closeLightbox()" aria-label="Close fullscreen view">
+              CLOSE ✕
+            </button>
+          </header>
 
-          <div class="lightbox-image-container">
+          <div class="case-lightbox__body">
             <img
               [src]="p.screenshots[selectedImageIndex()!]"
-              [alt]="p.name + ' Fullscreen Screenshot'"
-              class="lightbox-img"
-            />
+              [alt]="p.name + ' Fullscreen Screenshot'" />
           </div>
 
-          <!-- Lightbox Navigation Controls -->
           @if (p.screenshots.length > 1) {
-            <button
-              type="button"
-              class="lightbox-nav-btn lightbox-prev"
-              (click)="prevLightboxImage()"
-              aria-label="Previous screenshot"
-            >
-              <i class="fa-solid fa-chevron-left"></i>
-            </button>
-            <button
-              type="button"
-              class="lightbox-nav-btn lightbox-next"
-              (click)="nextLightboxImage()"
-              aria-label="Next screenshot"
-            >
-              <i class="fa-solid fa-chevron-right"></i>
-            </button>
-
-            <div class="lightbox-counter">
-              {{ selectedImageIndex()! + 1 }} / {{ p.screenshots.length }}
-            </div>
+            <footer class="case-lightbox__foot">
+              <button type="button" (click)="prevLightboxImage()" aria-label="Previous screenshot">
+                ← PREV
+              </button>
+              <span class="text-mono">{{ selectedImageIndex()! + 1 }} / {{ p.screenshots.length }}</span>
+              <button type="button" (click)="nextLightboxImage()" aria-label="Next screenshot">
+                NEXT →
+              </button>
+            </footer>
           }
         </div>
       </div>
     }
-  </div>
+  </article>
 }
-

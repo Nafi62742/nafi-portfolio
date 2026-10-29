@@ -1,15 +1,23 @@
-<app-starfield></app-starfield>
-<div class="noise-overlay"></div>
-
 @if (!isWorkstation()) {
+  <div class="paper-grain" aria-hidden="true"></div>
+  <div class="grid-lines" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="scroll-progress" aria-hidden="true">
+    <span class="scroll-progress__bar"></span>
+  </div>
   <app-navbar></app-navbar>
 }
 
-<main>
+<main class="portfolio-main">
   <router-outlet></router-outlet>
 </main>
 
 @if (!isWorkstation()) {
   <app-footer></app-footer>
 }
-

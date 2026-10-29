@@ -1,89 +1,249 @@
-<section class="hero-section">
-  <!-- Tech Grid Background Pattern -->
-  <div class="tech-grid-bg"></div>
+<section class="split" aria-label="Hero — Two Sides">
+  <!-- LEFT HALF: FRONT / WEB & MOBILE (Warm Paper) -->
+  <div class="split__half split__half--front">
+    <div class="split__top">
+      <span class="split__tag">01 / CLIENT · WEB &amp; MOBILE</span>
+      <span class="split__tag-sub">ANGULAR · TYPESCRIPT · FLUTTER</span>
+    </div>
 
-  <!-- Ambient glowing orbs (subtle corner lighting) -->
-  <div class="glow-orb glow-orb-1"></div>
-  <div class="glow-orb glow-orb-3"></div>
+    <!-- Ambient UI Scene (Browser + Mobile Device Frame) -->
+    <div class="split__scene split__scene--front" aria-hidden="true">
+      <div class="browser split__browser">
+        <div class="browser__bar">
+          <i></i><i></i><i></i>
+          <span>https://nafi-ahmed.vercel.app</span>
+        </div>
+        <div class="browser__body">
+          <div class="b-hero">
+            <span class="b-kicker">SHIPPED INTERFACES</span>
+            <div class="b-title">WEB &amp; MOBILE</div>
+            <div class="b-bars"><i></i><i></i></div>
+          </div>
+          <div class="b-cards">
+            <div class="b-card">
+              <div class="b-thumb"></div>
+              <div class="b-meta">Angular 20 · Zoneless</div>
+            </div>
+            <div class="b-card is-accent">
+              <div class="b-thumb"></div>
+              <div class="b-meta">RunMate · Flutter</div>
+            </div>
+            <div class="b-card">
+              <div class="b-thumb"></div>
+              <div class="b-meta">Design Systems</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div class="hero-container">
-    <!-- Content -->
-    <div class="hero-content">
-      <div class="hero-header-group">
-        <h2 class="hero-greeting">{{ t.t("hero.greeting") }}</h2>
-
-        <h1 class="hero-name">{{ t.t("hero.name") }}</h1>
+    <!-- Editorial Identity & Tagline Bullets -->
+    <div class="split__bio">
+      <p class="split__greeting">{{ t.t("hero.greeting") }}</p>
+      <h1 class="split__name text-display">{{ t.t("hero.name") }}</h1>
+      <div class="split__role-row">
+        <span class="split__role-prefix">I AM A</span>
+        <span class="split__role-badge">{{ t.t("hero.role") }}</span>
       </div>
 
-      <!-- Static role display replacing the typewriter -->
-      <div class="hero-role-container">
-        <span class="hero-role-prefix">I am a</span>
-        <span class="hero-role-text">{{ t.t("hero.role") }}</span>
-      </div>
+      <p class="split__tagline-prefix">{{ t.t("hero.tagline_prefix") }}</p>
+      <ul class="split__bullets">
+        <li>
+          <span class="split__bullet-idx">01</span>
+          <span>{{ t.t("hero.tagline_web") }}</span>
+        </li>
+        <li>
+          <span class="split__bullet-idx">02</span>
+          <span>{{ t.t("hero.tagline_mobile") }}</span>
+        </li>
+        <li>
+          <span class="split__bullet-idx">03</span>
+          <span>{{ t.t("hero.tagline_cloud") }}</span>
+        </li>
+      </ul>
 
-      <!-- Tagline with sub-bullet points -->
-      <div class="hero-tagline-container">
-        <p class="hero-tagline-title">{{ t.t("hero.tagline_prefix") }}</p>
-        <ul class="hero-tagline-bullets">
-          <li>
-            <span class="bullet-dot bullet-dot-1"></span>
-            <span class="bullet-text">{{ t.t("hero.tagline_web") }}</span>
-          </li>
-          <li>
-            <span class="bullet-dot bullet-dot-2"></span>
-            <span class="bullet-text">{{ t.t("hero.tagline_mobile") }}</span>
-          </li>
-          <li>
-            <span class="bullet-dot bullet-dot-3"></span>
-            <span class="bullet-text">{{ t.t("hero.tagline_cloud") }}</span>
-          </li>
-        </ul>
-        <p class="hero-location-text">
-          <i class="fa-solid fa-location-dot location-icon"></i>
+      <div class="split__foot-left">
+        <span class="split__loc">
+          <i class="fa-solid fa-location-dot"></i>
           <span>{{ t.t("hero.location") }}</span>
-        </p>
+        </span>
+
+        <div class="split__socials">
+          <a
+            [href]="githubUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="split__social-btn"
+            aria-label="GitHub Profile"
+            title="GitHub">
+            <i class="fa-brands fa-github"></i>
+            <span>GitHub</span>
+          </a>
+          <a
+            [href]="linkedinUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="split__social-btn"
+            aria-label="LinkedIn Profile"
+            title="LinkedIn">
+            <i class="fa-brands fa-linkedin-in"></i>
+            <span>LinkedIn</span>
+          </a>
+          <a
+            [href]="'https://mail.google.com/mail/?view=cm&fs=1&to=' + emailAddress"
+            (click)="copyEmail(emailAddress, $event)"
+            class="split__social-btn"
+            aria-label="Send Email"
+            title="Copy & Send Email">
+            <i class="fa-solid fa-envelope"></i>
+            <span>Email</span>
+          </a>
+          @if (copied()) {
+            <span class="split__copied">
+              <i class="fa-solid fa-check"></i> Copied!
+            </span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT HALF: BACK / CLOUD, DATA & AI (Industrial Night) -->
+  <div class="split__half split__half--back" data-night>
+    <div class="split__top">
+      <span class="split__tag">02 / SERVER · CLOUD &amp; DATA</span>
+      <span class="split__tag-sub">AWS · NODE.JS · DOCKER · ML</span>
+    </div>
+
+    <!-- Ambient Terminal + Cloud Rack Scene -->
+    <div class="split__scene split__scene--back">
+      <div class="terminal split__terminal">
+        <div class="terminal__bar">
+          <i></i><i></i><i></i>
+          <span>nafi&#64;hood: ~/production</span>
+        </div>
+        <div class="terminal__body">
+          <div><span class="p">$</span> <span class="c">whoami --verbose</span></div>
+          <div><span class="k">name</span>: <span class="v">"{{ t.t('hero.name') }}"</span></div>
+          <div><span class="k">role</span>: <span class="v">"{{ t.t('hero.role') }}"</span></div>
+          <div><span class="k">base</span>: <span class="v">"{{ t.t('hero.location') }}"</span></div>
+          <div><span class="p">$</span> <span class="c">stack --verify</span></div>
+          <div><span class="m">→ front :</span> <span class="v">Angular · TypeScript · Flutter · Tailwind</span></div>
+          <div><span class="m">→ back  :</span> <span class="v">Node.js · FastAPI · PostgreSQL · Firebase</span></div>
+          <div><span class="m">→ cloud :</span> <span class="v">AWS (EC2, S3, Lambda, CloudFront) · Docker</span></div>
+          <div><span class="m">→ data  :</span> <span class="v">PyTorch · YOLOv9 · Power BI · IEEE/Springer</span></div>
+          <div><span class="ok">✓ 14+ Systems Shipped · RunMate Live on iOS &amp; Android</span></div>
+        </div>
       </div>
 
-      <!-- Social Quick Links (GitHub, LinkedIn, Email) -->
-      <div class="hero-socials">
-        <a
-          [href]="githubUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="social-link"
-          aria-label="GitHub Profile"
-          title="GitHub">
-          <i class="fa-brands fa-github"></i>
-        </a>
-        <a
-          [href]="linkedinUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="social-link"
-          aria-label="LinkedIn Profile"
-          title="LinkedIn">
-          <i class="fa-brands fa-linkedin-in"></i>
-        </a>
-        <a
-          [href]="'https://mail.google.com/mail/?view=cm&fs=1&to=' + emailAddress"
-          (click)="copyEmail(emailAddress, $event)"
-          class="social-link"
-          aria-label="Send Email"
-          title="Send Email">
-          <i class="fa-solid fa-envelope"></i>
-        </a>
-        @if (copied()) {
-          <span class="copied-indicator">
-            <i class="fa-solid fa-check"></i>
-            <span>Email Copied!</span>
-          </span>
-        }
+      <!-- Server Rack & Data Nodes -->
+      <div class="split__infra" aria-hidden="true">
+        <div class="rack-unit">
+          <span class="rack-unit__leds"><i></i><i></i><i></i></span>
+          <span class="rack-unit__label">AWS CLUSTER // AP-SOUTHEAST-1</span>
+          <span class="rack-unit__stat">99.98% UP</span>
+        </div>
+        <div class="rack-unit">
+          <span class="rack-unit__leds"><i></i><i></i><i></i></span>
+          <span class="rack-unit__label">RUNMATE ENGINE // LIVE TELEMETRY</span>
+          <span class="rack-unit__stat">60 FPS</span>
+        </div>
       </div>
     </div>
 
-    <!-- Hero Graphic (3D WebGL Interactive Technology Sphere) -->
-    <div class="hero-graphic">
-      <app-hero-sphere></app-hero-sphere>
+    <!-- Action Console on Right Bottom -->
+    <div class="split__actions">
+      <button type="button" class="button button--amber" (click)="scrollToProjects()">
+        <span>{{ t.t("hero.cta_projects") }}</span>
+        <span class="arrow">→</span>
+      </button>
+      <button type="button" class="button" (click)="scrollToContact()">
+        <span>{{ t.t("hero.cta_contact") }}</span>
+        <span class="arrow">↘</span>
+      </button>
+      <a
+        href="assets/docs/Nafi_Ahmed_Resume.pdf"
+        target="_blank"
+        class="button"
+        download>
+        <span>{{ t.t("hero.cta_resume") }}</span>
+        <span class="arrow">↓</span>
+      </a>
     </div>
+  </div>
+
+  <!-- CENTER SPLIT SEAM & GEOMETRIC HOODED CHARACTER + HEX BANNER -->
+  <div class="split__seam" aria-hidden="true"></div>
+
+  <div class="split__center">
+    <!-- Split Geometric Hooded Developer SVG (Left Solid Red/Ink, Right Amber Wireframe) -->
+    <div class="split__character" aria-hidden="true">
+      <svg class="hoodie" viewBox="0 0 500 620">
+        <defs>
+          <clipPath id="hero-clip-left"><rect x="0" y="0" width="250" height="620" /></clipPath>
+          <clipPath id="hero-clip-right"><rect x="250" y="0" width="250" height="620" /></clipPath>
+          <pattern id="hero-scanlines" width="6" height="6" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="6" y2="0" stroke="#ffb547" stroke-width="0.6" stroke-opacity="0.35" />
+          </pattern>
+        </defs>
+        <!-- Left Half (Paper / Front) -->
+        <g clip-path="url(#hero-clip-left)">
+          <path d="M55 585 L95 360 L150 322 L250 335 L250 585 Z" fill="#ea1d0f" />
+          <path d="M95 360 L150 322 L192 415 L120 460 Z" fill="#c2160a" />
+          <path d="M150 322 L222 395 L250 395 L250 335 Z" fill="#16130f" />
+          <path d="M210 385 L250 585 L180 585 Z" fill="#b31409" />
+          <path d="M135 280 L170 118 L250 88 L250 338 L175 322 Z" fill="#ea1d0f" />
+          <path d="M170 118 L250 88 L215 170 L148 220 Z" fill="#f33a2c" />
+          <path d="M180 155 L250 132 L250 315 L195 292 Z" fill="#16130f" />
+          <polygon points="210,225 242,225 236,236 212,235" fill="#f4f1ea" />
+        </g>
+        <!-- Right Half (Night / Back Wireframe) -->
+        <g clip-path="url(#hero-clip-right)">
+          <path d="M445 585 L405 360 L350 322 L250 335 L250 585 Z" fill="url(#hero-scanlines)" stroke="#ffb547" stroke-width="1.5" />
+          <path d="M365 280 L330 118 L250 88 L250 338 L325 322 Z" fill="url(#hero-scanlines)" stroke="#ffb547" stroke-width="1.5" />
+          <path d="M320 155 L250 132 L250 315 L305 292 Z" fill="#0a0c10" stroke="#ffb547" stroke-width="1.2" />
+          <g stroke="#ffb547" stroke-width="0.9" stroke-opacity="0.7" fill="none">
+            <line x1="250" y1="88" x2="330" y2="118" />
+            <line x1="250" y1="132" x2="365" y2="280" />
+            <line x1="330" y1="118" x2="305" y2="292" />
+            <line x1="325" y1="322" x2="405" y2="360" />
+            <line x1="250" y1="335" x2="405" y2="360" />
+            <line x1="350" y1="322" x2="445" y2="585" />
+            <line x1="250" y1="395" x2="405" y2="360" />
+            <line x1="250" y1="395" x2="380" y2="585" />
+            <line x1="250" y1="490" x2="445" y2="585" />
+          </g>
+          <g fill="#ffb547">
+            <circle cx="330" cy="118" r="3" />
+            <circle cx="365" cy="280" r="3" />
+            <circle cx="325" cy="322" r="3" />
+            <circle cx="405" cy="360" r="3" />
+            <circle cx="350" cy="322" r="3" />
+            <circle cx="305" cy="292" r="2.5" />
+          </g>
+          <polygon points="290,225 258,225 264,236 288,235" fill="#ffb547" />
+        </g>
+        <!-- Center Seam Line -->
+        <line x1="250" y1="60" x2="250" y2="600" stroke="#f4f1ea" stroke-width="1.5" stroke-dasharray="4 4" />
+      </svg>
+    </div>
+
+    <!-- FRONT vs BACK Hex Banner -->
+    <div class="split__banner">
+      <div class="split__hex split__hex--front">
+        <span class="split__hex-sub">CLIENT SIDE</span>
+        <span class="split__hex-word">FRONT</span>
+      </div>
+      <span class="split__vs">×</span>
+      <div class="split__hex split__hex--back">
+        <span class="split__hex-sub">CLOUD &amp; DATA</span>
+        <span class="split__hex-word">BACK</span>
+      </div>
+    </div>
+
+    <button type="button" class="split__scroll" (click)="scroll.scrollTo('about')">
+      <span>SCROLL TO INSPECT</span>
+      <span class="split__scroll-arrow">↓</span>
+    </button>
   </div>
 </section>

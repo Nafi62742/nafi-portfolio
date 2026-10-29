@@ -1,126 +1,86 @@
-<section class="education-section">
-  <div class="education-container">
-    <!-- Header -->
-    <div class="education-header reveal">
-      <span class="label-tag-primary">{{ t.t('education.section_label') }}</span>
-      <h2 class="education-title">{{ t.t('education.title') }}</h2>
-      <p class="education-subtitle">{{ t.t('education.subtitle') }}</p>
+<section class="credentials" data-night aria-label="Education and Leadership">
+  <div class="credentials__head reveal">
+    <div>
+      <p class="kicker">08 — {{ t.t('education.section_label') }} // CREDENTIALS</p>
+      <h2 class="chapter-title">ACADEMIC <em>{{ t.t('education.title') }}.</em></h2>
     </div>
+    <p class="credentials__sub">{{ t.t('education.subtitle') }}</p>
+  </div>
 
-    <div class="education-layout">
-      <!-- Left Column: Academic Credentials -->
-      <div class="education-list">
-        <div class="column-header">
-          <div class="column-icon-badge">
-            <i class="fa-solid fa-graduation-cap"></i>
-          </div>
-          <h3 class="column-title">Academic Background</h3>
-        </div>
+  <div class="credentials__grid">
+    <!-- Left Column: Academic Credentials -->
+    <div class="credentials__col">
+      <header class="credentials__col-head">
+        <span class="text-mono">01 // ACADEMIC BACKGROUND</span>
+        <i class="fa-solid fa-graduation-cap"></i>
+      </header>
 
-        @for (edu of educations; track edu; let i = $index) {
-        <div
-          class="education-card glass-card reveal"
-          [class.delay-1]="i === 0"
-          [class.delay-2]="i === 1"
-          [class.delay-3]="i === 2"
-        >
-          <!-- Subtle Accent Line -->
-          <div class="card-accent-line"></div>
-
-          <div class="card-header-row">
-            <!-- Icon -->
-            <div class="education-icon-container">
-              <i class="fa-solid" [ngClass]="edu.icon"></i>
+      <div class="credentials__stack">
+        @for (edu of educations; track edu.degree; let i = $index) {
+          <article class="cred-card reveal">
+            <div class="cred-card__top">
+              <span class="cred-card__idx">DEGREE 0{{ i + 1 }}</span>
+              <span class="cred-card__period">{{ edu.period }}</span>
             </div>
 
-            <div class="card-title-group">
-              <h4 class="education-degree">{{ edu.degree }}</h4>
-              <div class="education-institution">
-                <i class="fa-solid fa-building-columns institution-icon"></i>
-                <span>{{ edu.institution }}</span>
+            <div class="cred-card__body">
+              <div class="cred-card__title-row">
+                <div class="cred-card__icon">
+                  <i class="fa-solid" [ngClass]="edu.icon"></i>
+                </div>
+                <div>
+                  <h3 class="cred-card__degree text-title">{{ edu.degree }}</h3>
+                  <p class="cred-card__inst">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <span>{{ edu.institution }}</span>
+                    <span>·</span>
+                    <i class="fa-solid fa-location-dot"></i>
+                    <span>{{ edu.location }}</span>
+                  </p>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <!-- Metadata Pill Strip (Period & Location, NO CGPA) -->
-          <div class="education-meta">
-            <span class="education-meta-item">
-              <i class="fa-regular fa-calendar-days meta-icon text-accent"></i>
-              <span>{{ edu.period }}</span>
-            </span>
-            <span class="meta-divider">•</span>
-            <span class="education-meta-item">
-              <i class="fa-solid fa-location-dot meta-icon text-primary-light"></i>
-              <span>{{ edu.location }}</span>
-            </span>
-          </div>
-
-          <!-- Key Coursework / Academic Highlights (if available) -->
-          @if (edu.coursework && edu.coursework.length) {
-          <div class="coursework-section">
-            <span class="coursework-label">
-              <i class="fa-solid fa-book-bookmark mr-1 text-accent"></i>
-              Core Coursework &amp; Focus:
-            </span>
-            <div class="coursework-container">
-              @for (course of edu.coursework; track course) {
-              <span class="coursework-badge">{{ course }}</span>
+              @if (edu.coursework && edu.coursework.length) {
+                <div class="cred-card__courses">
+                  <span class="text-mono">CORE COURSEWORK &amp; FOCUS:</span>
+                  <div class="cred-card__pills">
+                    @for (course of edu.coursework; track course) {
+                      <span class="pill pill--night">{{ course }}</span>
+                    }
+                  </div>
+                </div>
               }
             </div>
-          </div>
-          }
-        </div>
+          </article>
         }
       </div>
+    </div>
 
-      <!-- Right Column: Leadership & Extracurricular Activities -->
-      <div class="leadership-column">
-        <div class="column-header">
-          <div class="column-icon-badge leadership-icon-badge">
-            <i class="fa-solid fa-users-gear"></i>
-          </div>
-          <h3 class="column-title">Leadership &amp; Activities</h3>
-        </div>
+    <!-- Right Column: Leadership & Extracurricular Activities -->
+    <div class="credentials__col">
+      <header class="credentials__col-head">
+        <span class="text-mono">02 // LEADERSHIP &amp; ACTIVITIES</span>
+        <i class="fa-solid fa-users-gear"></i>
+      </header>
 
-        <div class="leadership-card glass-card reveal delay-3">
-          <div class="card-accent-line"></div>
-
-          <div class="leadership-timeline">
-            @for (item of leadership; track item; let i = $index; let last = $last) {
-            <div
-              class="leadership-item reveal"
-              [class.pb-6]="!last"
-              [class.delay-4]="i === 0"
-              [class.delay-5]="i === 1"
-              [class.delay-6]="i === 2"
-            >
-              <!-- Timeline Marker -->
-              <div class="leadership-marker-col">
-                <div class="leadership-bullet"></div>
-                @if (!last) {
-                <div class="leadership-line"></div>
-                }
-              </div>
-
-              <!-- Content -->
-              <div class="leadership-content">
-                <div class="leadership-role-row">
-                  <h4 class="leadership-role">{{ item.role }}</h4>
-                  <span class="leadership-period">
-                    <i class="fa-regular fa-calendar-days mr-1"></i>
-                    {{ item.period }}
-                  </span>
-                </div>
-                <div class="leadership-organization">
-                  <i class="fa-solid fa-shield-halved org-icon"></i>
-                  <span>{{ item.organization }}</span>
-                </div>
-                <p class="leadership-desc">{{ item.description }}</p>
-              </div>
+      <div class="credentials__stack">
+        @for (item of leadership; track item.role; let i = $index) {
+          <article class="cred-card is-lead reveal">
+            <div class="cred-card__top">
+              <span class="cred-card__idx">ROLE 0{{ i + 1 }}</span>
+              <span class="cred-card__period">{{ item.period }}</span>
             </div>
-            }
-          </div>
-        </div>
+
+            <div class="cred-card__body">
+              <h3 class="cred-card__degree text-title">{{ item.role }}</h3>
+              <p class="cred-card__inst">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>{{ item.organization }}</span>
+              </p>
+              <p class="cred-card__desc">{{ item.description }}</p>
+            </div>
+          </article>
+        }
       </div>
     </div>
   </div>

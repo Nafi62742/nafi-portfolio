@@ -1,140 +1,309 @@
-.contact-section {
-  @apply py-24 relative overflow-hidden;
-  background: transparent;
+.console-wrap {
+  position: relative;
+  z-index: 2;
 }
 
-.contact-container {
-  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8 relative z-10;
-}
+.console {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--line);
 
-.contact-header {
-  @apply text-center mb-12;
-}
+  &__front {
+    background: var(--bg);
+    color: var(--ink);
+    padding: clamp(5rem, 8vw, 7.5rem) var(--gutter);
+    border-right: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2.5rem;
+  }
 
-.contact-title {
-  @apply font-extrabold mt-4 mb-3;
-  font-size: clamp(1.875rem, 4vw, 2.25rem);
-}
+  &__head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
 
-.contact-subtitle {
-  @apply text-text-secondary max-w-[540px] mx-auto;
-}
+  &__sub {
+    font-size: 0.96rem;
+    color: var(--ink-2);
+    max-width: 44ch;
+  }
 
-.contact-grid {
-  @apply grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 max-w-[1000px] mx-auto;
-}
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.65rem;
+  }
 
-.info-panel {
-  @apply flex flex-col gap-5;
-}
+  &__submit-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.5rem;
 
-.info-card {
-  @apply bg-bg-card p-6 flex flex-col gap-5;
-}
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+  }
 
-.info-item {
-  @apply flex items-center gap-4;
-}
+  &__status {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 
-.info-icon-container {
-  @apply flex items-center justify-center w-11 h-11 rounded-xl flex-shrink-0 text-sm text-primary-light;
-  background: rgba(99, 102, 241, 0.12);
-}
+    &.is-ok {
+      color: var(--success);
+    }
+  }
 
-.info-text {
-  @apply flex flex-col gap-0.5;
-}
+  /* Right Half: Industrial Night Server Side */
+  &__back {
+    background: var(--night);
+    color: #f4f1ea;
+    padding: clamp(5rem, 8vw, 7.5rem) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+  }
 
-.info-label {
-  @apply text-xs text-text-muted uppercase tracking-[0.05em];
-}
+  &__back-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--night-line);
+    color: var(--amber);
+  }
 
-.info-link {
-  @apply text-sm text-text-secondary font-medium transition-colors hover:text-accent-light;
-  transition-duration: 250ms;
-}
+  &__online {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: #4ade80;
 
-.info-value-static {
-  @apply text-sm text-text-secondary font-medium cursor-default;
-}
+    i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--online);
+      display: inline-block;
+    }
+  }
 
-.social-prompt {
-  @apply text-sm text-text-muted mb-3;
-}
+  &__info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--night-line);
+    background: var(--night-2);
+  }
 
-.social-container {
-  @apply flex items-center gap-3;
-}
+  &__cell {
+    padding: 1.15rem 1.25rem;
+    border-right: 1px solid var(--night-line);
+    border-bottom: 1px solid var(--night-line);
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
 
-.social-link {
-  @apply flex items-center justify-center w-11 h-11 rounded-full text-text-secondary text-base;
-  background: var(--input-bg);
-  border: 1px solid var(--border-color);
-  transition: all 0.25s ease;
+    &:nth-child(2n) {
+      border-right: 0;
+    }
 
-  &:hover {
-    @apply -translate-y-0.5 text-primary-light;
+    &:nth-last-child(-n+2) {
+      border-bottom: 0;
+    }
+
+    dt {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dim);
+
+      i {
+        color: var(--amber);
+      }
+    }
+
+    dd {
+      font-size: 0.9rem;
+      color: #f4f1ea;
+      word-break: break-word;
+
+      a:hover {
+        color: var(--amber);
+      }
+    }
+  }
+
+  &__socials {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  &__slink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.28rem 0.55rem;
+    border: 1px solid var(--night-line);
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #f4f1ea;
+    transition: border-color 200ms var(--ease), color 200ms var(--ease);
+
+    &:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+  }
+
+  &__copied {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: #4ade80;
   }
 }
 
-.copied-indicator {
-  @apply text-xs text-success font-semibold animate-fade-in flex items-center gap-1.5 px-3 py-1.5 rounded-lg;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-}
+/* Editorial Underlined Input Fields (.field) */
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--paper-line);
 
-.form-panel {
-  @apply bg-bg-card p-8;
-}
+  &__label {
+    font-family: var(--mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
 
-.form-wrapper {
-  @apply flex flex-col gap-5;
-}
+  &__input {
+    width: 100%;
+    padding: 0.35rem 0;
+    font-size: 1rem;
+    color: var(--ink);
+    background: transparent;
 
-.form-group {
-  @apply flex flex-col gap-2;
-}
+    &::placeholder {
+      color: var(--ink-3);
+      opacity: 0.6;
+    }
 
-.form-label {
-  @apply text-sm font-medium text-text-secondary;
-}
+    &:focus {
+      outline: none;
+    }
+  }
 
-.form-input {
-  @apply w-full px-4 py-3 rounded-xl text-sm text-text-primary font-sans placeholder:text-text-muted focus:outline-none;
-  background: var(--input-bg);
-  border: 1px solid var(--border-color);
-  transition: all 0.25s ease;
+  &__textarea {
+    resize: vertical;
+    min-height: 96px;
+  }
 
-  &:focus {
-    border-color: rgba(99, 102, 241, 0.5);
-    background: rgba(99, 102, 241, 0.05);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  &__line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 300ms var(--ease);
+  }
+
+  &:focus-within {
+    .field__label {
+      color: var(--red);
+    }
+
+    .field__line {
+      transform: scaleX(1);
+    }
   }
 }
 
-.form-textarea {
-  @apply w-full px-4 py-3 rounded-xl text-sm text-text-primary font-sans resize-y placeholder:text-text-muted focus:outline-none;
-  background: var(--input-bg);
-  border: 1px solid var(--border-color);
-  transition: all 0.25s ease;
+/* Finale Split Banner ("Both Sides") */
+.finale {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 
-  &:focus {
-    border-color: rgba(99, 102, 241, 0.5);
-    background: rgba(99, 102, 241, 0.05);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  &__half {
+    padding: clamp(3rem, 5.5vw, 5rem) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    &--front {
+      background: var(--bg-2);
+      color: var(--ink);
+      border-right: 1px solid var(--line);
+    }
+
+    &--back {
+      background: #0b0d11;
+      color: #f4f1ea;
+    }
+
+    .text-mono {
+      color: var(--ink-3);
+    }
+
+    &--back .text-mono {
+      color: var(--dim);
+    }
+  }
+
+  &__word {
+    font-size: clamp(2rem, 4.5vw, 4rem);
+
+    em {
+      font-style: normal;
+      color: var(--amber);
+    }
   }
 }
 
-.form-submit-btn {
-  @apply w-full justify-center py-4 text-base;
+@media (max-width: 1024px) {
+  .console,
+  .finale {
+    grid-template-columns: 1fr;
+  }
 
-  &:disabled {
-    @apply opacity-60 cursor-not-allowed hover:transform-none;
+  .console__front,
+  .finale__half--front {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 }
 
-.success-message {
-  @apply flex items-center gap-3 p-4 rounded-xl text-success text-sm font-medium animate-fade-up;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.25);
+@media (max-width: 640px) {
+  .console__info {
+    grid-template-columns: 1fr;
+
+    .console__cell {
+      border-right: 0;
+      border-bottom: 1px solid var(--night-line);
+    }
+  }
 }

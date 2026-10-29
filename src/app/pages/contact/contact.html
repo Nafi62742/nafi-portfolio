@@ -1,101 +1,70 @@
-<section class="contact-section">
-  <div class="contact-container">
-
-    <div class="contact-header reveal">
-      <span class="label-tag-primary">{{ t.t('contact.section_label') }}</span>
-      <h2 class="contact-title gradient-text">
-        {{ t.t('contact.title') }}
-      </h2>
-      <p class="contact-subtitle">{{ t.t('contact.subtitle') }}</p>
-    </div>
-
-    <div class="contact-grid">
-
-      <!-- Info Panel -->
-      <div class="info-panel reveal delay-1">
-        <div class="info-card glass-card">
-          @for (info of contactInfo; track info) {
-            <div class="info-item">
-              <div class="info-icon-container">
-                <i class="fa-solid" [ngClass]="info.icon"></i>
-              </div>
-              <div class="info-text">
-                <span class="info-label">{{ info.label }}</span>
-                @if (info.href) {
-                  <a [href]="info.href"
-                    (click)="info.label === 'Email' ? copyEmail(info.value, $event) : null"
-                    class="info-link">
-                    {{ info.value }}
-                  </a>
-                } @else {
-                  <span class="info-value-static">{{ info.value }}</span>
-                }
-              </div>
-            </div>
-          }
-        </div>
-
-        <div>
-          <p class="social-prompt">{{ t.t('contact.or_reach') }}</p>
-          <div class="social-container">
-            @for (s of socials; track s) {
-              <a [href]="s.href"
-                [target]="s.label === 'Email' ? '_self' : '_blank'"
-                (click)="s.label === 'Email' ? copyEmail(contactInfo[0].value, $event) : null"
-                [id]="'contact-' + s.label.toLowerCase()"
-                class="social-link"
-                [attr.aria-label]="s.label">
-                <i [class]="s.icon"></i>
-              </a>
-            }
-
-            <!-- Copied Indicator -->
-            @if (copied()) {
-              <span class="copied-indicator">
-                <i class="fa-solid fa-circle-check"></i>
-                Copied!
-              </span>
-            }
-          </div>
-        </div>
+<section class="console-wrap" aria-label="Contact — Message Console">
+  <div class="console">
+    <!-- LEFT HALF: EDITORIAL FORM (Warm Paper) -->
+    <div class="console__front">
+      <div class="console__head reveal">
+        <p class="kicker">09 — {{ t.t('contact.section_label') }} // CLIENT SIDE</p>
+        <h2 class="chapter-title">TELL ME WHAT <em>{{ t.t('contact.title') }}.</em></h2>
+        <p class="console__sub">{{ t.t('contact.subtitle') }}</p>
       </div>
 
-      <!-- Form -->
-      <div class="form-panel glass-card reveal delay-2">
-        <form class="form-wrapper" (ngSubmit)="onSubmit()" #contactForm="ngForm" id="contact-form">
+      <form
+        class="console__form reveal delay-1"
+        (ngSubmit)="onSubmit()"
+        #contactForm="ngForm"
+        id="contact-form">
 
-          <div class="form-group">
-            <label for="contact-name" class="form-label">{{ t.t('contact.name_label') }}</label>
-            <input id="contact-name" type="text" [(ngModel)]="name" name="name"
-              [placeholder]="t.t('contact.name_placeholder')" required
-              class="form-input" />
-          </div>
+        <label class="field" for="contact-name">
+          <span class="field__label">01 / {{ t.t('contact.name_label') }}</span>
+          <input
+            id="contact-name"
+            type="text"
+            [(ngModel)]="name"
+            name="name"
+            [placeholder]="t.t('contact.name_placeholder')"
+            required
+            class="field__input" />
+          <span class="field__line"></span>
+        </label>
 
-          <div class="form-group">
-            <label for="contact-email" class="form-label">{{ t.t('contact.email_label') }}</label>
-            <input id="contact-email" type="email" [(ngModel)]="email" name="email"
-              [placeholder]="t.t('contact.email_placeholder')" required
-              class="form-input" />
-          </div>
+        <label class="field" for="contact-email">
+          <span class="field__label">02 / {{ t.t('contact.email_label') }}</span>
+          <input
+            id="contact-email"
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            [placeholder]="t.t('contact.email_placeholder')"
+            required
+            class="field__input" />
+          <span class="field__line"></span>
+        </label>
 
-          <div class="form-group">
-            <label for="contact-message" class="form-label">{{ t.t('contact.message_label') }}</label>
-            <textarea id="contact-message" [(ngModel)]="message" name="message" rows="5"
-              [placeholder]="t.t('contact.message_placeholder')" required
-              class="form-textarea"></textarea>
-          </div>
+        <label class="field" for="contact-message">
+          <span class="field__label">03 / {{ t.t('contact.message_label') }}</span>
+          <textarea
+            id="contact-message"
+            [(ngModel)]="message"
+            name="message"
+            rows="4"
+            [placeholder]="t.t('contact.message_placeholder')"
+            required
+            class="field__input field__textarea"></textarea>
+          <span class="field__line"></span>
+        </label>
 
-          <button type="submit" id="btn-contact-submit"
-            class="form-submit-btn btn-primary"
+        <div class="console__submit-row">
+          <button
+            type="submit"
+            id="btn-contact-submit"
+            class="button button--solid"
             [disabled]="sending() || !contactForm.valid">
             @if (!sending()) {
-              <span>
-                <i class="fa-solid fa-paper-plane"></i>
-                {{ t.t('contact.send_btn') }}
-              </span>
+              <span>{{ t.t('contact.send_btn') }}</span>
+              <span class="arrow">→</span>
             }
             @if (sending()) {
-              <span class="flex items-center gap-2">
+              <span>
                 <i class="fa-solid fa-spinner fa-spin"></i>
                 {{ t.t('contact.sending') }}
               </span>
@@ -103,15 +72,109 @@
           </button>
 
           @if (success()) {
-            <div class="success-message">
+            <span class="console__status is-ok">
               <i class="fa-solid fa-circle-check"></i>
               {{ t.t('contact.success_msg') }}
-            </div>
+            </span>
           }
+        </div>
+      </form>
+    </div>
 
-        </form>
+    <!-- RIGHT HALF: LIVE PAYLOAD TERMINAL & DIRECT CHANNELS (Industrial Night) -->
+    <div class="console__back" data-night>
+      <div class="console__back-top reveal">
+        <span class="text-mono">02 / SERVER · LIVE REQUEST PAYLOAD</span>
+        <span class="console__online">
+          <i></i> ENDPOINT READY
+        </span>
       </div>
 
+      <!-- Live Reactive Terminal -->
+      <div class="terminal console__terminal reveal delay-1">
+        <div class="terminal__bar">
+          <i></i><i></i><i></i>
+          <span>nafi&#64;hood: ~/contact — curl</span>
+        </div>
+        <div class="terminal__body">
+          <div><span class="p">$</span> <span class="c">curl -X POST https://api.web3forms.com/submit \</span></div>
+          <div>&nbsp;&nbsp;<span class="m">-H</span> <span class="v">"Content-Type: application/json"</span> \</div>
+          <div>&nbsp;&nbsp;<span class="m">-d</span> <span class="c">'&#123;</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">"to"</span>: <span class="v">"Nafi Ahmed &lt;nafiahmed318&#64;gmail.com&gt;"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">"name"</span>: <span class="v">"{{ name || 'your_name' }}"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">"email"</span>: <span class="v">"{{ email || 'you@domain.com' }}"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">"message"</span>: <span class="v">"{{ message || 'Tell me about your project...' }}"</span></div>
+          <div>&nbsp;&nbsp;<span class="c">&#125;'</span></div>
+          @if (sending()) {
+            <div><span class="p">&gt;</span> <span class="m">Dispatching packet...</span></div>
+          } @else if (success()) {
+            <div><span class="ok">✓ HTTP/2 200 OK — Message delivered to Nafi.</span></div>
+          } @else {
+            <div><span class="m"># Waiting for form input...</span></div>
+          }
+        </div>
+      </div>
+
+      <!-- 2x2 Direct Contact & Social Grid -->
+      <dl class="console__info reveal delay-2">
+        @for (info of contactInfo; track info.label) {
+          <div class="console__cell">
+            <dt>
+              <i class="fa-solid" [ngClass]="info.icon"></i>
+              <span>{{ info.label }}</span>
+            </dt>
+            <dd>
+              @if (info.href) {
+                <a
+                  [href]="info.href"
+                  (click)="info.label === 'Email' ? copyEmail(info.value, $event) : null">
+                  {{ info.value }} ↗
+                </a>
+              } @else {
+                <span>{{ info.value }}</span>
+              }
+            </dd>
+          </div>
+        }
+
+        <div class="console__cell">
+          <dt>
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>{{ t.t('contact.or_reach') }}</span>
+          </dt>
+          <dd class="console__socials">
+            @for (s of socials; track s.label) {
+              <a
+                [href]="s.href"
+                [target]="s.label === 'Email' ? '_self' : '_blank'"
+                (click)="s.label === 'Email' ? copyEmail(contactInfo[0].value, $event) : null"
+                [id]="'contact-' + s.label.toLowerCase()"
+                class="console__slink"
+                [attr.aria-label]="s.label">
+                <i [class]="s.icon"></i>
+                <span>{{ s.label }}</span>
+              </a>
+            }
+            @if (copied()) {
+              <span class="console__copied">
+                <i class="fa-solid fa-circle-check"></i> Copied!
+              </span>
+            }
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
+  <!-- FINALE BANNER: BOTH SIDES -->
+  <div class="finale" aria-hidden="true">
+    <div class="finale__half finale__half--front">
+      <span class="text-mono">FRONT // INTERFACES &amp; MOBILE</span>
+      <p class="finale__word text-display">LET'S BUILD</p>
+    </div>
+    <div class="finale__half finale__half--back" data-night>
+      <span class="text-mono">BACK // CLOUD, DATA &amp; AI</span>
+      <p class="finale__word text-display">THE <em>WHOLE</em> THING.</p>
     </div>
   </div>
 </section>

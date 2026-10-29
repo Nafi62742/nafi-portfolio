@@ -1,22 +1,109 @@
-.footer-root {
-  @apply py-8 border-t relative overflow-hidden;
-  background: var(--bg-surface-translucent);
-  border-color: var(--border-color);
-}
+.site-footer {
+  position: relative;
+  z-index: 2;
+  background: #0a0c10;
+  color: #f4f1ea;
+  border-top: 1px solid rgba(244, 241, 234, 0.14);
+  padding: 2.5rem var(--gutter);
+  display: grid;
+  grid-template-columns: 1.2fr 1.2fr 1fr;
+  align-items: center;
+  gap: 1.5rem;
 
-.footer-container {
-  @apply w-full max-w-[1200px] mx-auto px-6 lg:px-8 flex flex-wrap items-center justify-between gap-4 relative z-10;
-}
+  &__brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
 
-.footer-logo-btn {
-  @apply bg-transparent border-none font-mono text-base font-bold cursor-pointer flex items-center gap-0.5;
-  transition: all 0.25s ease;
+  &__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font);
+    font-variation-settings: "wdth" 125, "wght" 820;
+    font-size: 0.9rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #f4f1ea;
 
-  &:hover {
-    @apply scale-[1.03];
+    .brand__mark {
+      width: 36px;
+      height: 16px;
+    }
+
+    &:hover {
+      color: var(--amber);
+    }
+  }
+
+  &__tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+
+    a,
+    button {
+      color: rgba(244, 241, 234, 0.78);
+      transition: color 200ms var(--ease);
+
+      &:hover {
+        color: var(--amber);
+      }
+    }
+  }
+
+  &__top {
+    padding: 0.35rem 0.65rem;
+    border: 1px solid rgba(244, 241, 234, 0.22);
+
+    &:hover {
+      border-color: var(--amber);
+    }
+  }
+
+  &__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.3rem;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  &__dual {
+    color: var(--amber);
   }
 }
 
-.footer-text {
-  @apply text-sm text-text-muted;
+@media (max-width: 960px) {
+  .site-footer {
+    grid-template-columns: 1fr;
+    text-align: left;
+
+    &__links {
+      justify-content: flex-start;
+    }
+
+    &__meta {
+      align-items: flex-start;
+    }
+  }
 }

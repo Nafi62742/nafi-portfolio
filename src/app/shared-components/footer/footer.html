@@ -1,21 +1,29 @@
-<footer class="footer-root">
-  <div class="footer-container">
-
-    <button class="footer-logo-btn" (click)="scroll.scrollTo('hero')">
-      <span class="text-text-muted">&lt;</span>
-      <span class="text-text-primary">Nafi</span>
-      <span class="text-accent">.</span>
-      <span class="gradient-text">dev</span>
-      <span class="text-text-muted">/&gt;</span>
+<footer class="site-footer" data-night>
+  <div class="site-footer__brand">
+    <button type="button" class="site-footer__logo" (click)="scroll.scrollTo('hero')">
+      <svg class="brand__mark" viewBox="0 0 64 28" aria-hidden="true">
+        <path d="M2 2 L22 6 L18 14 L22 22 L2 26 Z" fill="currentColor" />
+        <path d="M32 2 L38 14 L32 26 L26 14 Z" fill="var(--red)" />
+        <path d="M62 2 L42 6 L46 14 L42 22 L62 26 Z" fill="currentColor" />
+      </svg>
+      <span>NAFI IN THE HOOD</span>
     </button>
-
-    <p class="footer-text">
-      © {{ year }} Nafi Ahmed. {{ t.t('footer.rights') }}
+    <p class="site-footer__tag">
+      {{ t.t('footer.built_with') }} · Dhaka, Bangladesh
     </p>
+  </div>
 
-    <p class="footer-text">
-      {{ t.t('footer.built_with') }}
-    </p>
+  <div class="site-footer__links">
+    <a href="mailto:nafiahmed003@gmail.com">nafiahmed003&#64;gmail.com</a>
+    <a href="https://github.com/Nafi62742" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+    <a href="https://www.linkedin.com/in/nafi-ahmed/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+    <button type="button" class="site-footer__top" (click)="scroll.scrollTo('hero')">
+      Back to top ↑
+    </button>
+  </div>
 
+  <div class="site-footer__meta">
+    <span>© {{ year }} Nafi Ahmed. {{ t.t('footer.rights') }}</span>
+    <span class="site-footer__dual">FRONT × BACK // WEB · MOBILE · CLOUD · DATA</span>
   </div>
 </footer>

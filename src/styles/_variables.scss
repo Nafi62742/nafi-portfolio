@@ -1,37 +1,41 @@
-// ─── Color Palette ───────────────────────────────────────────────────────────
-$bg-base:           #090d16;
-$bg-surface:        #0e1424;
-$bg-card:           #131c2e;
-$bg-card-hover:     #19243b;
+// ─── DEV IN THE HOOD Design Tokens (Backward-compatible SCSS variables) ─────
+$bg-base:           #f4f1ea;
+$bg-surface:        #eae6dd;
+$bg-card:           #ded8cc;
+$bg-card-hover:     #d4cdbf;
 
-$primary:           #6366f1;
-$primary-light:     #818cf8;
-$primary-dark:      #4f46e5;
-$accent:            #06b6d4;
-$accent-light:      #38bdf8;
-$accent-dark:       #0891b2;
+$night-base:        #0f1217;
+$night-surface:     #1c222c;
+$night-card:        #2b3341;
+
+$primary:           #ea1d0f;
+$primary-light:     #ff4b3e;
+$primary-dark:      #c2160a;
+$accent:            #ffb547;
+$accent-light:      #ffd166;
+$accent-dark:       #a86f00;
 
 $gradient-primary:  linear-gradient(135deg, $primary 0%, $accent 100%);
-$gradient-hero:     radial-gradient(ellipse 80% 50% at 50% -20%, rgba($primary, 0.25), transparent 70%), radial-gradient(ellipse 60% 40% at 80% 40%, rgba($accent, 0.18), transparent 60%), linear-gradient(180deg, #090d16 0%, #060911 100%);
+$gradient-hero:     linear-gradient(90deg, $bg-base 50%, $night-base 50%);
 $gradient-glow:     radial-gradient(ellipse at center, rgba($primary, 0.2) 0%, transparent 70%);
 
-$text-primary:      #f8fafc;
-$text-secondary:    #94a3b8;
-$text-muted:        #64748b;
-$text-accent:       $accent-light;
+$text-primary:      #16130f;
+$text-secondary:    #4a443c;
+$text-muted:        #6f685d;
+$text-accent:       $primary;
 
-$border:            rgba(255, 255, 255, 0.08);
-$border-hover:      rgba($primary, 0.45);
-$glass-bg:          rgba(15, 23, 42, 0.72);
-$glass-bg-light:    rgba(19, 28, 46, 0.65);
+$border:            rgba(22, 19, 15, 0.14);
+$border-hover:      rgba($primary, 0.55);
+$glass-bg:          rgba(244, 241, 234, 0.88);
+$glass-bg-light:    rgba(234, 230, 221, 0.78);
 
-$success:           #10b981;
-$warning:           #f59e0b;
-$error:             #ef4444;
+$success:           #157f3e;
+$warning:           #ffb547;
+$error:             #ea1d0f;
 
 // ─── Typography ──────────────────────────────────────────────────────────────
-$font-sans:         'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-$font-mono:         'Fira Code', 'Cascadia Code', monospace;
+$font-sans:         'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-mono:         'JetBrains Mono', 'Fira Code', monospace;
 
 $text-xs:    0.75rem;
 $text-sm:    0.875rem;
@@ -76,23 +80,23 @@ $bp-xl:   1280px;
 $bp-2xl:  1536px;
 
 // ─── Layout ──────────────────────────────────────────────────────────────────
-$container-max:   1200px;
+$container-max:   1480px;
 $navbar-height:   72px;
 $section-py:      $space-24;
 
 // ─── Effects ─────────────────────────────────────────────────────────────────
-$radius-sm:   6px;
-$radius-md:   12px;
-$radius-lg:   20px;
-$radius-xl:   28px;
+$radius-sm:   2px;
+$radius-md:   4px;
+$radius-lg:   6px;
+$radius-xl:   8px;
 $radius-full: 9999px;
 
-$shadow-sm:   0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-$shadow-md:   0 4px 16px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.2);
-$shadow-lg:   0 10px 40px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3);
-$shadow-glow: 0 0 40px rgba($primary, 0.25), 0 0 80px rgba($accent, 0.1);
-$shadow-card-hover: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba($primary, 0.15);
+$shadow-sm:   0 2px 6px rgba(22, 19, 15, 0.08);
+$shadow-md:   0 12px 32px -12px rgba(22, 19, 15, 0.22);
+$shadow-lg:   0 24px 60px -20px rgba(0, 0, 0, 0.45);
+$shadow-glow: 0 0 40px rgba($primary, 0.25), 0 0 80px rgba($accent, 0.15);
+$shadow-card-hover: 0 22px 44px -18px rgba(22, 19, 15, 0.28);
 
-$transition-fast:   150ms ease;
-$transition-base:   250ms ease;
-$transition-slow:   400ms cubic-bezier(0.4, 0, 0.2, 1);
+$transition-fast:   180ms cubic-bezier(0.22, 1, 0.36, 1);
+$transition-base:   280ms cubic-bezier(0.22, 1, 0.36, 1);
+$transition-slow:   500ms cubic-bezier(0.16, 1, 0.3, 1);

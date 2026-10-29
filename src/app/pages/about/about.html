@@ -1,143 +1,141 @@
-<section class="about-section">
-  <div class="about-container">
-
-    <!-- Section Header -->
-    <div class="about-header reveal">
-      <span class="label-tag-accent">
-        <i class="fa-solid fa-id-badge mr-1.5"></i>{{ t.t('about.section_label') }}
-      </span>
-      <h2 class="about-title">{{ t.t('about.title') }}</h2>
+<section class="player" data-night aria-label="About — Under the Hood">
+  <div class="player__head reveal">
+    <div>
+      <p class="kicker">02 — {{ t.t('about.section_label') }} // UNDER THE HOOD</p>
+      <h2 class="chapter-title">WHO IS <em>UNDER THE HOOD?</em></h2>
     </div>
+    <p class="player__sub">{{ t.t('about.title') }}</p>
+  </div>
 
-    <!-- Main Bento Grid (Story + Quick Facts) -->
-    <div class="about-bento-grid">
+  <div class="player__grid">
+    <!-- Left Column: Spotlight Pedestal + Architectural Pillars + Ethos -->
+    <div class="player__stage-col reveal delay-1">
+      <div class="player__stage">
+        <div class="player__spotlight" aria-hidden="true"></div>
 
-      <!-- 1. Main Story Card (Large Bento Tile) -->
-      <div class="about-story-card glass-card reveal delay-1">
-        <div class="story-inset-header">
-          <div class="terminal-dots">
-            <span class="dot dot-red"></span>
-            <span class="dot dot-amber"></span>
-            <span class="dot dot-green"></span>
-          </div>
-          <span class="story-code-tag">nafi.developer.profile.ts</span>
-        </div>
+        <svg class="player__figure" viewBox="0 0 360 440" aria-hidden="true">
+          <defs>
+            <radialGradient id="ped-glow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffb547" stop-opacity="0.55" />
+              <stop offset="100%" stop-color="#ffb547" stop-opacity="0" />
+            </radialGradient>
+          </defs>
+          <!-- Pedestal -->
+          <ellipse cx="180" cy="392" rx="135" ry="26" fill="url(#ped-glow)" />
+          <ellipse cx="180" cy="384" rx="108" ry="15" fill="#1c222c" stroke="#ffb547" stroke-width="1.5" />
+          <ellipse cx="180" cy="376" rx="88" ry="11" fill="#0f1217" stroke="#ea1d0f" stroke-width="1.2" />
 
-        <div class="story-body">
-          <p class="about-bio bio-lead">
-            {{ t.t('about.bio_1') }}
-          </p>
-          <p class="about-bio">
-            {{ t.t('about.bio_2') }}
-          </p>
-          <p class="about-bio">
-            {{ t.t('about.bio_3') }}
-          </p>
-        </div>
+          <!-- Geometric Hooded Developer -->
+          <path d="M85 376 L112 230 L150 202 L210 202 L248 230 L275 376 Z" fill="#ea1d0f" />
+          <path d="M180 202 L248 230 L275 376 L180 376 Z" fill="#b31409" />
+          <path d="M132 182 L152 84 L180 66 L208 84 L228 182 L180 206 Z" fill="#ea1d0f" />
+          <path d="M150 112 L180 96 L210 112 L202 184 L180 194 L158 184 Z" fill="#0f1217" />
+          <polygon points="160,145 176,145 173,152 161,151" fill="#f4f1ea" />
+          <polygon points="200,145 184,145 187,152 199,151" fill="#ffb547" />
+          <line x1="180" y1="66" x2="180" y2="376" stroke="#ffb547" stroke-width="1.2" stroke-dasharray="4 4" />
+        </svg>
 
-        <!-- Technical Specialization Pillars -->
-        <div class="pillars-container">
-          <div class="pillars-label">Core Architectural Pillars</div>
-          <div class="pillars-grid">
-            @for (pillar of pillars; track pillar.title) {
-              <div class="pillar-chip">
-                <i class="fa-solid" [ngClass]="pillar.icon"></i>
-                <div class="pillar-info">
-                  <span class="pillar-title">{{ pillar.title }}</span>
-                  <span class="pillar-badge">{{ pillar.badge }}</span>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-
-        <!-- Action Row -->
-        <div class="story-action-row">
-          <button (click)="scrollToProjects()" class="story-btn-primary" type="button">
-            <span>Explore Projects</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
-          <button (click)="scrollToContact()" class="story-btn-secondary" type="button">
-            <span>Get in Touch</span>
-            <i class="fa-solid fa-envelope"></i>
-          </button>
+        <div class="player__quote">
+          <i class="fa-solid fa-quote-left"></i>
+          <p>"What doesn't kill you makes you stronger."</p>
         </div>
       </div>
 
-      <!-- 2. Developer Identity / Quick Facts Tile (Side Bento) -->
-      <div class="about-facts-card glass-card reveal delay-2">
-        <!-- Live Status Pill -->
-        <div class="facts-status-row">
-          <span class="facts-status-pill">
-            <span class="status-pulse-dot"></span>
-            <span class="status-pulse-text">{{ t.t('about.status_active') }}</span>
-          </span>
-          <span class="facts-timezone">GMT+6 • Dhaka</span>
+      <!-- Core Architectural Pillars -->
+      <div class="player__pillars">
+        <div class="player__pillars-head">
+          <span class="text-mono">CORE ARCHITECTURAL PILLARS</span>
+          <span class="text-mono">04 DOMAINS</span>
         </div>
-
-        <!-- Quick Facts List -->
-        <div class="facts-list">
-          @for (fact of quickFacts; track fact.labelKey) {
-            <div class="fact-item">
-              <div class="fact-icon-wrapper">
-                <i class="fa-solid" [ngClass]="fact.icon"></i>
-              </div>
-              <div class="fact-content">
-                <span class="fact-label">{{ t.t(fact.labelKey) }}</span>
-                <span class="fact-val">{{ t.t(fact.valueKey) }}</span>
+        <div class="player__pillars-grid">
+          @for (pillar of pillars; track pillar.title; let i = $index) {
+            <div class="player__pillar">
+              <span class="player__pillar-idx">0{{ i + 1 }}</span>
+              <i class="fa-solid" [ngClass]="pillar.icon"></i>
+              <div class="player__pillar-meta">
+                <strong>{{ pillar.title }}</strong>
+                <span>{{ pillar.badge }}</span>
               </div>
             </div>
           }
         </div>
+      </div>
+    </div>
 
-        <!-- Mini Developer Ethos Quote -->
-        <div class="ethos-box">
-          <i class="fa-solid fa-quote-left ethos-icon"></i>
-          <p class="ethos-text">
-            "What doesn't kill you makes you stronger."
-          </p>
-        </div>
+    <!-- Right Column: Player 1 Dossier Card (Warm Paper with Hazard Stripe) -->
+    <article class="player__card reveal delay-2">
+      <div class="player__hazard" aria-hidden="true"></div>
+
+      <header class="player__card-head">
+        <span class="player__badge">PLAYER 01 // nafi.developer.profile.ts</span>
+        <span class="player__live">
+          <span class="player__live-dot"></span>
+          <span>{{ t.t('about.status_active') }} · GMT+6 Dhaka</span>
+        </span>
+      </header>
+
+      <div class="player__identity">
+        <h3 class="player__name text-display">NAFI AHMED</h3>
+        <p class="player__role">SOFTWARE DEVELOPER · DATA SPECIALIST · FULL-STACK &amp; CLOUD ARCHITECT</p>
       </div>
 
-    </div>
-
-    <!-- 3. Keyvo-Inspired 4-Column Stat Cards -->
-    <div class="about-stats-strip">
-      @for (stat of stats; track stat.key; let i = $index) {
-        <div
-          class="about-stat-card glass-card reveal"
-          [class.delay-1]="i === 0"
-          [class.delay-2]="i === 1"
-          [class.delay-3]="i === 2"
-          [class.delay-4]="i === 3"
-          [style.--stat-color]="stat.color"
-        >
-          <!-- Top Accent Line -->
-          <div
-            class="stat-accent-bar"
-            [style.background]="'linear-gradient(90deg, transparent, ' + stat.color + ', transparent)'"
-          ></div>
-
-          <div class="stat-top-row">
-            <div
-              class="stat-icon-tile"
-              [style.background]="'rgba(' + stat.color + ', 0.12)'"
-              [style.color]="stat.color"
-            >
-              <i class="fa-solid" [ngClass]="stat.icon"></i>
-            </div>
-            <span class="stat-counter" [style.color]="stat.color">
-              {{ stat.value }}
+      <!-- Quick Facts Strip -->
+      <div class="player__facts">
+        @for (fact of quickFacts; track fact.labelKey) {
+          <div class="player__fact">
+            <span class="player__fact-label">
+              <i class="fa-solid" [ngClass]="fact.icon"></i>
+              {{ t.t(fact.labelKey) }}
             </span>
+            <strong class="player__fact-val">{{ t.t(fact.valueKey) }}</strong>
           </div>
+        }
+      </div>
 
-          <div class="stat-content">
-            <h4 class="stat-label">{{ t.t(stat.key) }}</h4>
-            <span class="stat-subtext">{{ t.t(stat.subKey) }}</span>
+      <!-- 3 Bio Paragraphs -->
+      <div class="player__copy">
+        <p class="player__lead">{{ t.t('about.bio_1') }}</p>
+        <p>{{ t.t('about.bio_2') }}</p>
+        <p>{{ t.t('about.bio_3') }}</p>
+      </div>
+
+      <!-- 4 Tabular Stats Grid -->
+      <dl class="player__stats">
+        @for (stat of stats; track stat.key) {
+          <div class="player__stat">
+            <dt>
+              <i class="fa-solid" [ngClass]="stat.icon"></i>
+              <span>{{ t.t(stat.key) }}</span>
+            </dt>
+            <dd>
+              <strong>{{ stat.value }}</strong>
+              <small>{{ t.t(stat.subKey) }}</small>
+            </dd>
           </div>
+        }
+      </dl>
+
+      <!-- Front <-> Back Balance Meter -->
+      <div class="player__meter">
+        <span class="text-mono">FRONT · UI &amp; MOBILE</span>
+        <div class="player__meter-bar">
+          <span class="player__meter-fill"></span>
+          <span class="player__meter-thumb">50 / 50</span>
         </div>
-      }
-    </div>
+        <span class="text-mono">BACK · CLOUD &amp; DATA</span>
+      </div>
 
+      <!-- Action Buttons -->
+      <div class="player__actions">
+        <button (click)="scrollToProjects()" class="button button--solid" type="button">
+          <span>Explore Projects</span>
+          <span class="arrow">→</span>
+        </button>
+        <button (click)="scrollToContact()" class="button" type="button">
+          <span>Get in Touch</span>
+          <span class="arrow">↘</span>
+        </button>
+      </div>
+    </article>
   </div>
 </section>

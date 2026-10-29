@@ -1,155 +1,212 @@
-<section class="projects-section">
-  <div class="projects-container">
-    <div class="projects-header reveal">
-      <span class="label-tag-primary">{{ t.t('projects.section_label') }}</span>
-      <h2 class="projects-title">{{ t.t('projects.title') }}</h2>
-      <p class="projects-subtitle">{{ t.t('projects.subtitle') }}</p>
+<section class="street" aria-label="Projects — The Street">
+  <!-- Section Header -->
+  <div class="street__head reveal">
+    <div>
+      <p class="kicker">05 — {{ t.t('projects.section_label') }} // THE STREET</p>
+      <h2 class="chapter-title">THE FRONT IS WHAT <em>{{ t.t('projects.title') }}.</em></h2>
+    </div>
+    <p class="street__sub">{{ t.t('projects.subtitle') }}</p>
+  </div>
+
+  <!-- District Filter Bar -->
+  <div class="work-filter reveal delay-1" role="toolbar" aria-label="Filter projects by category">
+    <div class="work-filter__group">
+      <button
+        type="button"
+        class="work-filter__btn"
+        [class.is-active]="activeFilter === 'all'"
+        (click)="setFilter('all')">
+        All Districts ({{ projects.length }})
+      </button>
+      <button
+        type="button"
+        class="work-filter__btn"
+        [class.is-active]="activeFilter === 'office'"
+        (click)="setFilter('office')">
+        {{ t.t('projects.badge_office') }}
+      </button>
+      <button
+        type="button"
+        class="work-filter__btn"
+        [class.is-active]="activeFilter === 'personal'"
+        (click)="setFilter('personal')">
+        {{ t.t('projects.badge_personal') }}
+      </button>
     </div>
 
-    <div class="projects-grid">
-      @for (project of projects; track project; let i = $index) {
-      <div
-        (click)="navigateToProject(project)"
-        (keydown.enter)="navigateToProject(project)"
+    <p class="work-filter__count">
+      <span>{{ filteredProjects.length }}</span> SHOPS OPEN ON THE STREET
+    </p>
+  </div>
+
+  <!-- Architectural Storefront Grid -->
+  <div class="street__grid">
+    @for (project of filteredProjects; track project.name; let i = $index) {
+      <article
+        class="shop reveal"
+        [class.shop--ink]="(i % 4) === 0"
+        [class.shop--red]="(i % 4) === 1"
+        [class.shop--stone]="(i % 4) === 2"
+        [class.shop--brick]="(i % 4) === 3"
+        [style.--project-accent]="project.color"
         tabindex="0"
         role="button"
-        class="project-card glass-card reveal"
-        [class.delay-1]="(i % 4) === 0"
-        [class.delay-2]="(i % 4) === 1"
-        [class.delay-3]="(i % 4) === 2"
-        [class.delay-4]="(i % 4) === 3"
-        [style.--accent-color]="project.color"
-      >
-        <!-- Top accent line on hover -->
-        <div
-          class="top-accent-line"
-          [style.background]="'linear-gradient(90deg, transparent, ' + project.color + ', transparent)'"
-        ></div>
+        (click)="navigateToProject(project)"
+        (keydown.enter)="navigateToProject(project)">
 
-        <!-- 1. Keyvo Inset Display Canvas -->
-        <div class="card-display-canvas">
-          <div
-            class="canvas-icon-wrapper"
-            [style.background]="'rgba(' + hexToRgb(project.color) + ', 0.14)'"
-            [style.border]="'1px solid rgba(' + hexToRgb(project.color) + ', 0.25)'"
-          >
-            <i
-              class="fa-solid"
-              [ngClass]="project.icon"
-              [style.color]="project.color"
-            ></i>
+        <!-- 1. Roof Cornice & Upper Windows -->
+        <div class="shop__upper" aria-hidden="true">
+          <div class="shop__windows-up">
+            <i></i><i></i><i></i>
           </div>
-
-          <!-- Quick Action Buttons Floating on Canvas -->
-          @if (project.github || project.link || project.playstore || project.appstore || project.youtube) {
-          <div class="canvas-actions">
-            @if (project.github) {
-            <a
-              [href]="project.github"
-              target="_blank"
-              aria-label="GitHub"
-              (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
-            >
-              <i class="fa-brands fa-github"></i>
-            </a>
-            }
-            @if (project.playstore) {
-            <a
-              [href]="project.playstore"
-              target="_blank"
-              aria-label="Play Store"
-              (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
-            >
-              <i class="fa-brands fa-google-play"></i>
-            </a>
-            }
-            @if (project.appstore) {
-            <a
-              [href]="project.appstore"
-              target="_blank"
-              aria-label="App Store"
-              (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
-            >
-              <i class="fa-brands fa-apple"></i>
-            </a>
-            }
-            @if (project.youtube) {
-            <a
-              [href]="project.youtube"
-              target="_blank"
-              aria-label="YouTube"
-              (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
-            >
-              <i class="fa-brands fa-youtube"></i>
-            </a>
-            }
-            @if (project.link) {
-            <a
-              [href]="project.link"
-              target="_blank"
-              aria-label="Live Demo"
-              (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
-            >
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
-            }
-          </div>
-          }
+          <span class="shop__lot-code">LOT // {{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
         </div>
 
-        <!-- 2. Identity Row with Status Capsule Pill -->
-        <div class="card-identity-row">
-          <div class="identity-info">
-            <h3 class="project-name-text">
-              {{ project.name }}
-            </h3>
+        <!-- 2. Storefront Signboard -->
+        <header class="shop__sign">
+          <span class="shop__num">{{ (i + 1) < 10 ? '0' + (i + 1) : (i + 1) }}</span>
+          <div class="shop__sign-titles">
+            <h3 class="shop__title">{{ project.name }}</h3>
             @if (project.shortRole) {
-            <span class="project-role-text">{{ project.shortRole }}</span>
+              <span class="shop__role">{{ project.shortRole }}</span>
             }
           </div>
-          <div
-            class="status-pill"
-            [class.status-office]="project.category === 'office'"
-            [class.status-personal]="project.category !== 'office'"
-          >
-            <span class="status-dot"></span>
-            <span class="status-text">
-              {{ project.category === 'office' ? t.t('projects.badge_office') : t.t('projects.badge_personal') }}
-            </span>
+          <span class="shop__badge" [class.is-office]="project.category === 'office'">
+            {{ project.category === 'office' ? t.t('projects.badge_office') : t.t('projects.badge_personal') }}
+          </span>
+        </header>
+
+        <!-- 3. Striped Awning -->
+        <div class="shop__awning" aria-hidden="true"></div>
+
+        <!-- 4. Storefront Window & 3D Swinging Door -->
+        <div class="shop__front">
+          <div class="shop__window">
+            @if (project.screenshots && project.screenshots.length > 0) {
+              <img
+                [src]="project.screenshots[0]"
+                [alt]="project.name + ' preview'"
+                class="shop__preview-img"
+                loading="lazy" />
+            } @else {
+              <div class="shop__blueprint">
+                <div class="shop__icon-emblem" [style.borderColor]="project.color">
+                  <i class="fa-solid" [ngClass]="project.icon" [style.color]="project.color"></i>
+                </div>
+                <span class="shop__blueprint-tag">{{ project.tech[0] }} · {{ project.tech[1] || 'SYSTEM' }}</span>
+              </div>
+            }
+
+            <!-- Floating External Links -->
+            @if (project.github || project.link || project.playstore || project.appstore || project.youtube) {
+              <div class="shop__quick-links">
+                @if (project.github) {
+                  <a
+                    [href]="project.github"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    title="GitHub Repository"
+                    (click)="$event.stopPropagation()"
+                    class="shop__qbtn">
+                    <i class="fa-brands fa-github"></i>
+                  </a>
+                }
+                @if (project.playstore) {
+                  <a
+                    [href]="project.playstore"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Play Store"
+                    title="Google Play Store"
+                    (click)="$event.stopPropagation()"
+                    class="shop__qbtn">
+                    <i class="fa-brands fa-google-play"></i>
+                  </a>
+                }
+                @if (project.appstore) {
+                  <a
+                    [href]="project.appstore"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="App Store"
+                    title="Apple App Store"
+                    (click)="$event.stopPropagation()"
+                    class="shop__qbtn">
+                    <i class="fa-brands fa-apple"></i>
+                  </a>
+                }
+                @if (project.youtube) {
+                  <a
+                    [href]="project.youtube"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube Demo"
+                    title="Watch Video Demo"
+                    (click)="$event.stopPropagation()"
+                    class="shop__qbtn">
+                    <i class="fa-brands fa-youtube"></i>
+                  </a>
+                }
+                @if (project.link) {
+                  <a
+                    [href]="project.link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Live Site"
+                    title="Open Live Project"
+                    (click)="$event.stopPropagation()"
+                    class="shop__qbtn">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  </a>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- 3D Swinging Door with Easter-Egg Cat on First Shop -->
+          <div class="shop__doorway" aria-hidden="true">
+            @if (i === 0) {
+              <svg class="shop__cat" viewBox="0 0 28 24">
+                <path d="M5 22 L5 10 L9 4 L12 9 L16 9 L19 4 L23 10 L23 22 Z" fill="#16130f" />
+                <circle cx="10.5" cy="13" r="1.4" fill="#ffb547" />
+                <circle cx="17.5" cy="13" r="1.4" fill="#ffb547" />
+              </svg>
+            }
+            <div class="shop__door">
+              <span class="shop__door-glass"></span>
+              <span class="shop__door-knob"></span>
+            </div>
           </div>
         </div>
 
-        <!-- 3. Project Summary -->
-        <p class="project-desc-text">{{ project.description }}</p>
+        <!-- 5. Sidewalk Curb -->
+        <div class="shop__sidewalk" aria-hidden="true"></div>
 
-        <!-- 4. Card Footer: Clean Tech Tags + Details Link -->
-        <div class="card-footer">
-          <div class="tech-container">
-            @for (tech of project.tech.slice(0, 3); track tech) {
-            <span class="tech-badge">{{ tech }}</span>
-            }
-            @if (project.tech.length > 3) {
-            <span class="tech-badge tech-badge-more">+{{ project.tech.length - 3 }}</span>
-            }
-          </div>
+        <!-- 6. Storefront Plate: Description, Tech Badges & Details Link -->
+        <div class="shop__plate">
+          <p class="shop__desc">{{ project.description }}</p>
 
-          <a
-            [routerLink]="['/project', getSlug(project.name)]"
-            (click)="$event.stopPropagation()"
-            class="details-link"
-            [style.color]="project.color"
-          >
-            <span>{{ t.t('projects.see_details') }}</span>
-            <i class="fa-solid fa-arrow-right link-arrow"></i>
-          </a>
+          <footer class="shop__foot">
+            <div class="shop__tags">
+              @for (tech of project.tech.slice(0, 3); track tech) {
+                <span class="pill">{{ tech }}</span>
+              }
+              @if (project.tech.length > 3) {
+                <span class="pill">+{{ project.tech.length - 3 }}</span>
+              }
+            </div>
+
+            <a
+              [routerLink]="['/project', getSlug(project.name)]"
+              (click)="$event.stopPropagation()"
+              class="shop__enter">
+              <span>{{ t.t('projects.see_details') }}</span>
+              <span class="arrow">→</span>
+            </a>
+          </footer>
         </div>
-      </div>
-      }
-    </div>
+      </article>
+    }
   </div>
 </section>

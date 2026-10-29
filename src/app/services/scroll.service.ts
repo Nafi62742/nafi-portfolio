@@ -66,10 +66,13 @@ export class ScrollService {
    */
   public init(): void {
     fromEvent(window, 'scroll')
-      .pipe(throttleTime(100))
+      .pipe(throttleTime(50))
       .subscribe(() => {
         this.isScrolled.set(window.scrollY > 60);
         this.updateActive();
+        const maxScroll: number = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        const ratio: number = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+        document.documentElement.style.setProperty('--scroll-ratio', ratio.toFixed(4));
       });
   }
 

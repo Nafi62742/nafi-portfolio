@@ -1,3 +1,20 @@
+<aside class="rail" aria-label="Chapter progress">
+  <ol class="rail__list">
+    @for (ch of chapters; track ch.id) {
+      <li
+        class="rail__item"
+        [class.is-active]="scrollService.activeSection() === ch.id"
+        role="button"
+        tabindex="0"
+        (click)="goToChapter(ch.id)"
+        (keydown.enter)="goToChapter(ch.id)">
+        <span class="rail__index">{{ ch.index }}</span>
+        <span class="rail__label">{{ ch.label }}</span>
+      </li>
+    }
+  </ol>
+</aside>
+
 <app-hero id="hero"></app-hero>
 <app-about id="about"></app-about>
 <app-skills id="skills"></app-skills>

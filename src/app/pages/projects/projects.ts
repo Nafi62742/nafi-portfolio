@@ -7,7 +7,8 @@ import { PortfolioService } from '@services/portfolio.service';
 import { TranslateService } from '@services/translate.service';
 
 /**
- * Projects section component displaying a grid of portfolio project cards.
+ * Projects section component displaying a grid of portfolio project cards
+ * styled as "The Street / The District Shops" from devinthehood.com.
  */
 @Component({
   selector: 'app-projects',
@@ -20,6 +21,9 @@ export class ProjectsComponent {
   /** All projects loaded from the portfolio service. */
   public readonly projects: Array<Project>;
 
+  /** Currently active category filter ('all', 'office', or 'personal'). */
+  public activeFilter: 'all' | 'office' | 'personal' = 'all';
+
   /**
    * @param t - Translation service for i18n labels
    * @param portfolio - Portfolio data service providing project entries
@@ -31,6 +35,27 @@ export class ProjectsComponent {
 
   constructor() {
     this.projects = this.portfolio.getProjects();
+  }
+
+  /**
+   * Returns the projects matching the active category filter.
+   */
+  public get filteredProjects(): Array<Project> {
+    if (this.activeFilter === 'all') {
+      return this.projects;
+    }
+    return this.projects.filter((p: Project) =>
+      this.activeFilter === 'office' ? p.category === 'office' : p.category !== 'office'
+    );
+  }
+
+  /**
+   * Sets the active project category filter.
+   *
+   * @param filter - Category filter to apply
+   */
+  public setFilter(filter: 'all' | 'office' | 'personal'): void {
+    this.activeFilter = filter;
   }
 
   /**
