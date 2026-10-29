@@ -1,11 +1,22 @@
-<section class="street" [class.is-lamps-lit]="lampsLit()" aria-label="Projects — The Street">
+<section
+  #streetSection
+  class="street"
+  [class.is-lamps-lit]="lampsLit()"
+  aria-label="Projects — The Street">
+
   <!-- Section Header -->
   <div class="street__head reveal">
     <div>
       <p class="kicker">05 — {{ t.t('projects.section_label') }} // THE STREET</p>
       <h2 class="chapter-title">THE FRONT IS WHAT <em>{{ t.t('projects.title') }}.</em></h2>
     </div>
-    <p class="street__sub">{{ t.t('projects.subtitle') }}</p>
+    <div class="street__head-right">
+      <p class="street__sub">{{ t.t('projects.subtitle') }}</p>
+      <p class="strip__hint text-mono">
+        <i></i>
+        <span>SCROLL SIDEWAYS · WHEEL OR DRAG</span>
+      </p>
+    </div>
   </div>
 
   <!-- District Filter & Interactive Street Controls Bar -->
@@ -51,7 +62,7 @@
           class="work-filter__btn"
           [class.is-active]="viewMode() === 'street'"
           (click)="setViewMode('street')">
-          <i class="fa-solid fa-road"></i> Boulevard
+          <i class="fa-solid fa-arrows-left-right"></i> Horizontal Street
         </button>
         <button
           type="button"
@@ -67,12 +78,18 @@
   <!-- Interactive Animated JSON Skyline Scene (devinthehood .street__sky) -->
   <div class="street__stage">
     <div class="street__sky" aria-hidden="true">
-      <div class="street__sun"></div>
+      <div
+        class="street__sun"
+        [style.transform]="'translate3d(' + sunParallaxX() + 'px, 0, 0)'"></div>
       <div class="street__cloud street__cloud--1"></div>
       <div class="street__cloud street__cloud--2"></div>
       <div class="street__cloud street__cloud--3"></div>
 
-      <svg class="street__skyline" [attr.viewBox]="sceneService.config().scenes.skyline.viewBox" preserveAspectRatio="none">
+      <svg
+        class="street__skyline"
+        [style.transform]="'translate3d(' + skylineParallaxX() + 'px, 0, 0)'"
+        [attr.viewBox]="sceneService.config().scenes.skyline.viewBox"
+        preserveAspectRatio="none">
         @for (b of skylineBuildings(); track b.x) {
           <g class="street__bldg">
             <rect [attr.x]="b.x" [attr.y]="b.y" [attr.width]="b.w" [attr.height]="b.h" />
@@ -93,10 +110,26 @@
       </svg>
     </div>
 
-    <!-- Boulevard Stroll Navigation Controls (when in 'street' mode) -->
+    <!-- Boulevard Stroll Navigation & Scrubber Controls (when in 'street' mode) -->
     @if (viewMode() === 'street') {
       <div class="street__nav">
-        <span class="text-mono">STROLL THE BOULEVARD // {{ filteredProjects.length }} OPEN STOREFRONTS</span>
+        <div class="street__nav-status">
+          <span class="street__shop-counter">
+            LOT {{ currentShopIndex() < 10 ? '0' + currentShopIndex() : currentShopIndex() }} / {{ filteredProjects.length < 10 ? '0' + filteredProjects.length : filteredProjects.length }}
+          </span>
+          <span class="text-mono">STROLL THE BOULEVARD ({{ scrollPct() }}%)</span>
+        </div>
+
+        <div class="street__scrubber">
+          <input
+            type="range"
+            min="0"
+            max="100"
+            [value]="scrollPct()"
+            aria-label="Scrub horizontally along the street"
+            (input)="onScrubInput($event)" />
+        </div>
+
         <div class="street__nav-btns">
           <button type="button" class="street__nav-btn" data-cursor="PREV" (click)="strollStreet(-1)" aria-label="Scroll Street Left">
             ← WALK WEST
@@ -112,7 +145,11 @@
     <div
       #streetViewport
       [class.street__viewport]="viewMode() === 'street'"
-      [class.street__grid]="viewMode() === 'grid'">
+      [class.street__grid]="viewMode() === 'grid'"
+      [class.is-dragging]="isDragging()"
+      (scroll)="onViewportScroll()"
+      (wheel)="onViewportWheel($event)"
+      (mousedown)="onDragStart($event)">
 
       @for (project of filteredProjects; track project.name; let i = $index) {
         <article
@@ -161,6 +198,7 @@
                   [src]="project.screenshots[0]"
                   [alt]="project.name + ' preview'"
                   class="shop__preview-img"
+                  draggable="false"
                   loading="lazy" />
               } @else {
                 <div class="shop__blueprint">
@@ -301,21 +339,29 @@
 
       <!-- End of Boulevard Signpost (devinthehood .street__end) -->
       @if (viewMode() === 'street') {
-        <div class="street__end">
+        <div
+          class="street__end"
+          role="button"
+          tabindex="0"
+          (click)="setViewMode('grid')"
+          (keydown.enter)="setViewMode('grid')">
           <div class="street__end-sign">
-            <span class="street__end-kicker">END OF THE STREET</span>
-            <strong class="street__end-title">NEXT: RUNMATE SPOTLIGHT ↓</strong>
+            <span class="street__end-kicker">ALL {{ filteredProjects.length }} CASE STUDIES</span>
+            <strong class="street__end-title">VIEW FULL GRID ↗</strong>
           </div>
           <span class="street__end-post"></span>
         </div>
       }
     </div>
 
-    <!-- Boulevard Asphalt & Crosswalk Road Strip -->
+    <!-- Boulevard Asphalt & Crosswalk Road Strip + Horizontal Progress Bar -->
     <div class="street__ground" aria-hidden="true">
       <div class="street__curb"></div>
       <div class="street__road">
         <span class="street__lane"></span>
+      </div>
+      <div class="street__progress">
+        <span class="street__progress-fill" [style.width.%]="scrollPct()"></span>
       </div>
     </div>
   </div>

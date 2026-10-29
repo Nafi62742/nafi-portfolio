@@ -102,7 +102,7 @@
     (touchstart)="onTouchStart($event)"
     (touchend)="onTouchEnd($event)">
 
-    <!-- Left: Device Stage (Warm Paper Contrast Frame) -->
+    <!-- Left: Device Stage (Blueprint Contrast Frame) -->
     <div class="rm-stage__device">
       <div class="rm-stage__device-tag">
         <span class="text-mono">DEVICE VIEWPORT // {{ currentSlide.badge }}</span>
@@ -135,7 +135,7 @@
       </div>
     </div>
 
-    <!-- Right: Slide Telemetry & Controls -->
+    <!-- Right: Slide Telemetry & Horizontally Scrollable Screen Strip -->
     <div class="rm-stage__info">
       <div class="rm-stage__meta">
         <span class="rm-stage__badge">
@@ -161,8 +161,11 @@
         </dl>
       }
 
-      <!-- Slide Jump Pills -->
-      <div class="rm-stage__pills">
+      <!-- Horizontally Scrollable Slide Jump Strip -->
+      <div
+        #slidesViewport
+        class="rm-stage__pills"
+        (wheel)="onSlidesWheel($event)">
         @for (slide of runmateData.slides; track slide.id; let idx = $index) {
           <button
             type="button"
@@ -214,9 +217,67 @@
     </div>
   </div>
 
-  <!-- 4. Feature Category Tabs & Architectural Cards -->
+  <!-- 4. Horizontally Scrollable Feature Strip & Category Tabs (devinthehood strip style) -->
   <div class="rm-features reveal delay-3">
+    <!-- Top Feature Strip Control Bar -->
+    <div class="rm-features__bar">
+      <div class="rm-features__bar-left">
+        <span class="rm-features__hint text-mono">
+          <i></i> SCROLL FEATURES SIDEWAYS · WHEEL OR DRAG ({{ filteredFeatures.length }} MODULES)
+        </span>
+      </div>
+
+      <div class="rm-features__scrubber">
+        @if (featureViewMode() === 'strip') {
+          <input
+            type="range"
+            min="0"
+            max="100"
+            [value]="featureScrollPct()"
+            aria-label="Scrub horizontally through RunMate features"
+            (input)="onFeatureScrub($event)" />
+        }
+      </div>
+
+      <div class="rm-features__bar-btns">
+        @if (featureViewMode() === 'strip') {
+          <button type="button" class="rm-features__nav-btn" data-cursor="PREV" (click)="scrollFeatures(-1)">
+            ← SCROLL LEFT
+          </button>
+          <button type="button" class="rm-features__nav-btn" data-cursor="NEXT" (click)="scrollFeatures(1)">
+            SCROLL RIGHT →
+          </button>
+        }
+        <button
+          type="button"
+          class="rm-features__nav-btn"
+          [class.is-active]="featureViewMode() === 'strip'"
+          (click)="featureViewMode.set('strip')">
+          <i class="fa-solid fa-arrows-left-right"></i> Horizontal
+        </button>
+        <button
+          type="button"
+          class="rm-features__nav-btn"
+          [class.is-active]="featureViewMode() === 'grid'"
+          (click)="featureViewMode.set('grid')">
+          <i class="fa-solid fa-table-cells-large"></i> Grid
+        </button>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs (including All 16 Features tab) -->
     <div class="rm-features__tabs" role="tablist">
+      <button
+        type="button"
+        role="tab"
+        class="rm-features__tab"
+        [class.is-active]="activeTab() === 'all'"
+        (click)="setTab('all')">
+        <span class="rm-features__tab-idx">00</span>
+        <i class="fa-solid fa-layer-group"></i>
+        <span>All Features ({{ runmateData.features.length }})</span>
+      </button>
+
       <button
         type="button"
         role="tab"
@@ -262,11 +323,20 @@
       </button>
     </div>
 
-    <div class="rm-features__grid">
+    <!-- Horizontal Scrollable Features Track OR Multi-Column Grid -->
+    <div
+      #featuresViewport
+      [class.rm-features__strip]="featureViewMode() === 'strip'"
+      [class.rm-features__grid]="featureViewMode() === 'grid'"
+      [class.is-dragging]="isDraggingFeatures()"
+      (scroll)="onFeaturesScroll()"
+      (wheel)="onFeaturesWheel($event)"
+      (mousedown)="onFeaturesDragStart($event)">
+
       @for (feature of filteredFeatures; track feature.title; let fIdx = $index) {
-        <article class="rm-fcard">
+        <article class="rm-fcard" data-cursor="DRAG ↔">
           <div class="rm-fcard__top">
-            <span class="rm-fcard__num">0{{ fIdx + 1 }}</span>
+            <span class="rm-fcard__num">{{ (fIdx + 1) < 10 ? '0' + (fIdx + 1) : (fIdx + 1) }}</span>
             <i class="fa-solid" [ngClass]="feature.icon"></i>
             @if (feature.badge) {
               <span class="rm-fcard__badge">{{ feature.badge }}</span>
@@ -284,6 +354,12 @@
         </article>
       }
     </div>
+
+    @if (featureViewMode() === 'strip') {
+      <div class="rm-features__progress" aria-hidden="true">
+        <span class="rm-features__progress-fill" [style.width.%]="featureScrollPct()"></span>
+      </div>
+    }
   </div>
 
   <!-- 5. Unified Tech Stack & Team Collaboration Crate -->

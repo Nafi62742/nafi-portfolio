@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  inject,
+  signal
+} from '@angular/core';
 
 import { RunMateData, RunMateFeature, RunMateSlide } from '@models/portfolio.models';
 import { PortfolioService } from '@services/portfolio.service';
@@ -7,8 +16,8 @@ import { TranslateService } from '@services/translate.service';
 
 /**
  * Featured showcase component for the RunMate marathon & GPS running ecosystem.
- * Includes an interactive animated device mockup slider, feature category tabs,
- * and official store download action badges.
+ * Includes an interactive animated device mockup slider, horizontal scrollable
+ * feature strip (devinthehood style), and official store download action badges.
  */
 @Component({
   selector: 'app-runmate',
@@ -18,6 +27,9 @@ import { TranslateService } from '@services/translate.service';
   styleUrl: './runmate.scss'
 })
 export class RunmateComponent implements OnInit, OnDestroy {
+  @ViewChild('featuresViewport') public featuresViewport?: ElementRef<HTMLElement>;
+  @ViewChild('slidesViewport') public slidesViewport?: ElementRef<HTMLElement>;
+
   /** Translation service for internationalized labels. */
   public readonly t = inject(TranslateService);
 
@@ -30,8 +42,17 @@ export class RunmateComponent implements OnInit, OnDestroy {
   /** Signal tracking currently active slide index in the showcase carousel. */
   public readonly activeSlideIndex = signal<number>(0);
 
-  /** Signal tracking currently selected feature tab. */
-  public readonly activeTab = signal<'runners' | 'races' | 'organizers' | 'tech'>('runners');
+  /** Signal tracking currently selected feature tab ('all' defaults to all features on the horizontal strip). */
+  public readonly activeTab = signal<'all' | 'runners' | 'races' | 'organizers' | 'tech'>('all');
+
+  /** Layout mode for features: 'strip' (horizontal scrollable strip) or 'grid'. */
+  public readonly featureViewMode = signal<'strip' | 'grid'>('strip');
+
+  /** Horizontal scroll progress (0..100) for the features strip. */
+  public readonly featureScrollPct = signal<number>(0);
+
+  /** Whether the user is currently dragging the horizontal features strip. */
+  public readonly isDraggingFeatures = signal<boolean>(false);
 
   /** Signal holding fullscreen image url when lightbox is open. */
   public readonly activeFullscreenImage = signal<string | null>(null);
@@ -41,6 +62,9 @@ export class RunmateComponent implements OnInit, OnDestroy {
 
   /** Touch start coordinate for mobile swipe detection. */
   private touchStartX = 0;
+
+  private dragStartX = 0;
+  private dragStartScrollLeft = 0;
 
   /**
    * Global keyboard listener to close lightbox on Escape.
@@ -96,12 +120,145 @@ export class RunmateComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Switches the active feature category tab.
+   * Switches the active feature category tab and resets horizontal scroll position.
    *
    * @param tab - Target tab identifier
    */
-  public setTab(tab: 'runners' | 'races' | 'organizers' | 'tech'): void {
+  public setTab(tab: 'all' | 'runners' | 'races' | 'organizers' | 'tech'): void {
     this.activeTab.set(tab);
+    setTimeout(() => {
+      const el = this.featuresViewport?.nativeElement;
+      if (el) {
+        el.scrollLeft = 0;
+        this.updateFeatureScrollPct();
+      }
+    }, 20);
+  }
+
+  /**
+   * Scrolls the horizontal features strip left or right.
+   *
+   * @param direction - -1 for left, 1 for right
+   */
+  public scrollFeatures(direction: -1 | 1): void {
+    const el = this.featuresViewport?.nativeElement;
+    if (!el) {
+      return;
+    }
+    el.scrollBy({ left: direction * 380, behavior: 'smooth' });
+  }
+
+  /**
+   * Updates `featureScrollPct` when the horizontal features viewport scrolls.
+   */
+  public onFeaturesScroll(): void {
+    this.updateFeatureScrollPct();
+  }
+
+  /**
+   * Converts vertical mouse-wheel scrolling over the features strip into smooth
+   * horizontal scrolling, releasing to page scroll at the start/end boundaries.
+   */
+  public onFeaturesWheel(event: WheelEvent): void {
+    if (this.featureViewMode() !== 'strip') {
+      return;
+    }
+    const el = this.featuresViewport?.nativeElement;
+    if (!el) {
+      return;
+    }
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+      return;
+    }
+    const maxScroll: number = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) {
+      return;
+    }
+    const atStart: boolean = el.scrollLeft <= 2;
+    const atEnd: boolean = el.scrollLeft >= maxScroll - 2;
+
+    if ((event.deltaY < 0 && !atStart) || (event.deltaY > 0 && !atEnd)) {
+      event.preventDefault();
+      el.scrollLeft += event.deltaY * 1.15;
+      this.updateFeatureScrollPct();
+    }
+  }
+
+  /**
+   * Converts vertical mouse-wheel scrolling over the horizontal slides filmstrip
+   * into horizontal scrolling.
+   */
+  public onSlidesWheel(event: WheelEvent): void {
+    const el = this.slidesViewport?.nativeElement;
+    if (!el) {
+      return;
+    }
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+      return;
+    }
+    const maxScroll: number = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) {
+      return;
+    }
+    const atStart: boolean = el.scrollLeft <= 2;
+    const atEnd: boolean = el.scrollLeft >= maxScroll - 2;
+
+    if ((event.deltaY < 0 && !atStart) || (event.deltaY > 0 && !atEnd)) {
+      event.preventDefault();
+      el.scrollLeft += event.deltaY;
+    }
+  }
+
+  /**
+   * Starts click-and-drag scrolling on the horizontal features strip.
+   */
+  public onFeaturesDragStart(event: MouseEvent): void {
+    if (this.featureViewMode() !== 'strip' || event.button !== 0) {
+      return;
+    }
+    const el = this.featuresViewport?.nativeElement;
+    if (!el) {
+      return;
+    }
+    this.isDraggingFeatures.set(true);
+    this.dragStartX = event.pageX;
+    this.dragStartScrollLeft = el.scrollLeft;
+  }
+
+  @HostListener('window:mousemove', ['$event'])
+  public onWindowMouseMove(event: MouseEvent): void {
+    if (!this.isDraggingFeatures()) {
+      return;
+    }
+    const el = this.featuresViewport?.nativeElement;
+    if (!el) {
+      return;
+    }
+    const deltaX: number = event.pageX - this.dragStartX;
+    el.scrollLeft = this.dragStartScrollLeft - deltaX * 1.25;
+    this.updateFeatureScrollPct();
+  }
+
+  @HostListener('window:mouseup')
+  public onWindowMouseUp(): void {
+    if (this.isDraggingFeatures()) {
+      this.isDraggingFeatures.set(false);
+    }
+  }
+
+  /**
+   * Scrubs the horizontal features strip via range slider.
+   */
+  public onFeatureScrub(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const el = this.featuresViewport?.nativeElement;
+    if (!input || !el) {
+      return;
+    }
+    const pct: number = Number(input.value);
+    const maxScroll: number = el.scrollWidth - el.clientWidth;
+    el.scrollLeft = (pct / 100) * maxScroll;
+    this.featureScrollPct.set(pct);
   }
 
   /**
@@ -139,6 +296,9 @@ export class RunmateComponent implements OnInit, OnDestroy {
    * @returns Array of RunMateFeature items
    */
   public get filteredFeatures(): Array<RunMateFeature> {
+    if (this.activeTab() === 'all') {
+      return this.runmateData.features;
+    }
     return this.runmateData.features.filter(
       (f: RunMateFeature) => f.category === this.activeTab()
     );
@@ -210,5 +370,18 @@ export class RunmateComponent implements OnInit, OnDestroy {
   public get currentSlide(): RunMateSlide {
     return this.runmateData.slides[this.activeSlideIndex()];
   }
-}
 
+  private updateFeatureScrollPct(): void {
+    const el = this.featuresViewport?.nativeElement;
+    if (!el) {
+      return;
+    }
+    const maxScroll: number = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) {
+      this.featureScrollPct.set(0);
+      return;
+    }
+    const pct: number = Math.round((el.scrollLeft / maxScroll) * 100);
+    this.featureScrollPct.set(Math.max(0, Math.min(100, pct)));
+  }
+}

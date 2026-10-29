@@ -77,16 +77,16 @@ const DEFAULT_SCENES_CONFIG: InteractiveScenesConfig = {
   theme: 'bluish-r007',
   splash: {
     emblem: 'R 007',
-    model: 'R-007 TWIN-TURBO ARCHITECTURE',
+    model: 'RACER007 TWIN-TURBO ARCHITECTURE',
     stages: [
-      { progress: 0,   status: 'IGNITION SEQUENCE ARMED // R-007' },
-      { progress: 30,  status: 'UNLOCKING HOOD LATCHES...' },
+      { progress: 0,   status: 'IGNITION SEQUENCE ARMED // RACER007' },
+      { progress: 30,  status: 'UNLOCKING R-007 HOOD LATCHES...' },
       { progress: 65,  status: 'OPENING R-007 HOOD // ENGINE BAY EXPOSED' },
-      { progress: 90,  status: 'TWIN-TURBO FULL-STACK ENGINE AT 8,500 RPM' },
-      { progress: 100, status: 'SYSTEMS ONLINE // ENTERING PORTFOLIO' }
+      { progress: 90,  status: 'RACER007 FULL-STACK ENGINE AT 8,500 RPM' },
+      { progress: 100, status: 'SYSTEMS ONLINE // ENTERING RACER007' }
     ],
     telemetry: [
-      { label: 'CHASSIS', value: 'R-007 BLUEPRINT' },
+      { label: 'DRIVER',  value: 'RACER007 // NAFI' },
       { label: 'ENGINE',  value: 'V8 FULL-STACK + AI' },
       { label: 'BOOST',   value: '2.4 BAR // CLOUD' },
       { label: 'STATUS',  value: 'READY TO RACE' }

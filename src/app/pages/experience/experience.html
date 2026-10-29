@@ -4,7 +4,13 @@
       <p class="kicker">04 — {{ t.t('experience.section_label') }} // THE FACTORY</p>
       <h2 class="chapter-title">BEHIND THE SHOPS, <em>{{ t.t('experience.title') }}.</em></h2>
     </div>
-    <p class="factory__sub">{{ t.t('experience.subtitle') }}</p>
+    <div class="factory__head-right">
+      <p class="factory__sub">{{ t.t('experience.subtitle') }}</p>
+      <p class="factory__strip-hint text-mono">
+        <i></i>
+        <span>CONVEYOR BELT · SCROLL SIDEWAYS OR DRAG</span>
+      </p>
+    </div>
   </div>
 
   <!-- Interactive Factory Stage: JSON Gears + Hydraulic Press + Conveyor Belt (devinthehood .factory__stage) -->
@@ -101,7 +107,21 @@
           data-cursor="STAMP"
           (click)="cycleHydraulicPress()">
           <i class="fa-solid fa-hammer"></i>
-          <span>{{ isRawBlueprint() ? 'STAMP TO SHIPPED VIEW' : 'INSPECT RAW WIREFRAME' }}</span>
+          <span>{{ isRawBlueprint() ? 'STAMP TO SHIPPED' : 'RAW WIREFRAME' }}</span>
+        </button>
+
+        @if (layoutMode() === 'belt') {
+          <button type="button" class="factory__nav-btn" (click)="scrollBelt(-1)">← PREV</button>
+          <button type="button" class="factory__nav-btn" (click)="scrollBelt(1)">NEXT →</button>
+        }
+
+        <button
+          type="button"
+          class="factory__nav-btn"
+          [class.is-active]="layoutMode() === 'belt'"
+          (click)="layoutMode.set(layoutMode() === 'belt' ? 'stack' : 'belt')">
+          <i class="fa-solid" [class.fa-arrows-left-right]="layoutMode() === 'belt'" [class.fa-bars]="layoutMode() === 'stack'"></i>
+          <span>{{ layoutMode() === 'belt' ? 'Conveyor Strip' : 'Vertical Stack' }}</span>
         </button>
 
         <div class="factory__tenure">
@@ -114,7 +134,123 @@
       </div>
     </div>
 
-    <!-- Animated Conveyor Belt Rollers (devinthehood .belt) -->
+    <!-- Horizontal Conveyor Belt Crates Track OR Vertical Timeline -->
+    <div
+      #beltViewport
+      [class.factory__belt-viewport]="layoutMode() === 'belt'"
+      [class.factory__line]="layoutMode() === 'stack'"
+      [class.is-dragging]="isDraggingBelt()"
+      [class.is-raw-mode]="isRawBlueprint()"
+      (scroll)="onBeltScroll()"
+      (wheel)="onBeltWheel($event)"
+      (mousedown)="onBeltDragStart($event)">
+
+      @for (exp of experiences; track exp; let i = $index) {
+        <article class="crate" [class.is-active]="!exp.endDate" [class.is-raw]="isRawBlueprint()" data-cursor="DRAG ↔">
+          <!-- Diagonal Hazard Tape -->
+          <div class="crate__tape" aria-hidden="true"></div>
+
+          <!-- Crate Top Meta Bar -->
+          <header class="crate__top">
+            <div class="crate__station">
+              <span class="crate__idx">STATION 0{{ i + 1 }}</span>
+              <span class="crate__type">
+                <i class="fa-solid"
+                  [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-laptop-code')"></i>
+                {{ t.t('experience.' + exp.type) }}
+              </span>
+            </div>
+
+            <div class="crate__period">
+              <span>{{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}</span>
+              <strong>· {{ calculateDuration(exp.startDate, exp.endDate) }}</strong>
+            </div>
+
+            <button
+              type="button"
+              class="crate__stamp"
+              [class.is-live]="!exp.endDate"
+              data-cursor="STAMP"
+              (click)="cycleHydraulicPress()">
+              {{ isRawBlueprint() ? 'RAW // SPEC' : (!exp.endDate ? t.t('experience.present') : 'SHIPPED') }}
+            </button>
+          </header>
+
+          <!-- Crate Main Content -->
+          <div class="crate__body">
+            <div class="crate__identity">
+              <div class="crate__icon-box">
+                <i class="fa-solid" [ngClass]="exp.icon"></i>
+              </div>
+              <div>
+                <h3 class="crate__role text-title">{{ exp.role }}</h3>
+                <p class="crate__company">
+                  <i class="fa-solid fa-building"></i>
+                  <span>{{ exp.company }}</span>
+                  <span class="crate__dot">·</span>
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span>{{ exp.location }}</span>
+                </p>
+              </div>
+            </div>
+
+            <ul class="crate__bullets">
+              @for (bullet of exp.bullets; track bullet; let bIdx = $index) {
+                <li>
+                  <span class="crate__bullet-num">0{{ bIdx + 1 }}</span>
+                  <span>{{ bullet }}</span>
+                </li>
+              }
+            </ul>
+
+            <footer class="crate__foot">
+              <span class="text-mono">DEPLOYED STACK:</span>
+              <div class="crate__pills">
+                @for (tech of exp.tech; track tech) {
+                  <span class="pill pill--night">{{ tech }}</span>
+                }
+              </div>
+            </footer>
+          </div>
+        </article>
+
+        <!-- Milestone Bridge 1: Joined XORGeek (After Index 0) -->
+        @if (i === 0) {
+          <div class="factory__bridge">
+            <div class="factory__bridge-rail" aria-hidden="true"></div>
+            <div class="factory__bridge-card">
+              <div class="factory__bridge-meta">
+                <span class="factory__bridge-tag">
+                  <i class="fa-solid fa-right-to-bracket"></i> ENTERPRISE MILESTONE
+                </span>
+                <span class="text-mono">Jun 2023 · Joined XORGeek</span>
+              </div>
+              <h4 class="factory__bridge-title">{{ t.t('experience.joined_xorgeek_title') }}</h4>
+              <p class="factory__bridge-desc">{{ t.t('experience.joined_xorgeek_desc') }}</p>
+            </div>
+          </div>
+        }
+
+        <!-- Milestone Bridge 2: Fast-Track Promotion (After Index 1) -->
+        @if (i === 1) {
+          <div class="factory__bridge is-promo">
+            <div class="factory__bridge-rail" aria-hidden="true"></div>
+            <div class="factory__bridge-card">
+              <div class="factory__bridge-meta">
+                <span class="factory__bridge-tag">
+                  <i class="fa-solid fa-bolt-lightning"></i> FAST-TRACK PROMOTION
+                </span>
+                <span class="text-mono">Aug 2023 · Promoted in 2 mos</span>
+              </div>
+              <h4 class="factory__bridge-title">{{ t.t('experience.promotion_title') }}</h4>
+              <p class="factory__bridge-desc">{{ t.t('experience.promotion_desc') }}</p>
+            </div>
+          </div>
+        }
+      }
+    </div>
+
+    <!-- Animated Conveyor Belt Rollers + Progress Bar Underneath Crates (devinthehood .belt) -->
     <div class="belt" aria-hidden="true">
       <div class="belt__track"></div>
       <div class="belt__rollers">
@@ -122,113 +258,11 @@
           <i></i>
         }
       </div>
+      @if (layoutMode() === 'belt') {
+        <div class="belt__progress">
+          <span class="belt__progress-fill" [style.width.%]="beltScrollPct()"></span>
+        </div>
+      }
     </div>
-  </div>
-
-  <!-- Industrial Crate Timeline -->
-  <div class="factory__line" [class.is-raw-mode]="isRawBlueprint()">
-    @for (exp of experiences; track exp; let i = $index) {
-      <article class="crate reveal" [class.is-active]="!exp.endDate" [class.is-raw]="isRawBlueprint()">
-        <!-- Diagonal Hazard Tape -->
-        <div class="crate__tape" aria-hidden="true"></div>
-
-        <!-- Crate Top Meta Bar -->
-        <header class="crate__top">
-          <div class="crate__station">
-            <span class="crate__idx">STATION 0{{ i + 1 }}</span>
-            <span class="crate__type">
-              <i class="fa-solid"
-                [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-laptop-code')"></i>
-              {{ t.t('experience.' + exp.type) }}
-            </span>
-          </div>
-
-          <div class="crate__period">
-            <span>{{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}</span>
-            <strong>· {{ calculateDuration(exp.startDate, exp.endDate) }}</strong>
-          </div>
-
-          <button
-            type="button"
-            class="crate__stamp"
-            [class.is-live]="!exp.endDate"
-            data-cursor="STAMP"
-            (click)="cycleHydraulicPress()">
-            {{ isRawBlueprint() ? 'RAW // SPEC' : (!exp.endDate ? t.t('experience.present') : 'SHIPPED') }}
-          </button>
-        </header>
-
-        <!-- Crate Main Content -->
-        <div class="crate__body">
-          <div class="crate__identity">
-            <div class="crate__icon-box">
-              <i class="fa-solid" [ngClass]="exp.icon"></i>
-            </div>
-            <div>
-              <h3 class="crate__role text-title">{{ exp.role }}</h3>
-              <p class="crate__company">
-                <i class="fa-solid fa-building"></i>
-                <span>{{ exp.company }}</span>
-                <span class="crate__dot">·</span>
-                <i class="fa-solid fa-location-dot"></i>
-                <span>{{ exp.location }}</span>
-              </p>
-            </div>
-          </div>
-
-          <ul class="crate__bullets">
-            @for (bullet of exp.bullets; track bullet; let bIdx = $index) {
-              <li>
-                <span class="crate__bullet-num">0{{ bIdx + 1 }}</span>
-                <span>{{ bullet }}</span>
-              </li>
-            }
-          </ul>
-
-          <footer class="crate__foot">
-            <span class="text-mono">DEPLOYED STACK:</span>
-            <div class="crate__pills">
-              @for (tech of exp.tech; track tech) {
-                <span class="pill pill--night">{{ tech }}</span>
-              }
-            </div>
-          </footer>
-        </div>
-      </article>
-
-      <!-- Milestone Bridge 1: Joined XORGeek (After Index 0) -->
-      @if (i === 0) {
-        <div class="factory__bridge reveal">
-          <div class="factory__bridge-rail" aria-hidden="true"></div>
-          <div class="factory__bridge-card">
-            <div class="factory__bridge-meta">
-              <span class="factory__bridge-tag">
-                <i class="fa-solid fa-right-to-bracket"></i> ENTERPRISE MILESTONE
-              </span>
-              <span class="text-mono">Jun 2023 · Joined XORGeek</span>
-            </div>
-            <h4 class="factory__bridge-title">{{ t.t('experience.joined_xorgeek_title') }}</h4>
-            <p class="factory__bridge-desc">{{ t.t('experience.joined_xorgeek_desc') }}</p>
-          </div>
-        </div>
-      }
-
-      <!-- Milestone Bridge 2: Fast-Track Promotion (After Index 1) -->
-      @if (i === 1) {
-        <div class="factory__bridge is-promo reveal">
-          <div class="factory__bridge-rail" aria-hidden="true"></div>
-          <div class="factory__bridge-card">
-            <div class="factory__bridge-meta">
-              <span class="factory__bridge-tag">
-                <i class="fa-solid fa-bolt-lightning"></i> FAST-TRACK PROMOTION
-              </span>
-              <span class="text-mono">Aug 2023 · Promoted in 2 mos</span>
-            </div>
-            <h4 class="factory__bridge-title">{{ t.t('experience.promotion_title') }}</h4>
-            <p class="factory__bridge-desc">{{ t.t('experience.promotion_desc') }}</p>
-          </div>
-        </div>
-      }
-    }
   </div>
 </section>

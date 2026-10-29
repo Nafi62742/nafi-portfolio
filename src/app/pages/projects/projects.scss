@@ -22,6 +22,13 @@
     border-bottom: 1px solid var(--line);
   }
 
+  &__head-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.65rem;
+  }
+
   &__sub {
     max-width: 42ch;
     font-family: var(--mono);
@@ -29,6 +36,7 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ink-3);
+    text-align: right;
   }
 
   &__stage {
@@ -110,6 +118,35 @@
     color: var(--ink-3);
   }
 
+  &__nav-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__shop-counter {
+    padding: 0.25rem 0.55rem;
+    background: var(--red);
+    color: #edf4fc;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  &__scrubber {
+    flex: 1;
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--red);
+      cursor: ew-resize;
+    }
+  }
+
   &__nav-btns {
     display: flex;
     gap: 0.5rem;
@@ -137,14 +174,21 @@
   &__viewport {
     display: flex;
     align-items: stretch;
-    gap: 1.25rem;
-    padding: 1.75rem 1.5rem 1.25rem;
+    gap: 1.35rem;
+    padding: 1.85rem 1.5rem 1.35rem;
     overflow-x: auto;
     scroll-snap-type: x proximity;
     scrollbar-width: thin;
+    cursor: grab;
+    user-select: none;
+
+    &.is-dragging {
+      cursor: grabbing;
+      scroll-snap-type: none;
+    }
 
     .shop {
-      flex: 0 0 380px;
+      flex: 0 0 390px;
       scroll-snap-align: start;
     }
   }
@@ -279,6 +323,46 @@
       transparent 28px 56px
     );
     opacity: 0.7;
+  }
+
+  &__progress {
+    height: 4px;
+    width: 100%;
+    background: rgba(11, 25, 44, 0.25);
+    overflow: hidden;
+
+    &-fill {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--red) 0%, var(--amber) 100%);
+      transition: width 80ms linear;
+    }
+  }
+}
+
+.strip__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--red);
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--red);
+
+  i {
+    width: 18px;
+    height: 2px;
+    background: var(--red);
+    display: inline-block;
+    position: relative;
+
+    &::after {
+      content: "→";
+      position: absolute;
+      right: -6px;
+      top: -8px;
+      font-size: 0.65rem;
+    }
   }
 }
 
