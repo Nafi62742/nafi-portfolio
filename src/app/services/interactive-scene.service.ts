@@ -179,7 +179,7 @@ const DEFAULT_SCENES_CONFIG: InteractiveScenesConfig = {
       ]
     },
     sportsCar: {
-      id: 'audi-r8-r007-side',
+      id: 'r007-gt-side',
       viewBox: '0 0 360 120',
       bodyPath: 'M 22 84 L 14 75 C 14 60 18 49 28 45 C 54 42 82 26 116 20 C 154 14 202 16 254 41 C 292 44 324 51 343 64 C 348 70 349 78 345 83 L 316 86 L 301 86 A 27 27 0 0 0 243 86 L 123 86 A 27 27 0 0 0 65 86 L 22 86 Z',
       roofGlassPath: 'M 139 22 C 174 19 212 25 244 42 L 144 43 C 143 34 141 27 139 22 Z',
@@ -190,7 +190,7 @@ const DEFAULT_SCENES_CONFIG: InteractiveScenesConfig = {
       headlightPath: 'M 304 53 L 340 61 L 333 69 L 298 60 Z',
       taillightPath: 'M 15 51 L 34 51 L 31 61 L 15 61 Z',
       doorEmblem: 'R 007',
-      doorSubLabel: 'AUDI R8 // QUATTRO',
+      doorSubLabel: 'NAFI // V10 GT',
       rearWheel:  { cx: 94,  cy: 84, r: 23, rimR: 15 },
       frontWheel: { cx: 272, cy: 84, r: 23, rimR: 15 }
     },

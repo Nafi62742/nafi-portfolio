@@ -70,8 +70,8 @@
       <div class="street__sky" aria-hidden="true">
         <!-- Live Telemetry HUD Badge -->
         <div class="street__car-hud text-mono">
-          <span class="street__car-hud-tag">AUDI R8 V10 // R-007</span>
-          <span>QUATTRO · GEAR {{ currentGear() }}</span>
+          <span class="street__car-hud-tag">R-007 GT // V10</span>
+          <span>GEAR {{ currentGear() }}</span>
           <span>{{ carSpeedKmh() }} KM/H</span>
           <span>{{ scrollPct() }}%</span>
         </div>
@@ -186,19 +186,11 @@
             <rect x="237" y="53" width="14" height="6" rx="1.5" fill="#071224" stroke="#38bdf8" stroke-width="0.8" />
             <text x="244" y="57.8" text-anchor="middle" class="street__car-v10-badge">V10</text>
 
-            <!-- Four Interlocked Audi Rings Emblem on Right Door -->
-            <g class="street__car-audi-rings" transform="translate(175, 53)">
-              <circle cx="0"  cy="0" r="3.6" />
-              <circle cx="5"  cy="0" r="3.6" />
-              <circle cx="10" cy="0" r="3.6" />
-              <circle cx="15" cy="0" r="3.6" />
-            </g>
-
-            <!-- Right Door Livery: R 007 + AUDI R8 // QUATTRO -->
-            <text x="190" y="69" text-anchor="middle" class="street__car-door-emblem">
+            <!-- Right Door Livery: R 007 + NAFI // V10 GT -->
+            <text x="190" y="65" text-anchor="middle" class="street__car-door-emblem">
               {{ sportsCar().doorEmblem }}
             </text>
-            <text x="190" y="77" text-anchor="middle" class="street__car-door-sub">
+            <text x="190" y="75" text-anchor="middle" class="street__car-door-sub">
               {{ sportsCar().doorSubLabel }}
             </text>
 
