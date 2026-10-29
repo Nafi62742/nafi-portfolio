@@ -32,13 +32,27 @@
       color: var(--amber);
     }
 
-    .brand__mark {
-      width: 34px;
-      height: 16px;
+    .brand__logo-badge {
+      padding: 0.18rem 0.44rem;
+      border-radius: 6px;
+      background: rgba(37, 99, 235, 0.14);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--amber);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      transition: all 180ms ease;
     }
 
     &:hover {
       color: var(--amber);
+
+      .brand__logo-badge {
+        background: var(--amber);
+        border-color: var(--amber);
+        color: #050a14;
+      }
     }
   }
 

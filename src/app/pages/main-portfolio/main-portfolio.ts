@@ -45,13 +45,13 @@ export class MainPortfolioComponent implements OnInit {
 
   /** Ordered chapters displayed on the right-hand architectural rail (RunMate folded under Projects). */
   public readonly chapters: Array<ChapterRailItem> = [
-    { id: 'hero',         index: '01', label: 'Two Sides' },
-    { id: 'about',        index: '02', label: 'Under Hood' },
-    { id: 'experience',   index: '03', label: 'Factory' },
-    { id: 'projects',     index: '04', label: 'The Street' },
+    { id: 'hero',         index: '01', label: 'Overview' },
+    { id: 'about',        index: '02', label: 'Architecture' },
+    { id: 'experience',   index: '03', label: 'Experience' },
+    { id: 'projects',     index: '04', label: 'Projects' },
     { id: 'publications', index: '05', label: 'Research' },
     { id: 'education',    index: '06', label: 'Credentials' },
-    { id: 'contact',      index: '07', label: 'Console' }
+    { id: 'contact',      index: '07', label: 'Contact' }
   ];
 
   /**

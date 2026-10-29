@@ -22,7 +22,7 @@ export const MINIMAP_NODES: Array<MinimapNode> = [
   { id: 'projects',     index: '04', label: 'Projects',     code: 'PROD', icon: 'fa-layer-group' },
   { id: 'publications', index: '05', label: 'Research',     code: 'RSCH', icon: 'fa-book-bookmark' },
   { id: 'education',    index: '06', label: 'Credentials',  code: 'CRED', icon: 'fa-graduation-cap' },
-  { id: 'contact',      index: '07', label: 'Console',      code: 'DISP', icon: 'fa-paper-plane' }
+  { id: 'contact',      index: '07', label: 'Contact',      code: 'MAIL', icon: 'fa-paper-plane' }
 ];
 
 /**
@@ -63,15 +63,15 @@ export class ScrollService {
   });
 
   private readonly sectionMeta: Record<string, { index: string; label: string }> = {
-    hero:         { index: '01', label: 'TWO SIDES // HERO' },
-    about:        { index: '02', label: 'UNDER THE HOOD // ABOUT' },
-    skills:       { index: '02', label: 'TECH LOADOUT // SKILLS' },
-    experience:   { index: '03', label: 'THE FACTORY // EXPERIENCE' },
-    projects:     { index: '04', label: 'THE STREET // PROJECTS' },
-    runmate:      { index: '04', label: 'RUNMATE // ECOSYSTEM' },
-    publications: { index: '05', label: 'RESEARCH // PUBLICATIONS' },
-    education:    { index: '06', label: 'CREDENTIALS // EDUCATION' },
-    contact:      { index: '07', label: 'CONSOLE // CONTACT' }
+    hero:         { index: '01', label: 'OVERVIEW' },
+    about:        { index: '02', label: 'ARCHITECTURE' },
+    skills:       { index: '02', label: 'TECHNICAL SKILLS' },
+    experience:   { index: '03', label: 'WORK EXPERIENCE' },
+    projects:     { index: '04', label: 'FEATURED PROJECTS' },
+    runmate:      { index: '04', label: 'RUNMATE ECOSYSTEM' },
+    publications: { index: '05', label: 'RESEARCH & PUBLICATIONS' },
+    education:    { index: '06', label: 'EDUCATION & CREDENTIALS' },
+    contact:      { index: '07', label: 'CONTACT' }
   };
 
   private hudTimer: ReturnType<typeof setTimeout> | null = null;

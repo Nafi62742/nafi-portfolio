@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { InteractiveSceneService } from '@services/interactive-scene.service';
 import { ScrollService } from '@services/scroll.service';
 import { Theme, ThemeService } from '@services/theme.service';
 import { TranslateService } from '@services/translate.service';
@@ -44,12 +43,8 @@ export class NavbarComponent {
   /** Signal tracking whether the theme preset picker popover is open. */
   public readonly themeMenuOpen = signal<boolean>(false);
 
-  /** Signal tracking which unified tab dropdown is currently open on desktop. */
-  public readonly openGroupId = signal<string | null>(null);
-
   /**
-   * Minimized unified navigation tabs — each groups 2–3 relevant sections
-   * (with RunMate removed from the tab bar).
+   * Grouped navigation tabs displayed inside the mobile overlay menu.
    */
   public readonly navGroups: Array<UnifiedNavGroup> = [
     {
@@ -87,7 +82,6 @@ export class NavbarComponent {
 
   public readonly scroll = inject(ScrollService);
   public readonly theme = inject(ThemeService);
-  public readonly sceneService = inject(InteractiveSceneService);
   public readonly t = inject(TranslateService);
   private readonly router = inject(Router);
 
@@ -105,7 +99,6 @@ export class NavbarComponent {
   public onDocumentClick(event: MouseEvent): void {
     const target = event.target as HTMLElement | null;
     if (!target?.closest('.site-header')) {
-      this.openGroupId.set(null);
       this.themeMenuOpen.set(false);
     }
   }
@@ -126,59 +119,7 @@ export class NavbarComponent {
   }
 
   /**
-   * Checks if any sub-section inside a unified tab group is currently active.
-   */
-  public isGroupActive(group: UnifiedNavGroup): boolean {
-    return group.children.some((child) => this.isLinkActive(child.id));
-  }
-
-  /**
-   * Returns the active sub-section inside a unified tab group (if any) to display
-   * as a live sub-badge on the parent tab.
-   */
-  public getActiveChild(group: UnifiedNavGroup): NavSubSection | undefined {
-    return group.children.find((child) => this.isLinkActive(child.id));
-  }
-
-  /**
-   * Returns the currently active unified group so its sub-sections can be shown
-   * in the contextual sub-navigation bar.
-   */
-  public get activeGroup(): UnifiedNavGroup | undefined {
-    return this.navGroups.find((g) => this.isGroupActive(g));
-  }
-
-  /**
-   * Opens a unified tab dropdown on hover.
-   */
-  public onGroupEnter(groupId: string): void {
-    this.openGroupId.set(groupId);
-  }
-
-  /**
-   * Closes the unified tab dropdown when pointer leaves the tab group.
-   */
-  public onGroupLeave(groupId: string): void {
-    if (this.openGroupId() === groupId) {
-      this.openGroupId.set(null);
-    }
-  }
-
-  /**
-   * Toggles a unified tab dropdown on click, or navigates to its default section.
-   */
-  public onGroupClick(group: UnifiedNavGroup): void {
-    if (this.openGroupId() === group.id) {
-      this.navigate(group.defaultSectionId);
-    } else {
-      this.openGroupId.set(group.id);
-    }
-  }
-
-  /**
    * Navigates to a section. If not on the home page, navigates to home first then scrolls.
-   *
-   * @param id - The element ID of the section to scroll to.
    */
   public navigate(id: string): void {
     if (this.router.url !== '/' && this.router.url.length > 0) {
@@ -190,7 +131,6 @@ export class NavbarComponent {
     } else {
       this.scroll.scrollTo(id);
     }
-    this.openGroupId.set(null);
     this.menuOpen.set(false);
     this.themeMenuOpen.set(false);
   }
@@ -199,12 +139,11 @@ export class NavbarComponent {
    * Toggles the theme preset dropdown menu.
    */
   public toggleThemeMenu(): void {
-    this.openGroupId.set(null);
     this.themeMenuOpen.update((v: boolean) => !v);
   }
 
   /**
-   * Selects a specific bluish theme preset and closes the popover.
+   * Selects a specific theme preset and closes the popover.
    */
   public selectTheme(id: Theme): void {
     this.theme.setTheme(id);
@@ -212,20 +151,9 @@ export class NavbarComponent {
   }
 
   /**
-   * Re-opens the R 007 car hood opening splash screen.
-   */
-  public replayHoodSplash(): void {
-    this.openGroupId.set(null);
-    this.menuOpen.set(false);
-    this.themeMenuOpen.set(false);
-    this.sceneService.triggerSplashReplay();
-  }
-
-  /**
    * Toggles the mobile menu open/closed state.
    */
   public toggleMenu(): void {
-    this.openGroupId.set(null);
     this.menuOpen.update((v: boolean) => !v);
     this.themeMenuOpen.set(false);
   }

@@ -50,7 +50,7 @@
       <div class="split__role-row">
         <span class="split__role-prefix">I AM A</span>
         <span class="split__role-badge">{{ t.t("hero.role") }}</span>
-        <span class="split__alias-badge">ALIAS // RACER007</span>
+        <span class="split__alias-badge">FULL-STACK &amp; CLOUD</span>
       </div>
 
       <p class="split__tagline-prefix">{{ t.t("hero.tagline_prefix") }}</p>
@@ -127,11 +127,11 @@
       <div class="terminal split__terminal">
         <div class="terminal__bar">
           <i></i><i></i><i></i>
-          <span>racer007&#64;hood: ~/production</span>
+          <span>nafi&#64;cloud-core: ~/production</span>
         </div>
         <div class="terminal__body">
           <div><span class="p">$</span> <span class="c">whoami --verbose</span></div>
-          <div><span class="k">callsign</span>: <span class="v">"Racer007 ({{ t.t('hero.name') }})"</span></div>
+          <div><span class="k">engineer</span>: <span class="v">"{{ t.t('hero.name') }}"</span></div>
           <div><span class="k">role</span>: <span class="v">"{{ t.t('hero.role') }}"</span></div>
           <div><span class="k">base</span>: <span class="v">"{{ t.t('hero.location') }}"</span></div>
           <div><span class="p">$</span> <span class="c">stack --verify</span></div>
@@ -463,12 +463,8 @@
 
     <div class="split__center-btns">
       <button type="button" class="split__scroll" data-cursor="INSPECT" (click)="scroll.scrollTo('about')">
-        <span>UNDER THE HOOD</span>
+        <span>VIEW ARCHITECTURE</span>
         <span class="split__scroll-arrow">↓</span>
-      </button>
-      <button type="button" class="split__scroll split__scroll--hood" data-cursor="POP HOOD" (click)="sceneService.triggerSplashReplay()">
-        <i class="fa-solid fa-car-side"></i>
-        <span>POP R 007 HOOD</span>
       </button>
     </div>
   </div>

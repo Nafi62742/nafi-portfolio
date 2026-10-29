@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 
-/** Union type representing the supported bluish themes. */
-export type Theme = 'glacier' | 'cyber';
+/** Union type representing the supported design theme presets. */
+export type Theme = 'slate' | 'amber' | 'cyber' | 'glacier';
 
 /** Metadata for a theme preset shown in the navbar theme switcher. */
 export interface ThemePreset {
@@ -13,30 +13,44 @@ export interface ThemePreset {
 }
 
 /**
- * Service that manages the application's multi-theme bluish design presets.
+ * Service that manages the application's multi-theme design presets.
  * Persists the user's preference to localStorage.
  */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
-  /** Available bluish theme presets. */
+  /** Available theme presets covering Option 2, Option 4, Option 1, and Option 3. */
   public readonly presets: Array<ThemePreset> = [
     {
-      id: 'glacier',
-      name: 'Glacier Daylight Blueprint',
-      shortLabel: 'GLACIER',
-      swatch: '#0284c7',
-      icon: 'fa-sun'
+      id: 'slate',
+      name: 'Option 2: Executive Slate & Cobalt',
+      shortLabel: 'SLATE // COBALT',
+      swatch: '#2563eb',
+      icon: 'fa-briefcase'
+    },
+    {
+      id: 'amber',
+      name: 'Option 4: Carbon Titanium & Amber',
+      shortLabel: 'TITANIUM // AMBER',
+      swatch: '#f59e0b',
+      icon: 'fa-fire'
     },
     {
       id: 'cyber',
-      name: 'Cyan Overdrive R-007',
-      shortLabel: 'CYBER',
+      name: 'Option 1: Obsidian & Electric Sapphire',
+      shortLabel: 'OBSIDIAN // BLUE',
       swatch: '#00f0ff',
       icon: 'fa-bolt'
+    },
+    {
+      id: 'glacier',
+      name: 'Option 3: Glacier Daylight Blueprint',
+      shortLabel: 'GLACIER // DAYLIGHT',
+      swatch: '#0284c7',
+      icon: 'fa-sun'
     }
   ];
 
-  private readonly _theme = signal<Theme>('glacier');
+  private readonly _theme = signal<Theme>('slate');
 
   /**
    * Returns the current theme value.
@@ -55,16 +69,16 @@ export class ThemeService {
   }
 
   /**
-   * Returns true when the current theme is Cyan Overdrive ('cyber').
+   * Returns true when the current theme is a dark mode theme (slate, amber, or cyber).
    *
-   * @returns True if the active theme is 'cyber', false otherwise
+   * @returns True if dark theme is active, false for daylight glacier
    */
   public get isDark(): boolean {
-    return this._theme() === 'cyber';
+    return this._theme() !== 'glacier';
   }
 
   /**
-   * Cycles to the next bluish theme preset and persists the selection.
+   * Cycles to the next theme preset and persists the selection.
    */
   public toggle(): void {
     const idx: number = this.presets.findIndex((p: ThemePreset) => p.id === this._theme());
@@ -84,12 +98,12 @@ export class ThemeService {
   }
 
   /**
-   * Initialises the theme from localStorage or defaults to Glacier Daylight ('glacier').
+   * Initialises the theme from localStorage or defaults to Option 2 ('slate').
    */
   public init(): void {
     const saved: string | null = localStorage.getItem('portfolio-theme');
-    const validIds: Array<Theme> = ['glacier', 'cyber'];
-    const theme: Theme = validIds.includes(saved as Theme) ? (saved as Theme) : 'glacier';
+    const validIds: Array<Theme> = ['slate', 'amber', 'cyber', 'glacier'];
+    const theme: Theme = validIds.includes(saved as Theme) ? (saved as Theme) : 'slate';
     this.setTheme(theme);
   }
 }

@@ -1,104 +1,21 @@
 <header class="site-header" [class.is-scrolled]="isNavbarScrolled" [class.is-menu-open]="menuOpen()">
-  <!-- Clean Single-Line Brand Mark: Nafi (Dev) × Racer007 (Alias) -->
-  <button class="brand" (click)="navigate('hero')" id="nav-logo" aria-label="Nafi × Racer007 — Home">
-    <svg class="brand__mark" viewBox="0 0 64 48" aria-hidden="true">
-      <polygon points="32,2 60,12 54,38 32,46 10,38 4,12" fill="#070d19" stroke="var(--amber)" stroke-width="2.5" />
-      <path d="M21 15 L11 24 L21 33" fill="none" stroke="var(--red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M43 15 L53 24 L43 33" fill="none" stroke="var(--amber)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-      <text x="32" y="30" text-anchor="middle" fill="#edf4fc" font-family="Archivo, sans-serif" font-weight="900" font-size="18">R</text>
-    </svg>
+  <!-- Clean Executive Brand Mark: NAFI AHMED -->
+  <button class="brand" (click)="navigate('hero')" id="nav-logo" aria-label="Nafi Ahmed — Software Engineer">
+    <span class="brand__logo-badge">&lt;NA/&gt;</span>
     <span class="brand__name">
-      NAFI<span class="brand__sep">//</span><em>RACER007</em>
-      <small class="brand__tag">&lt;DEV/&gt;</small>
+      NAFI <em>AHMED</em>
+      <small class="brand__tag">ENGINEER</small>
     </span>
   </button>
 
-  <!-- Unified Primary Navigation Tabs + Sub-Section Dropdowns -->
-  <nav class="site-nav" aria-label="Primary">
-    @for (group of navGroups; track group.id) {
-      <div
-        class="site-nav__group"
-        [class.is-active]="isGroupActive(group)"
-        [class.is-open]="openGroupId() === group.id"
-        (mouseenter)="onGroupEnter(group.id)"
-        (mouseleave)="onGroupLeave(group.id)">
-        <button
-          type="button"
-          [id]="'nav-group-' + group.id"
-          class="site-nav__tab"
-          [class.is-active]="isGroupActive(group)"
-          [attr.aria-expanded]="openGroupId() === group.id"
-          (click)="onGroupClick(group)">
-          <span class="site-nav__code">{{ group.code }}</span>
-          <span class="site-nav__label">{{ group.label }}</span>
-          @if (getActiveChild(group); as activeSub) {
-            <span class="site-nav__active-sub">· {{ t.t(activeSub.key) }}</span>
-          }
-          <i class="fa-solid fa-chevron-down site-nav__caret" aria-hidden="true"></i>
-        </button>
-
-        <!-- Sub-Section Dropdown Menu (2-3 Relevant Sections per Unified Tab) -->
-        <div class="site-nav__submenu" role="menu" [attr.aria-label]="group.label + ' sub-sections'">
-          <div class="site-nav__submenu-head text-mono">
-            <span>{{ group.code }} // {{ group.label }}</span>
-            <span>{{ group.children.length }} SECTIONS</span>
-          </div>
-          @for (sub of group.children; track sub.id) {
-            <button
-              type="button"
-              role="menuitem"
-              [id]="'nav-' + sub.id"
-              class="site-nav__subitem"
-              [class.is-active]="isLinkActive(sub.id)"
-              (click)="navigate(sub.id)">
-              <span class="site-nav__subicon">
-                <i class="fa-solid" [ngClass]="sub.icon"></i>
-              </span>
-              <span class="site-nav__subbody">
-                <span class="site-nav__subtitle-row">
-                  <small class="site-nav__subcode">{{ sub.code }}</small>
-                  <strong>{{ t.t(sub.key) }}</strong>
-                </span>
-                <span class="site-nav__subdesc">{{ sub.subLabel }}</span>
-              </span>
-              <span class="site-nav__subarrow">{{ isLinkActive(sub.id) ? '●' : '→' }}</span>
-            </button>
-          }
-        </div>
-      </div>
-    }
-
-    <!-- Direct Contact Tab -->
-    <button
-      type="button"
-      id="nav-contact"
-      class="site-nav__tab site-nav__tab--direct"
-      [class.is-active]="isLinkActive('contact')"
-      (click)="navigate('contact')">
-      <span class="site-nav__code">04</span>
-      <span class="site-nav__label">{{ t.t('nav.contact') }}</span>
-    </button>
-  </nav>
-
-  <!-- Right Actions: R-007 Hood Trigger + Multi-Theme Switcher + Resume -->
+  <!-- Right Actions: Multi-Theme Switcher + Resume Download -->
   <div class="site-header__actions">
-    <button
-      type="button"
-      class="hood-btn"
-      data-cursor="POP HOOD"
-      (click)="replayHoodSplash()"
-      title="Pop the R 007 Car Hood Splash">
-      <i class="fa-solid fa-car-side"></i>
-      <span>R 007</span>
-    </button>
-
-    <!-- Multi-Theme Bluish Switcher -->
+    <!-- Multi-Theme Switcher -->
     <div class="theme-switcher">
       <button
         type="button"
         class="theme-btn"
         id="btn-theme-toggle"
-        data-cursor="THEME"
         [attr.aria-expanded]="themeMenuOpen()"
         (click)="toggleThemeMenu()"
         [title]="'Theme: ' + theme.currentPreset.name">
@@ -108,7 +25,7 @@
       </button>
 
       @if (themeMenuOpen()) {
-        <div class="theme-popover" role="menu" aria-label="Select Bluish Theme">
+        <div class="theme-popover" role="menu" aria-label="Select Theme">
           @for (preset of theme.presets; track preset.id) {
             <button
               type="button"
@@ -189,11 +106,24 @@
     </div>
   </nav>
 
+  <!-- Mobile Palette Switcher Strip -->
+  <div class="site-menu__themes">
+    <p class="site-menu__themes-label text-mono">PALETTE // THEME PRESET</p>
+    <div class="site-menu__themes-grid">
+      @for (preset of theme.presets; track preset.id) {
+        <button
+          type="button"
+          class="site-menu__theme-chip"
+          [class.is-active]="theme.theme === preset.id"
+          (click)="selectTheme(preset.id)">
+          <span class="theme-chip-dot" [style.background]="preset.swatch"></span>
+          <span class="theme-chip-label">{{ preset.shortLabel }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
   <div class="site-menu__foot">
-    <button type="button" class="button" (click)="replayHoodSplash()">
-      <span>POP R 007 HOOD</span>
-      <span class="arrow">↗</span>
-    </button>
     <a
       href="assets/docs/Nafi_Ahmed_Resume.pdf"
       target="_blank"

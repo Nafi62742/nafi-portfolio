@@ -1,6 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
 
-import { InteractiveSceneService } from '@services/interactive-scene.service';
 import { ScrollService } from '@services/scroll.service';
 import { TranslateService } from '@services/translate.service';
 
@@ -64,14 +63,13 @@ export class HeroComponent {
   public readonly githubUrl: string = 'https://github.com/Nafi62742';
 
   /** Profile link for LinkedIn. */
-  public readonly linkedinUrl: string = 'https://linkedin.com/in/racer007';
+  public readonly linkedinUrl: string = 'https://www.linkedin.com/in/nafi-ahmed/';
 
   /** Primary contact email address. */
   public readonly emailAddress: string = 'nafiahmed318@gmail.com';
 
   public readonly t: TranslateService = inject(TranslateService);
   public readonly scroll: ScrollService = inject(ScrollService);
-  public readonly sceneService: InteractiveSceneService = inject(InteractiveSceneService);
 
   /**
    * Tracks pointer movement across the hero split stage so the hooded

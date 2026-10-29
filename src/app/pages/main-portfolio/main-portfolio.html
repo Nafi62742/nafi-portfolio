@@ -1,88 +1,11 @@
-@if (scrollService.transitionHud(); as hud) {
-  <div class="chapter-hud-toast" aria-live="polite">
-    <span class="chapter-hud-toast__idx">CH // {{ hud.index }}</span>
-    <span class="chapter-hud-toast__lbl">{{ hud.label }}</span>
-  </div>
-}
-
 <!-- Cyber Minimap Elevator (Concept 4 — Executive Blueprint Right-Side Rail) -->
 <app-minimap-elevator></app-minimap-elevator>
 
 <app-hero id="hero"></app-hero>
-
-<div class="chapter-gate reveal" role="button" tabindex="0" (click)="goToChapter('about')" (keydown.enter)="goToChapter('about')">
-  <span class="chapter-gate__beam" aria-hidden="true"></span>
-  <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">01 // TWO SIDES</span>
-    <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">02 // UNDER THE HOOD ↓</span>
-  </div>
-</div>
-
 <app-about id="about"></app-about>
-
-<div class="chapter-gate chapter-gate--to-night reveal" role="button" tabindex="0" (click)="goToChapter('experience')" (keydown.enter)="goToChapter('experience')">
-  <span class="chapter-gate__beam" aria-hidden="true"></span>
-  <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">02 // UNDER THE HOOD</span>
-    <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">03 // THE FACTORY ↓</span>
-  </div>
-</div>
-
 <app-experience id="experience"></app-experience>
-
-<div class="chapter-gate chapter-gate--from-night reveal" role="button" tabindex="0" (click)="goToChapter('projects')" (keydown.enter)="goToChapter('projects')">
-  <span class="chapter-gate__beam" aria-hidden="true"></span>
-  <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">03 // THE FACTORY</span>
-    <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">04 // THE STREET ↓</span>
-  </div>
-</div>
-
 <app-projects id="projects"></app-projects>
-
-<div class="chapter-gate chapter-gate--to-night reveal" role="button" tabindex="0" (click)="goToChapter('runmate')" (keydown.enter)="goToChapter('runmate')">
-  <span class="chapter-gate__beam" aria-hidden="true"></span>
-  <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">04 // THE STREET</span>
-    <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">04.1 // RUNMATE ↓</span>
-  </div>
-</div>
-
 <app-runmate id="runmate"></app-runmate>
-
-<div class="chapter-gate chapter-gate--from-night reveal" role="button" tabindex="0" (click)="goToChapter('publications')" (keydown.enter)="goToChapter('publications')">
-  <span class="chapter-gate__beam" aria-hidden="true"></span>
-  <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">04 // THE STREET</span>
-    <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">05 // RESEARCH ↓</span>
-  </div>
-</div>
-
 <app-publications id="publications"></app-publications>
-
-<div class="chapter-gate reveal" role="button" tabindex="0" (click)="goToChapter('education')" (keydown.enter)="goToChapter('education')">
-  <span class="chapter-gate__beam" aria-hidden="true"></span>
-  <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">05 // RESEARCH</span>
-    <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">06 // CREDENTIALS ↓</span>
-  </div>
-</div>
-
 <app-education id="education"></app-education>
-
-<div class="chapter-gate chapter-gate--to-night reveal" role="button" tabindex="0" (click)="goToChapter('contact')" (keydown.enter)="goToChapter('contact')">
-  <span class="chapter-gate__beam" aria-hidden="true"></span>
-  <div class="chapter-gate__hud text-mono">
-    <span class="chapter-gate__from">06 // CREDENTIALS</span>
-    <span class="chapter-gate__node"><i></i></span>
-    <span class="chapter-gate__to">07 // CONSOLE ↓</span>
-  </div>
-</div>
-
 <app-contact id="contact"></app-contact>

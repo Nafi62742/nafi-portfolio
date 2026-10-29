@@ -73,7 +73,7 @@ export class ContactComponent {
   /** Social links shown below the contact details. */
   public readonly socials: Array<SocialItem> = [
     { icon: 'fa-brands fa-github',   label: 'GitHub',   href: 'https://github.com/Nafi62742'     },
-    { icon: 'fa-brands fa-linkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/racer007' },
+    { icon: 'fa-brands fa-linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/nafi-ahmed/' },
     { icon: 'fa-solid fa-envelope',  label: 'Email',    href: 'https://mail.google.com/mail/?view=cm&fs=1&to=nafiahmed318@gmail.com'     }
   ];
 
