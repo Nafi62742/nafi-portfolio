@@ -86,21 +86,23 @@
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
-    padding: 0.3rem 0.7rem;
+    padding: 0.32rem 0.75rem;
     border-radius: 8px;
-    background: rgba(14, 14, 18, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(10, 14, 24, 0.92);
+    border: 1px solid rgba(56, 189, 248, 0.25);
     color: #f6faff;
     font-size: 0.6rem;
     letter-spacing: 0.14em;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 
     &-tag {
-      padding: 0.12rem 0.45rem;
+      padding: 0.14rem 0.48rem;
       border-radius: 5px;
-      background: var(--red);
-      color: #f6faff;
+      background: var(--amber);
+      color: #0c0d10;
       font-weight: 700;
+      letter-spacing: 0.08em;
     }
   }
 
@@ -154,15 +156,16 @@
     }
   }
 
-  /* Skyline Highway Strip for the Sports Car */
+  /* Skyline Optic Data Bus Strip for the Program Runner */
   &__sky-highway {
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     height: 24px;
-    background: linear-gradient(180deg, #141418 0%, #0a0a0c 100%);
-    border-top: 2px solid var(--red);
+    background: linear-gradient(180deg, #0e1626 0%, #060b14 100%);
+    border-top: 2px solid #0284c7;
+    box-shadow: 0 -2px 10px rgba(2, 132, 199, 0.35);
     z-index: 2;
     display: flex;
     align-items: center;
@@ -173,28 +176,35 @@
       height: 2px;
       background: repeating-linear-gradient(
         90deg,
-        rgba(245, 158, 11, 0.75) 0 24px,
-        transparent 24px 48px
+        rgba(56, 189, 248, 0.85) 0 20px,
+        transparent 20px 36px,
+        rgba(245, 158, 11, 0.85) 36px 52px,
+        transparent 52px 68px
       );
     }
   }
 
-  /* Scroll-Driven JSON Sports Car (Right-Side Profile / Right Door View) */
+  /* Scroll-Driven Cyber Terminal Program Runner */
   &__car-cruiser {
     position: absolute;
     bottom: 4px;
-    width: clamp(190px, 21vw, 255px);
+    width: clamp(200px, 22vw, 270px);
     z-index: 4;
     pointer-events: none;
     transition: left 90ms linear, transform 180ms var(--ease);
-    filter: drop-shadow(0 8px 16px rgba(3, 7, 16, 0.45));
+    filter: drop-shadow(0 10px 20px rgba(2, 8, 20, 0.6));
 
     &.is-moving {
-      transform: translateY(-1px) rotate(-0.4deg);
+      transform: translateY(-2px);
 
-      .street__car-flame {
+      .street__prog-thrust {
         opacity: 1;
-        animation: pulseExhaust 180ms ease-in-out infinite;
+        animation: pulseExhaust 160ms ease-in-out infinite;
+      }
+
+      .street__prog-beam {
+        opacity: 0.95;
+        animation: pulseBeam 350ms ease-in-out infinite alternate;
       }
     }
   }
@@ -205,122 +215,26 @@
     overflow: visible;
   }
 
-  &__car-body {
-    stroke: #38bdf8;
-    stroke-width: 2;
-    stroke-linejoin: round;
+  &__prog-hull {
+    filter: drop-shadow(0 0 10px rgba(2, 132, 199, 0.25));
   }
 
-  &__car-glass {
-    stroke: #7dd3fc;
-    stroke-width: 1.4;
+  &__prog-display {
+    backdrop-filter: blur(4px);
   }
 
-  &__car-door {
-    fill: rgba(2, 132, 199, 0.14);
-    stroke: #38bdf8;
-    stroke-width: 1.4;
-    stroke-dasharray: 180 4;
+  &__prog-cursor {
+    animation: cursorBlink 800ms steps(2, start) infinite;
   }
 
-  &__car-sideblade {
-    fill: #050c18;
-    stroke: #38bdf8;
-    stroke-width: 1.5;
+  &__prog-thrust {
+    opacity: 0.55;
+    transform-origin: 24px 53px;
   }
 
-  &__car-louver {
-    stroke: rgba(56, 189, 248, 0.55);
-    stroke-width: 1;
-  }
-
-  &__car-v10-badge {
-    font-family: var(--mono);
-    font-size: 4.5px;
-    font-weight: 700;
-    fill: #ef4444;
-    letter-spacing: 0.08em;
-  }
-
-  &__car-wing,
-  &__car-splitter {
-    fill: #071224;
-    stroke: #38bdf8;
-    stroke-width: 1.4;
-  }
-
-  &__car-door-emblem {
-    font-family: var(--font);
-    font-variation-settings: "wdth" 125, "wght" 900;
-    font-size: 13px;
-    letter-spacing: 0.08em;
-    fill: #f6faff;
-  }
-
-  &__car-door-sub {
-    font-family: var(--mono);
-    font-size: 5.5px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    fill: #ef4444;
-  }
-
-  &__car-headlight {
-    fill: #e0f2fe;
-    stroke: #38bdf8;
-    stroke-width: 1.2;
-    filter: drop-shadow(0 0 6px #38bdf8);
-  }
-
-  &__car-taillight {
-    fill: #ef4444;
-    stroke: #b91c1c;
-    stroke-width: 1;
-    filter: drop-shadow(0 0 6px #ef4444);
-  }
-
-  &__car-flame {
-    fill: #f97316;
-    opacity: 0.45;
-    transform-origin: 18px 74px;
-
-    &--inner {
-      fill: #facc15;
-    }
-  }
-
-  &__car-beam {
-    opacity: 0.85;
-  }
-
-  &__car-tire {
-    fill: #060d1b;
-    stroke: #1e3a5f;
-    stroke-width: 3;
-  }
-
-  &__car-rim {
-    fill: #0b192c;
-    stroke: #38bdf8;
-    stroke-width: 1.8;
-  }
-
-  &__car-rotor {
-    fill: none;
-    stroke: rgba(148, 197, 255, 0.35);
-    stroke-width: 2;
-    stroke-dasharray: 4 2;
-  }
-
-  &__car-caliper {
-    fill: #f97316;
-    stroke: #7dd3fc;
-    stroke-width: 0.8;
-  }
-
-  &__car-spoke {
-    stroke: #bae6fd;
-    stroke-width: 1.6;
+  &__prog-beam {
+    opacity: 0.75;
+    transform-origin: 332px 53px;
   }
 
   /* Boulevard Navigation Bar */

@@ -70,10 +70,10 @@
       <div class="street__sky" aria-hidden="true">
         <!-- Live Telemetry HUD Badge -->
         <div class="street__car-hud text-mono">
-          <span class="street__car-hud-tag">R-007 GT // V10</span>
-          <span>GEAR {{ currentGear() }}</span>
-          <span>{{ carSpeedKmh() }} KM/H</span>
-          <span>{{ scrollPct() }}%</span>
+          <span class="street__car-hud-tag">PROGRAM // RUNNER</span>
+          <span>THREAD #0{{ currentShopIndex() }}</span>
+          <span>{{ programOps() }} OPS/S</span>
+          <span>EXEC {{ scrollPct() }}%</span>
         </div>
 
         <!-- Parallax Sun/Moon Orb & Clouds -->
@@ -120,115 +120,210 @@
           [style.left.%]="2 + scrollPct() * 0.75">
           <svg
             class="street__car-svg"
-            [attr.viewBox]="sportsCar().viewBox">
+            viewBox="0 0 360 120">
             <defs>
-              <linearGradient id="r007CarBody" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#0284c7" />
-                <stop offset="52%" stop-color="#0f294d" />
-                <stop offset="100%" stop-color="#08162b" />
+              <linearGradient id="progPodHull" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0f172a" />
+                <stop offset="50%" stop-color="#090e17" />
+                <stop offset="100%" stop-color="#040711" />
               </linearGradient>
-              <linearGradient id="r007CarGlass" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.72" />
-                <stop offset="100%" stop-color="#071122" stop-opacity="0.92" />
+              <linearGradient id="progScreen" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#050a14" />
+                <stop offset="100%" stop-color="#02050b" />
               </linearGradient>
-              <linearGradient id="r007HeadlightBeam" x1="0%" y1="50%" x2="100%" y2="50%">
-                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.65" />
+              <linearGradient id="progScanBeam" x1="0%" y1="50%" x2="100%" y2="50%">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.85" />
+                <stop offset="45%" stop-color="#38bdf8" stop-opacity="0.3" />
                 <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient id="progDataStream" x1="100%" y1="50%" x2="0%" y2="50%">
+                <stop offset="0%" stop-color="#0284c7" stop-opacity="0.9" />
+                <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.5" />
+                <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+              </linearGradient>
+              <linearGradient id="cpuCoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#0e1e38" />
+                <stop offset="100%" stop-color="#060c18" />
               </linearGradient>
             </defs>
 
-            <!-- Twin-Turbo Exhaust Afterburner Flame (Left/Rear) -->
+            <!-- Forward Code Lidar / Optical Audit Beam -->
             <polygon
-              class="street__car-flame"
-              points="2,74 18,68 18,80" />
+              class="street__prog-beam"
+              points="332,53 360,30 360,76 332,57"
+              fill="url(#progScanBeam)" />
+
+            <!-- Rear Data Stream / Ion Exhaust Propulsion -->
             <polygon
-              class="street__car-flame street__car-flame--inner"
-              points="7,74 18,71 18,77" />
-
-            <!-- Headlight Beam Cone (Right/Front) -->
+              class="street__prog-thrust"
+              points="24,53 2,38 2,68"
+              fill="url(#progDataStream)" />
             <polygon
-              class="street__car-beam"
-              points="334,62 360,50 360,82 332,70"
-              fill="url(#r007HeadlightBeam)" />
+              class="street__prog-thrust-core"
+              points="24,53 10,45 10,61"
+              fill="#38bdf8" />
 
-            <!-- Rear Carbon GT Gooseneck Wing -->
-            <path [attr.d]="sportsCar().spoilerPath" class="street__car-wing" />
+            <!-- Outer Floating Cyber Terminal Capsule Chassis -->
+            <rect
+              x="22"
+              y="18"
+              width="314"
+              height="72"
+              rx="12"
+              fill="url(#progPodHull)"
+              stroke="#0284c7"
+              stroke-width="1.6"
+              class="street__prog-hull" />
 
-            <!-- Front Carbon Splitter & Quattro Side Skirt -->
-            <path [attr.d]="sportsCar().splitterPath" class="street__car-splitter" />
+            <!-- Top Optic Status Rail -->
+            <line x1="38" y1="18" x2="320" y2="18" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" />
 
-            <!-- Main Sculpted Audi R8 V10 Body (Right Side Profile) -->
-            <path [attr.d]="sportsCar().bodyPath" fill="url(#r007CarBody)" class="street__car-body" />
+            <!-- Hardware Chassis Hex Accents -->
+            <circle cx="30" cy="27" r="1.6" fill="#38bdf8" opacity="0.75" />
+            <circle cx="328" cy="27" r="1.6" fill="#38bdf8" opacity="0.75" />
+            <circle cx="30" cy="81" r="1.6" fill="#38bdf8" opacity="0.75" />
+            <circle cx="328" cy="81" r="1.6" fill="#38bdf8" opacity="0.75" />
 
-            <!-- Quattro Muscular Wheel Arch Flare Highlights & Dynamic Tornado Line -->
-            <path d="M 60 83 A 31 31 0 0 1 128 83" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.65" />
-            <path d="M 238 83 A 31 31 0 0 1 306 83" fill="none" stroke="#38bdf8" stroke-width="1.6" opacity="0.65" />
-            <path d="M 32 52 C 110 47 215 47 328 58" fill="none" stroke="#7dd3fc" stroke-width="1" opacity="0.55" />
+            <!-- Main Terminal Glass Viewport -->
+            <rect
+              x="30"
+              y="24"
+              width="236"
+              height="60"
+              rx="7"
+              fill="url(#progScreen)"
+              stroke="rgba(56, 189, 248, 0.45)"
+              stroke-width="1"
+              class="street__prog-display" />
 
-            <!-- Tinted Teardrop Fastback Cabin Glass -->
-            <path [attr.d]="sportsCar().roofGlassPath" fill="url(#r007CarGlass)" class="street__car-glass" />
+            <!-- Window Header Controls: macOS / Linux Traffic Light Buttons -->
+            <circle cx="42" cy="33.5" r="3.2" fill="#ef4444" />
+            <circle cx="51.5" cy="33.5" r="3.2" fill="#f59e0b" />
+            <circle cx="61" cy="33.5" r="3.2" fill="#10b981" />
+            <text x="73" y="36" font-family="'JetBrains Mono', monospace" font-size="6.8" font-weight="700" fill="#94a3b8" letter-spacing="0.5">terminal // nafi-runtime.sh</text>
 
-            <!-- Iconic Audi R8 Contrasting Carbon-Fiber Sideblade + Horizontal Intake Louvers -->
-            <path [attr.d]="sportsCar().sideIntakePath" class="street__car-sideblade" />
-            <line x1="115" y1="48" x2="141" y2="48" class="street__car-louver" />
-            <line x1="116" y1="55" x2="142" y2="55" class="street__car-louver" />
-            <line x1="116" y1="62" x2="142" y2="62" class="street__car-louver" />
-            <line x1="115" y1="69" x2="140" y2="69" class="street__car-louver" />
+            <!-- Git Branch Indicator -->
+            <rect x="208" y="27.5" width="50" height="11" rx="2.5" fill="rgba(2, 132, 199, 0.28)" stroke="#0284c7" stroke-width="0.7" />
+            <text x="233" y="35" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="5.8" font-weight="600" fill="#38bdf8">git:main*</text>
 
-            <!-- Right Door Panel Outline, Flush Handle & Aero Wing Mirror -->
-            <path [attr.d]="sportsCar().rightDoorPath" class="street__car-door" />
-            <!-- Flush Audi R8 Door Handle Recess -->
-            <path d="M 149 51 L 164 50 L 162 54 L 149 54 Z" fill="#38bdf8" />
-            <!-- Right Side Carbon Wing Mirror -->
-            <path d="M 225 41 L 238 36 L 241 42 L 227 45 Z" fill="#38bdf8" />
+            <!-- Terminal Divider Rule -->
+            <line x1="30" y1="41" x2="266" y2="41" stroke="rgba(56, 189, 248, 0.22)" stroke-width="0.8" />
 
-            <!-- Front Fender V10 Badge -->
-            <rect x="237" y="53" width="14" height="6" rx="1.5" fill="#071224" stroke="#38bdf8" stroke-width="0.8" />
-            <text x="244" y="57.8" text-anchor="middle" class="street__car-v10-badge">V10</text>
-
-            <!-- Right Door Livery: R 007 + NAFI // V10 GT -->
-            <text x="190" y="65" text-anchor="middle" class="street__car-door-emblem">
-              {{ sportsCar().doorEmblem }}
-            </text>
-            <text x="190" y="75" text-anchor="middle" class="street__car-door-sub">
-              {{ sportsCar().doorSubLabel }}
-            </text>
-
-            <!-- Audi Matrix Laser LED Headlight & Honeycomb LED Taillight -->
-            <path [attr.d]="sportsCar().headlightPath" class="street__car-headlight" />
-            <polyline points="303,58 326,64 337,62" fill="none" stroke="#0284c7" stroke-width="1.5" />
-            <path [attr.d]="sportsCar().taillightPath" class="street__car-taillight" />
-
-            <!-- Rear Wheel: Fixed Audi Sport Caliper + Spinning 10-Spoke Y-Design Rim -->
-            <g [attr.transform]="'translate(' + sportsCar().rearWheel.cx + ' ' + sportsCar().rearWheel.cy + ')'">
-              <circle r="23" class="street__car-tire" />
-              <circle r="16" class="street__car-rim" />
-              <circle r="11.5" class="street__car-rotor" />
-              <!-- Fixed Audi Sport Brake Caliper -->
-              <path d="M -13 -6 C -11 -12 -5 -14 0 -13 L -2 -8 C -6 -8 -9 -6 -10 -3 Z" class="street__car-caliper" />
-              <g [style.transform]="'rotate(' + carWheelDeg() + 'deg)'">
-                <line x1="-15" y1="0" x2="15" y2="0" class="street__car-spoke" />
-                <line x1="0" y1="-15" x2="0" y2="15" class="street__car-spoke" />
-                <line x1="-11" y1="-11" x2="11" y2="11" class="street__car-spoke" />
-                <line x1="-11" y1="11" x2="11" y2="-11" class="street__car-spoke" />
-                <circle r="5" fill="#071224" stroke="#38bdf8" stroke-width="1.5" />
-              </g>
+            <!-- Code Line 1: Active Deployment Function -->
+            <g font-family="'JetBrains Mono', monospace" font-size="6.8">
+              <text x="38" y="50" fill="#38bdf8" font-weight="700">&gt;_</text>
+              <text x="51" y="50" fill="#f43f5e" font-weight="600">const</text>
+              <text x="75" y="50" fill="#f6faff">app</text>
+              <text x="91" y="50" fill="#38bdf8">=</text>
+              <text x="99" y="50" fill="#f59e0b">deploy</text>
+              <text x="127" y="50" fill="#94a3b8">(</text>
+              <text x="132" y="50" fill="#34d399">'LOT-0{{ currentShopIndex() }}'</text>
+              <text x="175" y="50" fill="#94a3b8">);</text>
             </g>
 
-            <!-- Front Wheel: Fixed Audi Sport Caliper + Spinning 10-Spoke Y-Design Rim -->
-            <g [attr.transform]="'translate(' + sportsCar().frontWheel.cx + ' ' + sportsCar().frontWheel.cy + ')'">
-              <circle r="23" class="street__car-tire" />
-              <circle r="16" class="street__car-rim" />
-              <circle r="11.5" class="street__car-rotor" />
-              <!-- Fixed Audi Sport Brake Caliper -->
-              <path d="M -13 -6 C -11 -12 -5 -14 0 -13 L -2 -8 C -6 -8 -9 -6 -10 -3 Z" class="street__car-caliper" />
-              <g [style.transform]="'rotate(' + carWheelDeg() + 'deg)'">
-                <line x1="-15" y1="0" x2="15" y2="0" class="street__car-spoke" />
-                <line x1="0" y1="-15" x2="0" y2="15" class="street__car-spoke" />
-                <line x1="-11" y1="-11" x2="11" y2="11" class="street__car-spoke" />
-                <line x1="-11" y1="11" x2="11" y2="-11" class="street__car-spoke" />
-                <circle r="5" fill="#071224" stroke="#38bdf8" stroke-width="1.5" />
+            <!-- Code Line 2: Runtime Optimization & Zero-Error Check -->
+            <g font-family="'JetBrains Mono', monospace" font-size="6.8">
+              <text x="38" y="61" fill="#94a3b8" opacity="0.6">02</text>
+              <text x="51" y="61" fill="#38bdf8">return</text>
+              <text x="81" y="61" fill="#f6faff">runtime</text>
+              <text x="114" y="61" fill="#94a3b8">.</text>
+              <text x="119" y="61" fill="#60a5fa">optimize</text>
+              <text x="156" y="61" fill="#94a3b8">();</text>
+              <text x="174" y="61" fill="#64748b" font-style="italic">// 0 errors</text>
+            </g>
+
+            <!-- Code Line 3: System Status & Live Cursor -->
+            <g font-family="'JetBrains Mono', monospace" font-size="6.5">
+              <text x="38" y="73" fill="#10b981" font-weight="700">✓ 200 OK</text>
+              <text x="80" y="73" fill="#94a3b8">·</text>
+              <text x="87" y="73" fill="#38bdf8">PIPELINE PASS</text>
+              <text x="148" y="73" fill="#94a3b8">·</text>
+              <text x="155" y="73" fill="#f59e0b">{{ programOps() }} ops/s</text>
+              <!-- Blinking Terminal Cursor -->
+              <rect x="214" y="66.5" width="3.5" height="7.5" fill="#38bdf8" class="street__prog-cursor" />
+            </g>
+
+            <!-- Right Deck: Embedded High-Throughput CPU Silicon Chip -->
+            <rect
+              x="274"
+              y="26"
+              width="54"
+              height="56"
+              rx="4"
+              fill="url(#cpuCoreGrad)"
+              stroke="#0284c7"
+              stroke-width="1.2" />
+            <rect
+              x="280"
+              y="32"
+              width="42"
+              height="44"
+              rx="2.5"
+              fill="#030712"
+              stroke="#38bdf8"
+              stroke-width="0.8" />
+
+            <!-- Gold CPU Logic Pins (Top, Bottom, Right) -->
+            <line x1="286" y1="26" x2="286" y2="22" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="294" y1="26" x2="294" y2="22" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="302" y1="26" x2="302" y2="22" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="310" y1="26" x2="310" y2="22" stroke="#f59e0b" stroke-width="1.2" />
+
+            <line x1="286" y1="82" x2="286" y2="86" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="294" y1="82" x2="294" y2="86" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="302" y1="82" x2="302" y2="86" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="310" y1="82" x2="310" y2="86" stroke="#f59e0b" stroke-width="1.2" />
+
+            <line x1="328" y1="38" x2="332" y2="38" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="328" y1="48" x2="332" y2="48" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="328" y1="58" x2="332" y2="58" stroke="#f59e0b" stroke-width="1.2" />
+            <line x1="328" y1="68" x2="332" y2="68" stroke="#f59e0b" stroke-width="1.2" />
+
+            <!-- Central Processor Emblem -->
+            <text x="301" y="52" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" fill="#38bdf8">&lt;/&gt;</text>
+            <text x="301" y="66" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="6" font-weight="700" fill="#f59e0b" letter-spacing="0.5">CPU CORE</text>
+
+            <!-- Forward Scanner Lidar Sensor Eye -->
+            <circle cx="332" cy="54" r="5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
+            <circle cx="332" cy="54" r="2.5" fill="#38bdf8" />
+
+            <!-- Dual Quantum Magnetic Levitators / Data Spools (Rear & Front) -->
+            <!-- Rear Levitator / Spool (cx: 95, cy: 94) -->
+            <g transform="translate(95, 94)">
+              <!-- Magnetic Levitation Flux Pad on Conduit -->
+              <ellipse cx="0" cy="8" rx="26" ry="4" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="3 2" />
+              <!-- Outer Ring -->
+              <circle r="14" fill="#070f1e" stroke="#0284c7" stroke-width="1.6" />
+              <circle r="9.5" fill="#030712" stroke="#38bdf8" stroke-width="0.8" />
+              <!-- Rotating Data Spool / Inductor Rotor -->
+              <g [style.transform]="'rotate(' + spoolDeg() + 'deg)'">
+                <line x1="-8.5" y1="0" x2="8.5" y2="0" stroke="#38bdf8" stroke-width="1.4" />
+                <line x1="0" y1="-8.5" x2="0" y2="8.5" stroke="#38bdf8" stroke-width="1.4" />
+                <line x1="-5.5" y1="-5.5" x2="5.5" y2="5.5" stroke="#f59e0b" stroke-width="1.2" />
+                <line x1="-5.5" y1="5.5" x2="5.5" y2="-5.5" stroke="#f59e0b" stroke-width="1.2" />
+                <circle r="3.2" fill="#070f1e" stroke="#38bdf8" stroke-width="1" />
               </g>
+              <!-- Downward Magnetic Flux Glow -->
+              <line x1="-7" y1="13" x2="7" y2="13" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" />
+            </g>
+
+            <!-- Front Levitator / Spool (cx: 245, cy: 94) -->
+            <g transform="translate(245, 94)">
+              <!-- Magnetic Levitation Flux Pad on Conduit -->
+              <ellipse cx="0" cy="8" rx="26" ry="4" fill="rgba(56, 189, 248, 0.16)" stroke="#38bdf8" stroke-width="0.8" stroke-dasharray="3 2" />
+              <!-- Outer Ring -->
+              <circle r="14" fill="#070f1e" stroke="#0284c7" stroke-width="1.6" />
+              <circle r="9.5" fill="#030712" stroke="#38bdf8" stroke-width="0.8" />
+              <!-- Rotating Data Spool / Inductor Rotor -->
+              <g [style.transform]="'rotate(' + spoolDeg() + 'deg)'">
+                <line x1="-8.5" y1="0" x2="8.5" y2="0" stroke="#38bdf8" stroke-width="1.4" />
+                <line x1="0" y1="-8.5" x2="0" y2="8.5" stroke="#38bdf8" stroke-width="1.4" />
+                <line x1="-5.5" y1="-5.5" x2="5.5" y2="5.5" stroke="#f59e0b" stroke-width="1.2" />
+                <line x1="-5.5" y1="5.5" x2="5.5" y2="-5.5" stroke="#f59e0b" stroke-width="1.2" />
+                <circle r="3.2" fill="#070f1e" stroke="#38bdf8" stroke-width="1" />
+              </g>
+              <!-- Downward Magnetic Flux Glow -->
+              <line x1="-7" y1="13" x2="7" y2="13" stroke="#38bdf8" stroke-width="1.6" opacity="0.8" />
             </g>
           </svg>
         </div>

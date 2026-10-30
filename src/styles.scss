@@ -394,7 +394,7 @@ strong {
 :root:not([data-theme="dark"]):not([data-theme="slate"]) {
   .player__card,
   [data-surface="light"] {
-    strong {
+    strong:not([style*="color"]) {
       color: var(--ink) !important;
     }
     .hl {

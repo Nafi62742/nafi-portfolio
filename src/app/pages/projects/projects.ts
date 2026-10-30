@@ -81,26 +81,30 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     this.sceneService.config().scenes.sportsCar
   );
 
-  /** Wheel rotation angle in degrees driven by horizontal scroll progress. */
-  public readonly carWheelDeg = computed<number>(() => Math.round(this.scrollPct() * 18));
+  /** Spool rotation angle in degrees driven by horizontal scroll progress. */
+  public readonly spoolDeg = computed<number>(() => Math.round(this.scrollPct() * 18));
+  public readonly carWheelDeg = this.spoolDeg;
 
-  /** Simulated KM/H speed readout based on horizontal scroll progress. */
-  public readonly carSpeedKmh = computed<number>(() => {
+  /** Simulated operations/sec execution throughput based on horizontal scroll progress. */
+  public readonly programOps = computed<number>(() => {
     const pct = this.scrollPct();
     if (pct <= 0 || pct >= 100) {
-      return 0;
+      return 120;
     }
-    return Math.min(312, 68 + Math.round(pct * 2.2));
+    return Math.min(4800, 1200 + Math.round(pct * 36));
   });
+  public readonly carSpeedKmh = this.programOps;
 
-  /** Simulated 6-speed sequential gearbox readout based on scroll progress. */
-  public readonly currentGear = computed<string>(() => {
+  /** Simulated execution thread readout based on scroll progress. */
+  public readonly currentThread = computed<string>(() => {
     const pct = this.scrollPct();
     if (pct <= 0) {
-      return 'N';
+      return 'INIT';
     }
-    return String(Math.min(6, Math.floor(pct / 17) + 1));
+    return `T-0${Math.min(6, Math.floor(pct / 17) + 1)}`;
   });
+  public readonly currentGear = this.currentThread;
+
 
   /** Current active shop number (1..N) based on horizontal scroll progress. */
   public readonly currentShopIndex = computed<number>(() => {
