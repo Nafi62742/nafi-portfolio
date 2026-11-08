@@ -3,8 +3,9 @@ import { Component, HostListener, OnInit, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Project } from '@models/portfolio.models';
+import { Project, RunMateData, RunMateFeature } from '@models/portfolio.models';
 import { PortfolioService } from '@services/portfolio.service';
+import { TranslateService } from '@services/translate.service';
 import { AppRoutes } from '@utils/constants';
 
 /**
@@ -29,16 +30,44 @@ export class ProjectDetailsComponent implements OnInit {
   /** Signal holding the currently active image index in the lightbox modal, or null when closed. */
   public readonly selectedImageIndex = signal<number | null>(null);
 
+  /** Signal tracking the selected feature tab when viewing RunMate Club. */
+  public readonly activeFeatureTab = signal<'runners' | 'races' | 'organizers' | 'tech'>('runners');
+
+  /** RunMate feature dataset for the RunMate Club detail page. */
+  public readonly runmateData: RunMateData;
+
   /**
    * @param route - Activated route for reading URL params
    * @param router - Angular router for navigation and redirects
    * @param portfolioService - Portfolio data service for looking up projects
    * @param sanitizer - DOM sanitizer for creating safe YouTube embed URLs
+   * @param t - Translation service for i18n labels
    */
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly portfolioService = inject(PortfolioService);
   private readonly sanitizer = inject(DomSanitizer);
+  public readonly t = inject(TranslateService);
+
+  constructor() {
+    this.runmateData = this.portfolioService.getRunMateData();
+  }
+
+  /**
+   * Switches the active RunMate feature category tab.
+   */
+  public setFeatureTab(tab: 'runners' | 'races' | 'organizers' | 'tech'): void {
+    this.activeFeatureTab.set(tab);
+  }
+
+  /**
+   * Returns the filtered RunMate features matching the active tab.
+   */
+  public get filteredRunmateFeatures(): Array<RunMateFeature> {
+    return this.runmateData.features.filter(
+      (f: RunMateFeature) => f.category === this.activeFeatureTab()
+    );
+  }
 
   /**
    * Global keyboard listener to handle modal escape and arrow key navigation.

@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { Project } from '@models/portfolio.models';
 import { PortfolioService } from '@services/portfolio.service';
 import { TranslateService } from '@services/translate.service';
+import { initRevealObserver } from '@utils/viewport.util';
 
 /**
  * Projects section component displaying a grid of portfolio project cards.
@@ -17,6 +18,12 @@ import { TranslateService } from '@services/translate.service';
   styleUrl: './projects.scss'
 })
 export class ProjectsComponent {
+  /** Number of featured projects displayed initially before expanding. */
+  public readonly initialCount: number = 6;
+
+  /** Signal controlling whether all projects or only the top featured ones are shown. */
+  public readonly showAll = signal<boolean>(false);
+
   /** All projects loaded from the portfolio service. */
   public readonly projects: Array<Project>;
 
@@ -31,6 +38,23 @@ export class ProjectsComponent {
 
   constructor() {
     this.projects = this.portfolio.getProjects();
+  }
+
+  /**
+   * Returns the subset of projects currently visible based on the toggle state.
+   */
+  public get visibleProjects(): Array<Project> {
+    return this.showAll() ? this.projects : this.projects.slice(0, this.initialCount);
+  }
+
+  /**
+   * Toggles between showing the top 6 featured projects and all projects.
+   */
+  public toggleShowAll(): void {
+    this.showAll.update((v: boolean) => !v);
+    if (this.showAll()) {
+      setTimeout(() => initRevealObserver(), 50);
+    }
   }
 
   /**

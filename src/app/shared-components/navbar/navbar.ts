@@ -33,12 +33,9 @@ export class NavbarComponent {
   /** Navigation link definitions with i18n key and section ID. */
   public readonly navLinks: Array<{ key: string; id: string }> = [
     { key: 'nav.about',        id: 'about' },
-    { key: 'nav.skills',       id: 'skills' },
     { key: 'nav.experience',   id: 'experience' },
     { key: 'nav.projects',     id: 'projects' },
-    { key: 'nav.runmate',      id: 'runmate' },
     { key: 'nav.publications', id: 'publications' },
-    { key: 'nav.education',    id: 'education' },
     { key: 'nav.contact',      id: 'contact' }
   ];
 

@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
-import { RunMateData, RunMateFeature, RunMateSlide } from '@models/portfolio.models';
+import { RunMateData, RunMateSlide } from '@models/portfolio.models';
 import { PortfolioService } from '@services/portfolio.service';
 import { TranslateService } from '@services/translate.service';
 
 /**
  * Featured showcase component for the RunMate marathon & GPS running ecosystem.
- * Includes an interactive animated device mockup slider, feature category tabs,
- * and official store download action badges.
+ * Includes an interactive animated device mockup slider and official store download action badges.
  */
 @Component({
   selector: 'app-runmate',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './runmate.html',
   styleUrl: './runmate.scss'
 })
@@ -29,9 +29,6 @@ export class RunmateComponent implements OnInit, OnDestroy {
 
   /** Signal tracking currently active slide index in the showcase carousel. */
   public readonly activeSlideIndex = signal<number>(0);
-
-  /** Signal tracking currently selected feature tab. */
-  public readonly activeTab = signal<'runners' | 'races' | 'organizers' | 'tech'>('runners');
 
   /** Signal holding fullscreen image url when lightbox is open. */
   public readonly activeFullscreenImage = signal<string | null>(null);
@@ -96,15 +93,6 @@ export class RunmateComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Switches the active feature category tab.
-   *
-   * @param tab - Target tab identifier
-   */
-  public setTab(tab: 'runners' | 'races' | 'organizers' | 'tech'): void {
-    this.activeTab.set(tab);
-  }
-
-  /**
    * Opens the fullscreen image lightbox modal.
    *
    * @param imageUrl - URL of image to display
@@ -131,17 +119,6 @@ export class RunmateComponent implements OnInit, OnDestroy {
     if (event.target === event.currentTarget) {
       this.closeFullscreen();
     }
-  }
-
-  /**
-   * Returns list of features matching the currently active tab.
-   *
-   * @returns Array of RunMateFeature items
-   */
-  public get filteredFeatures(): Array<RunMateFeature> {
-    return this.runmateData.features.filter(
-      (f: RunMateFeature) => f.category === this.activeTab()
-    );
   }
 
   /**

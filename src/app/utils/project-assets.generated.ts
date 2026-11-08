@@ -57,6 +57,18 @@ export const PROJECT_GALLERY_ASSETS: Record<string, string[]> = {
   ],
   "koyama": [],
   "koyamashokai": [],
+  "melo": [
+    "assets/images/projects/melo/slide_1_hero.jpg",
+    "assets/images/projects/melo/slide_2_categories.jpg",
+    "assets/images/projects/melo/slide_3_catalog.jpg",
+    "assets/images/projects/melo/slide_4_admin_dashboard.jpg"
+  ],
+  "melobd": [
+    "assets/images/projects/melo/slide_1_hero.jpg",
+    "assets/images/projects/melo/slide_2_categories.jpg",
+    "assets/images/projects/melo/slide_3_catalog.jpg",
+    "assets/images/projects/melo/slide_4_admin_dashboard.jpg"
+  ],
   "nearestlocation": [],
   "nearestareafinder": [],
   "nearestarea": [],

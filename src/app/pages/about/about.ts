@@ -1,6 +1,8 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject } from "@angular/core";
 
+import { SkillCategory } from "@models/portfolio.models";
+import { PortfolioService } from "@services/portfolio.service";
 import { ScrollService } from "@services/scroll.service";
 import { TranslateService } from "@services/translate.service";
 
@@ -20,15 +22,8 @@ export interface QuickFact {
   icon: string;
 }
 
-/** Shape of a core discipline pill. */
-export interface Pillar {
-  title: string;
-  icon: string;
-  badge: string;
-}
-
 /**
- * About section component displaying bio text, key statistics, and engineering focus.
+ * About section component displaying bio text, key statistics, and categorized technical skills.
  */
 @Component({
   selector: "app-about",
@@ -38,7 +33,14 @@ export interface Pillar {
   styleUrl: "./about.scss",
 })
 export class AboutComponent {
-  /** Stat cards shown beneath the bio text. */
+  private readonly portfolio = inject(PortfolioService);
+  public readonly t = inject(TranslateService);
+  public readonly scroll = inject(ScrollService);
+
+  /** Categorized technical skills merged into the About section. */
+  public readonly skillCategories: Array<SkillCategory> = this.portfolio.getSkillCategories();
+
+  /** Compact stat items shown inside the story card. */
   public readonly stats: Array<StatCard> = [
     { value: "4+", key: "about.stat_exp", subKey: "about.stat_exp_sub", icon: "fa-briefcase", color: "#6366f1" },
     { value: "7+", key: "about.stat_projects", subKey: "about.stat_projects_sub", icon: "fa-diagram-project", color: "#06b6d4" },
@@ -53,29 +55,4 @@ export class AboutComponent {
     { labelKey: "about.education_label", valueKey: "about.education_val", icon: "fa-graduation-cap" },
     { labelKey: "about.focus_label", valueKey: "about.focus_val", icon: "fa-compass-drafting" },
   ];
-
-  /** Core technical specialization pillars. */
-  public readonly pillars: Array<Pillar> = [
-    { title: "Angular & Web", icon: "fa-layer-group", badge: "Architecture" },
-    { title: "Flutter Mobile", icon: "fa-mobile-screen", badge: "Cross-Platform" },
-    { title: "AWS Cloud", icon: "fa-cloud-arrow-up", badge: "Serverless" },
-    { title: "SQL & NoSQL", icon: "fa-database", badge: "Data Engineering" },
-  ];
-
-  public readonly t = inject(TranslateService);
-  public readonly scroll = inject(ScrollService);
-
-  /**
-   * Smoothly scrolls to the contact section.
-   */
-  public scrollToContact(): void {
-    this.scroll.scrollTo("contact");
-  }
-
-  /**
-   * Smoothly scrolls to the projects section.
-   */
-  public scrollToProjects(): void {
-    this.scroll.scrollTo("projects");
-  }
 }

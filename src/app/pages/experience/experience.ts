@@ -6,8 +6,22 @@ import { PortfolioService } from '@services/portfolio.service';
 import { TranslateService } from '@services/translate.service';
 
 /**
- * Experience section component displaying professional work history,
- * highlighting the career progression and transition from Intern to Full-time Software Developer.
+ * Grouped company experience entry supporting multiple roles at the same organization.
+ */
+export interface ExperienceGroup {
+  company: string;
+  location: string;
+  icon: string;
+  isCurrent: boolean;
+  startDate: string;
+  endDate: string | null;
+  roles: Array<Experience>;
+  combinedTech: Array<string>;
+}
+
+/**
+ * Experience section component displaying professional work history in reverse-chronological order,
+ * grouping roles at the same company with an inline promotion sub-timeline.
  */
 @Component({
   selector: 'app-experience',
@@ -20,6 +34,9 @@ export class ExperienceComponent {
   /** All experience entries loaded from the portfolio service. */
   public readonly experiences: Array<Experience>;
 
+  /** Experiences grouped by company in reverse-chronological order. */
+  public readonly experienceGroups: Array<ExperienceGroup>;
+
   /**
    * @param portfolio - Portfolio data service providing experience entries
    * @param t - Translation service for i18n labels
@@ -29,6 +46,38 @@ export class ExperienceComponent {
 
   constructor() {
     this.experiences = this.portfolio.getExperiences();
+    this.experienceGroups = this.buildGroups(this.experiences);
+  }
+
+  /**
+   * Groups consecutive roles by company so multi-role tenure is shown in one unified card.
+   */
+  private buildGroups(items: Array<Experience>): Array<ExperienceGroup> {
+    const groups: Array<ExperienceGroup> = [];
+    for (const exp of items) {
+      const lastGroup: ExperienceGroup | undefined = groups[groups.length - 1];
+      if (lastGroup && lastGroup.company === exp.company) {
+        lastGroup.roles.push(exp);
+        lastGroup.startDate = exp.startDate;
+        for (const tech of exp.tech) {
+          if (!lastGroup.combinedTech.includes(tech)) {
+            lastGroup.combinedTech.push(tech);
+          }
+        }
+      } else {
+        groups.push({
+          company: exp.company,
+          location: exp.location,
+          icon: exp.icon,
+          isCurrent: exp.endDate === null,
+          startDate: exp.startDate,
+          endDate: exp.endDate,
+          roles: [exp],
+          combinedTech: [...exp.tech]
+        });
+      }
+    }
+    return groups;
   }
 
   /**
@@ -66,8 +115,13 @@ export class ExperienceComponent {
     if (this.experiences.length === 0) {
       return '0 mos';
     }
-    const earliestRole: Experience = this.experiences[this.experiences.length - 1];
-    return this.calculateDuration(earliestRole.startDate, null);
+    let earliest: Experience = this.experiences[0];
+    for (const exp of this.experiences) {
+      if (this.parseMonthYear(exp.startDate) < this.parseMonthYear(earliest.startDate)) {
+        earliest = exp;
+      }
+    }
+    return this.calculateDuration(earliest.startDate, null);
   }
 
   /**

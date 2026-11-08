@@ -9,7 +9,7 @@
       <h2 class="about-title">{{ t.t('about.title') }}</h2>
     </div>
 
-    <!-- Main Bento Grid (Story + Quick Facts) -->
+    <!-- Main Bento Grid (Condensed Story + Inline Stats | Quick Facts) -->
     <div class="about-bento-grid">
 
       <!-- 1. Main Story Card (Large Bento Tile) -->
@@ -30,37 +30,19 @@
           <p class="about-bio">
             {{ t.t('about.bio_2') }}
           </p>
-          <p class="about-bio">
-            {{ t.t('about.bio_3') }}
-          </p>
         </div>
 
-        <!-- Technical Specialization Pillars -->
-        <div class="pillars-container">
-          <div class="pillars-label">Core Architectural Pillars</div>
-          <div class="pillars-grid">
-            @for (pillar of pillars; track pillar.title) {
-              <div class="pillar-chip">
-                <i class="fa-solid" [ngClass]="pillar.icon"></i>
-                <div class="pillar-info">
-                  <span class="pillar-title">{{ pillar.title }}</span>
-                  <span class="pillar-badge">{{ pillar.badge }}</span>
-                </div>
+        <!-- Compact Inline 4-Column Stats Bar inside Story Card -->
+        <div class="inline-stats-row">
+          @for (stat of stats; track stat.key) {
+            <div class="inline-stat-item">
+              <div class="inline-stat-top">
+                <i class="fa-solid" [ngClass]="stat.icon" [style.color]="stat.color"></i>
+                <span class="inline-stat-val" [style.color]="stat.color">{{ stat.value }}</span>
               </div>
-            }
-          </div>
-        </div>
-
-        <!-- Action Row -->
-        <div class="story-action-row">
-          <button (click)="scrollToProjects()" class="story-btn-primary" type="button">
-            <span>Explore Projects</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
-          <button (click)="scrollToContact()" class="story-btn-secondary" type="button">
-            <span>Get in Touch</span>
-            <i class="fa-solid fa-envelope"></i>
-          </button>
+              <span class="inline-stat-lbl">{{ t.t(stat.key) }}</span>
+            </div>
+          }
         </div>
       </div>
 
@@ -101,42 +83,37 @@
 
     </div>
 
-    <!-- 3. Keyvo-Inspired 4-Column Stat Cards -->
-    <div class="about-stats-strip">
-      @for (stat of stats; track stat.key; let i = $index) {
-        <div
-          class="about-stat-card glass-card reveal"
-          [class.delay-1]="i === 0"
-          [class.delay-2]="i === 1"
-          [class.delay-3]="i === 2"
-          [class.delay-4]="i === 3"
-          [style.--stat-color]="stat.color"
-        >
-          <!-- Top Accent Line -->
+    <!-- 3. Merged Technical Toolkit / Skills Grid -->
+    <div id="skills" class="merged-skills-block">
+      <div class="merged-skills-header reveal">
+        <span class="merged-skills-label">
+          <i class="fa-solid fa-code mr-1.5"></i>{{ t.t('skills.title') }}
+        </span>
+        <span class="merged-skills-sub">{{ t.t('skills.subtitle') }}</span>
+      </div>
+
+      <div class="merged-skills-grid">
+        @for (cat of skillCategories; track cat.key; let i = $index) {
           <div
-            class="stat-accent-bar"
-            [style.background]="'linear-gradient(90deg, transparent, ' + stat.color + ', transparent)'"
-          ></div>
-
-          <div class="stat-top-row">
-            <div
-              class="stat-icon-tile"
-              [style.background]="'rgba(' + stat.color + ', 0.12)'"
-              [style.color]="stat.color"
-            >
-              <i class="fa-solid" [ngClass]="stat.icon"></i>
+            class="merged-skill-card glass-card reveal"
+            [class.delay-1]="(i % 3) === 0"
+            [class.delay-2]="(i % 3) === 1"
+            [class.delay-3]="(i % 3) === 2"
+          >
+            <div class="skill-card-head">
+              <div class="skill-icon-box">
+                <i class="fa-solid" [ngClass]="cat.icon"></i>
+              </div>
+              <h3 class="skill-cat-name">{{ t.t('skills.' + cat.key) }}</h3>
             </div>
-            <span class="stat-counter" [style.color]="stat.color">
-              {{ stat.value }}
-            </span>
+            <div class="skill-badges-wrap">
+              @for (skill of cat.skills; track skill) {
+                <span class="tech-badge">{{ skill }}</span>
+              }
+            </div>
           </div>
-
-          <div class="stat-content">
-            <h4 class="stat-label">{{ t.t(stat.key) }}</h4>
-            <span class="stat-subtext">{{ t.t(stat.subKey) }}</span>
-          </div>
-        </div>
-      }
+        }
+      </div>
     </div>
 
   </div>

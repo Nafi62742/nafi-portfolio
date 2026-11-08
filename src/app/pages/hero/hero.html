@@ -65,6 +65,15 @@
           <i class="fa-brands fa-linkedin-in"></i>
         </a>
         <a
+          [href]="whatsappUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="social-link"
+          aria-label="WhatsApp"
+          title="WhatsApp: 01760887297">
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <a
           [href]="'https://mail.google.com/mail/?view=cm&fs=1&to=' + emailAddress"
           (click)="copyEmail(emailAddress, $event)"
           class="social-link"

@@ -7,13 +7,14 @@
     </div>
 
     <div class="projects-grid">
-      @for (project of projects; track project; let i = $index) {
+      @for (project of visibleProjects; track project.name; let i = $index) {
       <div
         (click)="navigateToProject(project)"
         (keydown.enter)="navigateToProject(project)"
         tabindex="0"
         role="button"
         class="project-card glass-card reveal"
+        [class.revealed]="showAll() && i >= initialCount"
         [class.delay-1]="(i % 4) === 0"
         [class.delay-2]="(i % 4) === 1"
         [class.delay-3]="(i % 4) === 2"
@@ -26,12 +27,12 @@
           [style.background]="'linear-gradient(90deg, transparent, ' + project.color + ', transparent)'"
         ></div>
 
-        <!-- 1. Keyvo Inset Display Canvas -->
-        <div class="card-display-canvas">
+        <!-- 1. Compact Inline Header Row (Icon + Identity + Actions) -->
+        <div class="card-header-row">
           <div
-            class="canvas-icon-wrapper"
+            class="project-icon-wrapper"
             [style.background]="'rgba(' + hexToRgb(project.color) + ', 0.14)'"
-            [style.border]="'1px solid rgba(' + hexToRgb(project.color) + ', 0.25)'"
+            [style.border]="'1px solid rgba(' + hexToRgb(project.color) + ', 0.28)'"
           >
             <i
               class="fa-solid"
@@ -40,16 +41,37 @@
             ></i>
           </div>
 
-          <!-- Quick Action Buttons Floating on Canvas -->
+          <div class="identity-info">
+            <div class="title-status-row">
+              <h3 class="project-name-text">
+                {{ project.name }}
+              </h3>
+              <div
+                class="status-pill"
+                [class.status-office]="project.category === 'office'"
+                [class.status-personal]="project.category !== 'office'"
+              >
+                <span class="status-dot"></span>
+                <span class="status-text">
+                  {{ project.category === 'office' ? t.t('projects.badge_office') : t.t('projects.badge_personal') }}
+                </span>
+              </div>
+            </div>
+            @if (project.shortRole) {
+            <span class="project-role-text">{{ project.shortRole }}</span>
+            }
+          </div>
+
+          <!-- Quick Action Buttons -->
           @if (project.github || project.link || project.playstore || project.appstore || project.youtube) {
-          <div class="canvas-actions">
+          <div class="header-actions">
             @if (project.github) {
             <a
               [href]="project.github"
               target="_blank"
               aria-label="GitHub"
               (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
+              class="card-action-btn"
             >
               <i class="fa-brands fa-github"></i>
             </a>
@@ -60,7 +82,7 @@
               target="_blank"
               aria-label="Play Store"
               (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
+              class="card-action-btn"
             >
               <i class="fa-brands fa-google-play"></i>
             </a>
@@ -71,7 +93,7 @@
               target="_blank"
               aria-label="App Store"
               (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
+              class="card-action-btn"
             >
               <i class="fa-brands fa-apple"></i>
             </a>
@@ -82,7 +104,7 @@
               target="_blank"
               aria-label="YouTube"
               (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
+              class="card-action-btn"
             >
               <i class="fa-brands fa-youtube"></i>
             </a>
@@ -93,7 +115,7 @@
               target="_blank"
               aria-label="Live Demo"
               (click)="$event.stopPropagation()"
-              class="canvas-action-btn"
+              class="card-action-btn"
             >
               <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
@@ -102,32 +124,10 @@
           }
         </div>
 
-        <!-- 2. Identity Row with Status Capsule Pill -->
-        <div class="card-identity-row">
-          <div class="identity-info">
-            <h3 class="project-name-text">
-              {{ project.name }}
-            </h3>
-            @if (project.shortRole) {
-            <span class="project-role-text">{{ project.shortRole }}</span>
-            }
-          </div>
-          <div
-            class="status-pill"
-            [class.status-office]="project.category === 'office'"
-            [class.status-personal]="project.category !== 'office'"
-          >
-            <span class="status-dot"></span>
-            <span class="status-text">
-              {{ project.category === 'office' ? t.t('projects.badge_office') : t.t('projects.badge_personal') }}
-            </span>
-          </div>
-        </div>
-
-        <!-- 3. Project Summary -->
+        <!-- 2. Project Summary -->
         <p class="project-desc-text">{{ project.description }}</p>
 
-        <!-- 4. Card Footer: Clean Tech Tags + Details Link -->
+        <!-- 3. Card Footer: Clean Tech Tags + Details Link -->
         <div class="card-footer">
           <div class="tech-container">
             @for (tech of project.tech.slice(0, 3); track tech) {
@@ -151,5 +151,23 @@
       </div>
       }
     </div>
+
+    @if (projects.length > initialCount) {
+    <div class="projects-toggle-row reveal">
+      <button
+        type="button"
+        (click)="toggleShowAll()"
+        class="btn-toggle-projects"
+      >
+        @if (!showAll()) {
+        <span>{{ t.t('projects.view_all') }} ({{ projects.length }})</span>
+        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+        } @else {
+        <span>Show Less</span>
+        <i class="fa-solid fa-chevron-up toggle-icon"></i>
+        }
+      </button>
+    </div>
+    }
   </div>
 </section>

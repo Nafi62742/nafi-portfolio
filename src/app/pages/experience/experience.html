@@ -45,103 +45,178 @@
       </div>
     </div>
 
-    <!-- Timeline Container (Chronological: Past to Present) -->
+    <!-- Timeline Container (Reverse-Chronological: Present to Past, Grouped by Company) -->
     <div class="experience-timeline">
-      @for (exp of experiences; track exp; let i = $index; let last = $last) {
+      @for (group of experienceGroups; track group.company; let i = $index; let last = $last) {
         <div
           class="timeline-row reveal"
-          [class.is-current]="!exp.endDate"
-          [class.pb-10]="!last"
+          [class.is-current]="group.isCurrent"
+          [class.pb-8]="!last"
           [class.delay-1]="i === 0"
-          [class.delay-2]="i === 1"
-          [class.delay-3]="i === 2">
-          
+          [class.delay-2]="i === 1">
+
           <!-- Timeline Marker & Spine Line -->
           <div class="timeline-marker-col">
-            <div class="timeline-marker-dot" [class.dot-active]="!exp.endDate">
-              @if (!exp.endDate) {
+            <div class="timeline-marker-dot" [class.dot-active]="group.isCurrent">
+              @if (group.isCurrent) {
                 <span class="marker-pulse-ring"></span>
               }
-              <i class="fa-solid marker-icon" [ngClass]="exp.icon"></i>
+              <i class="fa-solid marker-icon" [ngClass]="group.icon"></i>
             </div>
             @if (!last) {
               <div class="timeline-line"></div>
             }
           </div>
 
-          <!-- Experience Card -->
+          <!-- Grouped Company Experience Card -->
           <div class="experience-card glass-card">
             <!-- Top Accent Gradient Line -->
-            <div class="card-accent-line" [class.accent-live]="!exp.endDate"></div>
+            <div class="card-accent-line" [class.accent-live]="group.isCurrent"></div>
 
-            <!-- Card Header: Role, Company, Period & Type Badge -->
-            <div class="card-header">
-              <div class="role-company-info">
-                <div class="role-row">
-                  <h3 class="experience-role">{{ exp.role }}</h3>
-                  @if (!exp.endDate) {
-                    <span class="status-live-pill">
-                      <span class="live-dot"></span>
-                      {{ t.t('experience.present') }}
-                    </span>
-                  }
-                </div>
-
-                <div class="experience-meta-row">
-                  <span class="meta-item company-name">
-                    <i class="fa-solid fa-building meta-icon text-accent"></i>
-                    <span>{{ exp.company }}</span>
-                  </span>
-                  <span class="meta-divider">•</span>
-                  <span class="meta-item location-name">
-                    <i class="fa-solid fa-location-dot meta-icon text-primary-light"></i>
-                    <span>{{ exp.location }}</span>
-                  </span>
-                </div>
-              </div>
-
-              <!-- Date Range & Employment Type Capsule -->
-              <div class="date-type-col">
-                <div class="period-capsule">
-                  <i class="fa-regular fa-calendar-days period-icon"></i>
-                  <span class="experience-period">
-                    {{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}
-                  </span>
-                  <span class="duration-tag">
-                    • {{ calculateDuration(exp.startDate, exp.endDate) }}
-                  </span>
-                </div>
-                <span class="experience-badge"
-                  [class.badge-fulltime]="exp.type === 'fulltime'"
-                  [class.badge-internship]="exp.type === 'internship'"
-                  [class.badge-contract]="exp.type === 'contract'">
-                  <i class="fa-solid badge-icon"
-                    [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-laptop-code')"></i>
-                  {{ t.t('experience.' + exp.type) }}
-                </span>
-              </div>
-            </div>
-
-            <!-- Impact & Responsibilities Bullets -->
-            <ul class="bullets-list">
-              @for (bullet of exp.bullets; track bullet) {
-                <li class="bullet-item">
-                  <div class="bullet-indicator">
-                    <i class="fa-solid fa-angle-right bullet-chevron"></i>
+            @if (group.roles.length > 1) {
+              <!-- Multi-Role Company Header (e.g., XORGeek) -->
+              <div class="company-group-header">
+                <div class="company-group-identity">
+                  <div class="role-row">
+                    <h3 class="experience-role">{{ group.company }}</h3>
+                    @if (group.isCurrent) {
+                      <span class="status-live-pill">
+                        <span class="live-dot"></span>
+                        {{ t.t('experience.present') }}
+                      </span>
+                    }
                   </div>
-                  <span class="bullet-text">{{ bullet }}</span>
-                </li>
-              }
-            </ul>
+                  <div class="experience-meta-row">
+                    <span class="meta-item location-name">
+                      <i class="fa-solid fa-location-dot meta-icon text-primary-light"></i>
+                      <span>{{ group.location }}</span>
+                    </span>
+                    <span class="meta-divider">•</span>
+                    <span class="promotion-inline-pill">
+                      <i class="fa-solid fa-bolt-lightning"></i>
+                      <span>Fast-Track Promotion (2 mos)</span>
+                    </span>
+                  </div>
+                </div>
 
-            <!-- Tech Stack Footer -->
+                <div class="date-type-col">
+                  <div class="period-capsule">
+                    <i class="fa-regular fa-calendar-days period-icon"></i>
+                    <span class="experience-period">
+                      {{ group.startDate }} — {{ group.endDate ?? t.t('experience.present') }}
+                    </span>
+                    <span class="duration-tag">
+                      • {{ calculateDuration(group.startDate, group.endDate) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Sub-Timeline for Roles within the Company -->
+              <div class="roles-subtimeline">
+                @for (exp of group.roles; track exp.role; let rIdx = $index; let rLast = $last) {
+                  <div class="subrole-item" [class.subrole-spacing]="!rLast">
+                    <div class="subrole-marker-col">
+                      <div class="subrole-dot" [class.subrole-dot-active]="!exp.endDate"></div>
+                      @if (!rLast) {
+                        <div class="subrole-line"></div>
+                      }
+                    </div>
+
+                    <div class="subrole-body">
+                      <div class="subrole-header">
+                        <div class="subrole-title-wrap">
+                          <h4 class="subrole-title">{{ exp.role }}</h4>
+                          <span class="experience-badge"
+                            [class.badge-fulltime]="exp.type === 'fulltime'"
+                            [class.badge-internship]="exp.type === 'internship'"
+                            [class.badge-contract]="exp.type === 'contract'">
+                            <i class="fa-solid badge-icon"
+                              [ngClass]="exp.type === 'fulltime' ? 'fa-bolt' : (exp.type === 'internship' ? 'fa-graduation-cap' : 'fa-laptop-code')"></i>
+                            {{ t.t('experience.' + exp.type) }}
+                          </span>
+                        </div>
+
+                        <span class="subrole-period">
+                          {{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}
+                          <span class="subrole-duration">({{ calculateDuration(exp.startDate, exp.endDate) }})</span>
+                        </span>
+                      </div>
+
+                      <ul class="bullets-list subrole-bullets">
+                        @for (bullet of exp.bullets; track bullet) {
+                          <li class="bullet-item">
+                            <div class="bullet-indicator">
+                              <i class="fa-solid fa-angle-right bullet-chevron"></i>
+                            </div>
+                            <span class="bullet-text">{{ bullet }}</span>
+                          </li>
+                        }
+                      </ul>
+                    </div>
+                  </div>
+                }
+              </div>
+            } @else {
+              @if (group.roles[0]; as exp) {
+                <!-- Single-Role Card Header -->
+                <div class="card-header">
+                  <div class="role-company-info">
+                    <div class="role-row">
+                      <h3 class="experience-role">{{ exp.role }}</h3>
+                    </div>
+
+                    <div class="experience-meta-row">
+                      <span class="meta-item company-name">
+                        <i class="fa-solid fa-building meta-icon text-accent"></i>
+                        <span>{{ exp.company }}</span>
+                      </span>
+                      <span class="meta-divider">•</span>
+                      <span class="meta-item location-name">
+                        <i class="fa-solid fa-location-dot meta-icon text-primary-light"></i>
+                        <span>{{ exp.location }}</span>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="date-type-col">
+                    <div class="period-capsule">
+                      <i class="fa-regular fa-calendar-days period-icon"></i>
+                      <span class="experience-period">
+                        {{ exp.startDate }} — {{ exp.endDate ?? t.t('experience.present') }}
+                      </span>
+                      <span class="duration-tag">
+                        • {{ calculateDuration(exp.startDate, exp.endDate) }}
+                      </span>
+                    </div>
+                    <span class="experience-badge badge-contract">
+                      <i class="fa-solid badge-icon fa-laptop-code"></i>
+                      {{ t.t('experience.' + exp.type) }}
+                    </span>
+                  </div>
+                </div>
+
+                <ul class="bullets-list">
+                  @for (bullet of exp.bullets; track bullet) {
+                    <li class="bullet-item">
+                      <div class="bullet-indicator">
+                        <i class="fa-solid fa-angle-right bullet-chevron"></i>
+                      </div>
+                      <span class="bullet-text">{{ bullet }}</span>
+                    </li>
+                  }
+                </ul>
+              }
+            }
+
+            <!-- Unified Tech Stack Footer -->
             <div class="card-tech-footer">
               <span class="tech-label">
                 <i class="fa-solid fa-layer-group tech-label-icon"></i>
                 Technologies:
               </span>
               <div class="tech-wrapper">
-                @for (tech of exp.tech; track tech) {
+                @for (tech of group.combinedTech; track tech) {
                   <span class="tech-badge">{{ tech }}</span>
                 }
               </div>
@@ -149,62 +224,6 @@
           </div>
 
         </div>
-
-        <!-- Milestone Transition 1: Transitioning to Enterprise Engineering at XORGeek (After Index 0) -->
-        @if (i === 0) {
-          <div class="progression-bridge-row reveal">
-            <div class="bridge-marker-col">
-              <div class="bridge-spine-icon icon-company">
-                <i class="fa-solid fa-building-columns"></i>
-              </div>
-              <div class="bridge-spine-line"></div>
-            </div>
-            <div class="promotion-bridge-card">
-              <div class="bridge-content">
-                <div class="bridge-header-badge">
-                  <span class="milestone-pill text-indigo-400">
-                    <i class="fa-solid fa-right-to-bracket text-indigo-400"></i>
-                    Enterprise Milestone
-                  </span>
-                  <span class="milestone-time">
-                    <i class="fa-regular fa-calendar-check"></i>
-                    Jun 2023 · Joined XORGeek
-                  </span>
-                </div>
-                <h4 class="bridge-title">{{ t.t('experience.joined_xorgeek_title') }}</h4>
-                <p class="bridge-desc">{{ t.t('experience.joined_xorgeek_desc') }}</p>
-              </div>
-            </div>
-          </div>
-        }
-
-        <!-- Milestone Transition 2: Fast-Track Promotion from Intern to Core Software Developer (After Index 1) -->
-        @if (i === 1) {
-          <div class="progression-bridge-row reveal">
-            <div class="bridge-marker-col">
-              <div class="bridge-spine-icon icon-promotion">
-                <i class="fa-solid fa-arrow-trend-up"></i>
-              </div>
-              <div class="bridge-spine-line"></div>
-            </div>
-            <div class="promotion-bridge-card bridge-promotion-glow">
-              <div class="bridge-content">
-                <div class="bridge-header-badge">
-                  <span class="milestone-pill text-cyan-400">
-                    <i class="fa-solid fa-bolt-lightning text-cyan-400"></i>
-                    Fast-Track Promotion
-                  </span>
-                  <span class="milestone-time">
-                    <i class="fa-regular fa-calendar-check"></i>
-                    Aug 2023 · Promoted in 2 mos
-                  </span>
-                </div>
-                <h4 class="bridge-title">{{ t.t('experience.promotion_title') }}</h4>
-                <p class="bridge-desc">{{ t.t('experience.promotion_desc') }}</p>
-              </div>
-            </div>
-          </div>
-        }
       }
     </div>
 

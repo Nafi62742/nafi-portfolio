@@ -151,6 +151,84 @@
             }
           </div>
 
+          <!-- RunMate Platform Feature & Architecture Matrix (Moved from Home Page) -->
+          @if (p.name === 'RunMate Club') {
+            <div class="overview-card glass-card">
+              <div class="card-section-header">
+                <div class="header-icon-box" [style.background]="'rgba(' + hexToRgb(p.color) + ', 0.12)'">
+                  <i class="fa-solid fa-cubes" [style.color]="p.color"></i>
+                </div>
+                <div class="header-text-group">
+                  <h2 class="section-title">Platform Feature &amp; Architecture Matrix</h2>
+                  <span class="section-subtitle-tag">Explore capabilities across Runners, Marathons, Organizer Admin, and Cloud Architecture</span>
+                </div>
+              </div>
+
+              <div class="runmate-tabs-bar">
+                <button
+                  type="button"
+                  (click)="setFeatureTab('runners')"
+                  class="rm-tab-btn"
+                  [class.active-rm-tab]="activeFeatureTab() === 'runners'"
+                >
+                  <i class="fa-solid fa-person-running"></i>
+                  <span>{{ t.t('runmate.tab_runners') }}</span>
+                </button>
+                <button
+                  type="button"
+                  (click)="setFeatureTab('races')"
+                  class="rm-tab-btn"
+                  [class.active-rm-tab]="activeFeatureTab() === 'races'"
+                >
+                  <i class="fa-solid fa-flag-checkered"></i>
+                  <span>{{ t.t('runmate.tab_races') }}</span>
+                </button>
+                <button
+                  type="button"
+                  (click)="setFeatureTab('organizers')"
+                  class="rm-tab-btn"
+                  [class.active-rm-tab]="activeFeatureTab() === 'organizers'"
+                >
+                  <i class="fa-solid fa-desktop"></i>
+                  <span>{{ t.t('runmate.tab_organizers') }}</span>
+                </button>
+                <button
+                  type="button"
+                  (click)="setFeatureTab('tech')"
+                  class="rm-tab-btn"
+                  [class.active-rm-tab]="activeFeatureTab() === 'tech'"
+                >
+                  <i class="fa-solid fa-microchip"></i>
+                  <span>{{ t.t('runmate.tab_tech') }}</span>
+                </button>
+              </div>
+
+              <div class="rm-features-grid">
+                @for (feature of filteredRunmateFeatures; track feature.title) {
+                  <div class="rm-feature-card">
+                    <div class="rm-feature-top">
+                      <div class="rm-feature-icon">
+                        <i class="fa-solid" [ngClass]="feature.icon"></i>
+                      </div>
+                      @if (feature.badge) {
+                        <span class="rm-feature-badge">{{ feature.badge }}</span>
+                      }
+                    </div>
+                    <h4 class="rm-feature-title">{{ feature.title }}</h4>
+                    <p class="rm-feature-desc">{{ feature.description }}</p>
+                    @if (feature.tags && feature.tags.length > 0) {
+                      <div class="rm-feature-tags">
+                        @for (tag of feature.tags; track tag) {
+                          <span class="rm-tag-chip">{{ tag }}</span>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
           <!-- Screenshots Gallery Showcase -->
           @if (p.screenshots && p.screenshots.length > 0) {
             <div class="overview-card glass-card">

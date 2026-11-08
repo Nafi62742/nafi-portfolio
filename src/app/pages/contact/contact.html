@@ -17,12 +17,14 @@
           @for (info of contactInfo; track info) {
             <div class="info-item">
               <div class="info-icon-container">
-                <i class="fa-solid" [ngClass]="info.icon"></i>
+                <i [ngClass]="info.icon"></i>
               </div>
               <div class="info-text">
                 <span class="info-label">{{ info.label }}</span>
                 @if (info.href) {
                   <a [href]="info.href"
+                    [target]="info.label === 'WhatsApp' ? '_blank' : '_self'"
+                    rel="noopener noreferrer"
                     (click)="info.label === 'Email' ? copyEmail(info.value, $event) : null"
                     class="info-link">
                     {{ info.value }}

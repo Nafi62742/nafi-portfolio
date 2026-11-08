@@ -24,7 +24,8 @@ const ALIASES = {
   pabokothay: ['pabokothay'],
   nearestlocation: ['nearestlocation', 'nearestareafinder', 'nearestarea'],
   runmate: ['runmate', 'runmateclub'],
-  remindly: ['remindly', 'reminderapp', 'reminder']
+  remindly: ['remindly', 'reminderapp', 'reminder'],
+  melo: ['melo', 'melobd']
 };
 
 /**
@@ -62,7 +63,7 @@ function syncProjectAssets() {
   const knownFolders = [
     'flourtopastry', 'getfund', 'gramstain', 'izumi', 'keiai',
     'koyama', 'nearestlocation', 'pabokothay', 'petapp',
-    'recklessseas', 'schoolmanagementsystem', 'voicerecord', 'ginsen', 'remindly'
+    'recklessseas', 'schoolmanagementsystem', 'voicerecord', 'ginsen', 'remindly', 'melo'
   ];
   for (const f of knownFolders) {
     const p = path.join(PROJECTS_ASSETS_DIR, f);

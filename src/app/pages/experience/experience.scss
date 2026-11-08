@@ -573,129 +573,129 @@
   }
 }
 
-/* ── Progression / Promotion Milestone Bridge ─────────────────────── */
-.progression-bridge-row {
-  display: grid;
-  grid-template-columns: 48px 1fr;
-  gap: 1.25rem;
-  position: relative;
-  margin: -0.5rem 0 1.5rem 0;
+/* ── Grouped Company Sub-Timeline ────────────────────────────────── */
+.company-group-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.15rem;
+  border-bottom: 1px solid var(--border-color);
 
-  @media (min-width: 640px) {
-    grid-template-columns: 56px 1fr;
-    gap: 1.75rem;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }
 
-.bridge-marker-col {
+.company-group-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.promotion-inline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 9999px;
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  color: #38bdf8;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.roles-subtimeline {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.subrole-item {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 0.85rem;
+
+  &.subrole-spacing {
+    padding-bottom: 1.25rem;
+  }
+}
+
+.subrole-marker-col {
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-shrink: 0;
+  padding-top: 0.35rem;
 }
 
-.bridge-spine-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
+.subrole-dot {
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  color: #ffffff;
-  font-size: 0.85rem;
-  z-index: 2;
-  margin-top: 0.25rem;
-  transition: transform 250ms ease;
+  background: rgba(99, 102, 241, 0.45);
+  border: 2px solid #818cf8;
+  flex-shrink: 0;
 
-  &.icon-company {
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
-    box-shadow: 0 0 14px rgba(99, 102, 241, 0.45);
-  }
-
-  &.icon-promotion {
-    background: linear-gradient(135deg, #06b6d4, #10b981);
-    box-shadow: 0 0 16px rgba(6, 182, 212, 0.55);
-  }
-
-  .progression-bridge-row:hover & {
-    transform: scale(1.15) rotate(5deg);
+  &.subrole-dot-active {
+    background: #10b981;
+    border-color: #34d399;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
   }
 }
 
-.bridge-spine-line {
+.subrole-line {
   flex: 1;
   width: 2px;
-  margin-top: 0.5rem;
-  background: linear-gradient(to bottom, rgba(6, 182, 212, 0.5), rgba(99, 102, 241, 0.3));
+  margin-top: 0.4rem;
+  background: linear-gradient(to bottom, rgba(52, 211, 153, 0.4), rgba(129, 140, 248, 0.25));
   border-radius: 9999px;
-  min-height: 24px;
 }
 
-.promotion-bridge-card {
-  position: relative;
-  padding: 1.15rem 1.4rem;
-  border-radius: 14px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(6, 182, 212, 0.06) 100%);
-  border: 1px dashed rgba(99, 102, 241, 0.35);
-  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
-
-  &.bridge-promotion-glow {
-    border-color: rgba(6, 182, 212, 0.45);
-    background: linear-gradient(135deg, rgba(6, 182, 212, 0.08) 0%, rgba(16, 185, 129, 0.06) 100%);
-  }
-
-  &:hover {
-    border-color: #38bdf8;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.14) 0%, rgba(6, 182, 212, 0.1) 100%);
-    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.15);
-    transform: translateX(4px);
-  }
-}
-
-.bridge-content {
+.subrole-body {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.65rem;
 }
 
-.bridge-header-badge {
+.subrole-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.6rem;
+  gap: 0.5rem;
+}
+
+.subrole-title-wrap {
+  display: flex;
   flex-wrap: wrap;
-}
-
-.milestone-pill {
-  display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #38bdf8;
+  gap: 0.6rem;
 }
 
-.milestone-time {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.75rem;
-  font-family: 'Fira Code', monospace;
-  color: var(--text-muted);
-}
-
-.bridge-title {
-  font-size: 0.98rem;
+.subrole-title {
+  font-family: 'Host Grotesk', system-ui, sans-serif;
+  font-size: 1.08rem;
   font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.01em;
+  margin: 0;
 }
 
-.bridge-desc {
-  font-size: 0.84rem;
-  line-height: 1.55;
-  color: var(--text-secondary);
+.subrole-period {
+  font-family: 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+
+  .subrole-duration {
+    color: var(--hero-accent, #38bdf8);
+    font-weight: 600;
+    margin-left: 0.25rem;
+  }
+}
+
+.subrole-bullets {
+  margin-bottom: 0;
 }
 

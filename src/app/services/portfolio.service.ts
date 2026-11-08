@@ -60,19 +60,21 @@ export class PortfolioService {
   public getExperiences(): Array<Experience> {
     return [
       {
-        company:    'Software & Application Development',
+        company:    'XORGeek',
         location:   'Dhaka, Bangladesh',
-        role:       'Software Developer (Project-Based)',
-        type:       'contract',
-        startDate:  'Jan 2021',
-        endDate:    'May 2023',
-        icon:       'fa-laptop-code',
+        role:       'Software Developer',
+        type:       'fulltime',
+        startDate:  'Aug 2023',
+        endDate:    null,
+        icon:       'fa-briefcase',
         bullets: [
-          'Delivered commercial web applications and cross-platform mobile apps with Flutter, JavaScript, and TypeScript for diverse client requirements.',
-          'Designed relational database schemas in MySQL and PostgreSQL, architected RESTful API endpoints, and integrated secure payment & auth gateways.',
-          'Optimized database queries, streamlined client-server data flows, and engineered reusable, responsive UI component libraries.'
+          'Core engineer behind 6 live production systems (RunMate Club, Koyama Shokai, Pet Auction App, KEIAI Order App, Izumi, Ginsen), architecting responsive Angular SPAs and cross-platform Flutter mobile apps.',
+          'Engineered and deployed serverless cloud architectures on AWS (Lambda, API Gateway, S3, CloudFront, DynamoDB, EC2, SQS, SNS, Route53) with secure CI/CD and HttpOnly session authentication.',
+          'Structured and optimized relational SQL (MySQL, PostgreSQL) schemas and NoSQL (DynamoDB, Firebase RTDB) models, significantly reducing data retrieval latency and improving API throughput.',
+          'Designed high-throughput REST APIs and real-time data ingestion pipelines handling live race GPS telemetry, interactive auction bidding streams, and dynamic order workflows.',
+          'Implemented strict 4-tier Role-Based Access Control (RBAC) with custom Angular route guards, action-level permission matrices, and automated PDF export pipelines.'
         ],
-        tech: ['Flutter', 'Dart', 'JavaScript', 'TypeScript', 'MySQL', 'PostgreSQL', 'PHP', 'Laravel', 'REST APIs', 'Git']
+        tech: ['Angular', 'TypeScript', 'Flutter', 'Dart', 'AWS (Lambda, S3, DynamoDB)', 'Firebase', 'Laravel', 'MySQL', 'RxJS', 'REST APIs']
       },
       {
         company:    'XORGeek',
@@ -90,21 +92,19 @@ export class PortfolioService {
         tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL', 'REST APIs']
       },
       {
-        company:    'XORGeek',
+        company:    'Software & Application Development',
         location:   'Dhaka, Bangladesh',
-        role:       'Software Developer',
-        type:       'fulltime',
-        startDate:  'Aug 2023',
-        endDate:    null,
-        icon:       'fa-briefcase',
+        role:       'Software Developer (Project-Based)',
+        type:       'contract',
+        startDate:  'Jan 2021',
+        endDate:    'May 2023',
+        icon:       'fa-laptop-code',
         bullets: [
-          'Core engineer behind 6 live production systems (RunMate Club, Koyama Shokai, Pet Auction App, KEIAI Order App, Izumi, Ginsen), architecting responsive Angular SPAs and cross-platform Flutter mobile apps.',
-          'Engineered and deployed serverless cloud architectures on AWS (Lambda, API Gateway, S3, CloudFront, DynamoDB, EC2, SQS, SNS, Route53) with secure CI/CD and HttpOnly session authentication.',
-          'Structured and optimized relational SQL (MySQL, PostgreSQL) schemas and NoSQL (DynamoDB, Firebase RTDB) models, significantly reducing data retrieval latency and improving API throughput.',
-          'Designed high-throughput REST APIs and real-time data ingestion pipelines handling live race GPS telemetry, interactive auction bidding streams, and dynamic order workflows.',
-          'Implemented strict 4-tier Role-Based Access Control (RBAC) with custom Angular route guards, action-level permission matrices, and automated PDF export pipelines.'
+          'Delivered commercial web applications and cross-platform mobile apps with Flutter, JavaScript, and TypeScript for diverse client requirements.',
+          'Designed relational database schemas in MySQL and PostgreSQL, architected RESTful API endpoints, and integrated secure payment & auth gateways.',
+          'Optimized database queries, streamlined client-server data flows, and engineered reusable, responsive UI component libraries.'
         ],
-        tech: ['Angular', 'TypeScript', 'Flutter', 'Dart', 'AWS (Lambda, S3, DynamoDB)', 'Firebase', 'Laravel', 'MySQL', 'RxJS', 'REST APIs']
+        tech: ['Flutter', 'Dart', 'JavaScript', 'TypeScript', 'MySQL', 'PostgreSQL', 'PHP', 'Laravel', 'REST APIs', 'Git']
       }
     ];
   }
@@ -201,6 +201,25 @@ export class PortfolioService {
         appstore:        'https://apps.apple.com/jp/app/%E3%82%B0%E3%83%A9%E3%83%A0%E6%9F%93%E8%89%B2%E3%82%A2%E3%83%88%E3%83%A9%E3%82%B9/id1454593922',
         screenshots:     getProjectScreenshots('gramstain'),
         shortRole:       'Bacteria Microscopic Atlas'
+      },
+      {
+        name:            'MELO',
+        description:     'A light-luxury jewelry e-commerce storefront and ERP admin suite with Supabase PostgreSQL sync, bKash TrxID checkout, and landed-cost profit analytics.',
+        longDescription: 'MELO is a full-stack bilingual (English & Bengali) light-luxury jewelry e-commerce platform and business operations console tailored for Bangladesh. The customer storefront features curated collections of hypoallergenic French-style ear clips, 316L stainless steel rings, and bracelets with instant category filtering, search, wishlist, shopping bag, Cash-on-Delivery (COD), and bKash TrxID verification, plus live order tracking. Behind the storefront, the MELO Business & Store Administration console connects live to Supabase (PostgreSQL) and provides end-to-end inventory and financial management: diff-only CSV import/export, manual WhatsApp/Facebook order entry, RMB (¥) to BDT (৳) landed-cost and net-profit-per-piece calculations, one-click stock and sold-out controls, dynamic bKash collection number updates, and homepage hero customization.',
+        highlights:      'Engineered a bilingual e-commerce storefront and Supabase-backed ERP admin dashboard featuring diff-only CSV inventory sync, RMB-to-BDT landed cost & profit margin analytics, and bKash/COD order workflows.',
+        tech:            ['TypeScript', 'Supabase', 'PostgreSQL', 'Tailwind CSS', 'Vercel'],
+        icon:            'fa-gem',
+        color:           '#d97706',
+        category:        'personal',
+        type:            'E-Commerce & Admin ERP',
+        link:            'https://melo-bd.vercel.app/',
+        github:          'https://github.com/Nafi62742/melo',
+        screenshots:     getProjectScreenshots('melo'),
+        additionalLinks: [
+          { label: 'Live Storefront', url: 'https://melo-bd.vercel.app/',        icon: 'fa-store' },
+          { label: 'GitHub Repo',     url: 'https://github.com/Nafi62742/melo', icon: 'fa-github' }
+        ],
+        shortRole:       'Full-Stack E-Commerce & Admin ERP'
       },
       {
         name:            'Nearest Area Finder',

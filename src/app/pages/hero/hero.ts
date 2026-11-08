@@ -25,6 +25,9 @@ export class HeroComponent {
   /** Profile link for LinkedIn. */
   public readonly linkedinUrl: string = 'https://linkedin.com/in/racer007';
 
+  /** Direct WhatsApp chat link. */
+  public readonly whatsappUrl: string = 'https://wa.me/8801760887297';
+
   /** Primary contact email address. */
   public readonly emailAddress: string = 'nafiahmed318@gmail.com';
 
