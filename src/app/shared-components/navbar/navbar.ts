@@ -30,12 +30,12 @@ export class NavbarComponent {
     return this.scroll.isScrolled() || this.router.url !== '/' || this.menuOpen();
   }
 
-  /** Navigation link definitions with i18n key and section ID. */
-  public readonly navLinks: Array<{ key: string; id: string }> = [
+  /** Navigation link definitions with i18n key, section ID, and optional highlight badge. */
+  public readonly navLinks: Array<{ key: string; id: string; highlight?: boolean; badge?: string }> = [
     { key: 'nav.about',        id: 'about' },
     { key: 'nav.experience',   id: 'experience' },
     { key: 'nav.projects',     id: 'projects' },
-    { key: 'nav.publications', id: 'publications' },
+    { key: 'nav.publications', id: 'publications', highlight: true, badge: '3' },
     { key: 'nav.contact',      id: 'contact' }
   ];
 

@@ -7,100 +7,116 @@
         {{ t.t('publications.title') }}
       </h2>
       <p class="publications-subtitle">{{ t.t('publications.subtitle') }}</p>
+
+      <!-- Research Impact Summary Ribbon -->
+      <div class="research-summary-ribbon">
+        <span class="research-metric-pill">
+          <i class="fa-solid fa-book-journal-whills text-cyan-400"></i>
+          <strong>3</strong> Peer-Reviewed Papers
+        </span>
+        <span class="ribbon-sep">•</span>
+        <span class="research-metric-pill">
+          <i class="fa-solid fa-award text-indigo-400"></i>
+          IEEE Xplore &amp; Indexed Journals
+        </span>
+        <span class="ribbon-sep">•</span>
+        <span class="research-metric-pill">
+          <i class="fa-solid fa-microchip text-emerald-400"></i>
+          Deep Learning, Computer Vision &amp; Time-Series ML
+        </span>
+      </div>
     </div>
 
     <div class="publications-grid">
-      @for (pub of publications; track pub; let i = $index) {
+      @for (pub of publications; track pub.title; let i = $index) {
         <div
           class="pub-card glass-card reveal"
           [class.delay-1]="i === 0"
           [class.delay-2]="i === 1"
           [class.delay-3]="i === 2"
-          [class.delay-4]="i === 3"
           [style.--pub-color]="pub.color">
           
           <!-- Top Colored Aura Accent Line -->
           <div class="pub-top-accent" [style.background]="'linear-gradient(90deg, transparent, ' + pub.color + ', transparent)'"></div>
 
-          <!-- Header: Category Capsule & Year -->
-          <div class="pub-card-header">
-            <div class="pub-identity">
-              <div class="pub-icon-wrapper"
-                [style.background]="'rgba(' + hexToRgb(pub.color) + ', 0.12)'"
-                [style.border]="'1px solid rgba(' + hexToRgb(pub.color) + ', 0.28)'"
-                [style.color]="pub.color">
-                <i class="fa-solid" [ngClass]="pub.icon"></i>
-              </div>
-              <span class="pub-type-badge"
-                [style.background]="'rgba(' + hexToRgb(pub.color) + ', 0.1)'"
-                [style.border]="'1px solid rgba(' + hexToRgb(pub.color) + ', 0.25)'"
-                [style.color]="pub.color">
-                <i class="fa-solid fa-flask-vial mr-1"></i>
-                {{ getPublicationType(pub.venue) }}
-              </span>
+          <!-- Compact Header: Icon + Title + Venue & Badges -->
+          <div class="pub-compact-top">
+            <div class="pub-icon-wrapper"
+              [style.background]="'rgba(' + hexToRgb(pub.color) + ', 0.12)'"
+              [style.border]="'1px solid rgba(' + hexToRgb(pub.color) + ', 0.28)'"
+              [style.color]="pub.color">
+              <i class="fa-solid" [ngClass]="pub.icon"></i>
             </div>
 
-            <span class="pub-year-badge">
-              <i class="fa-regular fa-calendar-days mr-1"></i>
-              {{ pub.year }}
-            </span>
+            <div class="pub-main-info">
+              <div class="pub-meta-strip">
+                <span class="pub-type-badge"
+                  [style.background]="'rgba(' + hexToRgb(pub.color) + ', 0.1)'"
+                  [style.border]="'1px solid rgba(' + hexToRgb(pub.color) + ', 0.25)'"
+                  [style.color]="pub.color">
+                  <i class="fa-solid fa-flask-vial mr-1"></i>
+                  {{ getPublicationType(pub.venue) }}
+                </span>
+
+                <span class="pub-year-badge">
+                  <i class="fa-regular fa-calendar-days mr-1"></i>
+                  {{ pub.year }}
+                </span>
+
+                <span class="pub-venue-inline">
+                  <i class="fa-solid fa-bookmark" [style.color]="pub.color"></i>
+                  <span>{{ pub.venue }}</span>
+                </span>
+              </div>
+
+              <h3 class="pub-title">
+                <a [routerLink]="['/publication', toSlug(pub.title)]" class="pub-title-link">
+                  {{ pub.title }}
+                </a>
+              </h3>
+
+              <div class="pub-authors-row">
+                <i class="fa-solid fa-users authors-icon" [style.color]="pub.color"></i>
+                <span class="authors-text">{{ pub.authors }}</span>
+              </div>
+            </div>
           </div>
 
-          <!-- Publication Title -->
-          <h3 class="pub-title">
-            <a [routerLink]="['/publication', toSlug(pub.title)]" class="pub-title-link">
-              {{ pub.title }}
-            </a>
-          </h3>
-
-          <!-- Authors Row -->
-          <div class="pub-authors-row">
-            <i class="fa-solid fa-users authors-icon" [style.color]="pub.color"></i>
-            <span class="authors-text">{{ pub.authors }}</span>
-          </div>
-
-          <!-- Abstract Quote -->
+          <!-- Clamped 2-Line Abstract Quote -->
           <div class="pub-abstract-box" [style.borderLeftColor]="pub.color">
             <p class="pub-abstract">{{ pub.abstract }}</p>
           </div>
 
-          <!-- Venue / Indexing Container -->
-          <div class="pub-venue-box">
-            <div class="venue-icon-container" [style.color]="pub.color">
-              <i class="fa-solid fa-bookmark"></i>
-            </div>
-            <span class="venue-text">{{ pub.venue }}</span>
-          </div>
-
-          <!-- Keyword Badges (if available) -->
-          @if (pub.keywords && pub.keywords.length) {
-            <div class="pub-keywords-strip">
-              @for (keyword of pub.keywords.slice(0, 4); track keyword) {
-                <span class="keyword-pill">{{ keyword }}</span>
-              }
-              @if (pub.keywords.length > 4) {
-                <span class="keyword-pill-more">+{{ pub.keywords.length - 4 }}</span>
-              }
-            </div>
-          }
-
-          <!-- Footer Action Buttons -->
+          <!-- Unified Compact Footer: Keywords + Action Buttons -->
           <div class="pub-footer-actions">
-            <a [routerLink]="['/publication', toSlug(pub.title)]" class="pub-details-btn">
-              <span>View Details & Insights</span>
-              <i class="fa-solid fa-arrow-right details-arrow"></i>
-            </a>
-
-            @if (pub.link) {
-              <a [href]="pub.link" target="_blank"
-                class="pub-external-btn"
-                [style.color]="pub.color"
-                [style.background]="'rgba(' + hexToRgb(pub.color) + ', 0.08)'"
-                [style.borderColor]="'rgba(' + hexToRgb(pub.color) + ', 0.25)'">
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                <span>Official Paper / DOI</span>
-              </a>
+            @if (pub.keywords && pub.keywords.length) {
+              <div class="pub-keywords-strip">
+                @for (keyword of pub.keywords.slice(0, 4); track keyword) {
+                  <span class="keyword-pill">{{ keyword }}</span>
+                }
+                @if (pub.keywords.length > 4) {
+                  <span class="keyword-pill-more">+{{ pub.keywords.length - 4 }}</span>
+                }
+              </div>
             }
+
+            <div class="pub-action-btns">
+              <a [routerLink]="['/publication', toSlug(pub.title)]" class="pub-details-btn">
+                <span>Insights</span>
+                <i class="fa-solid fa-arrow-right details-arrow"></i>
+              </a>
+
+              @if (pub.link) {
+                <a [href]="pub.link" target="_blank"
+                  class="pub-external-btn"
+                  [style.color]="pub.color"
+                  [style.background]="'rgba(' + hexToRgb(pub.color) + ', 0.08)'"
+                  [style.borderColor]="'rgba(' + hexToRgb(pub.color) + ', 0.25)'">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                  <span>Paper / DOI</span>
+                </a>
+              }
+            </div>
           </div>
 
         </div>

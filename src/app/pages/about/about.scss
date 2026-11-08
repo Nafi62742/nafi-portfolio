@@ -1,5 +1,5 @@
 .about-section {
-  @apply py-24 relative;
+  @apply py-16 relative;
   background: var(--bg-surface-translucent);
 }
 
@@ -9,7 +9,7 @@
 
 /* ── Section Header ─────────────────────────────────────────────── */
 .about-header {
-  @apply text-center mb-12;
+  @apply text-center mb-10;
 }
 
 .about-title {

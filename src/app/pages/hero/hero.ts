@@ -66,4 +66,11 @@ export class HeroComponent {
   public scrollToContact(): void {
     this.scroll.scrollTo('contact');
   }
+
+  /**
+   * Scrolls the page to the publications section.
+   */
+  public scrollToPublications(): void {
+    this.scroll.scrollTo('publications');
+  }
 }

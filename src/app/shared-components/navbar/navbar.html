@@ -18,9 +18,16 @@
           <button
             [id]="'nav-' + link.id"
             class="nav-link-btn"
+            [class.nav-link-highlight]="link.highlight"
             [class.active]="isLinkActive(link.id)"
             (click)="navigate(link.id)">
-            {{ t.t(link.key) }}
+            @if (link.highlight) {
+              <i class="fa-solid fa-flask-vial nav-highlight-icon"></i>
+            }
+            <span>{{ t.t(link.key) }}</span>
+            @if (link.badge) {
+              <span class="nav-count-badge">{{ link.badge }}</span>
+            }
           </button>
         </li>
       }
@@ -75,10 +82,17 @@
         <li>
           <button
             class="mobile-link-btn"
+            [class.mobile-link-highlight]="link.highlight"
             [class.active]="isLinkActive(link.id)"
             [style.animation-delay]="i * 60 + 'ms'"
             (click)="navigate(link.id)">
-            {{ t.t(link.key) }}
+            @if (link.highlight) {
+              <i class="fa-solid fa-flask-vial nav-highlight-icon mr-2"></i>
+            }
+            <span>{{ t.t(link.key) }}</span>
+            @if (link.badge) {
+              <span class="nav-count-badge ml-2">{{ link.badge }}</span>
+            }
           </button>
         </li>
       }

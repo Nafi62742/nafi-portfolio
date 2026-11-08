@@ -21,27 +21,35 @@
         <span class="hero-role-text">{{ t.t("hero.role") }}</span>
       </div>
 
-      <!-- Tagline with sub-bullet points -->
+      <!-- Compact Tagline + Inline Domain Pills + Research Spotlight -->
       <div class="hero-tagline-container">
-        <p class="hero-tagline-title">{{ t.t("hero.tagline_prefix") }}</p>
-        <ul class="hero-tagline-bullets">
-          <li>
-            <span class="bullet-dot bullet-dot-1"></span>
-            <span class="bullet-text">{{ t.t("hero.tagline_web") }}</span>
-          </li>
-          <li>
-            <span class="bullet-dot bullet-dot-2"></span>
-            <span class="bullet-text">{{ t.t("hero.tagline_mobile") }}</span>
-          </li>
-          <li>
-            <span class="bullet-dot bullet-dot-3"></span>
-            <span class="bullet-text">{{ t.t("hero.tagline_cloud") }}</span>
-          </li>
-        </ul>
-        <p class="hero-location-text">
-          <i class="fa-solid fa-location-dot location-icon"></i>
-          <span>{{ t.t("hero.location") }}</span>
+        <p class="hero-tagline-title">
+          Building scalable
+          <span class="domain-pill pill-web">Web</span>,
+          <span class="domain-pill pill-mobile">Mobile</span> &amp;
+          <span class="domain-pill pill-cloud">Cloud-Powered</span>
+          applications from
+          <span class="hero-location-inline">
+            <i class="fa-solid fa-location-dot location-icon"></i>
+            {{ t.t("hero.location") }}
+          </span>
         </p>
+
+        <!-- Research & Publications Spotlight Badge -->
+        <button
+          type="button"
+          (click)="scrollToPublications()"
+          class="hero-research-spotlight"
+        >
+          <span class="research-icon-badge">
+            <i class="fa-solid fa-flask-vial"></i>
+          </span>
+          <span class="research-spotlight-text">
+            <strong>3 Peer-Reviewed Publications</strong>
+            <span class="research-sub">IEEE Xplore &amp; ML/DL Journals</span>
+          </span>
+          <i class="fa-solid fa-arrow-right research-arrow"></i>
+        </button>
       </div>
 
       <!-- Social Quick Links (GitHub, LinkedIn, Email) -->

@@ -397,7 +397,7 @@ export class PortfolioService {
       },
       {
         title:           'A Deep Learning Approach to Analyze the Relationship Between Gender, Height, Weight, and Basal Metabolic Rate from Face Images',
-        venue:           '2024 IEEE International Conference on Power, Electrical, Electronics and Industrial Applications (PEEIACON) — Rajshahi, Bangladesh, 12–13 September 2024',
+        venue:           '2024 IEEE International Conference on Power, Electrical, Electronics and Industrial Applications (PEEIACON) — Rajshahi, Bangladesh',
         year:            '2024',
         authors:         'Shykul Islam Siam, S. A. H. Chowdhury, Nafi Ahmed & Swapneel Biswas',
         icon:            'fa-microchip',
@@ -447,24 +447,6 @@ export class PortfolioService {
         gpa:         'CGPA: 3.208 / 4.00',
         icon:        'fa-university',
         coursework:  ['Data Structures & Algorithms', 'OOP', 'Database Systems', 'Operating Systems', 'Computer Networks', 'Software Engineering', 'API Development']
-      },
-      {
-        institution: 'Dhaka City College',
-        location:    'Dhaka, Bangladesh',
-        degree:      'Higher Secondary Certificate (HSC) — Science',
-        period:      '2017 – 2018',
-        gpa:         'GPA: 4.88 / 5.00',
-        icon:        'fa-school',
-        coursework:  []
-      },
-      {
-        institution: 'Monipur High School and College',
-        location:    'Dhaka, Bangladesh',
-        degree:      'Secondary School Certificate (SSC) — Science',
-        period:      '2010 – 2016',
-        gpa:         'GPA: 5.00 / 5.00',
-        icon:        'fa-school-flag',
-        coursework:  []
       }
     ];
   }
