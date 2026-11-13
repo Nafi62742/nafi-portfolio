@@ -27,11 +27,11 @@ export class PortfolioService {
     return [
       {
         key: 'cat_cloud', icon: 'fa-cloud',
-        skills: ['AWS EC2', 'AWS S3', 'AWS Lambda', 'SQS', 'SNS', 'Route53', 'Docker', 'CI/CD']
+        skills: ['AWS EC2', 'AWS S3', 'AWS Lambda', 'AWS CodeBuild', 'CloudFront', 'API Gateway', 'SQS', 'SNS', 'Route53', 'Docker', 'CI/CD']
       },
       {
         key: 'cat_backend', icon: 'fa-server',
-        skills: ['Node.js', 'Python', 'REST APIs', 'PHP', 'Laravel']
+        skills: ['Node.js', 'Python', 'REST APIs', 'SSLCommerz / Payments', 'PHP', 'Laravel']
       },
       {
         key: 'cat_mobile', icon: 'fa-mobile-screen',
@@ -39,7 +39,7 @@ export class PortfolioService {
       },
       {
         key: 'cat_frontend', icon: 'fa-layer-group',
-        skills: ['Angular', 'RxJS', 'TypeScript', 'SCSS/SASS', 'HTML5']
+        skills: ['Angular', 'RxJS', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'SCSS/SASS', 'HTML5']
       },
       {
         key: 'cat_database', icon: 'fa-database',
@@ -47,7 +47,7 @@ export class PortfolioService {
       },
       {
         key: 'cat_tools', icon: 'fa-screwdriver-wrench',
-        skills: ['Git', 'GitHub', 'Postman', 'Jira', 'VS Code', 'Tableau', 'Power BI']
+        skills: ['PyTorch', 'YOLOv8', 'Claude', 'GitHub Copilot', 'Cursor', 'Git', 'GitHub', 'Postman', 'Jira', 'VS Code', 'Tableau', 'Power BI']
       }
     ];
   }

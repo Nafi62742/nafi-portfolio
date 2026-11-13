@@ -222,7 +222,7 @@ export const EN: TranslationSchema = {
     cat_backend:   'Back-End',
     cat_database:  'Databases',
     cat_cloud:     'Cloud & DevOps',
-    cat_tools:     'Tools & Analytics'
+    cat_tools:     'Tools, AI & ML'
   },
   experience: {
     section_label:        'Experience',
