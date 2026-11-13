@@ -99,11 +99,11 @@ export class ExperienceComponent {
     const months: number = safeMonths % 12;
 
     if (years > 0 && months > 0) {
-      return `${years} ${years === 1 ? 'yr' : 'yrs'} ${months} ${months === 1 ? 'mo' : 'mos'}`;
+      return `${years} ${years === 1 ? 'year' : 'years'} ${months} ${months === 1 ? 'month' : 'months'}`;
     } else if (years > 0) {
-      return `${years} ${years === 1 ? 'yr' : 'yrs'}`;
+      return `${years} ${years === 1 ? 'year' : 'years'}`;
     }
-    return `${safeMonths} ${safeMonths === 1 ? 'mo' : 'mos'}`;
+    return `${safeMonths} ${safeMonths === 1 ? 'month' : 'months'}`;
   }
 
   /**
@@ -113,7 +113,7 @@ export class ExperienceComponent {
    */
   public getTotalTenure(): string {
     if (this.experiences.length === 0) {
-      return '0 mos';
+      return '0 months';
     }
     let earliest: Experience = this.experiences[0];
     for (const exp of this.experiences) {

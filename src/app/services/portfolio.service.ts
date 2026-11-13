@@ -26,6 +26,14 @@ export class PortfolioService {
   public getSkillCategories(): Array<SkillCategory> {
     return [
       {
+        key: 'cat_cloud', icon: 'fa-cloud',
+        skills: ['AWS EC2', 'AWS S3', 'AWS Lambda', 'SQS', 'SNS', 'Route53', 'Docker', 'CI/CD']
+      },
+      {
+        key: 'cat_backend', icon: 'fa-server',
+        skills: ['Node.js', 'Python', 'REST APIs', 'PHP', 'Laravel']
+      },
+      {
         key: 'cat_mobile', icon: 'fa-mobile-screen',
         skills: ['Flutter', 'Dart', 'Firebase', 'Android Dev', 'iOS Dev', 'FlutterFlow']
       },
@@ -34,16 +42,8 @@ export class PortfolioService {
         skills: ['Angular', 'RxJS', 'TypeScript', 'SCSS/SASS', 'HTML5']
       },
       {
-        key: 'cat_backend', icon: 'fa-server',
-        skills: ['Laravel', 'PHP', 'Node.js', 'REST APIs', 'Python']
-      },
-      {
         key: 'cat_database', icon: 'fa-database',
         skills: ['MySQL', 'PostgreSQL', 'DynamoDB', 'Firebase RTDB', 'NoSQL', 'PL/SQL', 'SQL']
-      },
-      {
-        key: 'cat_cloud', icon: 'fa-cloud',
-        skills: ['AWS EC2', 'AWS S3', 'AWS Lambda', 'SQS', 'SNS', 'Route53', 'Docker', 'CI/CD']
       },
       {
         key: 'cat_tools', icon: 'fa-screwdriver-wrench',
@@ -90,21 +90,6 @@ export class PortfolioService {
           'Participated in agile sprints, code reviews, and hands-on mobile-to-backend application architecture workflows.'
         ],
         tech: ['Flutter', 'Dart', 'Laravel', 'PHP', 'MySQL', 'REST APIs']
-      },
-      {
-        company:    'Software & Application Development',
-        location:   'Dhaka, Bangladesh',
-        role:       'Software Developer (Project-Based)',
-        type:       'contract',
-        startDate:  'Jan 2021',
-        endDate:    'May 2023',
-        icon:       'fa-laptop-code',
-        bullets: [
-          'Delivered commercial web applications and cross-platform mobile apps with Flutter, JavaScript, and TypeScript for diverse client requirements.',
-          'Designed relational database schemas in MySQL and PostgreSQL, architected RESTful API endpoints, and integrated secure payment & auth gateways.',
-          'Optimized database queries, streamlined client-server data flows, and engineered reusable, responsive UI component libraries.'
-        ],
-        tech: ['Flutter', 'Dart', 'JavaScript', 'TypeScript', 'MySQL', 'PostgreSQL', 'PHP', 'Laravel', 'REST APIs', 'Git']
       }
     ];
   }
